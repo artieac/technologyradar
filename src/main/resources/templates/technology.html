@@ -1,0 +1,40 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" src="/script/Controllers/TechnologyController.js"></script>
+</head>
+<body ng-controller="TechnologyController">
+    <div th:replace="fragments/header :: uiHeader"></div>
+    <br/><br/><br/>
+    <h2 th:inline="text">[[${targetTechnology.name}]]</h2>
+    <p th:inline="text">[[${targetTechnology.description}]]</p>
+    <div th:attr="ng-init='getTechnologyAssessments(' + ${targetTechnology.Id} + ')'">
+        <div ng-repeat="team in assessmentList.assessmentTeams">
+            <span>{{ team.name }} </span>
+            <div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Details</th>
+                        <th>State</th>
+                        <th>Evaluator</th>
+                    </tr>
+                    <tbody ng-repeat="technologyAssessmentItem in assessmentList.teamAssessments[team.id]">
+                        <tr>
+                            <td>{{ technologyAssessmentItem.assessmentDate }}</td>
+                            <td>{{ technologyAssessmentItem.radarCategory.name }}</td>
+                            <td>{{ technologyAssessmentItem.details }}</td>
+                            <td>{{ technologyAssessmentItem.radarState.name }}</td>
+                            <td>{{ technologyAssessmentItem.assessor }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

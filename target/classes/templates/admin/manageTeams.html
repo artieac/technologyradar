@@ -1,0 +1,67 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <div th:replace="/fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" src="/script/Controllers/ManageTeamsController.js"></script>
+</head>
+<body ng-controller="ManageTeamsController">
+    <div th:replace="/fragments/header :: uiHeader"></div>
+    <br/><br/><br/>
+    <div class="bodyContent">
+        <div class="contentPageTitle">
+            <label>Manage Teams</label>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th width="10%">&nbsp;</th>
+                    <th width="20%">Name</th>
+                    <th width="10%">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody ng-init="getAllTeams();">
+                <tr ng-repeat="team in assessmentTeams">
+                    <td><input type="radio" name="selectedTeam" value="{{team.id}}" ng-click="selectEditedTeam($index)" ng-model="teamListElements.selectedTeam"/></td>
+                    <td><input type="text" name="teamListName" value="{{ team.name }}" ng-disabled="teamListElements.selectedTeam!=team.id" ng-model="assessmentTeams[$index].name"/></td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="updateTeam();" ng-show="teamListElements.selectedTeam==team.id">Save</button>
+                    </td>
+                </tr>
+                <tr ng-form="newTeamForm">
+                    <td></td>
+                    <td><input type="text" name="newTeamName" ng-model="newTeam.name"/></td>
+                    <td><input type="button" class="btn btn-primary"  value="Add Team" ng-click="addTeam();" /></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th width="10%">&nbsp;</th>
+                    <th width="20%">Name</th>
+                    <th width="10%">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="teamAssessment in teamAssessments">
+                    <td><input type="radio" name="selectedAssessment" value="{{teamAssessment.id}}" ng-click="selectEditedTeamAssessment($index)" ng-model="teamListElements.selectedAssessment"/></td>
+                    <td><input type="text" name="teamAssessmentName_{{teamAssessment.id}}" value="{{ teamAssessment.name }}" ng-disabled="teamListElements.selectedAssessment!=teamAssessment.id" ng-model="teamAssessments[$index].name"/></td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="updateTeamAssessment();" ng-show="teamListElements.selectedAssessment==teamAssessment.id">Save</button>
+                    </td>
+                </tr>
+                <tr ng-form="newAssessmentForm">
+                    <td></td>
+                    <td><input type="text" name="newTeamAssessment" ng-model="newTeamAssessment.name"/></td>
+                    <td><input type="button" class="btn btn-primary"  value="Add Assessment" ng-click="addTeamAssessment();" /></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
