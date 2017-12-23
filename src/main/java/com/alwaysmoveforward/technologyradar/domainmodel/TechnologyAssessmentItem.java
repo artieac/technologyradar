@@ -13,11 +13,11 @@ public class TechnologyAssessmentItem implements Serializable
 
     private String assessor;
 
-    private RadarState radarState;
-
-    private RadarCategory radarCategory;
+    private RadarRing radarRing;
 
     private Technology technology;
+
+    private Integer confidenceFactor;
 
     public TechnologyAssessmentItem()
     {
@@ -36,15 +36,15 @@ public class TechnologyAssessmentItem implements Serializable
 
     public void setAssessor(String creator) { this.assessor = creator;}
 
-    public RadarState getRadarState() { return this.radarState;}
+    public RadarRing getRadarRing() { return this.radarRing;}
 
-    public void setRadarState(RadarState value) { this.radarState = value;}
-
-    public RadarCategory getRadarCategory() { return this.radarCategory;}
-
-    public void setRadarCategory(RadarCategory value) { this.radarCategory = value;}
+    public void setRadarRing(RadarRing value) { this.radarRing = value;}
 
     public Technology getTechnology() { return this.technology;}
 
     public void setTechnology(Technology value) { this.technology = value;}
+
+    public Integer getConfidenceFactor() { return this.confidenceFactor;}
+
+    public void setConfidenceFactor(Integer value) { this.confidenceFactor = value;}
 }

@@ -1,8 +1,8 @@
 package com.alwaysmoveforward.technologyradar.data.repositories;
 
-import com.alwaysmoveforward.technologyradar.data.dao.AssessmentTeamDAO;
-import com.alwaysmoveforward.technologyradar.data.dto.AssessmentTeamDTO;
+import com.alwaysmoveforward.technologyradar.data.Entities.AssessmentTeamEntity;
 import com.alwaysmoveforward.technologyradar.domainmodel.AssessmentTeam;
+import com.alwaysmoveforward.technologyradar.data.dao.AssessmentTeamDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by acorrea on 10/21/2016.
  */
 @Repository
-public class AssessmentTeamRepository extends SimpleDomainRepository<AssessmentTeam, AssessmentTeamDTO, AssessmentTeamDAO, Long>
+public class AssessmentTeamRepository extends SimpleDomainRepository<AssessmentTeam, AssessmentTeamEntity, AssessmentTeamDAO, Long>
 {
     @Autowired
     public void setEntityRepository(AssessmentTeamDAO entityRepository)
@@ -30,9 +30,9 @@ public class AssessmentTeamRepository extends SimpleDomainRepository<AssessmentT
     {
         List<AssessmentTeam> retVal = new ArrayList<AssessmentTeam>();
 
-        Iterable<AssessmentTeamDTO> foundItems = this.entityRepository.findAll();
+        Iterable<AssessmentTeamEntity> foundItems = this.entityRepository.findAll();
 
-        for (AssessmentTeamDTO foundItem : foundItems)
+        for (AssessmentTeamEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, AssessmentTeam.class));
         }
@@ -44,7 +44,7 @@ public class AssessmentTeamRepository extends SimpleDomainRepository<AssessmentT
     {
         AssessmentTeam retVal = null;
 
-        AssessmentTeamDTO foundItem = this.entityRepository.findByName(name);
+        AssessmentTeamEntity foundItem = this.entityRepository.findByName(name);
 
         if(foundItem!=null)
         {
@@ -57,7 +57,7 @@ public class AssessmentTeamRepository extends SimpleDomainRepository<AssessmentT
     @Override
     public AssessmentTeam save(AssessmentTeam assessmentTeam)
     {
-        AssessmentTeamDTO itemToSave = this.modelMapper.map(assessmentTeam, AssessmentTeamDTO.class);
+        AssessmentTeamEntity itemToSave = this.modelMapper.map(assessmentTeam, AssessmentTeamEntity.class);
 
         if(itemToSave != null)
         {

@@ -1,7 +1,7 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarRing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ public class DiagramPresentation
     private Integer width;
     private Integer rangeWidth;
     private List<Quadrant> quadrantList;
-    private List<RadarStatePresentation> radarArcs;
-    private List<RadarState> radarStates;
+    private List<RadarRingPresentation> radarArcs;
+    private List<RadarRing> radarRings;
 
     public DiagramPresentation(Integer height, Integer width, Integer rangeWidth)
     {
@@ -36,23 +36,23 @@ public class DiagramPresentation
     public Integer getRangeWidth() { return this.rangeWidth;}
 
     @JsonProperty
-    public List<RadarStatePresentation> getRadarArcs() { return this.radarArcs;}
+    public List<RadarRingPresentation> getRadarArcs() { return this.radarArcs;}
 
     @JsonProperty
     public List<Quadrant> getQuadrants() { return this.quadrantList;}
 
-    @JsonProperty List<RadarState> getRadarStates() { return this.radarStates;}
+    @JsonProperty List<RadarRing> getRadarRings() { return this.radarRings;}
 
-    public void sddRadarArc(RadarState radarState)
+    public void sddRadarArc(RadarRing radarRing)
     {
         if(this.radarArcs == null)
         {
-            this.radarArcs = new ArrayList<RadarStatePresentation>();
+            this.radarArcs = new ArrayList<RadarRingPresentation>();
         }
 
-        if(this.radarStates == null)
+        if(this.radarRings == null)
         {
-            this.radarStates = new ArrayList<RadarState>();
+            this.radarRings = new ArrayList<RadarRing>();
         }
 
         Integer arcStart = this.radarArcs.size() * this.rangeWidth;
@@ -61,16 +61,16 @@ public class DiagramPresentation
             arcStart++;
         }
 
-        RadarStatePresentation newItem = new RadarStatePresentation(radarState, arcStart, this.rangeWidth);
+        RadarRingPresentation newItem = new RadarRingPresentation(radarRing, arcStart, this.rangeWidth);
         this.radarArcs.add(newItem);
-        this.radarStates.add(radarState);
+        this.radarRings.add(radarRing);
     }
 
-    public void addRadarArcs(Iterable<RadarState> radarStates)
+    public void addRadarArcs(Iterable<RadarRing> radarRings)
     {
-        for(RadarState radarState : radarStates)
+        for(RadarRing radarRing : radarRings)
         {
-            this.sddRadarArc(radarState);
+            this.sddRadarArc(radarRing);
         }
     }
 }

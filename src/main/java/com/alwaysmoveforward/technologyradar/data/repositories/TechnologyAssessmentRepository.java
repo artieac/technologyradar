@@ -1,12 +1,11 @@
 package com.alwaysmoveforward.technologyradar.data.repositories;
 
 import com.alwaysmoveforward.technologyradar.data.dao.*;
-import com.alwaysmoveforward.technologyradar.data.dto.TechnologyAssessmentItemDTO;
-import com.alwaysmoveforward.technologyradar.data.dto.TechnologyDTO;
+import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyAssessmentEntity;
+import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyAssessmentItemEntity;
+import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyEntity;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessmentItem;
-import com.alwaysmoveforward.technologyradar.data.dao.*;
-import com.alwaysmoveforward.technologyradar.data.dto.TechnologyAssessmentDTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,7 +19,7 @@ import java.util.List;
  * Created by acorrea on 10/21/2016.
  */
 @Repository
-public class TechnologyAssessmentRepository extends SimpleDomainRepository<TechnologyAssessment, TechnologyAssessmentDTO, TechnologyAssessmentDAO, Long>
+public class TechnologyAssessmentRepository extends SimpleDomainRepository<TechnologyAssessment, TechnologyAssessmentEntity, TechnologyAssessmentDAO, Long>
 {
     private static final Logger logger = Logger.getLogger(TechnologyAssessmentRepository.class);
 
@@ -31,7 +30,7 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     TechnologyDAO technologyDAO;
 
     @Autowired
-    RadarStateDAO radarStateDAO;
+    RadarRingDAO radarRingDAO;
 
     @Autowired
     RadarCategoryDAO radarCategoryDAO;
@@ -57,9 +56,9 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     {
         List<TechnologyAssessment> retVal = new ArrayList<TechnologyAssessment>();
 
-        Iterable<TechnologyAssessmentDTO> foundItems = this.entityRepository.findAll();
+        Iterable<TechnologyAssessmentEntity> foundItems = this.entityRepository.findAll();
 
-        for (TechnologyAssessmentDTO foundItem : foundItems)
+        for (TechnologyAssessmentEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, TechnologyAssessment.class));
         }
@@ -72,9 +71,9 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     {
         List<TechnologyAssessment> retVal = new ArrayList<TechnologyAssessment>();
 
-        Iterable<TechnologyAssessmentDTO> foundItems = this.entityRepository.findAllByAssessmentTeamId(teamId);
+        Iterable<TechnologyAssessmentEntity> foundItems = this.entityRepository.findAllByAssessmentTeamId(teamId);
 
-        for (TechnologyAssessmentDTO foundItem : foundItems)
+        for (TechnologyAssessmentEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, TechnologyAssessment.class));
         }
@@ -89,11 +88,11 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
         String query = "select ta.Id, ta.Name, ta.AssessmentDate, ta.AssessmentTeamId";
         query += " FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
 
-        Query q = this.entityManager.createNativeQuery(query, TechnologyAssessmentDTO.class);
+        Query q = this.entityManager.createNativeQuery(query, TechnologyAssessmentEntity.class);
         q.setParameter(1, technologyId);
-        List<TechnologyAssessmentDTO> foundItems = q.getResultList();
+        List<TechnologyAssessmentEntity> foundItems = q.getResultList();
 
-        for (TechnologyAssessmentDTO foundItem : foundItems)
+        for (TechnologyAssessmentEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, TechnologyAssessment.class));
         }
@@ -105,7 +104,21 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     {
         TechnologyAssessment retVal = null;
 
-        TechnologyAssessmentDTO foundItem = this.entityRepository.findByName(assessmentName);
+        TechnologyAssessmentEntity foundItem = this.entityRepository.findByName(assessmentName);
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, TechnologyAssessment.class);
+        }
+
+        return retVal;
+    }
+
+    public TechnologyAssessment findByIdAndName(Long teamId, String assessmentName)
+    {
+        TechnologyAssessment retVal = null;
+
+        TechnologyAssessmentEntity foundItem = this.entityRepository.findByIdAndName(teamId, assessmentName);
 
         if (foundItem != null)
         {
@@ -118,7 +131,16 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     @Override
     public TechnologyAssessment save(TechnologyAssessment technologyAssessment)
     {
-        TechnologyAssessmentDTO itemToSave = this.entityRepository.findOne(technologyAssessment.getId());
+        TechnologyAssessmentEntity itemToSave = null;
+
+        if(technologyAssessment!=null && technologyAssessment.getId() != null)
+        {
+            itemToSave = this.entityRepository.findOne(technologyAssessment.getId());
+        }
+        else
+        {
+            itemToSave = new TechnologyAssessmentEntity();
+        }
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
@@ -137,25 +159,34 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
 
                 for(int j = 0; j < itemToSave.getTechnologyAssessmentItems().size(); j++)
                 {
-                    TechnologyAssessmentItemDTO itemToSaveAssessmentItem = itemToSave.getTechnologyAssessmentItems().get(j);
+                    TechnologyAssessmentItemEntity itemToSaveAssessmentItem = itemToSave.getTechnologyAssessmentItems().get(j);
 
                     if(itemToSaveAssessmentItem.getTechnology().getId()==assessmentItem.getTechnology().getId())
                     {
                         foundMatch = true;
+                        itemToSaveAssessmentItem.setDetails(assessmentItem.getDetails());
+                        itemToSaveAssessmentItem.setAssessor(assessmentItem.getAssessor());
+                        itemToSaveAssessmentItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                        itemToSaveAssessmentItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         break;
                     }
                 }
 
                 if(foundMatch == false)
                 {
-                    TechnologyAssessmentItemDTO newItem = new TechnologyAssessmentItemDTO();
+                    TechnologyAssessmentItemEntity newItem = new TechnologyAssessmentItemEntity();
                     newItem.setTechnologyAssessment(itemToSave);
                     newItem.setDetails(assessmentItem.getDetails());
                     newItem.setAssessor(assessmentItem.getAssessor());
-                    newItem.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
-                    newItem.setRadarState(radarStateDAO.findOne(assessmentItem.getRadarState().getId()));
+                    newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                    newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
 
-                    TechnologyDTO targetTechnology = technologyDAO.findOne(assessmentItem.getTechnology().getId());
+                    TechnologyEntity targetTechnology = null;
+
+                    if(assessmentItem.getTechnology().getId() != null)
+                    {
+                        targetTechnology = technologyDAO.findOne(assessmentItem.getTechnology().getId());
+                    }
 
                     if(targetTechnology == null)
                     {
@@ -164,12 +195,13 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
 
                     if(targetTechnology == null)
                     {
-                        targetTechnology = new TechnologyDTO();
-                        targetTechnology.setName(newItem.getTechnology().getName());
-                        targetTechnology.setCreator(newItem.getTechnology().getCreator());
-                        targetTechnology.setCreateDate(newItem.getTechnology().getCreateDate());
-                        targetTechnology.setDescription(newItem.getTechnology().getDescription());
-                        targetTechnology.setUrl(newItem.getTechnology().getUrl());
+                        targetTechnology = new TechnologyEntity();
+                        targetTechnology.setName(assessmentItem.getTechnology().getName());
+                        targetTechnology.setCreator(assessmentItem.getTechnology().getCreator());
+                        targetTechnology.setCreateDate(assessmentItem.getTechnology().getCreateDate());
+                        targetTechnology.setDescription(assessmentItem.getTechnology().getDescription());
+                        targetTechnology.setUrl(assessmentItem.getTechnology().getUrl());
+                        targetTechnology.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getTechnology().getRadarCategory().getId()));
                         technologyDAO.save(targetTechnology);
                     }
 

@@ -2,8 +2,8 @@ package com.alwaysmoveforward.technologyradar.web;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
-import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
+import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,11 +33,24 @@ public class HomeController
         return "index";
     }
 
-    @RequestMapping("/radar")
-    public String radar(Model viewModel)
+    @RequestMapping(value = { "/", "/home/radar" })
+    public String secureRadar(Model viewModel)
     {
         viewModel.addAttribute("message", "hello");
         return "radar";
+    }
+
+    @RequestMapping(value = { "/", "/public/radar" })
+    public String publicRadar(Model viewModel)
+    {
+        viewModel.addAttribute("message", "hello");
+        return "radar";
+    }
+
+    @RequestMapping("/technology")
+    public String technologySearch()
+    {
+        return "technologySearch";
     }
 
     @RequestMapping("/technology/{id}")

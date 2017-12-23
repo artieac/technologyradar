@@ -50,4 +50,20 @@ public class TechnologyAssessment implements Serializable
 
     public void setAssessmentTeam(AssessmentTeam value) { this.team = value;}
 
+    public void updateAssessmentItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails, String evaluator)
+    {
+        for(int i = 0; i < this.getTechnologyAssessmentItems().size(); i++)
+        {
+            TechnologyAssessmentItem currentItem = this.getTechnologyAssessmentItems().get(i);
+
+            if(currentItem.getId()==assessmentItemId)
+            {
+                currentItem.setRadarRing(radarRing);
+                currentItem.setConfidenceFactor(confidenceLevel);
+                currentItem.setDetails(assessmentDetails);
+                currentItem.setAssessor(evaluator);
+                break;
+            }
+        }
+    }
 }

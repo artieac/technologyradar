@@ -1,10 +1,10 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarCategory;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessmentItem;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -21,14 +21,14 @@ public class Quadrant
     private Integer topLocation;
     private Integer quadrantStart;
     private List<QuadrantItem> items;
-    private Hashtable<Long, List<QuadrantItem>> quadrantStates;
+    private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(RadarCategory radarCategory, Integer quadrantStart, Integer diagramWidth, Integer diagramHeight)
+    public Quadrant(RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight)
     {
         this.radarCategory = radarCategory;
-        this.quadrantStart = quadrantStart;
+        this.quadrantStart = radarCategory.getQuadrantStart();
         this.calculateLeftAndTop(diagramWidth, diagramHeight);
-        this.quadrantStates = new Hashtable<Long, List<QuadrantItem>>();
+        this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
     }
 
     private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight)
@@ -37,11 +37,11 @@ public class Quadrant
         {
             case 0:
                 topLocation = 18;
-                leftLocation = 45;
+                leftLocation = diagramWidth - 200 + 30;
                 break;
             case 90:
                 topLocation = 18;
-                leftLocation = diagramWidth - 200 + 30;
+                leftLocation = 45;
                 break;
             case 180:
                 topLocation = diagramHeight / 2 + 18;
@@ -71,27 +71,27 @@ public class Quadrant
     {
         List<QuadrantItem> retVal = new ArrayList<QuadrantItem>();
 
-        Set<Long> categoryIds  = this.quadrantStates.keySet();
+        Set<Long> categoryIds  = this.quadrantRings.keySet();
 
         for(Long categoryId : categoryIds)
         {
-            retVal.addAll(this.quadrantStates.get(categoryId));
+            retVal.addAll(this.quadrantRings.get(categoryId));
         }
 
         return retVal;
     }
 
     @JsonIgnore
-    public void addItem(RadarStatePresentation radarState, TechnologyAssessmentItem assessmentItem)
+    public void addItem(RadarRingPresentation radarRing, TechnologyAssessmentItem assessmentItem)
     {
-        if(this.quadrantStates == null)
+        if(this.quadrantRings == null)
         {
-            this.quadrantStates = new Hashtable<Long, List<QuadrantItem>>();
+            this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
         }
 
-        QuadrantItem newItem = new QuadrantItem(this.quadrantStart, radarState, assessmentItem);
+        QuadrantItem newItem = new QuadrantItem(this.quadrantStart, radarRing, assessmentItem);
 
-        List<QuadrantItem> stateItems = this.quadrantStates.get(radarState.getRadarState().getId());
+        List<QuadrantItem> stateItems = this.quadrantRings.get(radarRing.getRadarRing().getId());
 
         if(stateItems == null)
         {
@@ -99,13 +99,13 @@ public class Quadrant
         }
 
         stateItems.add(newItem);
-        this.quadrantStates.put(radarState.getRadarState().getId(), stateItems);
+        this.quadrantRings.put(radarRing.getRadarRing().getId(), stateItems);
 
-        Set<Long> stateIds  = this.quadrantStates.keySet();
+        Set<Long> stateIds  = this.quadrantRings.keySet();
 
         for(Long stateId : stateIds)
         {
-            List<QuadrantItem> quadrantItems = this.quadrantStates.get(stateId);
+            List<QuadrantItem> quadrantItems = this.quadrantRings.get(stateId);
 
             int distanceBetween = 90 / (quadrantItems.size() + 2);
             int currentLocation = this.quadrantStart + distanceBetween;
@@ -115,32 +115,6 @@ public class Quadrant
             {
                 currentLocation += distanceBetween;
                 quadrantItems.get(i).getPolarCoords().setAngular(currentLocation);
-            }
-        }
-    }
-
-    public void defaultEmptyQuadrantStates(List<RadarStatePresentation> states, Technology defaultTechnology){
-        if(this.quadrantStates == null)
-        {
-            this.quadrantStates = new Hashtable<Long, List<QuadrantItem>>();
-        }
-
-        for(RadarStatePresentation radarState : states)
-        {
-            List<QuadrantItem> stateItems = this.quadrantStates.get(radarState.getRadarState().getId());
-
-            if(stateItems==null)
-            {
-                stateItems = new ArrayList<>();
-            }
-
-            if (stateItems.size() == 0)
-            {
-                TechnologyAssessmentItem nothingItem = new TechnologyAssessmentItem();
-                nothingItem.setTechnology(defaultTechnology);
-                nothingItem.setRadarState(radarState.getRadarState());
-                nothingItem.setRadarCategory(this.radarCategory);
-                this.addItem(radarState, nothingItem);
             }
         }
     }

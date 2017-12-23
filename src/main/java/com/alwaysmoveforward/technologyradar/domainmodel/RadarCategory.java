@@ -14,6 +14,8 @@ public class RadarCategory implements Serializable
 
     private String color;
 
+    private Integer quadrantStart;
+
     public RadarCategory()
     {
     }
@@ -29,4 +31,9 @@ public class RadarCategory implements Serializable
     public String getColor() { return color;}
 
     public void setColor(String value) { this.color = value;}
+
+    public Integer getQuadrantStart() { return this.quadrantStart;}
+
+    public void setQuadrantStart(Integer value) { this.quadrantStart = value;}
+
 }
