@@ -3,21 +3,18 @@ package com.alwaysmoveforward.technologyradar.services;
 import com.alwaysmoveforward.technologyradar.data.repositories.RadarUserRepository;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.domainmodel.RoleType;
-import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 /**
  * Created by acorrea on 12/23/2017.
  */
 @Component
-public class UserService {
+public class RadarUserService {
     private RadarUserRepository radarUserRepository;
 
     @Autowired
-    public UserService(RadarUserRepository radarUserRepository)
+    public RadarUserService(RadarUserRepository radarUserRepository)
     {
         this.radarUserRepository = radarUserRepository;
     }
@@ -51,7 +48,7 @@ public class UserService {
 
             if(retVal == null)
             {
-                retVal = UserService.createDefaultRadarUser();
+                retVal = RadarUserService.createDefaultRadarUser();
                 retVal.setAuthenticationId(authenticationId);
                 this.radarUserRepository.save(retVal);
             }

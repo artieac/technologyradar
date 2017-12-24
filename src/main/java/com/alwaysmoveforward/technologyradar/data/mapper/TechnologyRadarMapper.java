@@ -36,7 +36,6 @@ public class TechnologyRadarMapper
         modelMapper.addMappings(radarConfigModelMap);
         modelMapper.addMappings(radarCategoryModelMap);
         modelMapper.addMappings(technologyConfigModelMap);
-        modelMapper.addMappings(assessmentTeamMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
         modelMapper.addMappings(radarUserModelMap);
@@ -81,15 +80,6 @@ public class TechnologyRadarMapper
 
     private PropertyMap<RadarCategoryEntity, RadarCategory> radarCategoryModelMap =
             new PropertyMap<RadarCategoryEntity, RadarCategory>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
-
-    private PropertyMap<AssessmentTeamEntity, AssessmentTeam> assessmentTeamMap =
-            new PropertyMap<AssessmentTeamEntity, AssessmentTeam>()
             {
                 protected void configure()
                 {

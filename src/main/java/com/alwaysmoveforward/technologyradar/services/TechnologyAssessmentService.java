@@ -17,30 +17,30 @@ public class TechnologyAssessmentService
 {
     private TechnologyRepository technologyRepository;
     private TechnologyAssessmentRepository technologyAssessmentRepository;
-    private AssessmentTeamRepository assessmentTeamRepository;
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
+    private RadarUserRepository radarUserRepository;
 
     @Autowired
     public TechnologyAssessmentService(TechnologyAssessmentRepository technologyAssessmentRepository,
-                                       AssessmentTeamRepository assessmentTeamRepository,
                                        TechnologyRepository technologyRepository,
                                        RadarRingRepository radarRingRepository,
-                                       RadarCategoryRepository radarCategoryRepository)
+                                       RadarCategoryRepository radarCategoryRepository,
+                                       RadarUserRepository radarUserRepository)
     {
         this.technologyAssessmentRepository = technologyAssessmentRepository;
-        this.assessmentTeamRepository = assessmentTeamRepository;
         this.technologyRepository = technologyRepository;
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
+        this.radarUserRepository = radarUserRepository;
     }
 
-    public TechnologyAssessment createDefault(AssessmentTeam assessmentTeam)
+    public TechnologyAssessment createDefault(RadarUser radarUser)
     {
         TechnologyAssessment retVal = new TechnologyAssessment();
         retVal.setName("New");
         retVal.setAssessmentDate(new Date());
-        retVal.setAssessmentTeam(assessmentTeam);
+        retVal.setRadarUser(radarUser);
         retVal.setTechnologyAssessmentItems(new ArrayList<TechnologyAssessmentItem>());
         return retVal;
     }
@@ -50,15 +50,15 @@ public class TechnologyAssessmentService
         return this.technologyAssessmentRepository.findOne(assessmentId);
     }
 
-    public List<TechnologyAssessment> getTeamAssessments(Long teamId)
+    public List<TechnologyAssessment> findByRadarUserId(Long radarUserId)
     {
         List<TechnologyAssessment> retVal = new ArrayList<TechnologyAssessment>();
 
-        AssessmentTeam foundTeam = this.assessmentTeamRepository.findOne(teamId);
+        RadarUser foundTeam = this.radarUserRepository.findOne(radarUserId);
 
         if(foundTeam!=null)
         {
-            retVal = this.technologyAssessmentRepository.findAllByTeam(foundTeam.getId());
+            retVal = this.technologyAssessmentRepository.findAllByRadarUser(foundTeam.getId());
         }
 
         return retVal;
@@ -83,23 +83,18 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public List<TechnologyAssessment> findByTeamId(Long teamId)
-    {
-        return this.technologyAssessmentRepository.findAllByTeam(teamId);
-    }
-
-    public TechnologyAssessment addTeamAssessment(Long teamId, String name)
+    public TechnologyAssessment addRadarUserAssessment(Long radarUserId, String name)
     {
         TechnologyAssessment retVal = null;
 
         if(!name.isEmpty())
         {
-            TechnologyAssessment existingTeamAssessment = this.technologyAssessmentRepository.findByIdAndName(teamId, name);
-            AssessmentTeam assessmentTeam = this.assessmentTeamRepository.findOne(teamId);
+            TechnologyAssessment existingTeamAssessment = this.technologyAssessmentRepository.findByIdAndName(radarUserId, name);
+            RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(existingTeamAssessment == null && assessmentTeam != null)
+            if(existingTeamAssessment == null && radarUser != null)
             {
-                retVal = this.createDefault(assessmentTeam);
+                retVal = this.createDefault(radarUser);
                 retVal.setName(name);
                 this.technologyAssessmentRepository.save(retVal);
             }
@@ -108,16 +103,16 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public TechnologyAssessment updateTeamAssessment(Long teamId, long assessmentId, String name)
+    public TechnologyAssessment updateUserAssessment(Long radarUserId, long assessmentId, String name)
     {
         TechnologyAssessment retVal = null;
 
         if(!name.isEmpty())
         {
             retVal = this.technologyAssessmentRepository.findOne(assessmentId);
-            AssessmentTeam assessmentTeam = this.assessmentTeamRepository.findOne(teamId);
+            RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(retVal != null && assessmentTeam != null && retVal.getAssessmentTeam().getId() == teamId)
+            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
             {
                 retVal.setName(name);
                 this.technologyAssessmentRepository.save(retVal);
@@ -152,16 +147,16 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public TechnologyAssessment addRadarItem(Long teamId, Long assessmentId, Technology targetTechnology, Long radarRingId, Integer confidenceLevel, String assessmentDetails, String assessmentEvaluator)
+    public TechnologyAssessment addRadarItem(Long radarUserId, Long assessmentId, Technology targetTechnology, Long radarRingId, Integer confidenceLevel, String assessmentDetails, String assessmentEvaluator)
     {
         TechnologyAssessment retVal = null;
 
         if(targetTechnology!=null)
         {
             retVal = this.technologyAssessmentRepository.findOne(assessmentId);
-            AssessmentTeam assessmentTeam = this.assessmentTeamRepository.findOne(teamId);
+            RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(retVal != null && assessmentTeam != null && retVal.getAssessmentTeam().getId() == teamId)
+            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
             {
                 boolean alreadyIncluded = false;
 

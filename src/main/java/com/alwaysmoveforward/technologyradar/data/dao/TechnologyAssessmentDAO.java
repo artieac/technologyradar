@@ -10,8 +10,8 @@ import java.util.Date;
  */
 public interface TechnologyAssessmentDAO  extends PagingAndSortingRepository<TechnologyAssessmentEntity, Long>
 {
-    Iterable<TechnologyAssessmentEntity> findAllByAssessmentTeamId(Long teamId);
-    TechnologyAssessmentEntity findByAssessmentTeamAndAssessmentDate(Long teamId, Date assessmentDate);
+    Iterable<TechnologyAssessmentEntity> findAllByRadarUserId(Long radarUserId);
+    TechnologyAssessmentEntity findByAssessmentRadarUserAndAssessmentDate(Long radarUserId, Date assessmentDate);
     TechnologyAssessmentEntity findByName(String name);
     TechnologyAssessmentEntity findByIdAndName(Long id, String name);
 }

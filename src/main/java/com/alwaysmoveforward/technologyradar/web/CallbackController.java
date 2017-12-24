@@ -1,8 +1,7 @@
 package com.alwaysmoveforward.technologyradar.web;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.security.TokenAuthentication;
-import com.alwaysmoveforward.technologyradar.services.UserService;
+import com.alwaysmoveforward.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
 import com.auth0.Tokens;
@@ -25,7 +24,7 @@ import java.io.IOException;
 public class CallbackController {
 
     @Autowired
-    private UserService userService;
+    private RadarUserService userService;
 
     @Autowired
     private AuthenticationController controller;

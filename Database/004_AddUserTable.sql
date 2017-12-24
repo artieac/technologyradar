@@ -1,5 +1,5 @@
-/****** Object:  Table [User].[Technology]    Script Date: 03/12/2015 12:16:42 ******/
-CREATE TABLE `User`(
+/****** Object:  Table [RadarUser].[Technology]    Script Date: 03/12/2015 12:16:42 ******/
+CREATE TABLE `RadarUser`(
 	`Id` BIGINT NOT NULL AUTO_INCREMENT,
 	`AuthenticationId` nvarchar(512) NOT NULL,
 	`RoleId` int NOT NULL,

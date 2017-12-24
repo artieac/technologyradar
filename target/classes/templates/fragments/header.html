@@ -38,7 +38,7 @@
                 </li>
             </ul>
             <div >
-                <a sec:authorize="isAnonymous()" href="/signin" th:href="@{/signin}">Sign in</a>
+                <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
                 <a sec:authorize="isAuthenticated()" href="/logout" th:href="@{/logout}">Logout</a>
             </div>
         </div>
