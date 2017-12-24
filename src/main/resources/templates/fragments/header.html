@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:fragment="scriptHeader">
     <script type="text/javascript" src="/script/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/webjars/angularjs/1.4.1/angular.js"></script>
@@ -32,16 +33,14 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#" th:href="@{/radar}">Home</a></li>
                 <li><a href="#" th:href="@{/technology}">Technology Search</a></li>
-            <!--    <li><a href="#" th:href="@{/admin/manage/teams}">Admin</a></li> -->
+                <li sec:authorize="isAuthenticated()">
+                    <a href="#" th:href="@{/admin/manage/teams}">Admin</a>
+                </li>
             </ul>
-<!--            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="/signin" th:href="@{/signin}">Sign in</a>
-                </li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="/logout" th:href="@{/logout}">Logout</a>
-                </li>
-            </ul>-->
+            <div >
+                <a sec:authorize="isAnonymous()" href="/signin" th:href="@{/signin}">Sign in</a>
+                <a sec:authorize="isAuthenticated()" href="/logout" th:href="@{/logout}">Logout</a>
+            </div>
         </div>
     </div>
 </div>

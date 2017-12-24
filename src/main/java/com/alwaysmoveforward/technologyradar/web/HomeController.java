@@ -2,16 +2,21 @@ package com.alwaysmoveforward.technologyradar.web;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
+import com.alwaysmoveforward.technologyradar.security.TokenAuthentication;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
 import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -26,25 +31,40 @@ public class HomeController
     @Autowired
     private TechnologyAssessmentService technologyAssessmentService;
 
-    @RequestMapping("/index")
+    @RequestMapping("/home/index")
     public String index(Model viewModel)
     {
         viewModel.addAttribute("message", "hello");
-        return "index";
+        return "/home/index";
+    }
+
+    @RequestMapping(value = { "/", "/home/secureradar" })
+    public ModelAndView secureRadar(final Principal principal)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("userId", principal);
+        modelAndView.setViewName("/home/secureRadar");
+        return modelAndView;
     }
 
     @RequestMapping(value = { "/", "/home/radar" })
-    public String secureRadar(Model viewModel)
+    public ModelAndView publicRadar(final Principal principal)
     {
-        viewModel.addAttribute("message", "hello");
-        return "radar";
-    }
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-    @RequestMapping(value = { "/", "/public/radar" })
-    public String publicRadar(Model viewModel)
-    {
-        viewModel.addAttribute("message", "hello");
-        return "radar";
+        if(auth instanceof AnonymousAuthenticationToken)
+        {
+            modelAndView.addObject("isAuthorized", false);
+        }
+        else
+        {
+            modelAndView.addObject("isAuthorized", true);
+        }
+        modelAndView.addObject("userId", principal);
+        modelAndView.setViewName("/home/publicRadar");
+        return modelAndView;
     }
 
     @RequestMapping("/technology")

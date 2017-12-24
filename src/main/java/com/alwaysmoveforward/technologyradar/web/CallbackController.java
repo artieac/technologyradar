@@ -1,6 +1,8 @@
 package com.alwaysmoveforward.technologyradar.web;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.security.TokenAuthentication;
+import com.alwaysmoveforward.technologyradar.services.UserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
 import com.auth0.Tokens;
@@ -23,13 +25,16 @@ import java.io.IOException;
 public class CallbackController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private AuthenticationController controller;
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
     public CallbackController() {
         this.redirectOnFail = "/login";
-        this.redirectOnSuccess = "/home/radar";
+        this.redirectOnSuccess = "/home/secureradar";
     }
 
     @RequestMapping(value = "/callback", method = RequestMethod.GET)
@@ -47,6 +52,9 @@ public class CallbackController {
             Tokens tokens = controller.handle(req);
             TokenAuthentication tokenAuth = new TokenAuthentication(JWT.decode(tokens.getIdToken()));
             SecurityContextHolder.getContext().setAuthentication(tokenAuth);
+
+            this.userService.addUser(tokenAuth.getPrincipal().toString());
+
             res.sendRedirect(redirectOnSuccess);
         } catch (AuthenticationException | IdentityVerificationException e) {
             e.printStackTrace();

@@ -5,7 +5,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.*;
 
 public class TokenAuthentication extends AbstractAuthenticationToken {
@@ -48,6 +50,8 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return jwt.getSubject();
     }
+
+    public Object getPayload() { return jwt.getPayload();}
 
     @Override
     public void setAuthenticated(boolean authenticated) {

@@ -39,6 +39,7 @@ public class TechnologyRadarMapper
         modelMapper.addMappings(assessmentTeamMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
+        modelMapper.addMappings(radarUserModelMap);
     }
 
     private ModelMapper getMapper()
@@ -126,5 +127,15 @@ public class TechnologyRadarMapper
                     map().setId(source.getId());
                 }
             };
+
+    private PropertyMap<RadarUserEntity, RadarUser> radarUserModelMap =
+            new PropertyMap<RadarUserEntity, RadarUser>()
+            {
+                protected void configure()
+                {
+                    map().setId(source.getId());
+                }
+            };
+
 }
 
