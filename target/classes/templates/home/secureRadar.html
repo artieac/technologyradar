@@ -1,0 +1,153 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" src="script/lib/protovis-3.2/protovis-d3.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/Controllers/RadarController.js"></script>
+
+    <style type="text/css" media="screen">
+
+        #fig {
+        height: 1000px;
+        width: 1200px;
+        }
+
+    </style>
+    <script type="text/javascript" src="script/radar.js" charset="utf-8"></script>
+</head>
+<body>
+    <div th:replace="fragments/header :: uiHeader"></div>
+    <br/><br/><br/>
+    <div class="panel-primary"  ng-controller="RadarController">
+        <div class="panel-heading">Which Radar?</div>
+        <p th:text="${userId}">Test</p>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dropdown pull-left" ng-init="getRadarTeams()">
+                        <label for="teamDropdown">Select Team:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="teamDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedTeam.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="teamDropdown">
+                            <li ng-repeat="team in teamList"><a ng-click="teamDropdownSelected(team)">{{team.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dropdown pull-left">
+                        <label for="assessmentDropdown">Select Assessment:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="assessmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedAssessment.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="assessmentDropdown">
+                            <li ng-repeat="assessment in assessmentList"><a ng-click="assessmentDropdownSelected(assessment)">{{assessment.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div id="radar"></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Technology Assessment</div>
+                        <div id="technologyAssessmentDetailsPanel" class="panel-body">
+                            <form name="assessmentInputForm">
+                                <div class="row">
+                                    <label for="newTechnologyName">Name</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="newTechnologyName" name="newTechnologyName" ng-model="selectedAssessmentItem.technology.name" ng-keypress="clearTechnologySelection()"/>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit" ng-click="searchForTechnologyByName()"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <ul id="searchResults" class="list-group">
+                                        <li class="list-group-item" ng-repeat="searchResult in technologySearchResults" ng-click="selectTechnology(searchResult)">{{searchResult.name}}</li>
+                                    </ul>
+                                </div>
+                                <div class="row"  ng-init="getRadarCategories()">
+                                    <div class="dropdown pull-left">
+                                        <label for="radarCategoryDropdown">Category</label>
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="radarCategoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{selectedRadarCategory.name}}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="radarCategoryDropdown">
+                                            <li ng-repeat="radarCategory in radarCategoryList"><a ng-click="selectRadarCategory(radarCategory)">{{radarCategory.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="newTechnologyDescription">Description</label>
+                                    <div class="form-group">
+                                        <p ng-show="assessmentInputForm.newTechnologyDescription.$error.required">A description is required</p>
+                                        <textarea rows="10" class="form-control" id="newTechnologyDescription" name="newTechnologyDescription" ng-model="selectedAssessmentItem.technology.description" ng-required="true"/>
+                                    </div>
+                                </div>
+                                <div class="row"  ng-init="getRadarRings()">
+                                    <div class="col-md-6">
+                                        <div class="dropdown pull-left">
+                                            <label for="radarRingDropdown">Radar Ring:</label>
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="radarRingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                {{selectedRadarRing.name}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="radarRingDropdown">
+                                                <li ng-repeat="radarRing in radarRingList"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dropdown pull-left">
+                                            <label for="confidenceLevelDropdown">Confidence:</label>
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                {{selectedConfidence}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="confidenceLevelDropdown">
+                                                <li ng-repeat="confidenceLevel in confidenceLevels"><a ng-click="selectConfidence(confidenceLevel)">{{confidenceLevel}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="newTechnologyDetails">Assessment Details</label>
+                                        <p ng-show="assessmentInputForm.newTechnologyDetails.$error.required">Assessment details are required</p>
+                                        <p ng-show="assessmentInputForm.newTechnologyDetails.$error.minLength">Minimum length details are required</p>
+                                        <textarea rows="10" id="newTechnologyDetails" name="newTechnologyDetails" class="form-control" ng-model="selectedAssessmentItem.details" ng-required="true" ng-minlenght="1"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="newTechnologyEvaluator">Evaluator</label>
+                                        <input type="text" id="newTechnologyEvaluator" name="newTechnologyEvaluator" class="form-control" ng-model="selectedAssessmentItem.assessor" ng-required="required"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" ng-click="clearAssessmentItemSelection();">Clear</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" ng-click="addRadarItem();" ng-disabled="!canAddRadarItem(assessmentInputForm.$valid)">Save</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" ng-click="clickSeeOtherUsers();" ng-disabled="!selectedAssessmentItem.technology">Other Users</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

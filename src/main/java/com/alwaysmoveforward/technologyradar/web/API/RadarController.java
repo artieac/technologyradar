@@ -4,10 +4,10 @@ import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.AssessmentTeamService;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
+import com.alwaysmoveforward.technologyradar.services.TechnologyService;
 import com.alwaysmoveforward.technologyradar.web.Models.DiagramPresentation;
-import com.alwaysmoveforward.technologyradar.web.Models.RadarStatePresentation;
-import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.web.Models.Quadrant;
+import com.alwaysmoveforward.technologyradar.web.Models.RadarRingPresentation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,10 +43,10 @@ public class RadarController
         return retVal;
     }
 
-    @RequestMapping(value = "/states", produces = "application/json")
-    public @ResponseBody List<RadarState> getRadarStates()
+    @RequestMapping(value = "/rings", produces = "application/json")
+    public @ResponseBody List<RadarRing> getRadarRings()
     {
-        List<RadarState> retVal = this.radarSetupService.getRadarStates();
+        List<RadarRing> retVal = this.radarSetupService.getRadarRings();
 
         return retVal;
     }
@@ -71,27 +71,24 @@ public class RadarController
     {
         DiagramPresentation retVal = new DiagramPresentation(1000,1200, 100);
 
-        Iterable<RadarState> radarStates = this.radarSetupService.getRadarStates();
-        retVal.addRadarArcs(radarStates);
-        Hashtable<Long, RadarStatePresentation> radarStateLookup = new Hashtable<Long, RadarStatePresentation>();
-        List<RadarStatePresentation> radarStatePresentations = retVal.getRadarArcs();
+        Iterable<RadarRing> radarRings = this.radarSetupService.getRadarRings();
+        retVal.addRadarArcs(radarRings);
+        Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
+        List<RadarRingPresentation> radarRingPresentations = retVal.getRadarArcs();
 
-        for(RadarStatePresentation radarState : radarStatePresentations)
+        for(RadarRingPresentation radarRing : radarRingPresentations)
         {
-            radarStateLookup.put(radarState.getRadarState().getId(), radarState);
+            radarRingLookup.put(radarRing.getRadarRing().getId(), radarRing);
         }
 
         Iterable<RadarCategory> radarCategories = this.radarSetupService.getRadarCategories();
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
-        Integer quadrantStart = 0;
-
         for(RadarCategory radarCategory : radarCategories)
         {
-            Quadrant newQuadrant = new Quadrant(radarCategory, quadrantStart, retVal.getWidth(), retVal.getHeight());
+            Quadrant newQuadrant = new Quadrant(radarCategory, retVal.getWidth(), retVal.getHeight());
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
-            quadrantStart += 90;
         }
 
         TechnologyAssessment technologyAssessment = technolgyAssessmentService.findById(assessmentId);
@@ -115,91 +112,69 @@ public class RadarController
         {
             for(TechnologyAssessmentItem assessmentItem : technologyAssessment.getTechnologyAssessmentItems())
             {
-                Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getRadarCategory().getId());
+                Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getTechnology().getRadarCategory().getId());
 
                 if(targetQuadrant != null)
                 {
-                    targetQuadrant.addItem(radarStateLookup.get(assessmentItem.getRadarState().getId()), assessmentItem);
+                    targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
                 }
             }
-        }
-
-
-        for(int i = 0; i < retVal.getQuadrants().size(); i++){
-            retVal.getQuadrants().get(i).defaultEmptyQuadrantStates(radarStatePresentations, technolgyAssessmentService.createDefaultTechnology());
         }
 
         return retVal;
     }
+
     @RequestMapping(value = "/team/{teamId}/assessment/{assessmentId}", produces = "application/json")
     public @ResponseBody DiagramPresentation getTeamAssessment(@PathVariable Long teamId, @PathVariable Long assessmentId)
     {
-        DiagramPresentation retVal = new DiagramPresentation(1000,1200, 100);
-
-        Iterable<RadarState> radarStates = this.radarSetupService.getRadarStates();
-        retVal.addRadarArcs(radarStates);
-        Hashtable<Long, RadarStatePresentation> radarStateLookup = new Hashtable<Long, RadarStatePresentation>();
-        List<RadarStatePresentation> radarStatePresentations = retVal.getRadarArcs();
-
-        for(RadarStatePresentation radarState : radarStatePresentations)
-        {
-            radarStateLookup.put(radarState.getRadarState().getId(), radarState);
-        }
-
-        Iterable<RadarCategory> radarCategories = this.radarSetupService.getRadarCategories();
-        Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
-
-        Integer quadrantStart = 0;
-
-        for(RadarCategory radarCategory : radarCategories)
-        {
-            Quadrant newQuadrant = new Quadrant(radarCategory, quadrantStart, retVal.getWidth(), retVal.getHeight());
-            quadrantLookup.put(radarCategory.getId(), newQuadrant);
-            retVal.getQuadrants().add(newQuadrant);
-            quadrantStart += 90;
-        }
-
-        TechnologyAssessment technologyAssessment = technolgyAssessmentService.findById(assessmentId);
-
-        if(technologyAssessment == null)
-        {
-            AssessmentTeam assessmentTeam = this.assessmentTeamService.findOne(teamId);
-
-            if(assessmentTeam != null)
-            {
-                technologyAssessment = technolgyAssessmentService.createDefault(assessmentTeam);
-            }
-        }
-
-        logger.debug(technologyAssessment);
-        logger.debug(technologyAssessment.getName());
-        logger.debug(technologyAssessment.getTechnologyAssessmentItems());
-        logger.debug(technologyAssessment.getTechnologyAssessmentItems().size());
-
-        if(technologyAssessment.getTechnologyAssessmentItems().size() > 0)
-        {
-            for(TechnologyAssessmentItem assessmentItem : technologyAssessment.getTechnologyAssessmentItems())
-            {
-                Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getRadarCategory().getId());
-
-                if(targetQuadrant != null)
-                {
-                    targetQuadrant.addItem(radarStateLookup.get(assessmentItem.getRadarState().getId()), assessmentItem);
-                }
-            }
-        }
-
-        for(int i = 0; i < retVal.getQuadrants().size(); i++){
-            retVal.getQuadrants().get(i).defaultEmptyQuadrantStates(radarStatePresentations, technolgyAssessmentService.createDefaultTechnology());
-        }
-
+        DiagramPresentation retVal = this.generateDiagramData(teamId, assessmentId);
         return retVal;
     }
 
     @RequestMapping(value = "/team/{teamId}/assessment/{assessmentId}/additem", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation addRadarItem(@RequestBody Map modelMap, @PathVariable Long teamId, @PathVariable Long assessmentId)
     {
-        this.technolgyAssessmentService.addRadarItem(teamId, assessmentId, modelMap.get("technologyName").toString(), new Long((Integer)modelMap.get("radarState")), new Long((Integer)modelMap.get("radarCategory")));
+        String technologyName = modelMap.get("technologyName").toString();
+        Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
+        String technologyDescription = modelMap.get("technologyDescription").toString();
+        String technologyUrl = "";
+        Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
+        Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
+        String assessmentDetails = modelMap.get("assessmentDetails").toString();
+        String evaluator = modelMap.get("evaluator").toString();
+        Technology targetTechnology = null;
+
+        if(modelMap.get("technologyId")!=null)
+        {
+            Long technologyId = new Long((Integer)modelMap.get("technologyId"));
+            targetTechnology = this.technolgyAssessmentService.findTechnologyById(technologyId);
+        }
+
+        if(targetTechnology!=null)
+        {
+            this.technolgyAssessmentService.addRadarItem(teamId, assessmentId, targetTechnology, radarRing, confidenceLevel, assessmentDetails, evaluator);
+        }
+        else
+        {
+            this.technolgyAssessmentService.addRadarItem(teamId, assessmentId, technologyName, technologyDescription, technologyUrl, radarRing, confidenceLevel, radarCategory, assessmentDetails, evaluator);
+        }
+
+        return this.generateDiagramData(teamId, assessmentId);
+    }
+
+    @RequestMapping(value = "/team/{teamId}/assessment/{assessmentId}/item/{assessmentItemId}", method = RequestMethod.POST)
+    public @ResponseBody DiagramPresentation addRadarItem(@RequestBody Map modelMap, @PathVariable Long teamId, @PathVariable Long assessmentId, @PathVariable Long assessmentItemId)
+    {
+        Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
+        Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
+        String assessmentDetails = modelMap.get("assessmentDetails").toString();
+        String evaluator = modelMap.get("evaluator").toString();
+
+        if(assessmentId > 0 && assessmentItemId > 0)
+        {
+            this.technolgyAssessmentService.updateAssessmentItem(assessmentId, assessmentItemId, radarRing, confidenceLevel, assessmentDetails, evaluator);
+        }
+
         return this.generateDiagramData(teamId, assessmentId);
     }
 }

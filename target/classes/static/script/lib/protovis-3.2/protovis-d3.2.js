@@ -7163,14 +7163,21 @@ pv.Mark.prototype.build = function() {
 
   /* Create, update and delete scene nodes. */
   stack.unshift(null);
-  scene.length = data.length;
-  for (var i = 0; i < data.length; i++) {
-    pv.Mark.prototype.index = this.index = i;
-    var s = scene[i];
-    if (!s) scene[i] = s = {};
-    s.data = stack[0] = data[i];
-    this.buildInstance(s);
+
+  if(typeof data !== 'undefined' && data){
+    scene.length = data.length;
+    for (var i = 0; i < data.length; i++) {
+      pv.Mark.prototype.index = this.index = i;
+      var s = scene[i];
+      if (!s) scene[i] = s = {};
+      s.data = stack[0] = data[i];
+      this.buildInstance(s);
+    }
   }
+  else{
+    scene.length = 0;
+  }
+
   pv.Mark.prototype.index = -1;
   delete this.index;
   stack.shift();

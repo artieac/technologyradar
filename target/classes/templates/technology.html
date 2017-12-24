@@ -9,25 +9,24 @@
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
     <h2 th:inline="text">[[${targetTechnology.name}]]</h2>
+    <p th:inline="text">[[${targetTechnology.radarCategory.name}]]</p>
     <p th:inline="text">[[${targetTechnology.description}]]</p>
     <div th:attr="ng-init='getTechnologyAssessments(' + ${targetTechnology.Id} + ')'">
         <div ng-repeat="team in assessmentList.assessmentTeams">
-            <span>{{ team.name }} </span>
+            <h3>{{ team.name }} </h3>
             <div>
                 <table class="table table-striped">
                     <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Details</th>
-                        <th>State</th>
-                        <th>Evaluator</th>
+                        <th width="5%">Date</th>
+                        <th width="25%">Details</th>
+                        <th width="5%">Ring</th>
+                        <th width="10%">Evaluator</th>
                     </tr>
                     <tbody ng-repeat="technologyAssessmentItem in assessmentList.teamAssessments[team.id]">
                         <tr>
-                            <td>{{ technologyAssessmentItem.assessmentDate }}</td>
-                            <td>{{ technologyAssessmentItem.radarCategory.name }}</td>
+                            <td>{{ technologyAssessmentItem.assessmentDate | date:'MM/dd/yyyy'}}</td>
                             <td>{{ technologyAssessmentItem.details }}</td>
-                            <td>{{ technologyAssessmentItem.radarState.name }}</td>
+                            <td>{{ technologyAssessmentItem.radarRing.name }}</td>
                             <td>{{ technologyAssessmentItem.assessor }}</td>
                         </tr>
                     </tbody>
@@ -35,6 +34,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

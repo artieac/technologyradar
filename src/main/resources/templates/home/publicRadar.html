@@ -1,0 +1,61 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" src="script/lib/protovis-3.2/protovis-d3.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="script/Controllers/RadarController.js"></script>
+
+    <style type="text/css" media="screen">
+
+        #fig {
+        height: 1000px;
+        width: 1200px;
+        }
+
+    </style>
+    <script type="text/javascript" src="script/radar.js" charset="utf-8"></script>
+</head>
+<body>
+    <div th:replace="fragments/header :: uiHeader"></div>
+    <br/><br/><br/>
+    <div class="panel-primary"  ng-controller="RadarController">
+        <div class="panel-heading">Which Radar?</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dropdown pull-left" ng-init="getRadarTeams()">
+                        <label for="teamDropdown">Select Team:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="teamDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedTeam.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="teamDropdown">
+                            <li ng-repeat="team in teamList"><a ng-click="teamDropdownSelected(team)">{{team.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dropdown pull-left">
+                        <label for="assessmentDropdown">Select Assessment:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="assessmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedAssessment.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="assessmentDropdown">
+                            <li ng-repeat="assessment in assessmentList"><a ng-click="assessmentDropdownSelected(assessment)">{{assessment.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div id="radar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

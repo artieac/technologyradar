@@ -46,4 +46,12 @@ public class Technology implements Serializable
     public  String getDescription() { return this.description;}
 
     public void setDescription(String value) { this.description = value;}
+
+    public  String getUrl() { return this.url;}
+
+    public void setUrl(String value) { this.url = value;}
+
+    public RadarCategory getRadarCategory() { return this.radarCategory;}
+
+    public void setRadarCategory(RadarCategory value) { this.radarCategory = value;}
 }

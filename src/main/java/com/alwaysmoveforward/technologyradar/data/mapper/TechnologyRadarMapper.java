@@ -1,8 +1,6 @@
 package com.alwaysmoveforward.technologyradar.data.mapper;
 
-import com.alwaysmoveforward.technologyradar.data.dto.*;
-import com.alwaysmoveforward.technologyradar.domainmodel.*;
-import com.alwaysmoveforward.technologyradar.data.dto.*;
+import com.alwaysmoveforward.technologyradar.data.Entities.*;
 import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import org.springframework.stereotype.Component;
 import org.modelmapper.Conditions;
@@ -41,6 +39,7 @@ public class TechnologyRadarMapper
         modelMapper.addMappings(assessmentTeamMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
+        modelMapper.addMappings(radarUserModelMap);
     }
 
     private ModelMapper getMapper()
@@ -71,8 +70,8 @@ public class TechnologyRadarMapper
     }
 
 
-    private PropertyMap<RadarStateDTO, RadarState> radarConfigModelMap =
-            new PropertyMap<RadarStateDTO, RadarState>()
+    private PropertyMap<RadarRingEntity, RadarRing> radarConfigModelMap =
+            new PropertyMap<RadarRingEntity, RadarRing>()
             {
                 protected void configure()
                 {
@@ -80,8 +79,8 @@ public class TechnologyRadarMapper
                 }
             };
 
-    private PropertyMap<RadarCategoryDTO, RadarCategory> radarCategoryModelMap =
-            new PropertyMap<RadarCategoryDTO, RadarCategory>()
+    private PropertyMap<RadarCategoryEntity, RadarCategory> radarCategoryModelMap =
+            new PropertyMap<RadarCategoryEntity, RadarCategory>()
             {
                 protected void configure()
                 {
@@ -89,8 +88,8 @@ public class TechnologyRadarMapper
                 }
             };
 
-    private PropertyMap<AssessmentTeamDTO, AssessmentTeam> assessmentTeamMap =
-            new PropertyMap<AssessmentTeamDTO, AssessmentTeam>()
+    private PropertyMap<AssessmentTeamEntity, AssessmentTeam> assessmentTeamMap =
+            new PropertyMap<AssessmentTeamEntity, AssessmentTeam>()
             {
                 protected void configure()
                 {
@@ -98,11 +97,11 @@ public class TechnologyRadarMapper
                 }
             };
     /**
-     * Custom map from {@link TechnologyDTO} to the
+     * Custom map from {@link TechnologyEntity} to the
      * {@link Technology}
      */
-    private PropertyMap<TechnologyDTO, Technology> technologyConfigModelMap =
-            new PropertyMap<TechnologyDTO, Technology>()
+    private PropertyMap<TechnologyEntity, Technology> technologyConfigModelMap =
+            new PropertyMap<TechnologyEntity, Technology>()
             {
                 protected void configure()
                 {
@@ -110,8 +109,8 @@ public class TechnologyRadarMapper
                 }
             };
 
-    private PropertyMap<TechnologyAssessmentDTO, TechnologyAssessment> technologyAssessmentMap =
-            new PropertyMap<TechnologyAssessmentDTO, TechnologyAssessment>()
+    private PropertyMap<TechnologyAssessmentEntity, TechnologyAssessment> technologyAssessmentMap =
+            new PropertyMap<TechnologyAssessmentEntity, TechnologyAssessment>()
             {
                 protected void configure()
                 {
@@ -120,8 +119,17 @@ public class TechnologyRadarMapper
             };
 
 
-    private PropertyMap<TechnologyAssessmentItemDTO, TechnologyAssessmentItem> technologyAssessmentItemMap =
-            new PropertyMap<TechnologyAssessmentItemDTO, TechnologyAssessmentItem>()
+    private PropertyMap<TechnologyAssessmentItemEntity, TechnologyAssessmentItem> technologyAssessmentItemMap =
+            new PropertyMap<TechnologyAssessmentItemEntity, TechnologyAssessmentItem>()
+            {
+                protected void configure()
+                {
+                    map().setId(source.getId());
+                }
+            };
+
+    private PropertyMap<RadarUserEntity, RadarUser> radarUserModelMap =
+            new PropertyMap<RadarUserEntity, RadarUser>()
             {
                 protected void configure()
                 {
