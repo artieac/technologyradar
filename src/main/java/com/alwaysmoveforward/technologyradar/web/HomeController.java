@@ -52,16 +52,6 @@ public class HomeController
     public ModelAndView publicRadar(final Principal principal)
     {
         ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(auth instanceof AnonymousAuthenticationToken)
-        {
-            modelAndView.addObject("isAuthorized", false);
-        }
-        else
-        {
-            modelAndView.addObject("isAuthorized", true);
-        }
         modelAndView.addObject("userId", principal);
         modelAndView.setViewName("/home/publicRadar");
         return modelAndView;
