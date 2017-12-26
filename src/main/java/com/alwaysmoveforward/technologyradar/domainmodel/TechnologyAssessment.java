@@ -50,7 +50,7 @@ public class TechnologyAssessment implements Serializable
 
     public void setRadarUser(RadarUser value) { this.radarUser = value;}
 
-    public void updateAssessmentItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails, String evaluator)
+    public void updateAssessmentItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         for(int i = 0; i < this.getTechnologyAssessmentItems().size(); i++)
         {
@@ -61,7 +61,6 @@ public class TechnologyAssessment implements Serializable
                 currentItem.setRadarRing(radarRing);
                 currentItem.setConfidenceFactor(confidenceLevel);
                 currentItem.setDetails(assessmentDetails);
-                currentItem.setAssessor(evaluator);
                 break;
             }
         }

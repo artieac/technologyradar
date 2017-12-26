@@ -1,5 +1,6 @@
 package com.alwaysmoveforward.technologyradar.web;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 
 @Controller
-public class HomeController
+public class HomeController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
@@ -38,17 +40,26 @@ public class HomeController
     public ModelAndView secureRadar(final Principal principal)
     {
         ModelAndView modelAndView = new ModelAndView();
+        RadarUser currentUser = this.getCurrentUser();
 
-        modelAndView.addObject("userId", principal);
+        if(currentUser != null)
+        {
+            modelAndView.addObject("userId", currentUser.getId());
+        }
+        else
+        {
+            modelAndView.addObject("userId", -1);
+        }
+
         modelAndView.setViewName("/home/radar");
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/", "/home/radar" })
-    public ModelAndView publicRadar(final Principal principal)
+    @RequestMapping(value = { "/", "/home/radar/{userId}" })
+    public ModelAndView publicRadar(long userId)
     {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userId", principal);
+        modelAndView.addObject("userId", userId);
         modelAndView.setViewName("/home/radar");
         return modelAndView;
     }

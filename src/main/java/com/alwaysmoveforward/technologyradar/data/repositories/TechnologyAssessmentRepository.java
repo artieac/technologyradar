@@ -165,7 +165,6 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                     {
                         foundMatch = true;
                         itemToSaveAssessmentItem.setDetails(assessmentItem.getDetails());
-                        itemToSaveAssessmentItem.setAssessor(assessmentItem.getAssessor());
                         itemToSaveAssessmentItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                         itemToSaveAssessmentItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         break;
@@ -177,7 +176,6 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                     TechnologyAssessmentItemEntity newItem = new TechnologyAssessmentItemEntity();
                     newItem.setTechnologyAssessment(itemToSave);
                     newItem.setDetails(assessmentItem.getDetails());
-                    newItem.setAssessor(assessmentItem.getAssessor());
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
 

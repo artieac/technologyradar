@@ -122,7 +122,7 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public TechnologyAssessment addRadarItem(Long teamId, Long assessmentId, String technologyName, String technologyDescription, String technologyUrl, Long radarRingId, Integer confidenceLevel, Long radarCategoryId, String assessmentDetails, String assessmentEvaluator)
+    public TechnologyAssessment addRadarItem(RadarUser radarUser, Long assessmentId, String technologyName, String technologyDescription, String technologyUrl, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         TechnologyAssessment retVal = null;
 
@@ -141,22 +141,21 @@ public class TechnologyAssessmentService
                 targetTechnology.setRadarCategory(this.radarCategoryRepository.findOne(radarCategoryId));
             }
 
-            retVal = this.addRadarItem(teamId, assessmentId, targetTechnology, radarRingId, confidenceLevel, assessmentDetails, assessmentEvaluator);
+            retVal = this.addRadarItem(radarUser, assessmentId, targetTechnology, radarRingId, confidenceLevel, assessmentDetails);
         }
 
         return retVal;
     }
 
-    public TechnologyAssessment addRadarItem(Long radarUserId, Long assessmentId, Technology targetTechnology, Long radarRingId, Integer confidenceLevel, String assessmentDetails, String assessmentEvaluator)
+    public TechnologyAssessment addRadarItem(RadarUser radarUser, Long assessmentId, Technology targetTechnology, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         TechnologyAssessment retVal = null;
 
         if(targetTechnology!=null)
         {
             retVal = this.technologyAssessmentRepository.findOne(assessmentId);
-            RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
+            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
             {
                 boolean alreadyIncluded = false;
 
@@ -172,7 +171,6 @@ public class TechnologyAssessmentService
                 if(alreadyIncluded == false)
                 {
                     TechnologyAssessmentItem newItem = new TechnologyAssessmentItem();
-                    newItem.setAssessor(assessmentEvaluator);
                     newItem.setDetails(assessmentDetails);
                     newItem.setRadarRing(this.radarRingRepository.findOne(radarRingId));
                     newItem.setTechnology(targetTechnology);
@@ -187,7 +185,7 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public TechnologyAssessmentItem updateAssessmentItem(Long assessmentId, Long assessmentItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails, String evaluator)
+    public TechnologyAssessmentItem updateAssessmentItem(Long assessmentId, Long assessmentItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         TechnologyAssessmentItem retVal = null;
 
@@ -198,7 +196,7 @@ public class TechnologyAssessmentService
             if(assessment != null)
             {
                 RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
-                assessment.updateAssessmentItem(assessmentItemId, radarRing, confidenceLevel, assessmentDetails, evaluator);
+                assessment.updateAssessmentItem(assessmentItemId, radarRing, confidenceLevel, assessmentDetails);
                 this.technologyAssessmentRepository.save(assessment);
             }
         }

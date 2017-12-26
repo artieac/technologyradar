@@ -5,10 +5,11 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 
     <div th:replace="fragments/header :: scriptHeader"></div>
-    <script type="text/javascript" src="script/lib/protovis-3.2/protovis-d3.2.js"></script>
-    <script type="text/javascript" charset="utf-8" src="script/utils.js"></script>
-    <script type="text/javascript" charset="utf-8" src="script/lib/lodash.underscore.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="script/Controllers/RadarController.js"></script>
+    <script type="text/javascript" src="/script/lib/protovis-3.2/protovis-d3.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/TechnologyAssessmentController.js"></script>
 
     <style type="text/css" media="screen">
 
@@ -18,24 +19,25 @@
         }
 
     </style>
-    <script type="text/javascript" src="script/radar.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/script/radar.js" charset="utf-8"></script>
 </head>
 <body>
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <div class="panel-primary"  ng-controller="RadarController">
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="dropdown pull-left">
+                    <div class="dropdown pull-left" ng-init="getTechnologyAssessments(currentUserId)">
                         <label for="assessmentDropdown">Select Assessment:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="assessmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {{selectedAssessment.name}}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="assessmentDropdown">
-                            <li ng-repeat="assessment in assessmentList"><a ng-click="assessmentDropdownSelected(assessment)">{{assessment.name}}</a></li>
+                            <li ng-repeat="assessment in assessmentList"><a ng-click="assessmentDropdownSelected(currentUserId, assessment)">{{assessment.name}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -114,22 +116,13 @@
                                         <textarea rows="10" id="newTechnologyDetails" name="newTechnologyDetails" class="form-control" ng-model="selectedAssessmentItem.details" ng-required="true" ng-minlenght="1"/>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label for="newTechnologyEvaluator">Evaluator</label>
-                                        <input type="text" id="newTechnologyEvaluator" name="newTechnologyEvaluator" class="form-control" ng-model="selectedAssessmentItem.assessor" ng-required="required"/>
-                                    </div>
-                                </div>
                             </form>
                             <div class="row">
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-primary" ng-click="clearAssessmentItemSelection();">Clear</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary" ng-click="addRadarItem();" ng-disabled="!canAddRadarItem(assessmentInputForm.$valid)">Save</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary" ng-click="clickSeeOtherUsers();" ng-disabled="!selectedAssessmentItem.technology">Other Users</button>
+                                    <button type="button" class="btn btn-primary" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(assessmentInputForm.$valid)">Save</button>
                                 </div>
                             </div>
                         </div>

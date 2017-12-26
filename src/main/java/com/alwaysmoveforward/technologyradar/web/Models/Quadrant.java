@@ -20,7 +20,6 @@ public class Quadrant
     private Integer leftLocation;
     private Integer topLocation;
     private Integer quadrantStart;
-    private List<QuadrantItem> items;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
     public Quadrant(RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight)
