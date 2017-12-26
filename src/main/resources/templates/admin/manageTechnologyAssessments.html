@@ -1,0 +1,56 @@
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+       xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/TechnologyAssessmentController.js"></script>
+
+    <style type="text/css" media="screen">
+
+        #fig {
+            height: 1000px;
+            width: 1200px;
+        }
+
+    </style>
+</head>
+<body ng-controller="TechnologyAssessmentController">
+    <div th:replace="fragments/header :: uiHeader"></div>
+    <br/><br/><br/>
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <div class="bodyContent" ng-controller="TechnologyAssessmentController" ng-init="getTechnologyAssessments(currentUserId)">
+        <div class="contentPageTitle">
+            <label>Manage Technology Assessments</label>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="20%">Name</th>
+                <th width="20%">Date</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="assessment in assessmentList">
+                    <td>{{assessment.name}}</td>
+                    <td>{{user.date}}</td>
+                    <td>
+                        <div>
+                            <a ng-click="deleteAssessment(currentUserId, assessment.id)">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-form="newTechnologyAssessmentForm">
+                    <td><input type="text" name="newName" ng-model="newTechnologyAssessment.name" required="true" /></td>
+                    <td><input type="text" name="newData" ng-model="newTechnologyAssessment.date" required="true" /></td>
+                    <td><input type="button" class="btn btn-primary" value="Add Technology Assessment" ng-click="addTechnologyAssessment(currentUserId);" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

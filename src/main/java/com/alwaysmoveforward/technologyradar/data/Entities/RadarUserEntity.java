@@ -19,6 +19,12 @@ public class RadarUserEntity {
     @Column(name = "RoleId", nullable=false)
     private int roleId;
 
+    @Column(name = "Authority", nullable=false, length = 256)
+    private String authority;
+
+    @Column(name = "Issuer", nullable=false, length = 1024)
+    private String issuer;
+
     public RadarUserEntity()
     {
 
@@ -35,4 +41,13 @@ public class RadarUserEntity {
     public int getRoleId() { return this.roleId;}
 
     public void setRoleId(int value) { this.roleId = value;}
+
+    public String getAuthority() { return this.authority;}
+
+    public void setAuthority(String value) { this.authority = value;}
+
+    public String getIssuer() { return this.issuer;}
+
+    public void setIssuer(String value) { this.issuer = value;}
+
 }

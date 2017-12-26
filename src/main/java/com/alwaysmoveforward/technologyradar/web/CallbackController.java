@@ -1,6 +1,6 @@
 package com.alwaysmoveforward.technologyradar.web;
 
-import com.alwaysmoveforward.technologyradar.security.TokenAuthentication;
+import com.alwaysmoveforward.technologyradar.security.Auth0TokenAuthentication;
 import com.alwaysmoveforward.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -36,23 +36,23 @@ public class CallbackController {
         this.redirectOnSuccess = "/home/secureradar";
     }
 
-    @RequestMapping(value = "/callback", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth0callback", method = RequestMethod.GET)
     protected void getCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
-        handle(req, res);
+        handleAuth0Callback(req, res);
     }
 
-    @RequestMapping(value = "/callback", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @RequestMapping(value = "/auth0callback", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     protected void postCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
-        handle(req, res);
+        handleAuth0Callback(req, res);
     }
 
-    private void handle(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException {
         try {
             Tokens tokens = controller.handle(req);
-            TokenAuthentication tokenAuth = new TokenAuthentication(JWT.decode(tokens.getIdToken()));
+            // TBD< switch this to an interface rather than a specific instance type
+            Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(JWT.decode(tokens.getIdToken()));
             SecurityContextHolder.getContext().setAuthentication(tokenAuth);
-
-            this.userService.addUser(tokenAuth.getPrincipal().toString());
+            this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer());
 
             res.sendRedirect(redirectOnSuccess);
         } catch (AuthenticationException | IdentityVerificationException e) {

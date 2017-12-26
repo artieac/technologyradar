@@ -34,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${com.auth0.clientSecret}")
     private String clientSecret;
 
+    @Value("${com.auth0.callbackUrl}")
+    private String callbackLocation;
+
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver
@@ -56,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/callback", "/login", "/home/radar").permitAll()
+                .antMatchers(callbackLocation, "/login", "/home/radar").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .logout().permitAll();

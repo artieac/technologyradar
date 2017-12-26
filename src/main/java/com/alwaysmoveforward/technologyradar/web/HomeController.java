@@ -2,14 +2,10 @@ package com.alwaysmoveforward.technologyradar.web;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
-import com.alwaysmoveforward.technologyradar.security.TokenAuthentication;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
 import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +40,7 @@ public class HomeController
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("userId", principal);
-        modelAndView.setViewName("/home/secureRadar");
+        modelAndView.setViewName("/home/radar");
         return modelAndView;
     }
 
@@ -53,7 +49,7 @@ public class HomeController
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", principal);
-        modelAndView.setViewName("/home/publicRadar");
+        modelAndView.setViewName("/home/radar");
         return modelAndView;
     }
 

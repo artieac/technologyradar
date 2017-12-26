@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import java.security.Principal;
 import java.util.*;
 
-public class TokenAuthentication extends AbstractAuthenticationToken {
+public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
 
     private final DecodedJWT jwt;
     private boolean invalidated;
 
-    public TokenAuthentication(DecodedJWT jwt) {
+    public Auth0TokenAuthentication(DecodedJWT jwt) {
         super(readAuthorities(jwt));
         this.jwt = jwt;
     }
@@ -50,6 +50,17 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return jwt.getSubject();
     }
+
+    public String getIdentifier()
+    {
+        // using substring instead of split because its not splitting on | for some reason
+        // even though I can see it is in it.
+        return jwt.getSubject().toString().substring(6);
+    }
+
+    public String getAuthority() { return "auth0";}
+
+    public String getIssuer() { return this.jwt.getIssuer();}
 
     public Object getPayload() { return jwt.getPayload();}
 
