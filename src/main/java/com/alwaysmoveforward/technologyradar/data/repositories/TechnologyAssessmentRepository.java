@@ -36,7 +36,7 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     RadarCategoryDAO radarCategoryDAO;
 
     @Autowired
-    AssessmentTeamDAO assessmentTeamDAO;
+    RadarUserDAO radarUserDAO;
 
     @Autowired
     TechnologyAssessmentItemDAO technologyAssessmentItemDAO;
@@ -67,11 +67,11 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     }
 
 
-    public List<TechnologyAssessment> findAllByTeam(Long teamId)
+    public List<TechnologyAssessment> findAllByRadarUser(Long radarUserId)
     {
         List<TechnologyAssessment> retVal = new ArrayList<TechnologyAssessment>();
 
-        Iterable<TechnologyAssessmentEntity> foundItems = this.entityRepository.findAllByAssessmentTeamId(teamId);
+        Iterable<TechnologyAssessmentEntity> foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
 
         for (TechnologyAssessmentEntity foundItem : foundItems)
         {
@@ -149,7 +149,7 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
         {
             itemToSave.setAssessmentDate(technologyAssessment.getAssessmentDate());
             itemToSave.setName(technologyAssessment.getName());
-            itemToSave.setAssessmentTeam(assessmentTeamDAO.findOne(technologyAssessment.getAssessmentTeam().getId()));
+            itemToSave.setRadarUser(radarUserDAO.findOne(technologyAssessment.getRadarUser().getId()));
 
             for(int i = 0; i < technologyAssessment.getTechnologyAssessmentItems().size(); i++)
             {
@@ -165,7 +165,6 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                     {
                         foundMatch = true;
                         itemToSaveAssessmentItem.setDetails(assessmentItem.getDetails());
-                        itemToSaveAssessmentItem.setAssessor(assessmentItem.getAssessor());
                         itemToSaveAssessmentItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                         itemToSaveAssessmentItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         break;
@@ -177,7 +176,6 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                     TechnologyAssessmentItemEntity newItem = new TechnologyAssessmentItemEntity();
                     newItem.setTechnologyAssessment(itemToSave);
                     newItem.setDetails(assessmentItem.getDetails());
-                    newItem.setAssessor(assessmentItem.getAssessor());
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
 

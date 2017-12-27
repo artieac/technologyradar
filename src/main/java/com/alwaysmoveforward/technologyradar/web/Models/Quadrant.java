@@ -1,5 +1,6 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarRing;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarCategory;
@@ -20,15 +21,19 @@ public class Quadrant
     private Integer leftLocation;
     private Integer topLocation;
     private Integer quadrantStart;
-    private List<QuadrantItem> items;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight)
+    public Quadrant(RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
     {
         this.radarCategory = radarCategory;
         this.quadrantStart = radarCategory.getQuadrantStart();
         this.calculateLeftAndTop(diagramWidth, diagramHeight);
         this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
+
+        for(int i = 0; i < radarRings.size(); i++)
+        {
+            this.quadrantRings.put(radarRings.get(i).getRadarRing().getId(), new ArrayList<QuadrantItem>());
+        }
     }
 
     private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight)

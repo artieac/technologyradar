@@ -22,9 +22,6 @@ public class TechnologyAssessmentItemEntity
     @JoinColumn(name = "TechnologyId", nullable=false)
     private TechnologyEntity technology;
 
-    @Column(name = "Assessor", nullable = false, length = 255)
-    private String assessor;
-
     @Column(name = "Details", nullable = false, length = 4096)
     private String details;
 
@@ -51,10 +48,6 @@ public class TechnologyAssessmentItemEntity
     public TechnologyEntity getTechnology() { return this.technology;}
 
     public void setTechnology(TechnologyEntity value) { this.technology = value;}
-
-    public String getAssessor() { return this.assessor;}
-
-    public void setAssessor(String value) { this.assessor = value;}
 
     public String getDetails() { return this.details;}
 

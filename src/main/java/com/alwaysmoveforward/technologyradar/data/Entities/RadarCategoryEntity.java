@@ -20,7 +20,7 @@ public class RadarCategoryEntity
     @Column(name = "Color", nullable=false, length=512)
     private String color;
 
-    @Column(name = "QuadrantStart", nullable=false, length=512)
+    @Column(name = "QuadrantStart", nullable=false)
     private Integer quadrantStart;
 
     public RadarCategoryEntity()

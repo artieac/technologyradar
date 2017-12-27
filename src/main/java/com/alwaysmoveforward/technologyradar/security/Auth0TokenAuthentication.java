@@ -10,14 +10,21 @@ import org.springframework.stereotype.Component;
 import java.security.Principal;
 import java.util.*;
 
-public class TokenAuthentication extends AbstractAuthenticationToken {
+public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
 
     private final DecodedJWT jwt;
     private boolean invalidated;
+    private String userEmail;
+    private String userNickname;
 
-    public TokenAuthentication(DecodedJWT jwt) {
+    public Auth0TokenAuthentication(DecodedJWT jwt) {
         super(readAuthorities(jwt));
         this.jwt = jwt;
+
+        Claim emailClaim = jwt.getClaim("https://www.alwaysmoveforward.com/email");
+        this.setUserEmail(emailClaim.asString());
+        Claim nicknameClaim = jwt.getClaim("https://www.alwaysmoveforward.com/nickname");
+        this.setUserNickname(nicknameClaim.asString());
     }
 
     private boolean hasExpired() {
@@ -40,7 +47,6 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
         return authorities;
     }
 
-
     @Override
     public String getCredentials() {
         return jwt.getToken();
@@ -50,6 +56,23 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return jwt.getSubject();
     }
+
+    public String getUserEmail() { return this.userEmail;}
+    public void setUserEmail(String value) { this.userEmail = value;}
+
+    public String getUserNickname() { return this.userNickname;}
+    public void setUserNickname(String value) { this.userNickname = value;}
+
+    public String getIdentifier()
+    {
+        // using substring instead of split because its not splitting on | for some reason
+        // even though I can see it is in it.
+        return jwt.getSubject().toString().substring(6);
+    }
+
+    public String getAuthority() { return "auth0";}
+
+    public String getIssuer() { return this.jwt.getIssuer();}
 
     public Object getPayload() { return jwt.getPayload();}
 

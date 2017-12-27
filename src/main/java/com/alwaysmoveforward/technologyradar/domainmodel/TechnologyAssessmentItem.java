@@ -11,8 +11,6 @@ public class TechnologyAssessmentItem implements Serializable
 
     private String details;
 
-    private String assessor;
-
     private RadarRing radarRing;
 
     private Technology technology;
@@ -31,10 +29,6 @@ public class TechnologyAssessmentItem implements Serializable
     public String getDetails() { return details;}
 
     public void setDetails(String details) { this.details = details;}
-
-    public String getAssessor() { return assessor;}
-
-    public void setAssessor(String creator) { this.assessor = creator;}
 
     public RadarRing getRadarRing() { return this.radarRing;}
 

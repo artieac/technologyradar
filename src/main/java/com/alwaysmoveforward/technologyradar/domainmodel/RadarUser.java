@@ -16,6 +16,14 @@ public class RadarUser {
 
     private int roleId;
 
+    private String authority;
+
+    private String issuer;
+
+    private String email;
+
+    private String nickname;
+
     public RadarUser()
     {
 
@@ -32,4 +40,20 @@ public class RadarUser {
     public int getRoleId() { return this.roleId;}
 
     public void setRoleId(int value) { this.roleId = value;}
+
+    public String getAuthority() { return this.authority;}
+
+    public void setAuthority(String value) { this.authority = value;}
+
+    public String getIssuer() { return this.issuer;}
+
+    public void setIssuer(String value) { this.issuer = value;}
+
+    public String getEmail() { return this.email;}
+
+    public void setEmail(String value) { this.email = value;}
+
+    public String getNickname() { return this.nickname;}
+
+    public void setNickname(String value) { this.nickname = value;}
 }

@@ -25,8 +25,8 @@ public class TechnologyAssessmentEntity
     private Date assessmentDate;
 
     @OneToOne
-    @JoinColumn(name = "AssessmentTeamId", nullable = false)
-    private AssessmentTeamEntity assessmentTeam;
+    @JoinColumn(name = "RadarUserId", nullable = false)
+    private RadarUserEntity radarUser;
 
     @OneToMany(mappedBy = "technologyAssessment")
     private List<TechnologyAssessmentItemEntity> technologyAssessments;
@@ -48,9 +48,9 @@ public class TechnologyAssessmentEntity
 
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
 
-    public AssessmentTeamEntity getAssessmentTeam() { return this.assessmentTeam;}
+    public RadarUserEntity getRadarUser() { return this.radarUser;}
 
-    public void setAssessmentTeam(AssessmentTeamEntity value) { this.assessmentTeam = value;}
+    public void setRadarUser(RadarUserEntity value) { this.radarUser = value;}
 
     public List<TechnologyAssessmentItemEntity> getTechnologyAssessmentItems() { return this.technologyAssessments;}
 
