@@ -20,6 +20,10 @@ public class RadarUser {
 
     private String issuer;
 
+    private String email;
+
+    private String nickname;
+
     public RadarUser()
     {
 
@@ -45,4 +49,11 @@ public class RadarUser {
 
     public void setIssuer(String value) { this.issuer = value;}
 
+    public String getEmail() { return this.email;}
+
+    public void setEmail(String value) { this.email = value;}
+
+    public String getNickname() { return this.nickname;}
+
+    public void setNickname(String value) { this.nickname = value;}
 }

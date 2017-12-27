@@ -14,10 +14,17 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
 
     private final DecodedJWT jwt;
     private boolean invalidated;
+    private String userEmail;
+    private String userNickname;
 
     public Auth0TokenAuthentication(DecodedJWT jwt) {
         super(readAuthorities(jwt));
         this.jwt = jwt;
+
+        Claim emailClaim = jwt.getClaim("https://www.alwaysmoveforward.com/email");
+        this.setUserEmail(emailClaim.asString());
+        Claim nicknameClaim = jwt.getClaim("https://www.alwaysmoveforward.com/nickname");
+        this.setUserNickname(nicknameClaim.asString());
     }
 
     private boolean hasExpired() {
@@ -40,7 +47,6 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
         return authorities;
     }
 
-
     @Override
     public String getCredentials() {
         return jwt.getToken();
@@ -50,6 +56,12 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return jwt.getSubject();
     }
+
+    public String getUserEmail() { return this.userEmail;}
+    public void setUserEmail(String value) { this.userEmail = value;}
+
+    public String getUserNickname() { return this.userNickname;}
+    public void setUserNickname(String value) { this.userNickname = value;}
 
     public String getIdentifier()
     {

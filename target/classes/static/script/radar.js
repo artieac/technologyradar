@@ -98,7 +98,7 @@ for (var i = 0; i < radar_data.length; i++) {
       }
       return 0;
     });
-    
+
     offsetIndex = -1;
 
     for(var stageIdx = 0; stageIdx < 4; stageIdx++){
