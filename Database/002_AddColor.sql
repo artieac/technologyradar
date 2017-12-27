@@ -34,3 +34,6 @@ INSERT INTO RadarCategories (Name, Color, QuadrantStart) VALUES ('Platforms', '#
 INSERT INTO RadarCategories (Name, Color, QuadrantStart) VALUES ('Languages and Frameworks', '#B70062', 270);
 
 ALTER TABLE `Technology` ADD RadarCategoryId INT NOT NULL;
+
+ALTER TABLE `TechnologyAssessmentItems` DROP RadarCategoryId;
+ALTER TABLE `TechnologyAssessmentItems` DROP Assessor;
