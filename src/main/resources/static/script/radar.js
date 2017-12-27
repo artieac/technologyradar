@@ -99,15 +99,12 @@ for (var i = 0; i < radar_data.length; i++) {
       return 0;
     });
     
-    var offsetIndex = 0;
-    for (var stageIdx in _(itemsByStage).keys()) {
+    offsetIndex = -1;
 
-        if (itemsByStage !== null && itemsByStage !== undefined && itemsByStage[stageIdx-1] !== null && itemsByStage[stageIdx - 1] !== undefined && stageIdx > 0) {
-            offsetIndex = offsetIndex + itemsByStage[stageIdx-1].length + 1; 
-            console.log("offsetIndex = " + itemsByStage[stageIdx-1].length, offsetIndex );
-        }
+    for(var stageIdx = 0; stageIdx < 4; stageIdx++){
+        offsetIndex++;
 
-        radar.add(pv.Label)         
+        radar.add(pv.Label)
             .left( radar_data[i].left + headingFontSize )
             .top( radar_data[i].top + quadrantFontSize + spacer + (stageIdx * headingFontSize) + (offsetIndex * fontSize) )
             .text( radar_arcs[stageIdx].name)

@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyAssessmentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyAssessmentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/Quadrant.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/Quadrant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/radar.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/radar.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/utils.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/utils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/script/radar.js" afterPath="$PROJECT_DIR$/target/classes/static/script/radar.js" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,13 +30,23 @@
       <file leaf-file-name="TechnologyAssessmentController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyAssessmentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
+            <state relative-caret-position="3053">
               <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3341#3370#0" expanded="true" />
                 <element signature="e#3787#3803#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadarController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="724">
+              <caret line="35" column="73" lean-forward="true" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="73" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -66,31 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DiagramPresentation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/DiagramPresentation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="29" column="32" lean-forward="false" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Quadrant.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/Quadrant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1848">
-              <caret line="78" column="0" lean-forward="true" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="radar.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/radar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="146" column="80" lean-forward="false" selection-start-line="146" selection-start-column="80" selection-end-line="146" selection-end-column="80" />
+            <state relative-caret-position="328">
+              <caret line="100" column="4" lean-forward="false" selection-start-line="100" selection-start-column="4" selection-end-line="100" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -109,8 +96,18 @@
       <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="726">
-              <caret line="58" column="50" lean-forward="false" selection-start-line="58" selection-start-column="50" selection-end-line="58" selection-end-column="50" />
+            <state relative-caret-position="-142">
+              <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadarController.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2973">
+              <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -119,21 +116,21 @@
       <file leaf-file-name="WebSecurityConfig.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="889">
-              <caret line="65" column="47" lean-forward="false" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
+            <state relative-caret-position="790">
+              <caret line="62" column="36" lean-forward="false" selection-start-line="62" selection-start-column="36" selection-end-line="62" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1514302185043" expanded="true" signature="2455:2680" ph="{...}" />
+                <marker date="1514346844151" expanded="true" signature="2455:2680" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PolarCoords.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/PolarCoords.java">
+      <file leaf-file-name="ControllerBase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="726">
+              <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -161,6 +158,7 @@
       <find>canadd</find>
       <find>addRadarItem</find>
       <find>polar_to_raster</find>
+      <find>offset</find>
     </findStrings>
     <replaceStrings>
       <replace>alwaysmoveforward</replace>
@@ -205,7 +203,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Controllers/AssessmentController.js" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/admin/manageAssessments.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/LoginController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java" />
@@ -221,7 +218,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Services/UserService.js" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/TechnologyAssessmentItemEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/TechnologyAssessment.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/TechnologyAssessmentRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/TechnologyAssessmentItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/TechnologyAssessmentService.java" />
@@ -231,6 +227,8 @@
         <option value="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/utils.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/radar.js" />
       </list>
     </option>
@@ -1479,12 +1477,12 @@
       <workItem from="1514057831529" duration="7000" />
       <workItem from="1514058049539" duration="12050000" />
       <workItem from="1514299934076" duration="1689000" />
-      <workItem from="1514301669455" duration="25952000" />
+      <workItem from="1514301669455" duration="30187000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157257000" />
+    <option name="totallyTimeSpent" value="161492000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
@@ -1808,16 +1806,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.4.RELEASE/spring-web-4.3.4.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="395">
@@ -1834,26 +1822,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-497">
-          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/DiagramConfigurationService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="724">
-          <caret line="35" column="73" lean-forward="true" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="73" />
           <folding />
         </state>
       </provider>
@@ -1906,18 +1878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyAssessmentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3341#3370#0" expanded="true" />
-            <element signature="e#3787#3803#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/Quadrant.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1848">
@@ -1944,25 +1904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="58" column="50" lean-forward="false" selection-start-line="58" selection-start-column="50" selection-end-line="58" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="889">
-          <caret line="65" column="47" lean-forward="false" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1514302185043" expanded="true" signature="2455:2680" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
@@ -1971,10 +1912,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2973">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-142">
+          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="724">
+          <caret line="35" column="73" lean-forward="true" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyAssessmentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3053">
+          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3341#3370#0" expanded="true" />
+            <element signature="e#3787#3803#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="790">
+          <caret line="62" column="36" lean-forward="false" selection-start-line="62" selection-start-column="36" selection-end-line="62" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1514346844151" expanded="true" signature="2455:2680" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="27" column="12" lean-forward="false" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/radar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="146" column="80" lean-forward="false" selection-start-line="146" selection-start-column="80" selection-end-line="146" selection-end-column="80" />
+        <state relative-caret-position="328">
+          <caret line="100" column="4" lean-forward="false" selection-start-line="100" selection-start-column="4" selection-end-line="100" selection-end-column="4" />
           <folding />
         </state>
       </provider>
