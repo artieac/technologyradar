@@ -78,7 +78,7 @@ public class TechnologyAssessmentController extends ControllerBase
 
         for(RadarCategory radarCategory : radarCategories)
         {
-            Quadrant newQuadrant = new Quadrant(radarCategory, retVal.getWidth(), retVal.getHeight());
+            Quadrant newQuadrant = new Quadrant(radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
         }

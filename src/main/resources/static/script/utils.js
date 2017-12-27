@@ -19,6 +19,7 @@ function raster_to_cartesian(rx,ry, w, h) {
 }
 
 function polar_to_raster(r,t, w, h) {
+  console.log("r-" + r + "::t-" + t + "::w-" + w + "::h-" + h);
   var xy= polar_to_cartesian(r,t, w, h);
   return cartesian_to_raster(xy[0], xy[1], w, h);
 }

@@ -79,7 +79,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
             radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
             radarSaveItem.technologyDescription = $scope.selectedAssessmentItem.technology.description;
             radarSaveItem.radarRing = $scope.selectedRadarRing.id;
-            radarSaveItem.radarCategoryId = $scope.selectedRadarCategory.id;
 
             if($scope.selectedAssessmentItem.confidenceFactor === undefined)
             {
@@ -89,7 +88,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
             radarSaveItem.confidenceLevel = $scope.selectedAssessmentItem.confidenceFactor;
             radarSaveItem.assessmentDetails = $scope.selectedAssessmentItem.details;
 
-            alert(radarSaveItem.radarCategoryId);
             $http.post('/api/User/' + userId + '/TechnologyAssessment/' + $scope.selectedAssessment.id + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);
@@ -105,7 +103,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
             radarSaveItem.evaluator = $scope.selectedAssessmentItem.assessor;
             radarSaveItem.radarCategoryId = $scope.selectedRadarCategory.id;
 
-            alert(radarSaveItem.radarCategoryId);
             $http.post('/api/User/' + userId + '/TechnologyAssessment/' + $scope.selectedAssessment.id + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);

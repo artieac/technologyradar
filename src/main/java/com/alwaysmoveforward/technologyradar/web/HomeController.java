@@ -56,7 +56,7 @@ public class HomeController extends ControllerBase
     }
 
     @RequestMapping(value = { "/", "/home/radar/{userId}" })
-    public ModelAndView publicRadar(long userId)
+    public ModelAndView publicRadar(@PathVariable long userId)
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
