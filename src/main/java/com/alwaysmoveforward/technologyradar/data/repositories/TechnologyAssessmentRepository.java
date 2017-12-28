@@ -85,7 +85,7 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
     {
         List<TechnologyAssessment> retVal = new ArrayList<TechnologyAssessment>();
 
-        String query = "select ta.Id, ta.Name, ta.AssessmentDate, ta.AssessmentTeamId";
+        String query = "select ta.Id, ta.Name, ta.AssessmentDate, ta.RadarUserId";
         query += " FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
 
         Query q = this.entityManager.createNativeQuery(query, TechnologyAssessmentEntity.class);

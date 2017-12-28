@@ -101,8 +101,30 @@ for (var i = 0; i < radar_data.length; i++) {
 
     offsetIndex = -1;
 
-    for(var stageIdx = 0; stageIdx < 4; stageIdx++){
-        offsetIndex++;
+    for(var stageIdx = 0; stageIdx < 4; stageIdx++) {
+
+        if(stageIdx > 0)
+        {
+            if (itemsByStage[stageIdx - 1] !==  null && itemsByStage[stageIdx - 1] !== undefined)
+            {
+                if(itemsByStage[stageIdx- 1].length !== null && itemsByStage[stageIdx- 1].length !== undefined)
+                {
+                    offsetIndex += itemsByStage[stageIdx- 1].length;
+                }
+                else
+                {
+                    offsetIndex++;
+                }
+            }
+            else
+            {
+                offsetIndex++;
+            }
+        }
+        else
+        {
+            offsetIndex++;
+        }
 
         radar.add(pv.Label)
             .left( radar_data[i].left + headingFontSize )
