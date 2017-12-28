@@ -7,6 +7,7 @@ import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentServic
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import com.alwaysmoveforward.technologyradar.web.Models.DiagramPresentation;
 import com.alwaysmoveforward.technologyradar.web.Models.Quadrant;
+import com.alwaysmoveforward.technologyradar.web.Models.QuadrantItem;
 import com.alwaysmoveforward.technologyradar.web.Models.RadarRingPresentation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by acorrea on 12/24/2017.
@@ -111,6 +113,11 @@ public class TechnologyAssessmentController extends ControllerBase
                     targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
                 }
             }
+        }
+
+        for(int i = 0; i < retVal.getQuadrants().size(); i++)
+        {
+            retVal.getQuadrants().get(i).evenlyDistributeItems();
         }
 
         return retVal;

@@ -105,7 +105,10 @@ public class Quadrant
 
         stateItems.add(newItem);
         this.quadrantRings.put(radarRing.getRadarRing().getId(), stateItems);
+    }
 
+    public void evenlyDistributeItems()
+    {
         Set<Long> stateIds  = this.quadrantRings.keySet();
 
         for(Long stateId : stateIds)
