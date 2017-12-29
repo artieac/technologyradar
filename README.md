@@ -31,12 +31,12 @@ Deployment is coming in the next branch.  It will be deployed in a container to 
 
 ## Built With
 
-* [Java SDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - The web framework used
+* [Java SDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Java SDK
 * [Spring Boot](https://projects.spring.io/spring-boot/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [Intellij](https://www.jetbrains.com/idea/) - IDE
 * [MySQL](https://www.mysql.com/) - Database
-* [Auth0] (https://auth0.com/) - Identity
+* [Auth0](https://auth0.com/) - Identity
 
 ## Contributing
 

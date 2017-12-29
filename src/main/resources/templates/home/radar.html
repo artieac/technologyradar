@@ -25,6 +25,7 @@
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input type="hidden" id="assessmentId" name="assessmentId" th:value="${assessmentId}"/>
     <div class="panel-primary"  ng-controller="RadarController">
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
@@ -74,10 +75,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="newTechnologyDescription">Description</label>
+                                    <label for="newTechnologyUrl">Url</label>
                                     <div class="form-group">
-                                        <p ng-show="assessmentInputForm.newTechnologyDescription.$error.required">A description is required</p>
-                                        <textarea rows="10" class="form-control" id="newTechnologyDescription" name="newTechnologyDescription" ng-model="selectedAssessmentItem.technology.description" ng-required="true"/>
+                                        <p ng-show="assessmentInputForm.newTechnologyUrl.$error.required">A Url is required</p>
+                                        <input type="text" class="form-control" id="newTechnologyUrl" name="newTechnologyUrl" ng-model="selectedAssessmentItem.technology.url" ng-required="true"/>
                                     </div>
                                 </div>
                                 <div class="row"  ng-init="getRadarRings()">

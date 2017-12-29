@@ -35,9 +35,6 @@ public class TechnologyEntity
     @Column(name = "Creator", nullable = false, length = 255)
     private String creator;
 
-    @Column(name = "Description", nullable = false, length = 255)
-    private String description;
-
     @Column(name = "Url", nullable = false, length = 255)
     private String url;
 
@@ -66,13 +63,9 @@ public class TechnologyEntity
 
     public void setCreator(String value) { this.creator = value;}
 
-    public String getDescription() { return this.description;}
-
-    public void setDescription(String value) { this.description = value;}
-
     public String getUrl() { return this.url;}
 
-    public void setUrl(String value) { this.creator = value;}
+    public void setUrl(String value) { this.url = value;}
 
     public RadarCategoryEntity getRadarCategory() { return this.radarCategory;}
 

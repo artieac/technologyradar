@@ -15,7 +15,7 @@ import java.util.List;
 public class TechnologyBreakdown
 {
     Technology targetTechnology;
-    Hashtable<Long, List<TechnologyAssessmentItem>> userAssessments;
+    List<TechnologyBreakdownItem> items;
 
     public TechnologyBreakdown(Technology technology)
     {
@@ -24,7 +24,7 @@ public class TechnologyBreakdown
 
     public Technology getTargetTechnology() { return this.targetTechnology; }
 
-    public Hashtable<Long, List<TechnologyAssessmentItem>> getTeamAssessments() { return this.userAssessments;}
+    public List<TechnologyBreakdownItem> getItems() { return this.items;}
 
     public void addTechnologyAssessment(TechnologyAssessment technologyAssessment)
     {
@@ -34,29 +34,27 @@ public class TechnologyBreakdown
             {
                 if (technologyAssessment.getTechnologyAssessmentItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addTechnologyAssessmentItem(technologyAssessment.getRadarUser(), technologyAssessment.getTechnologyAssessmentItems().get(i));
+                    this.addTechnologyAssessmentItem(technologyAssessment, technologyAssessment.getTechnologyAssessmentItems().get(i));
                     break;
                 }
             }
         }
     }
 
-    public void addTechnologyAssessmentItem(RadarUser radarUser, TechnologyAssessmentItem assessmentItem)
+    public void addTechnologyAssessmentItem(TechnologyAssessment assessment, TechnologyAssessmentItem assessmentItem)
     {
-        if(userAssessments == null)
+        if(this.items == null)
         {
-            userAssessments = new Hashtable<>();
+            this.items = new ArrayList<TechnologyBreakdownItem>();
         }
 
-        if(userAssessments.containsKey(radarUser.getId()))
-        {
-            userAssessments.get(radarUser.getId()).add(assessmentItem);
-        }
-        else
-        {
-            List<TechnologyAssessmentItem> newList = new ArrayList<>();
-            newList.add(assessmentItem);
-            userAssessments.put(radarUser.getId(), newList);
-        }
+        TechnologyBreakdownItem newItem = new TechnologyBreakdownItem();
+        newItem.setAssessmentId(assessment.getId());
+        newItem.setAssessmentName(assessment.getName());
+        newItem.setAssessmentDate(assessment.getAssessmentDate());
+        newItem.setAssessmentUser(assessment.getRadarUser());
+        newItem.setAssessmentRing(assessmentItem.getRadarRing());
+        newItem.setAssessmentDetails(assessmentItem.getDetails());
+        this.items.add(newItem);
     }
 }

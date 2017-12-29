@@ -1,25 +1,28 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarRing;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class DiagramPresentation
-{
+public class DiagramPresentation {
     private Integer height;
     private Integer width;
     private Integer rangeWidth;
+    private Long assessmentId;
+    private String assessmentName;
+    private Date assessmentDate;
     private List<Quadrant> quadrantList;
     private List<RadarRingPresentation> radarArcs;
     private List<RadarRing> radarRings;
 
-    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth)
-    {
+    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth) {
         this.height = height;
         this.width = width;
         this.rangeWidth = rangeWidth;
@@ -27,21 +30,52 @@ public class DiagramPresentation
     }
 
     @JsonProperty
-    public Integer getHeight() { return this.height;}
+    public Integer getHeight() {
+        return this.height;
+    }
 
     @JsonProperty
-    public Integer getWidth() { return this.width;}
+    public Integer getWidth() {
+        return this.width;
+    }
 
     @JsonProperty
-    public Integer getRangeWidth() { return this.rangeWidth;}
+    public Integer getRangeWidth() {
+        return this.rangeWidth;
+    }
+
+    public Long getAssessmentId() {
+        return this.assessmentId;
+    }
+
+    public String getAssessmentName() {
+        return this.assessmentName;
+    }
+
+    public Date getAssessmentDate() {
+        return this.assessmentDate;
+    }
 
     @JsonProperty
-    public List<RadarRingPresentation> getRadarArcs() { return this.radarArcs;}
+    public List<RadarRingPresentation> getRadarArcs() {
+        return this.radarArcs;
+    }
 
     @JsonProperty
-    public List<Quadrant> getQuadrants() { return this.quadrantList;}
+    public List<Quadrant> getQuadrants() {
+        return this.quadrantList;
+    }
 
-    @JsonProperty List<RadarRing> getRadarRings() { return this.radarRings;}
+    @JsonProperty
+    List<RadarRing> getRadarRings() {
+        return this.radarRings;
+    }
+
+    public void setAssessmentDetails(TechnologyAssessment technologyAssessment){
+        this.assessmentId = technologyAssessment.getId();
+        this.assessmentName = technologyAssessment.getName();
+        this.assessmentDate = technologyAssessment.getAssessmentDate();
+    }
 
     public void sddRadarArc(RadarRing radarRing)
     {

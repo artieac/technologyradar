@@ -102,28 +102,14 @@ for (var i = 0; i < radar_data.length; i++) {
     offsetIndex = -1;
 
     for(var stageIdx = 0; stageIdx < 4; stageIdx++) {
+        offsetIndex++;
 
-        if(stageIdx > 0)
-        {
-            if (itemsByStage[stageIdx - 1] !==  null && itemsByStage[stageIdx - 1] !== undefined)
-            {
-                if(itemsByStage[stageIdx- 1].length !== null && itemsByStage[stageIdx- 1].length !== undefined)
-                {
-                    offsetIndex += itemsByStage[stageIdx- 1].length;
-                }
-                else
-                {
-                    offsetIndex++;
+        if(stageIdx > 0) {
+            if (itemsByStage[stageIdx - 1] !== null && itemsByStage[stageIdx - 1] !== undefined) {
+                if (itemsByStage[stageIdx - 1].length !== null && itemsByStage[stageIdx - 1].length !== undefined) {
+                    offsetIndex += itemsByStage[stageIdx - 1].length;
                 }
             }
-            else
-            {
-                offsetIndex++;
-            }
-        }
-        else
-        {
-            offsetIndex++;
         }
 
         radar.add(pv.Label)
@@ -145,7 +131,7 @@ for (var i = 0; i < radar_data.length; i++) {
                 .top( function() { return ( this.i() + (this.index * fontSize) );} )
                 .shape( function(d) {return (d.movement === 't' ? "triangle" : "circle");})
                 .cursor( function(d) {
-                    console.log("Item-" + d.name + '::R-' +  d.pc.r + '::t' + d.pc.t);
+//                    console.log("Item-" + d.name + '::R-' +  d.pc.r + '::t' + d.pc.t);
                     return ( d.url !== undefined ? "pointer" : "auto" );
                 })
                 .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})

@@ -1,6 +1,7 @@
 package com.alwaysmoveforward.technologyradar.domainmodel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,16 @@ public class TechnologyAssessment implements Serializable
 
     public void setRadarUser(RadarUser value) { this.radarUser = value;}
 
+    public void addAssessmentItem(TechnologyAssessmentItem newAssessmentItem)
+    {
+        if(this.technologyAssessments == null)
+        {
+            this.technologyAssessments = new ArrayList<TechnologyAssessmentItem>();
+        }
+
+        this.technologyAssessments.add(newAssessmentItem);
+    }
+
     public void updateAssessmentItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         for(int i = 0; i < this.getTechnologyAssessmentItems().size(); i++)
@@ -62,6 +73,20 @@ public class TechnologyAssessment implements Serializable
                 currentItem.setConfidenceFactor(confidenceLevel);
                 currentItem.setDetails(assessmentDetails);
                 break;
+            }
+        }
+    }
+
+    public void removeAssessmentItem(Long assessmentItemId){
+
+        if(this.technologyAssessments != null)
+        {
+            for(int i = 0; i < this.technologyAssessments.size(); i++)
+            {
+                if(this.technologyAssessments.get(i).getId() == assessmentItemId){
+                    this.technologyAssessments.remove(i);
+                    break;
+                }
             }
         }
     }

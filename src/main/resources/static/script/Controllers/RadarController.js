@@ -15,8 +15,21 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
 
 
     $scope.getTechnologyAssessments = function(userId) {
-        var getTechnologyAssessmentRequest = $resource ('/api/User/:userId/TechnologyAssessments', { userId: userId});
-        $scope.assessmentList = getTechnologyAssessmentRequest.query();
+        var getTechnologyAssessmentRequest = $resource ('/api/TechnologyAssessments/User/:userId', { userId: userId});
+        $scope.assessmentList = getTechnologyAssessmentRequest.query(function(data){
+            var assessmentId = $("#assessmentId").val();
+
+            if(assessmentId!==null &&
+                assessmentId!==undefined &&
+                assessmentId!==''){
+                for(var i = 0; i < data.length; i++) {
+                    if(data[i].id==assessmentId){
+                        $scope.assessmentDropdownSelected(userId, data[i]);
+                        break;
+                    }
+                }
+            }
+        })
     }
 
     $scope.assessmentDropdownSelected = function(userId, assessment) {
@@ -24,7 +37,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
 
         /// I know i can just use the item passed into this, makign an extra call now because I know I want to
         // switch the team/assessment lists into just names/ids
-        var getRadarDataRequest = $resource('/api/User/' + userId + '/TechnologyAssessment/' + assessment.id);
+        var getRadarDataRequest = $resource('/api/TechnologyAssessment/' + assessment.id + '/User/' + userId);
         getRadarDataRequest.get(function(data){
             $scope.renderRadar(data);
         });
@@ -77,7 +90,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
         {
             radarSaveItem.technologyName = $scope.selectedAssessmentItem.technology.name;
             radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
-            radarSaveItem.technologyDescription = $scope.selectedAssessmentItem.technology.description;
+            radarSaveItem.url = $scope.selectedAssessmentItem.technology.url;
             radarSaveItem.radarRing = $scope.selectedRadarRing.id;
 
             if($scope.selectedAssessmentItem.confidenceFactor === undefined)
@@ -88,7 +101,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
             radarSaveItem.confidenceLevel = $scope.selectedAssessmentItem.confidenceFactor;
             radarSaveItem.assessmentDetails = $scope.selectedAssessmentItem.details;
 
-            $http.post('/api/User/' + userId + '/TechnologyAssessment/' + $scope.selectedAssessment.id + '/Item', radarSaveItem)
+            $http.post('/api/TechnologyAssessment/' + $scope.selectedAssessment.id  + '/User/' + userId + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);
                     $scope.clearAssessmentItemSelection();
@@ -103,7 +116,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
             radarSaveItem.evaluator = $scope.selectedAssessmentItem.assessor;
             radarSaveItem.radarCategoryId = $scope.selectedRadarCategory.id;
 
-            $http.post('/api/User/' + userId + '/TechnologyAssessment/' + $scope.selectedAssessment.id + '/Item', radarSaveItem)
+            $http.post('/api/TechnologyAssessment/' + $scope.selectedAssessment.id  + '/User/' + userId + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);
                     $scope.clearAssessmentItemSelection();

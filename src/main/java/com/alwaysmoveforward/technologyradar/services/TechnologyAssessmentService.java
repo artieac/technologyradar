@@ -122,7 +122,7 @@ public class TechnologyAssessmentService
         return retVal;
     }
 
-    public TechnologyAssessment addRadarItem(RadarUser radarUser, Long assessmentId, String technologyName, String technologyDescription, String technologyUrl, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
+    public TechnologyAssessment addRadarItem(RadarUser radarUser, Long assessmentId, String technologyName, String technologyUrl, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         TechnologyAssessment retVal = null;
 
@@ -135,7 +135,6 @@ public class TechnologyAssessmentService
                 targetTechnology = new Technology();
                 targetTechnology.setName(technologyName);
                 targetTechnology.setCreateDate(new Date());
-                targetTechnology.setDescription(technologyDescription);
                 targetTechnology.setUrl(technologyUrl);
                 targetTechnology.setCreator("");
                 targetTechnology.setRadarCategory(this.radarCategoryRepository.findOne(radarCategoryId));
@@ -199,6 +198,20 @@ public class TechnologyAssessmentService
                 assessment.updateAssessmentItem(assessmentItemId, radarRing, confidenceLevel, assessmentDetails);
                 this.technologyAssessmentRepository.save(assessment);
             }
+        }
+        return retVal;
+    }
+
+    public boolean deleteAssessmentItem(Long assessmentId, Long assessmentItemId, Long radarUserId){
+        boolean retVal = false;
+
+        TechnologyAssessment assessment = this.technologyAssessmentRepository.findByIdAndRadarUserId(assessmentId, radarUserId);
+
+        if(assessment!=null)
+        {
+            assessment.removeAssessmentItem(assessmentItemId);
+            this.technologyAssessmentRepository.save(assessment);
+            retVal = true;
         }
         return retVal;
     }
