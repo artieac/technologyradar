@@ -34,27 +34,27 @@ public class TechnologyAssessmentController extends ControllerBase
     @Autowired
     private DiagramConfigurationService radarSetupService;
 
-    @RequestMapping(value = "/User/{id}/TechnologyAssessments", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/TechnologyAssessments/User/{id}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<TechnologyAssessment> getRadarUserAssessments(@PathVariable Long id)
     {
         return this.technologyAssessmentService.findByRadarUserId(id);
     }
 
-    @RequestMapping(value = "/User/{radarUserId}/TechnologyAssessment", method = RequestMethod.POST)
+    @RequestMapping(value = "/TechnologyAssessments/User/{radarUserId}", method = RequestMethod.POST)
     public @ResponseBody List<TechnologyAssessment> addTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId)
     {
         this.technologyAssessmentService.addRadarUserAssessment(radarUserId, modelMap.get("name").toString());
         return this.technologyAssessmentService.findByRadarUserId(radarUserId);
     }
 
-    @RequestMapping(value = "/User/{radarUserId}/TechnologyAssessment/{assessmentId}", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/TechnologyAssessment/{assessmentId}/User/{radarUserId}", produces = "application/json", method = RequestMethod.GET)
     public @ResponseBody DiagramPresentation getTeamAssessment(@PathVariable Long radarUserId, @PathVariable Long assessmentId)
     {
         DiagramPresentation retVal = this.generateDiagramData(radarUserId, assessmentId);
         return retVal;
     }
 
-    @RequestMapping(value = "/User/{radarUserId}/TechnologyAssessment/{assessmentId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/TechnologyAssessment/{assessmentId}/User/{radarUserId}", method = RequestMethod.PUT)
     public @ResponseBody List<TechnologyAssessment> updateTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long assessmentId)
     {
         this.technologyAssessmentService.updateUserAssessment(radarUserId, assessmentId, modelMap.get("name").toString());
@@ -124,7 +124,7 @@ public class TechnologyAssessmentController extends ControllerBase
     }
 
 
-    @RequestMapping(value = "/User/{radarUserId}/TechnologyAssessment/{assessmentId}/Item", method = RequestMethod.POST)
+    @RequestMapping(value = "/TechnologyAssessment/{assessmentId}/User/{radarUserId}/Item", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation addRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long assessmentId)
     {
         String technologyName = modelMap.get("technologyName").toString();
@@ -153,7 +153,7 @@ public class TechnologyAssessmentController extends ControllerBase
         return this.generateDiagramData(radarUserId, assessmentId);
     }
 
-    @RequestMapping(value = "/User/{radarUserId}/TechnologyAssessment/{assessmentId}/item/{assessmentItemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/TechnologyAssessment/{assessmentId}/User/{radarUserId}/item/{assessmentItemId}", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation updateRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long assessmentId, @PathVariable Long assessmentItemId)
     {
         Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());

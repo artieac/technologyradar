@@ -8,7 +8,7 @@ theApp.controller('TechnologyAssessmentController', function ($scope, $resource,
     }
 
     $scope.addTechnologyAssessment = function(userId){
-        $http.post('/api/User/' + userId + '/TechnologyAssessment', $scope.newTechnologyAssessment)
+        $http.post('/api/TechnologyAssessment/' + assessmentId + '/User/' + userId, $scope.newTechnologyAssessment)
             .then(function (data) {
                 $scope.getTechnologyAssessmentRequest(userId);
             });
@@ -16,7 +16,7 @@ theApp.controller('TechnologyAssessmentController', function ($scope, $resource,
     }
 
     $scope.deleteAssessment = function(userId, assessmentId){
-        $http.delete('/api/User/' + userId + '/TechnologyAssessment/' + assessmentId)
+        $http.delete('/api/TechnologyAssessment/' + assessmentId + '/User/' + userId)
             .then(function (data) {
                 $scope.getTechnologyAssessmentRequest(userId);
             });
