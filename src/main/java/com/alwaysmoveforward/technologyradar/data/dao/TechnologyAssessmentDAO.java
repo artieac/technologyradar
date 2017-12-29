@@ -14,4 +14,5 @@ public interface TechnologyAssessmentDAO  extends PagingAndSortingRepository<Tec
     TechnologyAssessmentEntity findByRadarUserAndAssessmentDate(Long radarUserId, Date assessmentDate);
     TechnologyAssessmentEntity findByName(String name);
     TechnologyAssessmentEntity findByIdAndName(Long id, String name);
+    TechnologyAssessmentEntity findByIdAndRadarUserId(Long id, Long radarUserId);
 }

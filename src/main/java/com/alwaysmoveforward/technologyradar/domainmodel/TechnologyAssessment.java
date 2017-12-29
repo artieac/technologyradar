@@ -76,4 +76,18 @@ public class TechnologyAssessment implements Serializable
             }
         }
     }
+
+    public void removeAssessmentItem(Long assessmentItemId){
+
+        if(this.technologyAssessments != null)
+        {
+            for(int i = 0; i < this.technologyAssessments.size(); i++)
+            {
+                if(this.technologyAssessments.get(i).getId() == assessmentItemId){
+                    this.technologyAssessments.remove(i);
+                    break;
+                }
+            }
+        }
+    }
 }

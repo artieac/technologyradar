@@ -18,7 +18,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Controller
-public class TechnologyController {
+public class TechnologyController extends ControllerBase{
 
     private static final Logger logger = Logger.getLogger(TechnologyController.class);
 

@@ -201,4 +201,18 @@ public class TechnologyAssessmentService
         }
         return retVal;
     }
+
+    public boolean deleteAssessmentItem(Long assessmentId, Long assessmentItemId, Long radarUserId){
+        boolean retVal = false;
+
+        TechnologyAssessment assessment = this.technologyAssessmentRepository.findByIdAndRadarUserId(assessmentId, radarUserId);
+
+        if(assessment!=null)
+        {
+            assessment.removeAssessmentItem(assessmentItemId);
+            this.technologyAssessmentRepository.save(assessment);
+            retVal = true;
+        }
+        return retVal;
+    }
 }

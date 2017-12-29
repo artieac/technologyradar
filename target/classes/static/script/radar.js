@@ -131,7 +131,7 @@ for (var i = 0; i < radar_data.length; i++) {
                 .top( function() { return ( this.i() + (this.index * fontSize) );} )
                 .shape( function(d) {return (d.movement === 't' ? "triangle" : "circle");})
                 .cursor( function(d) {
-                    console.log("Item-" + d.name + '::R-' +  d.pc.r + '::t' + d.pc.t);
+//                    console.log("Item-" + d.name + '::R-' +  d.pc.r + '::t' + d.pc.t);
                     return ( d.url !== undefined ? "pointer" : "auto" );
                 })
                 .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})

@@ -4,6 +4,7 @@ import com.alwaysmoveforward.technologyradar.data.dao.*;
 import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyAssessmentEntity;
 import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyAssessmentItemEntity;
 import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyEntity;
+import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessmentItem;
 import org.apache.log4j.Logger;
@@ -66,6 +67,17 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
         return retVal;
     }
 
+    public TechnologyAssessment findByIdAndRadarUserId(Long assessmentId, Long radarUserId){
+        TechnologyAssessment retVal = null;
+
+        TechnologyAssessmentEntity targetItem = this.entityRepository.findByIdAndRadarUserId(assessmentId, radarUserId);
+
+        if(targetItem!=null){
+            retVal = this.modelMapper.map(targetItem, TechnologyAssessment.class);
+        }
+
+        return retVal;
+    }
 
     public List<TechnologyAssessment> findAllByRadarUser(Long radarUserId)
     {
@@ -206,6 +218,25 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                     technologyAssessmentItemDAO.save(newItem);
 
                     itemToSave.getTechnologyAssessmentItems().add(newItem);
+                }
+            }
+
+            for(int i = itemToSave.getTechnologyAssessmentItems().size() - 1; i >= 0 ; i--) {
+                TechnologyAssessmentItemEntity itemToSaveAssessmentItem = itemToSave.getTechnologyAssessmentItems().get(i);
+
+                boolean foundMatch = false;
+
+                for (int j = 0; j < technologyAssessment.getTechnologyAssessmentItems().size(); j++) {
+                    TechnologyAssessmentItem assessmentItem = technologyAssessment.getTechnologyAssessmentItems().get(j);
+
+                    if (assessmentItem.getTechnology().getId() == itemToSaveAssessmentItem.getTechnology().getId()) {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+
+                if (foundMatch == false){
+                    technologyAssessmentItemDAO.delete(itemToSaveAssessmentItem);
                 }
             }
         }

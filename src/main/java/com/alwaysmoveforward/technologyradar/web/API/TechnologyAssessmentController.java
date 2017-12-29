@@ -61,6 +61,12 @@ public class TechnologyAssessmentController extends ControllerBase
         return this.technologyAssessmentService.findByRadarUserId(radarUserId);
     }
 
+    @RequestMapping(value = "/TechnologyAssessment/{assessmentId}/Item/{assessmentItemId}/User/{radarUserId}", method = RequestMethod.DELETE)
+    public @ResponseBody boolean deleteTechnologyAssessmentItem(@PathVariable Long radarUserId, @PathVariable Long assessmentId, @PathVariable Long assessmentItemId)
+    {
+        return this.technologyAssessmentService.deleteAssessmentItem(assessmentId, assessmentItemId, radarUserId);
+    }
+
     private DiagramPresentation generateDiagramData(Long radarUserId, Long assessmentId)
     {
         DiagramPresentation retVal = new DiagramPresentation(1000,1200, 100);
@@ -96,6 +102,8 @@ public class TechnologyAssessmentController extends ControllerBase
                 technologyAssessment = technologyAssessmentService.createDefault(radarUser);
             }
         }
+
+        retVal.setAssessmentDetails(technologyAssessment);
 
         logger.debug(technologyAssessment);
         logger.debug(technologyAssessment.getName());

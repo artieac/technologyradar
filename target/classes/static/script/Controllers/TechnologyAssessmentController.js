@@ -1,13 +1,14 @@
 theApp.controller('TechnologyAssessmentController', function ($scope, $resource, $http) {
     $scope.currentUserId = $('#userId').val();
+    $scope.assessmentId = $('#assessmentId').val();
     $scope.selectedAssessment = null;
 
     $scope.getTechnologyAssessments = function(userId) {
-        var getTechnologyAssessmentRequest = $resource ('/api/User/:userId/TechnologyAssessments', { userId: userId});
+        var getTechnologyAssessmentRequest = $resource ('/api/TechnologyAssessments/User/:userId', { userId: userId});
         $scope.assessmentList = getTechnologyAssessmentRequest.query();
     }
 
-    $scope.addTechnologyAssessment = function(userId){
+    $scope.addTechnologyAssessment = function(assessmentId){
         $http.post('/api/TechnologyAssessment/' + assessmentId + '/User/' + userId, $scope.newTechnologyAssessment)
             .then(function (data) {
                 $scope.getTechnologyAssessmentRequest(userId);
@@ -15,10 +16,17 @@ theApp.controller('TechnologyAssessmentController', function ($scope, $resource,
 
     }
 
-    $scope.deleteAssessment = function(userId, assessmentId){
-        $http.delete('/api/TechnologyAssessment/' + assessmentId + '/User/' + userId)
+    $scope.deleteAssessmentItem = function(assessmentId, assessmentItemId, userId){
+        $http.delete('/api/TechnologyAssessment/' + assessmentId + '/Item/' + assessmentItemId + '/User/' + userId)
             .then(function (data) {
-                $scope.getTechnologyAssessmentRequest(userId);
+                $scope.getAssessment(assessmentId, userId);
             });
+    }
+
+    $scope.getAssessment = function(assessmentId, userId){
+        var getRadarDataRequest = $resource('/api/TechnologyAssessment/' + assessmentId + '/User/' + userId);
+        getRadarDataRequest.get(function(data){
+            $scope.currentAssessment = data;
+        });
     }
 });

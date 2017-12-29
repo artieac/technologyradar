@@ -9,16 +9,19 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import sun.plugin.liveconnect.SecurityContextHelper;
+
+import javax.sound.midi.ControllerEventListener;
 
 /**
  * Created by acorrea on 10/27/2016.
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController
+public class AdminController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
@@ -42,23 +45,10 @@ public class AdminController
         ModelAndView retVal = new ModelAndView();
         retVal.setViewName("/admin/manageTechnologyAssessments");
 
-        RadarUser currentUser = null;
-        SecurityContext foo = SecurityContextHolder.getContext();
-
-        Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
-
-        if(tokenAuth!=null)
+        RadarUser currentUser = this.getCurrentUser();
+        if(currentUser != null)
         {
-            currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
-
-            if(currentUser != null)
-            {
-                retVal.addObject("userId", currentUser.getId());
-            }
-            else
-            {
-                retVal.addObject("userId", -1);
-            }
+            retVal.addObject("userId", currentUser.getId());
         }
         else
         {
@@ -66,7 +56,27 @@ public class AdminController
         }
 
         return retVal;
-
     }
+
+    @RequestMapping("/TechnologyAssessment/{assessmentId}")
+    public ModelAndView manageTechnologyAssessments(@PathVariable Long assessmentId)
+    {
+        ModelAndView retVal = new ModelAndView();
+        retVal.setViewName("/admin/manageTechnologyAssessmentItems");
+        retVal.addObject("assessmentId", assessmentId);
+
+        RadarUser currentUser = this.getCurrentUser();
+        if(currentUser != null)
+        {
+            retVal.addObject("userId", currentUser.getId());
+        }
+        else
+        {
+            retVal.addObject("userId", -1);
+        }
+
+        return retVal;
+    }
+
 
 }

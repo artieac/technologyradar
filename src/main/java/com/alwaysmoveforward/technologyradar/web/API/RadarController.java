@@ -3,6 +3,7 @@ package com.alwaysmoveforward.technologyradar.web.API;
 import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
+import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api/radar")
-public class RadarController
+public class RadarController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarController.class);
 

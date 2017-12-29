@@ -4,6 +4,7 @@ import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
 import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
 import com.alwaysmoveforward.technologyradar.services.TechnologyService;
+import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import com.alwaysmoveforward.technologyradar.web.HomeController;
 import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 @Controller("TechnologyAPI")
 @RequestMapping("/api/technology")
-public class TechnologyController
+public class TechnologyController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
