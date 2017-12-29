@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by acorrea on 10/27/2016.
  */
-@Controller
+@Controller("TechnologyAPI")
 @RequestMapping("/api/technology")
 public class TechnologyController
 {

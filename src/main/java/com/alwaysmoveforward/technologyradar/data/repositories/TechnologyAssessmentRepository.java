@@ -197,7 +197,6 @@ public class TechnologyAssessmentRepository extends SimpleDomainRepository<Techn
                         targetTechnology.setName(assessmentItem.getTechnology().getName());
                         targetTechnology.setCreator(assessmentItem.getTechnology().getCreator());
                         targetTechnology.setCreateDate(assessmentItem.getTechnology().getCreateDate());
-                        targetTechnology.setDescription(assessmentItem.getTechnology().getDescription());
                         targetTechnology.setUrl(assessmentItem.getTechnology().getUrl());
                         targetTechnology.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getTechnology().getRadarCategory().getId()));
                         technologyDAO.save(targetTechnology);

@@ -16,7 +16,20 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
 
     $scope.getTechnologyAssessments = function(userId) {
         var getTechnologyAssessmentRequest = $resource ('/api/User/:userId/TechnologyAssessments', { userId: userId});
-        $scope.assessmentList = getTechnologyAssessmentRequest.query();
+        $scope.assessmentList = getTechnologyAssessmentRequest.query(function(data){
+            var assessmentId = $("#assessmentId").val();
+
+            if(assessmentId!==null &&
+                assessmentId!==undefined &&
+                assessmentId!==''){
+                for(var i = 0; i < data.length; i++) {
+                    if(data[i].id==assessmentId){
+                        $scope.assessmentDropdownSelected(userId, data[i]);
+                        break;
+                    }
+                }
+            }
+        })
     }
 
     $scope.assessmentDropdownSelected = function(userId, assessment) {
@@ -77,7 +90,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
         {
             radarSaveItem.technologyName = $scope.selectedAssessmentItem.technology.name;
             radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
-            radarSaveItem.technologyDescription = $scope.selectedAssessmentItem.technology.description;
+            radarSaveItem.url = $scope.selectedAssessmentItem.technology.url;
             radarSaveItem.radarRing = $scope.selectedRadarRing.id;
 
             if($scope.selectedAssessmentItem.confidenceFactor === undefined)

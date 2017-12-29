@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers(callbackLocation, "/login", "/home/radar").permitAll()
+                .antMatchers(callbackLocation, "/login", "/home/radar/**", "/script/**", "/css/**", "/webjars/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .logout().permitAll();

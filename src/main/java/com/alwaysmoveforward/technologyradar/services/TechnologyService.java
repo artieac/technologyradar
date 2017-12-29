@@ -29,7 +29,7 @@ public class TechnologyService
         retVal.setId(new Long(0));
         retVal.setCreator("None");
         retVal.setName("Nothing");
-        retVal.setDescription("Nothing");
+        retVal.setUrl("http://www.foo.com");
         retVal.setCreateDate(new Date());
         return retVal;
     }

@@ -129,8 +129,7 @@ public class TechnologyAssessmentController extends ControllerBase
     {
         String technologyName = modelMap.get("technologyName").toString();
         Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
-        String technologyDescription = modelMap.get("technologyDescription").toString();
-        String technologyUrl = "";
+        String technologyUrl = modelMap.get("url").toString();
         Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
         Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
         String assessmentDetails = modelMap.get("assessmentDetails").toString();
@@ -148,7 +147,7 @@ public class TechnologyAssessmentController extends ControllerBase
         }
         else
         {
-            this.technologyAssessmentService.addRadarItem(this.getCurrentUser(), assessmentId, technologyName, technologyDescription, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+            this.technologyAssessmentService.addRadarItem(this.getCurrentUser(), assessmentId, technologyName, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
         }
 
         return this.generateDiagramData(radarUserId, assessmentId);

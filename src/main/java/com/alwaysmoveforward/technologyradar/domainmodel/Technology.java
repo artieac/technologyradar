@@ -12,8 +12,6 @@ public class Technology implements Serializable
 
     private String name;
 
-    private String description;
-
     private String url;
 
     private Date createDate;
@@ -42,10 +40,6 @@ public class Technology implements Serializable
     public String getCreator() { return creator;}
 
     public void setCreator(String creator) { this.creator = creator;}
-
-    public  String getDescription() { return this.description;}
-
-    public void setDescription(String value) { this.description = value;}
 
     public  String getUrl() { return this.url;}
 
