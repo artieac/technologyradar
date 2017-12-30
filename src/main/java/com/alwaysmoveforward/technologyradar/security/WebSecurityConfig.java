@@ -64,10 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             "/webjars/**").permitAll()
                 .antMatchers(callbackLocation,
                             "/login").permitAll()
-                .antMatchers( HttpMethod.GET, "/home/radar/**").permitAll()
-                .antMatchers( HttpMethod.GET, "/api/TechnologyAssessments/**").permitAll()
-                .antMatchers( HttpMethod.GET, "/api/TechnologyAssessment/**").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers( HttpMethod.GET, "/public/**", "/api/public/**").permitAll()
+                .antMatchers("/**").permitAll() //authenticated()
                 .and()
                 .logout().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);

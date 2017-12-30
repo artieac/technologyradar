@@ -1,10 +1,11 @@
 theApp.controller('RadarController', function ($scope, $resource, $http) {
 
     $scope.currentUserId = $('#userId').val();
-    $scope.selectedAssessmentItem = {};
+    $scope.selectedRadarInstance = {};
+    $scope.selectedRadarInstanceItem = {};
 
-    $scope.getRadarData = function (teamId, assessmentId) {
-        var getRadarDataRequest = $resource('/api/radar/team/:teamId/assessment/:assessmentId', { teamId: teamId, assessmentId: assessmentId });
+    $scope.getRadarData = function (userId, radarId) {
+        var getRadarDataRequest = $resource('/api/public/user/:userId/radar/:radarId', { userId: userId, radarId: radarId });
         getRadarDataRequest.get(function(data){
 
             // What we return here is the data that will be accessible
@@ -14,17 +15,17 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
     };
 
 
-    $scope.getTechnologyAssessments = function(userId) {
-        var getTechnologyAssessmentRequest = $resource ('/api/TechnologyAssessments/User/:userId', { userId: userId});
-        $scope.assessmentList = getTechnologyAssessmentRequest.query(function(data){
-            var assessmentId = $("#assessmentId").val();
+    $scope.getUserRadars = function(userId) {
+        var getRadarInstancesRequest = $resource ('/api/public/User/:userId/Radars', { userId: userId});
+        $scope.radarInstanceList = getRadarInstancesRequest.query(function(data){
+            var radarInstanceId = $("#radarInstanceId").val();
 
-            if(assessmentId!==null &&
-                assessmentId!==undefined &&
-                assessmentId!==''){
+            if(radarInstanceId!==null &&
+                radarInstanceId!==undefined &&
+                radarInstanceId!==''){
                 for(var i = 0; i < data.length; i++) {
-                    if(data[i].id==assessmentId){
-                        $scope.assessmentDropdownSelected(userId, data[i]);
+                    if(data[i].id==radarInstanceId){
+                        $scope.radarInstanceDropdownSelected(userId, data[i]);
                         break;
                     }
                 }
@@ -32,12 +33,12 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
         })
     }
 
-    $scope.assessmentDropdownSelected = function(userId, assessment) {
-        $scope.selectedAssessment = assessment;
+    $scope.radarInstanceDropdownSelected = function(userId, radarInstance) {
+        $scope.selectedRadarInstance = radarInstance;
 
         /// I know i can just use the item passed into this, makign an extra call now because I know I want to
         // switch the team/assessment lists into just names/ids
-        var getRadarDataRequest = $resource('/api/TechnologyAssessment/' + assessment.id + '/User/' + userId);
+        var getRadarDataRequest = $resource('/api/public/User/' + userId + '/Radar/' + radarInstance.id);
         getRadarDataRequest.get(function(data){
             $scope.renderRadar(data);
         });
@@ -86,50 +87,55 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
 
         $scope.isSaving = true;
 
-        if($scope.selectedAssessmentItem.id === undefined)
+        if($scope.selectedRadarInstanceItem.id === undefined)
         {
-            radarSaveItem.technologyName = $scope.selectedAssessmentItem.technology.name;
+            radarSaveItem.technologyName = $scope.selectedRadarInstanceItem.technology.name;
             radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
-            radarSaveItem.url = $scope.selectedAssessmentItem.technology.url;
+            radarSaveItem.url = $scope.selectedRadarInstanceItem.technology.url;
             radarSaveItem.radarRing = $scope.selectedRadarRing.id;
 
-            if($scope.selectedAssessmentItem.confidenceFactor === undefined)
+            if($scope.selectedRadarInstanceItem.confidenceFactor === undefined)
             {
-                $scope.selectedAssessmentItem.confidenceFactor = 5;
+                $scope.selectedRadarInstanceItem.confidenceFactor = 5;
             }
 
-            radarSaveItem.confidenceLevel = $scope.selectedAssessmentItem.confidenceFactor;
-            radarSaveItem.assessmentDetails = $scope.selectedAssessmentItem.details;
+            radarSaveItem.confidenceLevel = $scope.selectedRadarInstanceItem.confidenceFactor;
+            radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
 
-            $http.post('/api/TechnologyAssessment/' + $scope.selectedAssessment.id  + '/User/' + userId + '/Item', radarSaveItem)
+            $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);
-                    $scope.clearAssessmentItemSelection();
+                    $scope.clearRadarItemSelection();
+                    $scope.isSaving = false;
+                })
+                .error(function (data){
                     $scope.isSaving = false;
                 });
         }
         else
         {
             radarSaveItem.radarRing = $scope.selectedRadarRing.id;
-            radarSaveItem.confidenceLevel = $scope.selectedAssessmentItem.confidenceFactor;
-            radarSaveItem.assessmentDetails = $scope.selectedAssessmentItem.details;
-            radarSaveItem.evaluator = $scope.selectedAssessmentItem.assessor;
+            radarSaveItem.confidenceLevel = $scope.selectedRadarInstanceItem.confidenceFactor;
+            radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
+            radarSaveItem.evaluator = $scope.selectedRadarInstanceItem.assessor;
             radarSaveItem.radarCategoryId = $scope.selectedRadarCategory.id;
 
-            $http.post('/api/TechnologyAssessment/' + $scope.selectedAssessment.id  + '/User/' + userId + '/Item', radarSaveItem)
+            $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id  + '/Item', radarSaveItem)
                 .success(function (data) {
                     $scope.renderRadar(data);
-                    $scope.clearAssessmentItemSelection();
+                    $scope.clearRadarItemSelection();
+                    $scope.isSaving = false;
+                })
+                .error(function (data){
                     $scope.isSaving = false;
                 });
-
         }
     }
 
     $scope.canAddRadarItem = function(isFormValid){
         var retVal = false;
 
-        if($scope.selectedAssessment != null && isFormValid === true && $scope.isSaving===false){
+        if($scope.selectedRadarInstance != null && isFormValid === true && $scope.isSaving===false){
             retVal = true;
         }
 
@@ -144,33 +150,29 @@ theApp.controller('RadarController', function ($scope, $resource, $http) {
 
     $scope.selectTechnology = function(technology){
         $scope.selectedRadarCategory = technology.radarCategory;
-        $scope.selectedAssessmentItem.technology = technology;
+        $scope.selectedRadarInstanceItem.technology = technology;
         $scope.technologySearchResults = null;
     };
 
-    $scope.clearAssessmentItemSelection = function() {
-        $scope.selectedAssessmentItem = {};
+    $scope.clearRadarItemSelection = function() {
+        $scope.sele = {};
     }
 
-    $scope.selectAssessmentItem = function(assessmentItem) {
-        $scope.selectedAssessmentItem = assessmentItem;
-        $scope.selectTechnology(assessmentItem.technology);
-        $scope.selectedRadarRing = $scope.selectedAssessmentItem.radarRing;
-        $scope.selectedConfidence = $scope.selectedAssessmentItem.confidenceFactor;
+    $scope.selectRadarInstanceItem = function(radarInstanceItem) {
+        $scope.selectedRadarInstanceItem = radarInstanceItem;
+        $scope.selectTechnology(radarInstanceItem.technology);
+        $scope.selectedRadarRing = $scope.selectedRadarInstanceItem.radarRing;
+        $scope.selectedConfidence = $scope.selectedRadarInstanceItem.confidenceFactor;
         $scope.$digest();
     }
 
-    $scope.clickAssessmentItem = function(id) {
-        for(var i = 0; i < $scope.selectedAssessment.technologyAssessmentItems.length; i++){
-            if($scope.selectedAssessment.technologyAssessmentItems[i].id == id){
-                var assessmentItem = $scope.selectedAssessment.technologyAssessmentItems[i];
-                $scope.selectAssessmentItem(assessmentItem);
+    $scope.clickRadarInstanceItem = function(id) {
+        for(var i = 0; i < $scope.radarInstanceItem.technologyAssessmentItems.length; i++){
+            if($scope.radarInstanceItem.technologyAssessmentItems[i].id == id){
+                var radarInstanceItem = $scope.radarInstanceItem.technologyAssessmentItems[i];
+                $scope.selectRadarInstanceItem(radarInstanceItem);
                 break;
             }
         }
-    }
-
-    $scope.clickSeeOtherUsers = function() {
-        window.location.href = "/technology/" + $scope.selectedAssessmentItem.technology.id;
     }
 });

@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "TechnologyAssessments")
-public class TechnologyAssessmentEntity
+public class RadarInstanceEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,10 +28,10 @@ public class TechnologyAssessmentEntity
     @JoinColumn(name = "RadarUserId", nullable = false)
     private RadarUserEntity radarUser;
 
-    @OneToMany(mappedBy = "technologyAssessment")
-    private List<TechnologyAssessmentItemEntity> technologyAssessments;
+    @OneToMany(mappedBy = "radarInstance")
+    private List<RadarInstanceItemEntity> radarItems;
 
-    public TechnologyAssessmentEntity()
+    public RadarInstanceEntity()
     {
 
     }
@@ -52,13 +52,13 @@ public class TechnologyAssessmentEntity
 
     public void setRadarUser(RadarUserEntity value) { this.radarUser = value;}
 
-    public List<TechnologyAssessmentItemEntity> getTechnologyAssessmentItems() { return this.technologyAssessments;}
+    public List<RadarInstanceItemEntity> getRadarInstanceItems() { return this.radarItems;}
 
-    public void setTechnologyAssessmentItems(List<TechnologyAssessmentItemEntity> value) { this.technologyAssessments = value;}
+    public void setRadarInstanceItems(List<RadarInstanceItemEntity> value) { this.radarItems = value;}
 
-    public TechnologyAssessmentEntity mapRow(ResultSet rs, int rowNum) throws SQLException
+    public RadarInstanceEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {
-        TechnologyAssessmentEntity retVal = new TechnologyAssessmentEntity();
+        RadarInstanceEntity retVal = new RadarInstanceEntity();
         retVal.setId(rs.getLong("Id"));
         retVal.setName(rs.getString("Name"));
         retVal.setAssessmentDate(rs.getDate("AssessmentDate"));

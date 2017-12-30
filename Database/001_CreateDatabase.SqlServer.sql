@@ -50,7 +50,7 @@ CREATE TABLE [AssessmentTeams](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [TechnologyRadar].[TechnologyAssessment]    Script Date: 03/12/2015 12:16:42 ******/
+/****** Object:  Table [TechnologyRadar].[RadarInstance]    Script Date: 03/12/2015 12:16:42 ******/
 CREATE TABLE [TechnologyAssessments](
 	[Id] BIGINT IDENTITY(1,1) NOT NULL,
 	[AssessmentTeamId] BIGINT NOT NULL,

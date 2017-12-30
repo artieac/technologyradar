@@ -1,8 +1,8 @@
 package com.alwaysmoveforward.technologyradar.web.API;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
-import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
-import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
+import com.alwaysmoveforward.technologyradar.services.RadarInstanceService;
 import com.alwaysmoveforward.technologyradar.services.TechnologyService;
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import com.alwaysmoveforward.technologyradar.web.HomeController;
@@ -25,7 +25,7 @@ public class TechnologyController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    private TechnologyAssessmentService technologyAssessmentService;
+    private RadarInstanceService technologyAssessmentService;
 
     @Autowired
     private TechnologyService technologyService;
@@ -40,7 +40,7 @@ public class TechnologyController extends ControllerBase
         {
             // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
             // that would make the subsequent calls at lot easier to manage.
-            List<TechnologyAssessment> foundItems = technologyAssessmentService.getTechnologyAssessmentsByTechnologyId(id);
+            List<RadarInstance> foundItems = technologyAssessmentService.getAllByTechnologyId(id);
 
             for(int i = 0; i < foundItems.size(); i++)
             {
