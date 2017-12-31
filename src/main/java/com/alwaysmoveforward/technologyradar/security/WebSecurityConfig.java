@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(callbackLocation,
                             "/login").permitAll()
                 .antMatchers( HttpMethod.GET, "/public/**", "/api/public/**").permitAll()
-                .antMatchers("/**").permitAll() //authenticated()
+                .antMatchers("/**").authenticated()
                 .and()
                 .logout().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
