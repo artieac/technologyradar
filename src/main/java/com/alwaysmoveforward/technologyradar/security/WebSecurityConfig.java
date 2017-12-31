@@ -22,8 +22,8 @@ import java.io.UnsupportedEncodingException;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//    @Autowired
-//    Environment env;
+    @Autowired
+    Environment env;
 
     @Value("${com.auth0.domain}")
     private String domain;
@@ -71,16 +71,51 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 
-    public String getDomain() {
-        return domain;
+    private boolean shouldUseEnvironmentForConfiguration()
+    {
+        boolean retVal = false;
+
+        String propertyValue = env.getProperty("com.alwaysmoveforward.useEnvironmentForConfiguration");
+
+        retVal = Boolean.parseBoolean(propertyValue);
+
+        return retVal;
     }
 
-    public String getClientId() {
-        return clientId;
+    public String getDomain()
+    {
+        String retVal = domain;
+
+        if(this.shouldUseEnvironmentForConfiguration())
+        {
+            retVal = env.getProperty("AUTH0_DOMAIN");
+        }
+
+        return retVal;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
+    public String getClientId()
+    {
+        String retVal = clientId;
+
+        if(this.shouldUseEnvironmentForConfiguration())
+        {
+            retVal = env.getProperty("AUTH0_CLIENT_ID");
+        }
+
+        return retVal;
+    }
+
+    public String getClientSecret()
+    {
+        String retVal = clientSecret;
+
+        if(this.shouldUseEnvironmentForConfiguration())
+        {
+            retVal = env.getProperty("AUTH0_CLIENT_SECRET");
+        }
+
+        return retVal;
     }
 }
 
