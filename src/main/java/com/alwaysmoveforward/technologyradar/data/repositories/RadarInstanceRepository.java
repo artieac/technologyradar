@@ -236,7 +236,9 @@ public class RadarInstanceRepository extends SimpleDomainRepository<RadarInstanc
                         }
                     }
 
-                    if (foundMatch == false){
+                    if (foundMatch == false)
+                    {
+                        itemToSave.getRadarInstanceItems().remove(itemToSaveAssessmentItem);
                         radarInstanceItemDAO.delete(itemToSaveAssessmentItem);
                     }
                 }
