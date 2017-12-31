@@ -76,9 +76,12 @@
                                 </div>
                                 <div class="row">
                                     <label for="newTechnologyUrl">Url</label>
-                                    <div class="form-group">
-                                        <p ng-show="radarItemInputForm.newTechnologyUrl.$error.required">A Url is required</p>
+                                    <p ng-show="radarItemInputForm.newTechnologyUrl.$error.required">A Url is required</p>
+                                    <div class="input-group">
                                         <input type="text" class="form-control" id="newTechnologyUrl" name="newTechnologyUrl" ng-model="selectedRadarInstanceItem.technology.url" ng-required="true"/>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-disabled="false"><a href="{{selectedRadarInstanceItem.technology.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a></button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row"  ng-init="getRadarRings()">
