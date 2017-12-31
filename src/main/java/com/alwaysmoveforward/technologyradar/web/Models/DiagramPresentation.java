@@ -1,6 +1,6 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarRing;
 
@@ -11,18 +11,20 @@ import java.util.List;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class DiagramPresentation {
+public class DiagramPresentation
+{
     private Integer height;
     private Integer width;
     private Integer rangeWidth;
-    private Long assessmentId;
-    private String assessmentName;
+    private Long radarId;
+    private String radarName;
     private Date assessmentDate;
     private List<Quadrant> quadrantList;
     private List<RadarRingPresentation> radarArcs;
     private List<RadarRing> radarRings;
 
-    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth) {
+    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth)
+    {
         this.height = height;
         this.width = width;
         this.rangeWidth = rangeWidth;
@@ -44,12 +46,12 @@ public class DiagramPresentation {
         return this.rangeWidth;
     }
 
-    public Long getAssessmentId() {
-        return this.assessmentId;
+    public Long getRadarId() {
+        return this.radarId;
     }
 
-    public String getAssessmentName() {
-        return this.assessmentName;
+    public String getRadarName() {
+        return this.radarName;
     }
 
     public Date getAssessmentDate() {
@@ -71,10 +73,11 @@ public class DiagramPresentation {
         return this.radarRings;
     }
 
-    public void setAssessmentDetails(TechnologyAssessment technologyAssessment){
-        this.assessmentId = technologyAssessment.getId();
-        this.assessmentName = technologyAssessment.getName();
-        this.assessmentDate = technologyAssessment.getAssessmentDate();
+    public void setRadarInstanceDetails(RadarInstance radarInstance)
+    {
+        this.radarId = radarInstance.getId();
+        this.radarName = radarInstance.getName();
+        this.assessmentDate = radarInstance.getAssessmentDate();
     }
 
     public void sddRadarArc(RadarRing radarRing)

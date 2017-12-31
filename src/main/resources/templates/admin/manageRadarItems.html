@@ -7,7 +7,7 @@
     <div th:replace="fragments/header :: scriptHeader"></div>
     <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Controllers/TechnologyAssessmentController.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarInstanceController.js"></script>
 
     <style type="text/css" media="screen">
 
@@ -18,21 +18,21 @@
 
     </style>
 </head>
-<body ng-controller="TechnologyAssessmentController">
+<body ng-controller="RadarInstanceController">
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
-    <input type="text" id="userId" name="userId" th:value="${userId}"/>
-    <input type="hidden" id="assessmentId" name="assessmentId" th:value="${assessmentId}"/>
-    <div class="bodyContent" ng-init="getAssessment(assessmentId, currentUserId)">
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarId}"/>
+    <div class="bodyContent" ng-init="getRadarInstance(radarInstanceId, currentUserId)">
         <div class="contentPageTitle">
-            <label>Manage Technology Assessments</label>
+            <label>Manage Radar Items</label>
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <h2><a href="/home/secureradar/{{currentAssessment.assessmentId}}">{{currentAssessment.assessmentName}}</a> - {{ currentAssessment.assessmentDate | date:'MM/dd/yyyy'}}</h2>
+                <h2><a href="/home/secureradar/{{currentRadar.radarId}}">{{currentRadar.radarName}}</a> - {{ currentRadar.assessmentDate | date:'MM/dd/yyyy'}}</h2>
             </div>
         </div>
-        <div class="row" ng-repeat="currentQuadrant in currentAssessment.quadrants">
+        <div class="row" ng-repeat="currentQuadrant in currentRadar.quadrants">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12">
@@ -48,7 +48,7 @@
                                     <td><a href="{{radarItem.assessmentItem.url">{{radarItem.name}}</a></td>
                                     <td>{{radarItem.assessmentItem.details}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" ng-click="deleteAssessmentItem(currentAssessment.assessmentId, radarItem.assessmentItem.id, currentUserId);">Delete</button>
+                                        <button type="button" class="btn btn-primary" ng-click="deleteAssessmentItem(currentRadar.radarId, radarItem.assessmentItem.id, currentUserId);">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -31,19 +31,19 @@ public class AdminController extends ControllerBase
     @RequestMapping("/index")
     public ModelAndView index(Model viewModel)
     {
-        return this.GenerateTechnologyAssessmentsModelAndView();
+        return this.GenerateRadarInstanceModelAndView();
     }
 
-    @RequestMapping("/TechnologyAssessments")
-    public ModelAndView manageTechnologyAssessments()
+    @RequestMapping("/Radars")
+    public ModelAndView manageRadars()
     {
-        return this.GenerateTechnologyAssessmentsModelAndView();
+        return this.GenerateRadarInstanceModelAndView();
     }
 
-    private ModelAndView GenerateTechnologyAssessmentsModelAndView()
+    private ModelAndView GenerateRadarInstanceModelAndView()
     {
         ModelAndView retVal = new ModelAndView();
-        retVal.setViewName("/admin/manageTechnologyAssessments");
+        retVal.setViewName("/admin/manageRadars");
 
         RadarUser currentUser = this.getCurrentUser();
         if(currentUser != null)
@@ -58,12 +58,12 @@ public class AdminController extends ControllerBase
         return retVal;
     }
 
-    @RequestMapping("/TechnologyAssessment/{assessmentId}")
-    public ModelAndView manageTechnologyAssessments(@PathVariable Long assessmentId)
+    @RequestMapping("/Radar/{radarId}")
+    public ModelAndView manageRadarItems(@PathVariable Long radarId)
     {
         ModelAndView retVal = new ModelAndView();
-        retVal.setViewName("/admin/manageTechnologyAssessmentItems");
-        retVal.addObject("assessmentId", assessmentId);
+        retVal.setViewName("/admin/manageRadarItems");
+        retVal.addObject("radarId", radarId);
 
         RadarUser currentUser = this.getCurrentUser();
         if(currentUser != null)

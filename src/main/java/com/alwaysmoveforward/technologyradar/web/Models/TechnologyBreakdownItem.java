@@ -8,7 +8,8 @@ import java.util.Date;
 /**
  * Created by acorrea on 12/28/2017.
  */
-public class TechnologyBreakdownItem {
+public class TechnologyBreakdownItem
+{
     Long assessmentId;
     Date assessmentDate;
     String assessmentName;

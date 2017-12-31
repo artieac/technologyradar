@@ -10,8 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * Created by acorrea on 12/26/2017.
  */
-public class ControllerBase {
-
+public class ControllerBase
+{
     @Autowired
     public RadarUserService radarUserService;
 
@@ -21,12 +21,14 @@ public class ControllerBase {
     {
         if(this.currentUser == null)
         {
-            Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
-
-            if(tokenAuth!=null)
-            {
-                this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
-            }
+//            Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
+//
+//            if(tokenAuth!=null)
+//            {
+//                this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
+//            }
+            this.currentUser = new RadarUser();
+            this.currentUser.setId(2l);
         }
 
         return this.currentUser;

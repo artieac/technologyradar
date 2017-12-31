@@ -34,7 +34,7 @@ CREATE TABLE `AssessmentTeams`(
 	PRIMARY KEY (`Id`),
 	UNIQUE INDEX `IX_AssessmentTeams_Id` (`Id` ASC));
 
-/****** Object:  Table [TechnologyRadar].[TechnologyAssessment]    Script Date: 03/12/2015 12:16:42 ******/
+/****** Object:  Table [TechnologyRadar].[RadarInstance]    Script Date: 03/12/2015 12:16:42 ******/
 CREATE TABLE `TechnologyAssessments`(
 	`Id` BIGINT NOT NULL AUTO_INCREMENT,
 	`AssessmentTeamId` BIGINT NOT NULL,

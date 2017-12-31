@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by acorrea on 10/19/2016.
  */
-public class TechnologyAssessmentItem implements Serializable
+public class RadarInstanceItem implements Serializable
 {
     private Long id;
 
@@ -17,7 +17,7 @@ public class TechnologyAssessmentItem implements Serializable
 
     private Integer confidenceFactor;
 
-    public TechnologyAssessmentItem()
+    public RadarInstanceItem()
     {
 
     }

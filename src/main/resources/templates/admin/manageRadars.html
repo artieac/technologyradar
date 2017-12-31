@@ -7,7 +7,7 @@
     <div th:replace="fragments/header :: scriptHeader"></div>
     <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Controllers/TechnologyAssessmentController.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarInstanceController.js"></script>
 
     <style type="text/css" media="screen">
 
@@ -18,11 +18,11 @@
 
     </style>
 </head>
-<body ng-controller="TechnologyAssessmentController">
+<body ng-controller="RadarInstanceController">
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
-    <div class="bodyContent" ng-controller="TechnologyAssessmentController" ng-init="getTechnologyAssessments(currentUserId)">
+    <div class="bodyContent" ng-init="getUserRadars(currentUserId)">
         <div class="contentPageTitle">
             <label>Manage Technology Assessments</label>
         </div>
@@ -35,20 +35,20 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="assessment in assessmentList">
-                    <td>{{assessment.name}}</td>
-                    <td>{{user.date}}</td>
+                <tr ng-repeat="radarInstance in radarInstances">
+                    <td>{{radarInstance.name}}</td>
+                    <td>{{radarInstance.assessmentDate  | date:'MM/dd/yyyy'}}</td>
                     <td>
                         <div>
-                            <a ng-click="deleteAssessment(currentUserId, assessment.id)">Delete</a>
-                            <a href="/admin/TechnologyAssessment/{{ assessment.id}}">Manage Items</a>
+                            <a ng-click="deleteRadarInstance(currentUserId, radarInstance.id)">Delete</a>
+                            <a href="/admin/Radar/{{ radarInstance.id}}">Manage Items</a>
                         </div>
                     </td>
                 </tr>
-                <tr ng-form="newTechnologyAssessmentForm">
-                    <td><input type="text" name="newName" ng-model="newTechnologyAssessment.name" required="true" /></td>
-                    <td><input type="text" name="newData" ng-model="newTechnologyAssessment.date" required="true" /></td>
-                    <td><input type="button" class="btn btn-primary" value="Add Technology Assessment" ng-click="addTechnologyAssessment(currentUserId);" /></td>
+                <tr ng-form="newRadarForm">
+                    <td><input type="text" name="newName" ng-model="newRadar.name" required="true" /></td>
+                    <td><input type="text" name="newData" ng-model="newRadar.date" required="true" /></td>
+                    <td><input type="button" class="btn btn-primary" value="Add Radar" ng-click="addRadar(currentUserId);" /></td>
                 </tr>
             </tbody>
         </table>

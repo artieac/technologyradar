@@ -1,12 +1,10 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
-import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessment;
-import com.alwaysmoveforward.technologyradar.domainmodel.TechnologyAssessmentItem;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstanceItem;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -26,22 +24,22 @@ public class TechnologyBreakdown
 
     public List<TechnologyBreakdownItem> getItems() { return this.items;}
 
-    public void addTechnologyAssessment(TechnologyAssessment technologyAssessment)
+    public void addTechnologyAssessment(RadarInstance radarInstance)
     {
-        if(technologyAssessment.getTechnologyAssessmentItems() != null)
+        if(radarInstance.getRadarInstanceItems() != null)
         {
-            for(int i = 0; i < technologyAssessment.getTechnologyAssessmentItems().size(); i++)
+            for(int i = 0; i < radarInstance.getRadarInstanceItems().size(); i++)
             {
-                if (technologyAssessment.getTechnologyAssessmentItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
+                if (radarInstance.getRadarInstanceItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addTechnologyAssessmentItem(technologyAssessment, technologyAssessment.getTechnologyAssessmentItems().get(i));
+                    this.addTechnologyAssessmentItem(radarInstance, radarInstance.getRadarInstanceItems().get(i));
                     break;
                 }
             }
         }
     }
 
-    public void addTechnologyAssessmentItem(TechnologyAssessment assessment, TechnologyAssessmentItem assessmentItem)
+    public void addTechnologyAssessmentItem(RadarInstance assessment, RadarInstanceItem assessmentItem)
     {
         if(this.items == null)
         {

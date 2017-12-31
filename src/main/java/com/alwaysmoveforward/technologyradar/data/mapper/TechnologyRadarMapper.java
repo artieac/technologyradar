@@ -99,8 +99,8 @@ public class TechnologyRadarMapper
                 }
             };
 
-    private PropertyMap<TechnologyAssessmentEntity, TechnologyAssessment> technologyAssessmentMap =
-            new PropertyMap<TechnologyAssessmentEntity, TechnologyAssessment>()
+    private PropertyMap<RadarInstanceEntity, RadarInstance> technologyAssessmentMap =
+            new PropertyMap<RadarInstanceEntity, RadarInstance>()
             {
                 protected void configure()
                 {
@@ -109,8 +109,8 @@ public class TechnologyRadarMapper
             };
 
 
-    private PropertyMap<TechnologyAssessmentItemEntity, TechnologyAssessmentItem> technologyAssessmentItemMap =
-            new PropertyMap<TechnologyAssessmentItemEntity, TechnologyAssessmentItem>()
+    private PropertyMap<RadarInstanceItemEntity, RadarInstanceItem> technologyAssessmentItemMap =
+            new PropertyMap<RadarInstanceItemEntity, RadarInstanceItem>()
             {
                 protected void configure()
                 {

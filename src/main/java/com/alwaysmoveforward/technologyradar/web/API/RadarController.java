@@ -2,7 +2,7 @@ package com.alwaysmoveforward.technologyradar.web.API;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
-import com.alwaysmoveforward.technologyradar.services.TechnologyAssessmentService;
+import com.alwaysmoveforward.technologyradar.services.RadarInstanceService;
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,6 @@ public class RadarController extends ControllerBase
 
     @Autowired
     DiagramConfigurationService radarSetupService;
-
-    @Autowired
-    TechnologyAssessmentService technolgyAssessmentService;
 
     @RequestMapping(value = "/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings()
