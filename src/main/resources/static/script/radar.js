@@ -1,4 +1,4 @@
-function init(h,w,radar_data, radar_arcs) {
+function init(h,w,radar_data, radar_arcs, clickRadarItemFunction) {
   $('#title').text(document.title);  
 	   
  var radar = new pv.Panel()
@@ -134,7 +134,8 @@ for (var i = 0; i < radar_data.length; i++) {
 //                    console.log("Item-" + d.name + '::R-' +  d.pc.r + '::t' + d.pc.t);
                     return ( d.url !== undefined ? "pointer" : "auto" );
                 })
-                .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})
+//                .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})
+                .event("click", function(d) { clickRadarItemFunction(d.assessmentItem);})
                 .size(fontSize)
                 .angle(45)
                 .anchor("right")
@@ -154,7 +155,8 @@ for (var i = 0; i < radar_data.length; i++) {
                                     return y;})
               .title(function(d) { return d.name;})
               .cursor( function(d) { return ( d.url !== undefined ? "pointer" : "auto" ); })
-              .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})
+//              .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})
+                .event("click", function(d) { clickRadarItemFunction(d.assessmentItem);})
               .angle(Math.PI)  // 180 degrees in radians !
               .strokeStyle(radar_data[i].color)
               .fillStyle(radar_data[i].color)

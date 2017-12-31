@@ -10,8 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * Created by acorrea on 12/26/2017.
  */
-public class ControllerBase {
-
+public class ControllerBase
+{
     @Autowired
     public RadarUserService radarUserService;
 

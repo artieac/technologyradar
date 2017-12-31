@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class DiagramPresentation {
+public class DiagramPresentation
+{
     private Integer height;
     private Integer width;
     private Integer rangeWidth;
@@ -22,7 +23,8 @@ public class DiagramPresentation {
     private List<RadarRingPresentation> radarArcs;
     private List<RadarRing> radarRings;
 
-    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth) {
+    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth)
+    {
         this.height = height;
         this.width = width;
         this.rangeWidth = rangeWidth;
@@ -71,7 +73,8 @@ public class DiagramPresentation {
         return this.radarRings;
     }
 
-    public void setRadarInstanceDetails(RadarInstance radarInstance){
+    public void setRadarInstanceDetails(RadarInstance radarInstance)
+    {
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
         this.assessmentDate = radarInstance.getAssessmentDate();

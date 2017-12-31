@@ -118,10 +118,13 @@
                             </form>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary" ng-click="clearAssessmentItemSelection();">Clear</button>
+                                    <button type="button" class="btn btn-primary" ng-click="clearRadarItemSelection();">Clear</button>
                                 </div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-primary" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" ng-click="deleteRadarItem();" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
                                 </div>
                             </div>
                         </div>

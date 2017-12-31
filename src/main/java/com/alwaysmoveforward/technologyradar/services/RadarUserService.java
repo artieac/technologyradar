@@ -15,7 +15,8 @@ import java.util.Base64;
  * Created by acorrea on 12/23/2017.
  */
 @Component
-public class RadarUserService {
+public class RadarUserService
+{
     private RadarUserRepository radarUserRepository;
     private Auth0Repository auth0Repository;
 
@@ -68,7 +69,8 @@ public class RadarUserService {
         return retVal;
     }
 
-    public Auth0UserProfile getUserProfile(String issuer, String accessToken){
+    public Auth0UserProfile getUserProfile(String issuer, String accessToken)
+    {
         String cleanedAccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));
         return this.auth0Repository.getUserProfile(issuer, accessToken);
     }

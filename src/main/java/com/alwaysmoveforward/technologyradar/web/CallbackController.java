@@ -28,8 +28,8 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 @Controller
-public class CallbackController {
-
+public class CallbackController
+{
     @Autowired
     private RadarUserService userService;
 
@@ -38,23 +38,28 @@ public class CallbackController {
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
-    public CallbackController() {
+    public CallbackController()
+    {
         this.redirectOnFail = "/login";
         this.redirectOnSuccess = "/home/secureradar";
     }
 
     @RequestMapping(value = "/auth0callback", method = RequestMethod.GET)
-    protected void getCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
+    protected void getCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException
+    {
         handleAuth0Callback(req, res);
     }
 
     @RequestMapping(value = "/auth0callback", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    protected void postCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
+    protected void postCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException
+    {
         handleAuth0Callback(req, res);
     }
 
-    private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        try {
+    private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException
+    {
+        try
+        {
             Tokens tokens = controller.handle(req);
             // TBD< switch this to an interface rather than a specific instance type
             Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(JWT.decode(tokens.getIdToken()));
@@ -62,16 +67,18 @@ public class CallbackController {
 
             RadarUser targetUser = this.userService.findByAuthenticationId(tokenAuth.getIdentifier());
 
-            if(targetUser == null) {
+            if(targetUser == null)
+            {
                 this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer(), tokenAuth.getUserEmail(), tokenAuth.getUserNickname());
             }
 
             res.sendRedirect(redirectOnSuccess);
-        } catch (AuthenticationException | IdentityVerificationException e) {
+        }
+        catch (AuthenticationException | IdentityVerificationException e)
+        {
             e.printStackTrace();
             SecurityContextHolder.clearContext();
             res.sendRedirect(redirectOnFail);
         }
     }
-
 }

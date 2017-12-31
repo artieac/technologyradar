@@ -18,8 +18,8 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Controller
-public class TechnologyController extends ControllerBase{
-
+public class TechnologyController extends ControllerBase
+{
     private static final Logger logger = Logger.getLogger(TechnologyController.class);
 
     @Autowired
@@ -49,5 +49,4 @@ public class TechnologyController extends ControllerBase{
         model.addObject("assessmentItems", radarInstances);
         return model;
     }
-
 }

@@ -1,4 +1,4 @@
-heApp.controller('RadarInstanceItemController', function ($scope, $resource, $http) {
+heApp.controller('RadarItemController', function ($scope, $resource, $http) {
     $scope.currentUserId = $('#userId').val();
 
 
