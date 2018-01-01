@@ -67,33 +67,32 @@ public class RadarInstanceController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation addRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId)
     {
-        String technologyName = modelMap.get("technologyName").toString();
-        Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
-        String technologyUrl = modelMap.get("url").toString();
         Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
         Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
         String assessmentDetails = modelMap.get("assessmentDetails").toString();
+
         Technology targetTechnology = null;
 
         if(modelMap.get("technologyId")!=null)
         {
             Long technologyId = new Long((Integer)modelMap.get("technologyId"));
             targetTechnology = this.radarInstanceService.findTechnologyById(technologyId);
-        }
 
-        if(targetTechnology!=null)
-        {
             this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, targetTechnology, radarRing, confidenceLevel, assessmentDetails);
         }
         else
         {
+            String technologyName = modelMap.get("technologyName").toString();
+            Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
+            String technologyUrl = modelMap.get("url").toString();
+
             this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
         }
 
         return this.generateDiagramData(radarUserId, radarId);
     }
 
-    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/item/{radarItemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation updateRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId, @PathVariable Long radarItemId)
     {
         Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());

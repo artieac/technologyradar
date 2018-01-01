@@ -6,5 +6,5 @@ CREATE TABLE `RadarUser`(
 	`Authority` nvarchar(256) NOT NULL,
 	`Issuer` nvarchar(1024) NOT NULL,
 	PRIMARY KEY (`Id`),
-	UNIQUE INDEX `IX_User_Id` (`Id` ASC));
-
+	UNIQUE INDEX `IX_RadarUser_Id` (`Id` ASC));
+    
