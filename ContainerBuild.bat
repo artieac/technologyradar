@@ -1,2 +1,1 @@
-./mvnw install dockerfile:build
-./mvnw dockerfile:push
+./mvnw clean package docker:build

@@ -115,13 +115,10 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
         {
             if(!$scope.isNullOrUndefined($scope.selectedRadarInstanceItem.technology.id))
             {
-                alert('not null');
-                alert($scope.selectedRadarInstanceItem.technology.id);
                 radarSaveItem.technologyId = $scope.selectedRadarInstanceItem.technology.id;
             }
             else
             {
-                alert('here');
                 radarSaveItem.technologyName = $scope.selectedRadarInstanceItem.technology.name;
                 radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
                 radarSaveItem.url = $scope.selectedRadarInstanceItem.technology.url;

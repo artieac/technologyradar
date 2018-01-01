@@ -26,6 +26,7 @@
 		<apache.commons.version>3.4</apache.commons.version>
 		<model.mapper.version>0.7.5</model.mapper.version>
 		<sumoappender.version>1.2</sumoappender.version>
+		<finalName>com.alwaysmoveforward.technologyradar</finalName>
 	</properties>
 
 	<dependencies>
@@ -115,7 +116,7 @@
 					<baseImage>artieac/alwaysmoveforward/java-alpine:1.0.3</baseImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<registryUrl>hub.docker.com</registryUrl>
-					<useConfigFile>true</useConfigFile>
+					<useConfigFile>false</useConfigFile>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
