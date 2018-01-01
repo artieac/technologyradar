@@ -6,6 +6,7 @@ import com.alwaysmoveforward.technologyradar.data.Entities.RadarInstanceItemEnti
 import com.alwaysmoveforward.technologyradar.data.Entities.TechnologyEntity;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstanceItem;
+import org.apache.catalina.mapper.Mapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -140,44 +141,71 @@ public class RadarInstanceRepository extends SimpleDomainRepository<RadarInstanc
     }
 
     @Override
-    public RadarInstance save(RadarInstance radarInstance)
+    public RadarInstance save(RadarInstance itemToSave)
     {
-        RadarInstanceEntity itemToSave = null;
+        RadarInstanceEntity radarInstanceEntity = null;
 
-        if(radarInstance !=null && radarInstance.getId() != null)
+        if(itemToSave !=null && itemToSave.getId() != null)
         {
-            itemToSave = this.entityRepository.findOne(radarInstance.getId());
+            radarInstanceEntity = this.entityRepository.findOne(itemToSave.getId());
         }
         else
         {
-            itemToSave = new RadarInstanceEntity();
+            radarInstanceEntity = new RadarInstanceEntity();
         }
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
         ///.... this sucks
-        if(itemToSave != null)
+        if(radarInstanceEntity != null)
         {
-            itemToSave.setAssessmentDate(radarInstance.getAssessmentDate());
-            itemToSave.setName(radarInstance.getName());
-            itemToSave.setRadarUser(radarUserDAO.findOne(radarInstance.getRadarUser().getId()));
+            radarInstanceEntity.setAssessmentDate(itemToSave.getAssessmentDate());
+            radarInstanceEntity.setName(itemToSave.getName());
+            radarInstanceEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
 
-            for(int i = 0; i < radarInstance.getRadarInstanceItems().size(); i++)
+            // First remove any deletions
+            if(radarInstanceEntity != null && radarInstanceEntity.getRadarInstanceItems() != null)
             {
-                RadarInstanceItem assessmentItem = radarInstance.getRadarInstanceItems().get(i);
+                for(int i = radarInstanceEntity.getRadarInstanceItems().size() - 1; i >= 0 ; i--)
+                {
+                    RadarInstanceItemEntity radarInstanceItemEntity = radarInstanceEntity.getRadarInstanceItems().get(i);
+
+                    boolean foundMatch = false;
+
+                    for (int j = 0; j < itemToSave.getRadarInstanceItems().size(); j++) {
+                        RadarInstanceItem assessmentItem = itemToSave.getRadarInstanceItems().get(j);
+
+                        if (assessmentItem.getTechnology().getId() == radarInstanceItemEntity.getTechnology().getId()) {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+
+                    if (foundMatch == false)
+                    {
+                        radarInstanceEntity.getRadarInstanceItems().remove(radarInstanceItemEntity);
+                        radarInstanceItemDAO.delete(radarInstanceItemEntity);
+                    }
+                }
+            }
+
+            // then add in any new ones
+            for(int i = 0; i < itemToSave.getRadarInstanceItems().size(); i++)
+            {
+                RadarInstanceItem assessmentItem = itemToSave.getRadarInstanceItems().get(i);
 
                 boolean foundMatch = false;
 
-                for(int j = 0; j < itemToSave.getRadarInstanceItems().size(); j++)
+                for(int j = 0; j < radarInstanceEntity.getRadarInstanceItems().size(); j++)
                 {
-                    RadarInstanceItemEntity itemToSaveAssessmentItem = itemToSave.getRadarInstanceItems().get(j);
+                    RadarInstanceItemEntity radarInstanceItemEntity = radarInstanceEntity.getRadarInstanceItems().get(j);
 
-                    if(itemToSaveAssessmentItem.getTechnology().getId()==assessmentItem.getTechnology().getId())
+                    if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId())
                     {
                         foundMatch = true;
-                        itemToSaveAssessmentItem.setDetails(assessmentItem.getDetails());
-                        itemToSaveAssessmentItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
-                        itemToSaveAssessmentItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
+                        radarInstanceItemEntity.setDetails(assessmentItem.getDetails());
+                        radarInstanceItemEntity.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                        radarInstanceItemEntity.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         break;
                     }
                 }
@@ -185,7 +213,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<RadarInstanc
                 if(foundMatch == false)
                 {
                     RadarInstanceItemEntity newItem = new RadarInstanceItemEntity();
-                    newItem.setRadarInstance(itemToSave);
+                    newItem.setRadarInstance(radarInstanceEntity);
                     newItem.setDetails(assessmentItem.getDetails());
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
@@ -216,40 +244,16 @@ public class RadarInstanceRepository extends SimpleDomainRepository<RadarInstanc
                     newItem.setTechnology(targetTechnology);
                     radarInstanceItemDAO.save(newItem);
 
-                    itemToSave.getRadarInstanceItems().add(newItem);
-                }
-            }
-
-            if(itemToSave != null && itemToSave.getRadarInstanceItems() != null)
-            {
-                for(int i = itemToSave.getRadarInstanceItems().size() - 1; i >= 0 ; i--) {
-                    RadarInstanceItemEntity itemToSaveAssessmentItem = itemToSave.getRadarInstanceItems().get(i);
-
-                    boolean foundMatch = false;
-
-                    for (int j = 0; j < radarInstance.getRadarInstanceItems().size(); j++) {
-                        RadarInstanceItem assessmentItem = radarInstance.getRadarInstanceItems().get(j);
-
-                        if (assessmentItem.getTechnology().getId() == itemToSaveAssessmentItem.getTechnology().getId()) {
-                            foundMatch = true;
-                            break;
-                        }
-                    }
-
-                    if (foundMatch == false)
-                    {
-                        itemToSave.getRadarInstanceItems().remove(itemToSaveAssessmentItem);
-                        radarInstanceItemDAO.delete(itemToSaveAssessmentItem);
-                    }
+                    radarInstanceEntity.getRadarInstanceItems().add(newItem);
                 }
             }
         }
 
-        if(itemToSave != null)
+        if(radarInstanceEntity != null)
         {
-            this.entityRepository.save(itemToSave);
+            this.entityRepository.save(radarInstanceEntity);
         }
 
-        return null;
+        return this.modelMapper.map(radarInstanceEntity, RadarInstance.class);
     }
 }

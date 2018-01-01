@@ -4,6 +4,19 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
 
+    $scope.isNullOrUndefined = function(testObject)
+    {
+        var retVal = false;
+
+        if((testObject === null) ||
+            (testObject === undefined))
+        {
+            retVal = true;
+        }
+
+        return retVal;
+    }
+
     $scope.getRadarData = function (userId, radarId)
     {
         var getRadarDataRequest = $resource('/api/public/User/' + userId + '/Radar/' + radarId);
@@ -22,8 +35,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
         {
             var radarInstanceId = $("#radarInstanceId").val();
 
-            if (radarInstanceId !== null &&
-                radarInstanceId !== undefined &&
+            if (!$scope.isNullOrUndefined(radarInstanceId) &&
                 radarInstanceId !== '')
             {
                 for (var i = 0; i < data.length; i++)
@@ -95,20 +107,25 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
         $scope.isSaving = true;
 
+        radarSaveItem.radarRing = $scope.selectedRadarRing.id;
+        radarSaveItem.confidenceLevel = $scope.selectedConfidence;
+        radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
+
         if ($scope.selectedRadarInstanceItem.id === undefined)
         {
-            radarSaveItem.technologyName = $scope.selectedRadarInstanceItem.technology.name;
-            radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
-            radarSaveItem.url = $scope.selectedRadarInstanceItem.technology.url;
-            radarSaveItem.radarRing = $scope.selectedRadarRing.id;
-
-            if ($scope.selectedRadarInstanceItem.confidenceFactor === undefined)
+            if(!$scope.isNullOrUndefined($scope.selectedRadarInstanceItem.technology.id))
             {
-                $scope.selectedRadarInstanceItem.confidenceFactor = 5;
+                alert('not null');
+                alert($scope.selectedRadarInstanceItem.technology.id);
+                radarSaveItem.technologyId = $scope.selectedRadarInstanceItem.technology.id;
             }
-
-            radarSaveItem.confidenceLevel = $scope.selectedRadarInstanceItem.confidenceFactor;
-            radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
+            else
+            {
+                alert('here');
+                radarSaveItem.technologyName = $scope.selectedRadarInstanceItem.technology.name;
+                radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
+                radarSaveItem.url = $scope.selectedRadarInstanceItem.technology.url;
+            }
 
             $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id + '/Item', radarSaveItem)
                 .success(function (data)
@@ -124,13 +141,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
         }
         else
         {
-            radarSaveItem.radarRing = $scope.selectedRadarRing.id;
-            radarSaveItem.confidenceLevel = $scope.selectedRadarInstanceItem.confidenceFactor;
-            radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
-            radarSaveItem.evaluator = $scope.selectedRadarInstanceItem.assessor;
-            radarSaveItem.radarCategoryId = $scope.selectedRadarCategory.id;
+            radarSaveItem.technologyId = $scope.selectedRadarInstanceItem.technology.id;
 
-            $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id + '/Item', radarSaveItem)
+            $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id + '/Item/' + $scope.selectedRadarInstanceItem.id, radarSaveItem)
                 .success(function (data)
                 {
                     $scope.renderRadar(data);
