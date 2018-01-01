@@ -113,8 +113,8 @@
 				<version>0.4.13</version>
 				<configuration>
 					<imageName>artieac/technologyradar:${project.version}</imageName>
-					<baseImage>artieac/alwaysmoveforward/java-alpine:1.0.3</baseImage>
-					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<baseImage>alpine:3.5</baseImage>
+					<entryPoint>["java", "-Dspring.profiles.active=production", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<registryUrl>hub.docker.com</registryUrl>
 					<useConfigFile>false</useConfigFile>
 					<resources>

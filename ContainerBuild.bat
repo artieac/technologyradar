@@ -1,1 +1,2 @@
-./mvnw clean package docker:build
+./mvnw -Pproduction clean package docker:build -Dspring
+./mvnw docker:push
