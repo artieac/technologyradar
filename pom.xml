@@ -113,7 +113,8 @@
 				<version>0.4.13</version>
 				<configuration>
 					<imageName>artieac/technologyradar:${project.version}</imageName>
-					<baseImage>alpine:3.5</baseImage>
+					<baseImage>openjdk:8-jre-alpine</baseImage>
+					<exposes>8081</exposes>
 					<entryPoint>["java", "-Dspring.profiles.active=production", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<registryUrl>hub.docker.com</registryUrl>
 					<useConfigFile>false</useConfigFile>
