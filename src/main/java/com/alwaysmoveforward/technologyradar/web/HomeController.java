@@ -19,11 +19,11 @@ public class HomeController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
-    @RequestMapping("/home/index")
+    @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
     {
         viewModel.addAttribute("message", "hello");
-        return "/home/index";
+        return "home/index";
     }
 
     @RequestMapping(value = { "/home/secureradar", "/home/secureradar/{radarInstanceId}" })
@@ -46,13 +46,13 @@ public class HomeController extends ControllerBase
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
         }
 
-        modelAndView.setViewName("/home/radar");
+        modelAndView.setViewName("home/radar");
         return modelAndView;
     }
 
     // I hate this url format, but I can't figure out how to get seccurity working with the
     // format that I want
-    @RequestMapping(value = { "/", "/public/home/radars/{userId}", "/public/home/radar/{userId}/{radarInstanceId}" })
+    @RequestMapping(value = { "/public/home/radars/{userId}", "/public/home/radar/{userId}/{radarInstanceId}" })
     public ModelAndView publicRadar(@PathVariable Long userId, @PathVariable Optional<Long> radarInstanceId)
     {
         ModelAndView modelAndView = new ModelAndView();
@@ -63,7 +63,7 @@ public class HomeController extends ControllerBase
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
         }
 
-        modelAndView.setViewName("/home/radar");
+        modelAndView.setViewName("home/radar");
         return modelAndView;
     }
 }

@@ -42,7 +42,7 @@ public class AdminController extends ControllerBase
     private ModelAndView GenerateRadarInstanceModelAndView()
     {
         ModelAndView retVal = new ModelAndView();
-        retVal.setViewName("/admin/manageRadars");
+        retVal.setViewName("admin/manageRadars");
 
         RadarUser currentUser = this.getCurrentUser();
         if(currentUser != null)
@@ -61,7 +61,7 @@ public class AdminController extends ControllerBase
     public ModelAndView manageRadarItems(@PathVariable Long radarId)
     {
         ModelAndView retVal = new ModelAndView();
-        retVal.setViewName("/admin/manageRadarItems");
+        retVal.setViewName("admin/manageRadarItems");
         retVal.addObject("radarId", radarId);
 
         RadarUser currentUser = this.getCurrentUser();

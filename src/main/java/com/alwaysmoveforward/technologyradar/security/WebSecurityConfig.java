@@ -61,10 +61,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/script/**",
                             "/css/**",
-                            "/webjars/**").permitAll()
+                            "/webjars/**",
+                            "/images/**").permitAll()
                 .antMatchers(callbackLocation,
                             "/login").permitAll()
-                .antMatchers( HttpMethod.GET, "/public/**", "/api/public/**").permitAll()
+                .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .logout().permitAll();

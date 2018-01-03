@@ -5,6 +5,40 @@
     background: #fff;
 }
 
+body{
+}
+
+.container{
+    margin-left:20%;
+}
+
+.detailsSection{
+    margin-top:20%;
+    margin-bottom:20%;
+}
+
+.heroTitle{
+    font-size: larger;
+    font-weight: bold;
+}
+
+.detailsAction{
+    horiz-align: center;
+}
+
+.graphicPanel{
+    margin-top: 5%;
+    margin-bottom:5%;
+}
+
+.graphic{
+    background-image: url("/images/RadarBackground.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width:150%;
+    height:150%;
+}
+
 .navbar-default {
     border-color: #5493E0;
     background-color: #5493E0;
