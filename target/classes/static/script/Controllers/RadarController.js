@@ -13,7 +13,14 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.getRadarSharingLink = function(userId)
     {
-        $scope.radarSharingLink = "http://" + window.location.hostname + ":" + window.location.port + "/public/home/radars/" + userId;
+        $scope.radarSharingLink = "http://" + window.location.hostname;
+
+        if(window.location.port !== "80" && window.location.port !== "443")
+        {
+            $scope.radarSharingLink += ":" +  window.location.port;
+        }
+
+        $scope.radarSharingLink += "/public/home/radars/" + userId;
 
         if($scope.selectedRadarInstance !== null && $scope.selectedRadarInstance !== undefined &&
            $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)

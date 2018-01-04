@@ -8,3 +8,6 @@ REFERENCES `RadarUser` (`Id`);
 
 ALTER TABLE RadarUser ADD Email nvarchar(512) NOT NULL DEFAULT '';
 ALTER TABLE RadarUser ADD Nickname nvarchar(512) NOT NULL DEFAULT '';
+
+ALTER TABLE TechnologyAssessmentItems DROP Assessor;
+
