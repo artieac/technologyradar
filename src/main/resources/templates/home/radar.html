@@ -30,15 +30,21 @@
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="dropdown pull-left" ng-init="getUserRadars(currentUserId)">
-                    <label for="radarInstanceDropdown">Select Radar:</label>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{selectedRadarInstance.name}}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
-                        <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{radarInstance.name}}</a></li>
-                    </ul>
+                <div class="col-sm-3">
+                    <div class="dropdown pull-left" ng-init="getUserRadars(currentUserId)">
+                        <label for="radarInstanceDropdown">Select Radar:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedRadarInstance.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
+                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{radarInstance.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label for="sharingLink">Public link:</label>
+                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><button ng-click="copyText()">Copy</button>
                 </div>
             </div>
             <div class="row">

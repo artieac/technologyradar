@@ -4,6 +4,24 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
 
+    $scope.copyText = function()
+    {
+        var copySource = document.getElementById("sharingLink");
+        copySource.select();
+        document.execCommand("Copy");
+    }
+
+    $scope.getRadarSharingLink = function(userId)
+    {
+        $scope.radarSharingLink = "http://" + window.location.hostname + ":" + window.location.port + "/public/home/radars/" + userId;
+
+        if($scope.selectedRadarInstance !== null && $scope.selectedRadarInstance !== undefined &&
+           $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
+        {
+            $scope.radarSharingLink += "/" + $scope.selectedRadarInstance.id;
+        }
+    }
+
     $scope.isNullOrUndefined = function(testObject)
     {
         var retVal = false;
@@ -29,6 +47,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.getUserRadars = function (userId)
     {
+        $scope.getRadarSharingLink(userId);
+
         var getRadarInstancesRequest = $resource('/api/public/User/:userId/Radars', {userId: userId});
 
         $scope.radarInstanceList = getRadarInstancesRequest.query(function (data)
@@ -53,6 +73,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
     $scope.radarInstanceDropdownSelected = function (userId, radarInstance)
     {
         $scope.selectedRadarInstance = radarInstance;
+        $scope.getRadarSharingLink(userId);
         $scope.getRadarData(userId, radarInstance.id);
     }
 
