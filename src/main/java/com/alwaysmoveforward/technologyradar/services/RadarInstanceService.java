@@ -54,11 +54,11 @@ public class RadarInstanceService
     {
         List<RadarInstance> retVal = new ArrayList<RadarInstance>();
 
-        RadarUser foundTeam = this.radarUserRepository.findOne(radarUserId);
+        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
 
-        if(foundTeam!=null)
+        if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByRadarUser(foundTeam.getId());
+            retVal = this.radarInstanceRepository.findAllByRadarUser(foundUser.getId());
         }
 
         return retVal;

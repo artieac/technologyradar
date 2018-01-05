@@ -63,11 +63,14 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     public String getUserNickname() { return this.userNickname;}
     public void setUserNickname(String value) { this.userNickname = value;}
 
+    private String identifier;
+
     public String getIdentifier()
     {
+        String[] splitSubject = jwt.getSubject().toString().split("\\|");
         // using substring instead of split because its not splitting on | for some reason
         // even though I can see it is in it.
-        return jwt.getSubject().toString().substring(6);
+        return splitSubject[splitSubject.length - 1];
     }
 
     public String getAuthority() { return "auth0";}

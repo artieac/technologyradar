@@ -109,7 +109,7 @@ public class RadarInstanceController extends ControllerBase
 
     private DiagramPresentation generateDiagramData(Long radarUserId, Long radarId)
     {
-        DiagramPresentation retVal = new DiagramPresentation(1000,1200, 100);
+        DiagramPresentation retVal = new DiagramPresentation(900,1100, 90);
 
         Iterable<RadarRing> radarRings = this.radarSetupService.getRadarRings();
         retVal.addRadarArcs(radarRings);
