@@ -40,7 +40,7 @@ public class RadarInstanceController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar", method = RequestMethod.POST)
     public @ResponseBody List<RadarInstance> addRadar(@RequestBody Map modelMap, @PathVariable Long radarUserId)
     {
-        this.radarInstanceService.addRadarUserAssessment(radarUserId, modelMap.get("name").toString());
+        this.radarInstanceService.addRadarInstance(radarUserId, modelMap.get("name").toString());
         return this.radarInstanceService.findByRadarUserId(radarUserId);
     }
 

@@ -83,21 +83,36 @@ public class RadarInstanceService
         return retVal;
     }
 
-    public RadarInstance addRadarUserAssessment(Long radarUserId, String name)
+    public RadarInstance addRadarInstance(Long radarUserId, String name)
     {
         RadarInstance retVal = null;
 
         if(!name.isEmpty())
         {
-            RadarInstance existingTeamAssessment = this.radarInstanceRepository.findByIdAndName(radarUserId, name);
+            RadarInstance radarInstance = this.radarInstanceRepository.findByIdAndName(radarUserId, name);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(existingTeamAssessment == null && radarUser != null)
+            if(radarInstance == null && radarUser != null)
             {
                 retVal = this.createDefault(radarUser);
                 retVal.setName(name);
                 this.radarInstanceRepository.save(retVal);
             }
+        }
+
+        return retVal;
+    }
+
+    public boolean deleteRadarInstance(Long radarUserId, Long radarInstanceId)
+    {
+        boolean retVal = false;
+
+        RadarInstance radarInstance = this.radarInstanceRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
+
+        if(radarInstance!=null)
+        {
+            this.radarInstanceRepository.delete(radarInstance.getId());
+            retVal = true;
         }
 
         return retVal;

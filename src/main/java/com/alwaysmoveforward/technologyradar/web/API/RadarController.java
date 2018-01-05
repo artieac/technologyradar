@@ -15,7 +15,7 @@ import java.util.List;
  * Created by acorrea on 10/20/2016.
  */
 @Controller
-@RequestMapping("/api/radar")
+@RequestMapping("/api")
 public class RadarController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarController.class);
@@ -23,7 +23,10 @@ public class RadarController extends ControllerBase
     @Autowired
     DiagramConfigurationService radarSetupService;
 
-    @RequestMapping(value = "/rings", produces = "application/json")
+    @Autowired
+    RadarInstanceService radarInstanceService;
+
+    @RequestMapping(value = "/radar/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings()
     {
         List<RadarRing> retVal = this.radarSetupService.getRadarRings();
@@ -31,11 +34,17 @@ public class RadarController extends ControllerBase
         return retVal;
     }
 
-    @RequestMapping(value = "/categories", produces = "application/json")
+    @RequestMapping(value = "/radar/categories", produces = "application/json")
     public @ResponseBody List<RadarCategory> getRadarCategories()
     {
         List<RadarCategory> retVal = this.radarSetupService.getRadarCategories();
 
         return retVal;
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
+    public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
+    {
+        return this.radarInstanceService.deleteRadarInstance(radarUserId, radarId);
     }
 }

@@ -18,15 +18,14 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
             });
     }
 
-    $scope.deleteRadar = function(radarId, userId)
+    $scope.deleteRadarInstance = function(radarId, userId)
     {
         $http.delete(RadarInstanceService.deleteRadarRequest(userId, radarId))
             .then(function (data)
             {
-                $scope.getAssessment(assessmentId, userId);
+                $scope.getUserRadars(userId);
             });
     }
-
     $scope.getRadarInstance = function(radarId, userId)
     {
         RadarInstanceService.getRadarInstanceRequest(userId, radarId).get(function(data)
