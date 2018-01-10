@@ -161,6 +161,12 @@ for (var i = 0; i < radar_data.length; i++) {
               .strokeStyle(radar_data[i].color)
               .fillStyle(radar_data[i].color)
               .shape(function(d) {return (d.movement === 't' ? "triangle" : "circle");})
+                .popover({
+                    trigger: 'hover',
+                    placement: 'right',
+                    html: true,
+                    content: $this.find('.assessmentDetails').html()
+                })
               .anchor("center")
                   .add(pv.Label)
                   .text(function(d) {return total_index++;})
