@@ -2,7 +2,7 @@ package com.alwaysmoveforward.technologyradar.web.API;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
-import com.alwaysmoveforward.technologyradar.services.RadarInstanceService;
+import com.alwaysmoveforward.technologyradar.services.RadarService;
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class RadarController extends ControllerBase
     DiagramConfigurationService radarSetupService;
 
     @Autowired
-    RadarInstanceService radarInstanceService;
+    RadarService radarService;
 
     @RequestMapping(value = "/radar/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings()
@@ -45,6 +45,6 @@ public class RadarController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
     {
-        return this.radarInstanceService.deleteRadarInstance(radarUserId, radarId);
+        return this.radarService.deleteRadar(radarUserId, radarId);
     }
 }

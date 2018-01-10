@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "TechnologyAssessmentItems")
-public class RadarInstanceItemEntity
+public class RadarItemEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +16,7 @@ public class RadarInstanceItemEntity
 
     @JoinColumn(name = "technologyAssessmentId", referencedColumnName = "id")
     @ManyToOne(optional=false)
-    private RadarInstanceEntity radarInstance;
+    private RadarEntity radarInstance;
 
     @ManyToOne
     @JoinColumn(name = "TechnologyId", nullable=false)
@@ -32,7 +32,7 @@ public class RadarInstanceItemEntity
     @Column(name = "ConfidenceFactor", nullable = false)
     private Integer confidenceFactor;
 
-    public RadarInstanceItemEntity()
+    public RadarItemEntity()
     {
 
     }
@@ -41,9 +41,9 @@ public class RadarInstanceItemEntity
 
     public void setId(Long value){ this.id = value;}
 
-    public RadarInstanceEntity getRadarInstance() { return this.radarInstance;}
+    public RadarEntity getRadarInstance() { return this.radarInstance;}
 
-    public void setRadarInstance(RadarInstanceEntity value) { this.radarInstance = value;}
+    public void setRadarInstance(RadarEntity value) { this.radarInstance = value;}
 
     public TechnologyEntity getTechnology() { return this.technology;}
 

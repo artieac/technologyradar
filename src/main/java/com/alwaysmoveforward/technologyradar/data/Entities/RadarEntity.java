@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "TechnologyAssessments")
-public class RadarInstanceEntity
+public class RadarEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +29,9 @@ public class RadarInstanceEntity
     private RadarUserEntity radarUser;
 
     @OneToMany(mappedBy = "radarInstance")
-    private List<RadarInstanceItemEntity> radarItems;
+    private List<RadarItemEntity> radarItems;
 
-    public RadarInstanceEntity()
+    public RadarEntity()
     {
 
     }
@@ -52,13 +52,13 @@ public class RadarInstanceEntity
 
     public void setRadarUser(RadarUserEntity value) { this.radarUser = value;}
 
-    public List<RadarInstanceItemEntity> getRadarInstanceItems() { return this.radarItems;}
+    public List<RadarItemEntity> getRadarItems() { return this.radarItems;}
 
-    public void setRadarInstanceItems(List<RadarInstanceItemEntity> value) { this.radarItems = value;}
+    public void setRadarItems(List<RadarItemEntity> value) { this.radarItems = value;}
 
-    public RadarInstanceEntity mapRow(ResultSet rs, int rowNum) throws SQLException
+    public RadarEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {
-        RadarInstanceEntity retVal = new RadarInstanceEntity();
+        RadarEntity retVal = new RadarEntity();
         retVal.setId(rs.getLong("Id"));
         retVal.setName(rs.getString("Name"));
         retVal.setAssessmentDate(rs.getDate("AssessmentDate"));

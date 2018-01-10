@@ -18,7 +18,7 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
             });
     }
 
-    $scope.deleteRadarInstance = function(radarId, userId)
+    $scope.deleteRadarInstance = function(userId, radarId)
     {
         $http.delete(RadarInstanceService.deleteRadarRequest(userId, radarId))
             .then(function (data)
@@ -26,6 +26,7 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
                 $scope.getUserRadars(userId);
             });
     }
+
     $scope.getRadarInstance = function(radarId, userId)
     {
         RadarInstanceService.getRadarInstanceRequest(userId, radarId).get(function(data)
