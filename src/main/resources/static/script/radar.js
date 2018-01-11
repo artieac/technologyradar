@@ -148,12 +148,12 @@ for (var i = 0; i < radar_data.length; i++) {
               .data(itemsByStage[stageIdx])
               .size( function(d) { return ( d.blipSize !== undefined ? d.blipSize : 70 ); })
               .left(function(d) { var x = polar_to_raster(d.pc.r, d.pc.t, w, h)[0];
-                                  console.log("name:" + d.name + ", x:" + x);
+//                                  console.log("name:" + d.name + ", x:" + x);
                                   return x;})
               .bottom(function(d) { var y = polar_to_raster(d.pc.r, d.pc.t, w, h)[1];
-                                    console.log("name:" + d.name + ", y:" + y);
+//                                    console.log("name:" + d.name + ", y:" + y);
                                     return y;})
-              .title(function(d) { return d.name;})
+              .title(function(d) { return d.name + '\n' + d.assessmentItem.details;})
               .cursor( function(d) { return ( d.url !== undefined ? "pointer" : "auto" ); })
 //              .event("click", function(d) { if ( d.url !== undefined ){self.location =  d.url}})
                 .event("click", function(d) { clickRadarItemFunction(d.assessmentItem);})
@@ -161,12 +161,6 @@ for (var i = 0; i < radar_data.length; i++) {
               .strokeStyle(radar_data[i].color)
               .fillStyle(radar_data[i].color)
               .shape(function(d) {return (d.movement === 't' ? "triangle" : "circle");})
-                .popover({
-                    trigger: 'hover',
-                    placement: 'right',
-                    html: true,
-                    content: $this.find('.assessmentDetails').html()
-                })
               .anchor("center")
                   .add(pv.Label)
                   .text(function(d) {return total_index++;})

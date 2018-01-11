@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/radar.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/radar.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="955">
-              <caret line="45" column="61" lean-forward="true" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
+              <caret line="45" column="61" lean-forward="false" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -89,7 +88,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/radar.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="691">
-              <caret line="138" column="38" lean-forward="true" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
+              <caret line="138" column="38" lean-forward="false" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -98,8 +97,8 @@
       <file leaf-file-name="radar.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/radar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="167" column="59" lean-forward="false" selection-start-line="167" selection-start-column="59" selection-end-line="167" selection-end-column="59" />
+            <state relative-caret-position="704">
+              <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="42" selection-end-line="155" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -120,7 +119,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="561">
               <caret line="20" column="30" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="30" />
-              <folding />
+              <folding>
+                <marker date="1515624003877" expanded="true" signature="103:1118" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1723,8 +1724,8 @@
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.alwaysmoveforward.technologyradar.TechnologyradarApplication" />
       <option name="DEBUG_MODE" value="true" />
       <option name="HIDE_BANNER" value="true" />
-      <option name="ACTIVE_PROFILES" value="development" />
-      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=development" />
+      <option name="ACTIVE_PROFILES" value="production" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=production" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <module name="technologyradar" />
       <envs />
@@ -1806,12 +1807,12 @@
       <workItem from="1514910439370" duration="7543000" />
       <workItem from="1514983897672" duration="14096000" />
       <workItem from="1515082258317" duration="13937000" />
-      <workItem from="1515122898193" duration="26009000" />
+      <workItem from="1515122898193" duration="27779000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303205000" />
+    <option name="totallyTimeSpent" value="304975000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
@@ -2248,7 +2249,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="20" column="30" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="30" />
-          <folding />
+          <folding>
+            <marker date="1515624003877" expanded="true" signature="103:1118" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2271,7 +2274,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="955">
-          <caret line="45" column="61" lean-forward="true" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
+          <caret line="45" column="61" lean-forward="false" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
           <folding />
         </state>
       </provider>
@@ -2295,15 +2298,15 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/radar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="691">
-          <caret line="138" column="38" lean-forward="true" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
+          <caret line="138" column="38" lean-forward="false" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/radar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="167" column="59" lean-forward="false" selection-start-line="167" selection-start-column="59" selection-end-line="167" selection-end-column="59" />
+        <state relative-caret-position="704">
+          <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="42" selection-end-line="155" selection-end-column="42" />
           <folding />
         </state>
       </provider>
