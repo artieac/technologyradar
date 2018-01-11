@@ -22,21 +22,21 @@ public class DiagramConfigurationService
 {
     private static final Logger logger = Logger.getLogger(DiagramConfigurationService.class);
 
-    @Autowired
-    RadarService radarInstanceService;
-
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
+    private RadarService radarService;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
-                                       RadarUserRepository radarUserRepository)
+                                       RadarUserRepository radarUserRepository,
+                                       RadarService radarService)
     {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
+        this.radarService = radarService;
     }
 
     public List<RadarRing> getRadarRings()
@@ -80,13 +80,13 @@ public class DiagramConfigurationService
             retVal.getQuadrants().add(newQuadrant);
         }
 
-        Radar radarInstance = radarInstanceService.findById(radarId);
+        Radar radarInstance = this.radarService.findById(radarId);
 
         if(radarInstance == null)
         {
             if(radarUser != null)
             {
-                radarInstance = radarInstanceService.createDefault(radarUser);
+                radarInstance = this.radarService.createDefault(radarUser);
             }
         }
 
