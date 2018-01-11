@@ -2,7 +2,7 @@ package com.alwaysmoveforward.technologyradar.web.API;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
-import com.alwaysmoveforward.technologyradar.services.RadarInstanceService;
+import com.alwaysmoveforward.technologyradar.services.RadarService;
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by acorrea on 10/20/2016.
  */
 @Controller
-@RequestMapping("/api/radar")
+@RequestMapping("/api")
 public class RadarController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarController.class);
@@ -23,7 +23,10 @@ public class RadarController extends ControllerBase
     @Autowired
     DiagramConfigurationService radarSetupService;
 
-    @RequestMapping(value = "/rings", produces = "application/json")
+    @Autowired
+    RadarService radarService;
+
+    @RequestMapping(value = "/radar/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings()
     {
         List<RadarRing> retVal = this.radarSetupService.getRadarRings();
@@ -31,11 +34,17 @@ public class RadarController extends ControllerBase
         return retVal;
     }
 
-    @RequestMapping(value = "/categories", produces = "application/json")
+    @RequestMapping(value = "/radar/categories", produces = "application/json")
     public @ResponseBody List<RadarCategory> getRadarCategories()
     {
         List<RadarCategory> retVal = this.radarSetupService.getRadarCategories();
 
         return retVal;
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
+    public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
+    {
+        return this.radarService.deleteRadar(radarUserId, radarId);
     }
 }

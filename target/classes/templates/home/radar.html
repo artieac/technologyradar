@@ -8,6 +8,8 @@
     <script type="text/javascript" src="/script/lib/protovis-3.2/protovis-d3.2.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/TechnologyService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarInstanceController.js"></script>
 
@@ -126,13 +128,13 @@
                                 </div>
                             </form>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <button type="button" class="btn btn-primary" ng-click="clearRadarItemSelection();">Clear</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <button type="button" class="btn btn-primary" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <button type="button" class="btn btn-primary" ng-click="deleteRadarItem(currentUserId, selectedRadarInstance.id, selectedRadarInstanceItem.id);" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
                                 </div>
                             </div>

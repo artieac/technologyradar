@@ -1,4 +1,4 @@
-theApp.controller('TechnologyController', function ($scope, $resource, $http)
+theApp.controller('TechnologyController', function ($scope, $resource, $http, RadarInstanceService, TechnologyService)
 {
     $scope.getTechnologyAssessments = function (technologyId)
     {
@@ -8,8 +8,7 @@ theApp.controller('TechnologyController', function ($scope, $resource, $http)
 
     $scope.getRadarRings = function()
     {
-        var getRingsRequest = $resource('/api/radar/rings');
-        $scope.radarRingList = getRingsRequest.query();
+        $scope.radarRingList = RadarInstanceService.getRadarRingsRequest().query();
     }
 
     $scope.selectRadarRing = function(radarRing)
@@ -19,8 +18,7 @@ theApp.controller('TechnologyController', function ($scope, $resource, $http)
 
     $scope.getRadarCategories = function()
     {
-        var getRadarCategoriesRequest = $resource('/api/radar/categories');
-        $scope.radarCategoryList = getRadarCategoriesRequest.query();
+        $scope.radarCategoryList = RadarInstanceService.getRadarCategoriesRequest().query();
     }
 
     $scope.selectRadarCategory = function(radarCategory)
@@ -30,31 +28,8 @@ theApp.controller('TechnologyController', function ($scope, $resource, $http)
 
     $scope.searchTechnology = function()
     {
-        var queryString = "";
-
         var technologyName = jQuery("#searchName").val();
-
-        if(technologyName)
-        {
-            queryString += "technologyName=:technologyName"
-        }
-
-        var radarCategoryId = -1;
-        if($scope.selectedRadarCategory)
-        {
-            radarCategoryId = $scope.selectedRadarCategory.id;
-            queryString += "&radarCategoryId=:radarCategoryId";
-        }
-
-        var radarRingId = -1;
-        if($scope.selectedRadarRing)
-        {
-            radarRingId = $scope.selectedRadarRing.id;
-            queryString += "&radarRingId=:radarRingId";
-        }
-
-        var searchForTechnology = $resource ('/api/technology/search?' + queryString);
-        $scope.technologySearchResults = searchForTechnology.query({ technologyName: technologyName, radarCategoryId: radarCategoryId, radarRingId: radarRingId });
+        $scope.technologySearchResults = TechnologyService.searchTechnologyRequest(technologyName, $scope.selectedRadarCategory, $scope.selectedRadarRing).query();
     };
 
     $scope.searchForTechnologyByCategoryId = function(categoryId)

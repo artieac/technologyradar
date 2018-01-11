@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, TechnologyService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
@@ -20,12 +20,15 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
             $scope.radarSharingLink += ":" +  window.location.port;
         }
 
-        $scope.radarSharingLink += "/public/home/radars/" + userId;
-
         if($scope.selectedRadarInstance !== null && $scope.selectedRadarInstance !== undefined &&
-           $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
+            $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
         {
-            $scope.radarSharingLink += "/" + $scope.selectedRadarInstance.id;
+            $scope.radarSharingLink += "/public/home/radar/" + userId + "/" + $scope.selectedRadarInstance.id;
+            ;
+        }
+        else
+        {
+            $scope.radarSharingLink += "/public/home/radars/" + userId;
         }
     }
 
@@ -44,8 +47,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.getRadarData = function (userId, radarId)
     {
-        var getRadarDataRequest = $resource('/api/public/User/' + userId + '/Radar/' + radarId);
-        getRadarDataRequest.get(function (data)
+        RadarInstanceService.getRadarInstanceRequest(userId, radarId).get(function (data)
         {
             $scope.renderRadar(data);
         });
@@ -56,25 +58,23 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
     {
         $scope.getRadarSharingLink(userId);
 
-        var getRadarInstancesRequest = $resource('/api/public/User/:userId/Radars', {userId: userId});
+        $scope.radarInstanceList = RadarInstanceService.getRadarsByUserRequest(userId).query();
 
-        $scope.radarInstanceList = getRadarInstancesRequest.query(function (data)
+        var radarInstanceId = $("#radarInstanceId").val();
+
+        if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
+            !$scope.isNullOrUndefined(radarInstanceId) &&
+            radarInstanceId !== '')
         {
-            var radarInstanceId = $("#radarInstanceId").val();
-
-            if (!$scope.isNullOrUndefined(radarInstanceId) &&
-                radarInstanceId !== '')
+            for (var i = 0; i < $scope.radarInstanceList.length; i++)
             {
-                for (var i = 0; i < data.length; i++)
+                if ($scope.radarInstanceList[i].id == radarInstanceId)
                 {
-                    if (data[i].id == radarInstanceId)
-                    {
-                        $scope.radarInstanceDropdownSelected(userId, data[i]);
-                        break;
-                    }
+                    $scope.radarInstanceDropdownSelected(userId, $scope.radarInstanceList[i]);
+                    break;
                 }
             }
-        })
+        }
     }
 
     $scope.radarInstanceDropdownSelected = function (userId, radarInstance)
@@ -99,8 +99,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.getRadarRings = function ()
     {
-        var getRingsRequest = $resource('/api/radar/rings');
-        $scope.radarRingList = getRingsRequest.query();
+        $scope.radarRingList = RadarInstanceService.getRadarRingsRequest().query();
     }
 
     $scope.selectRadarRing = function (radarRing)
@@ -110,8 +109,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.getRadarCategories = function ()
     {
-        var getRadarCategoriesRequest = $resource('/api/radar/categories');
-        $scope.radarCategoryList = getRadarCategoriesRequest.query();
+        $scope.radarCategoryList = RadarInstanceService.getRadarCategoriesRequest().query();
     }
 
     $scope.selectRadarCategory = function (radarCategory)
@@ -197,8 +195,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
     $scope.searchForTechnologyByName = function ()
     {
         var technologyName = jQuery("#newTechnologyName").val();
-        var searchTechnologyByNameRequest = $resource('/api/technology/search?technologyName=:technologyName');
-        $scope.technologySearchResults = searchTechnologyByNameRequest.query({technologyName: technologyName});
+        $scope.technologySearchResults = TechnologyService.searchTechnologyRequest(technologyName, null, null).query();
     };
 
     $scope.selectTechnology = function (technology)
@@ -239,11 +236,10 @@ theApp.controller('RadarController', function ($scope, $resource, $http)
 
     $scope.deleteRadarItem = function (userId, radarId, radarItemId)
     {
-        $http.delete('/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId)
+        $http.delete(RadarInstanceService.deleteRadarItemRequest(userId, radarId, radarItemId))
             .then(function (data)
             {
                 $scope.getRadarData(userId, radarId);
             });
-
     }
 });

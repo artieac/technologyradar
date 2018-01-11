@@ -36,12 +36,15 @@
                     <a sec:authorize="isAuthenticated()" href="#" th:href="@{/home/secureradar}">Home</a>
                 </li>
                 <li><a href="#" th:href="@{/technology/search}">Technology Search</a></li>
+                <li>
+                    <a href="#" th:href="@{/public/home/about}">About</a>
+                </li>
                 <li sec:authorize="isAuthenticated()">
                     <a href="#" th:href="@{/admin/index}">Admin</a>
                 </li>
                 <li>
                     <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
-                    <a sec:authorize="isAuthenticated()" href="/logout" th:href="@{/logout}">Logout</a>
+                    <a sec:authorize="isAuthenticated()" href="https://alwaysmoveforward.auth0.com/v2/logout?returnTo=http%3A%2F%2Ftechnologyradarloadbalancer-468011247.us-east-2.elb.amazonaws.com">Logout</a>
                 </li>
             </ul>
         </div>

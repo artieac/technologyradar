@@ -1,7 +1,7 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstanceItem;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarItem;
 
 /**
  * Created by acorrea on 10/20/2016.
@@ -10,9 +10,9 @@ public class QuadrantItem
 {
     private PolarCoords polarCoords;
     private RadarRingPresentation radarRing;
-    private RadarInstanceItem assessmentItem;
+    private RadarItem assessmentItem;
 
-    public QuadrantItem(Integer quadrantVisualStart, RadarRingPresentation radarRing, RadarInstanceItem assessmentItem)
+    public QuadrantItem(Integer quadrantVisualStart, RadarRingPresentation radarRing, RadarItem assessmentItem)
     {
         this.assessmentItem = assessmentItem;
         this.radarRing = radarRing;
@@ -21,7 +21,7 @@ public class QuadrantItem
 
 
     @JsonProperty
-    public RadarInstanceItem getAssessmentItem() { return this.assessmentItem;}
+    public RadarItem getAssessmentItem() { return this.assessmentItem;}
 
     @JsonProperty()
     public String getName() { return this.assessmentItem.getTechnology().getName();}

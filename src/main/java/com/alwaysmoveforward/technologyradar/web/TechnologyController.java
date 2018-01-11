@@ -1,8 +1,8 @@
 package com.alwaysmoveforward.technologyradar.web;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
+import com.alwaysmoveforward.technologyradar.domainmodel.Radar;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
-import com.alwaysmoveforward.technologyradar.services.RadarInstanceService;
+import com.alwaysmoveforward.technologyradar.services.RadarService;
 import com.alwaysmoveforward.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class TechnologyController extends ControllerBase
     private static final Logger logger = Logger.getLogger(TechnologyController.class);
 
     @Autowired
-    private RadarInstanceService radarInstanceService;
+    private RadarService radarService;
 
     @RequestMapping("/technology/search")
     public String technologySearch()
@@ -34,19 +34,19 @@ public class TechnologyController extends ControllerBase
     @RequestMapping("/technology/{id}")
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
-        Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
-        List<RadarInstance> radarInstances = radarInstanceService.getAllByTechnologyId(id);
+        Technology targetTechnology = this.radarService.findTechnologyById(id);
+        List<Radar> radarList = radarService.getAllByTechnologyId(id);
 
         TechnologyBreakdown viewModel = new TechnologyBreakdown(targetTechnology);
 
-        for(int i = 0; i < radarInstances.size(); i++)
+        for(int i = 0; i < radarList.size(); i++)
         {
-            viewModel.addTechnologyAssessment(radarInstances.get(i));
+            viewModel.addTechnologyAssessment(radarList.get(i));
         }
 
         model.setViewName("technology/details");
         model.addObject("targetTechnology", targetTechnology);
-        model.addObject("assessmentItems", radarInstances);
+        model.addObject("assessmentItems", radarList);
         return model;
     }
 }

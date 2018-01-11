@@ -1,8 +1,8 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
+import com.alwaysmoveforward.technologyradar.domainmodel.Radar;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstanceItem;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +24,22 @@ public class TechnologyBreakdown
 
     public List<TechnologyBreakdownItem> getItems() { return this.items;}
 
-    public void addTechnologyAssessment(RadarInstance radarInstance)
+    public void addTechnologyAssessment(Radar radarInstance)
     {
-        if(radarInstance.getRadarInstanceItems() != null)
+        if(radarInstance.getRadarItems() != null)
         {
-            for(int i = 0; i < radarInstance.getRadarInstanceItems().size(); i++)
+            for(int i = 0; i < radarInstance.getRadarItems().size(); i++)
             {
-                if (radarInstance.getRadarInstanceItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
+                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addTechnologyAssessmentItem(radarInstance, radarInstance.getRadarInstanceItems().get(i));
+                    this.addTechnologyAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i));
                     break;
                 }
             }
         }
     }
 
-    public void addTechnologyAssessmentItem(RadarInstance assessment, RadarInstanceItem assessmentItem)
+    public void addTechnologyAssessmentItem(Radar assessment, RadarItem assessmentItem)
     {
         if(this.items == null)
         {

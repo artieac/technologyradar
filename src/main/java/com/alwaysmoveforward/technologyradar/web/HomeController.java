@@ -66,4 +66,12 @@ public class HomeController extends ControllerBase
         modelAndView.setViewName("home/radar");
         return modelAndView;
     }
+
+    @RequestMapping(value = { "/public/home/about", "/public/home/about" })
+    public ModelAndView About()
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("home/about");
+        return modelAndView;
+    }
 }

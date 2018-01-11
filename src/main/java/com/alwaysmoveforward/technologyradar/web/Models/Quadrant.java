@@ -3,7 +3,7 @@ package com.alwaysmoveforward.technologyradar.web.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarCategory;
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstanceItem;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarItem;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -85,7 +85,7 @@ public class Quadrant
     }
 
     @JsonIgnore
-    public void addItem(RadarRingPresentation radarRing, RadarInstanceItem assessmentItem)
+    public void addItem(RadarRingPresentation radarRing, RadarItem assessmentItem)
     {
         if(this.quadrantRings == null)
         {

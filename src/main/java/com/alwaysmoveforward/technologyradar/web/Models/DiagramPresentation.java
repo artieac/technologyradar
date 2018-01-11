@@ -1,6 +1,6 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
-import com.alwaysmoveforward.technologyradar.domainmodel.RadarInstance;
+import com.alwaysmoveforward.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarRing;
 
@@ -73,7 +73,7 @@ public class DiagramPresentation
         return this.radarRings;
     }
 
-    public void setRadarInstanceDetails(RadarInstance radarInstance)
+    public void setRadarInstanceDetails(Radar radarInstance)
     {
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();

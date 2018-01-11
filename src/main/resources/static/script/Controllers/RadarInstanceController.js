@@ -1,4 +1,4 @@
-theApp.controller('RadarInstanceController', function ($scope, $resource, $http)
+theApp.controller('RadarInstanceController', function ($scope, $resource, $http, RadarInstanceService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.radarInstanceId = $('#radarInstanceId').val();
@@ -6,32 +6,30 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http)
 
     $scope.getUserRadars = function(userId)
     {
-        var getTechnologyAssessmentRequest = $resource ('/api/User/:userId/Radars', { userId: userId});
-        $scope.radarInstances = getTechnologyAssessmentRequest.query();
+        $scope.radarInstances = RadarInstanceService.getRadarsByUserRequest(userId).query();
     }
 
     $scope.addRadar = function(userId)
     {
-        $http.post('/api/User/' + userId + '/Radar', $scope.newRadar)
+        $http.post(RadarInstanceService.addRadarRequest(userId), $scope.newRadar)
             .then(function (data)
             {
                 $scope.getUserRadars(userId);
             });
     }
 
-    $scope.deleteRadar = function(radarId, userId)
+    $scope.deleteRadarInstance = function(userId, radarId)
     {
-        $http.delete('/api/User/:userId/Radar/' + radarId)
+        $http.delete(RadarInstanceService.deleteRadarRequest(userId, radarId))
             .then(function (data)
             {
-                $scope.getAssessment(assessmentId, userId);
+                $scope.getUserRadars(userId);
             });
     }
 
     $scope.getRadarInstance = function(radarId, userId)
     {
-        var getRadarDataRequest = $resource('/api/User/' + userId + '/Radar/' + radarId);
-        getRadarDataRequest.get(function(data)
+        RadarInstanceService.getRadarInstanceRequest(userId, radarId).get(function(data)
         {
             $scope.currentRadar = data;
         });
