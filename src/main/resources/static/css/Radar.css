@@ -32,7 +32,7 @@ body{
 }
 
 .graphic{
-    background-image: url("/images/RadarBackground.png");
+    background-image: url("/images/RadarBackground.PNG");
     background-repeat: no-repeat;
     background-size:contain;
     width:150%;

@@ -40,7 +40,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a sec:authorize="isAnonymous()" href="#" th:href="@{/public/home/radars/0}">Home</a>
+                    <a sec:authorize="isAnonymous()" href="#" th:href="@{/}">Home</a>
                     <a sec:authorize="isAuthenticated()" href="#" th:href="@{/home/secureradar}">Home</a>
                 </li>
                 <li><a href="#" th:href="@{/technology/search}">Technology Search</a></li>

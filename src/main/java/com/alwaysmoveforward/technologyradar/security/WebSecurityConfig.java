@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -53,6 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .build();
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new RadarAccessDeniedHandler();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -62,14 +68,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/script/**",
                             "/css/**",
                             "/webjars/**",
-                            "/images/**",
-                            "/favicon.ico").permitAll()
+                            "/Images/**", "/images/**",
+                        "/favicon.ico").permitAll()
                 .antMatchers(callbackLocation,
-                            "/login").permitAll()
+                            "/login",
+                            "/accessDenied").permitAll()
                 .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
                 .antMatchers("/**").authenticated()
-                .and()
-                .logout().permitAll();
+                .and().exceptionHandling().accessDeniedPage("/accessDenied")
+                .and().logout().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 

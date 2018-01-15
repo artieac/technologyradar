@@ -22,7 +22,6 @@ public class HomeController extends ControllerBase
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
     {
-        viewModel.addAttribute("message", "hello");
         return "home/index";
     }
 
