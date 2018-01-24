@@ -46,7 +46,7 @@ public class RadarUserService
         return this.radarUserRepository.findByAuthenticationId(authenticationId);
     }
 
-    public RadarUser addUser(String authenticationId, String authority, String issuer, String email, String nickname)
+    public RadarUser addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name)
     {
         RadarUser retVal = null;
 
@@ -62,6 +62,7 @@ public class RadarUserService
                 retVal.setIssuer(issuer);
                 retVal.setEmail(email);
                 retVal.setNickname(nickname);
+                retVal.setName(name);
                 this.radarUserRepository.save(retVal);
             }
         }

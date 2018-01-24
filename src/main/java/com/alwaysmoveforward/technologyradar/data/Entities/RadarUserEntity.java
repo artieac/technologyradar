@@ -31,6 +31,9 @@ public class RadarUserEntity {
     @Column(name="Nickname", nullable=false, length=512)
     private String nickname;
 
+    @Column(name="Name", nullable=false, length=512)
+    private String name;
+
     public RadarUserEntity()
     {
 
@@ -63,4 +66,8 @@ public class RadarUserEntity {
     public String getNickname() { return this.nickname;}
 
     public void setNickname(String value) { this.nickname = value;}
+
+    public String getName() { return this.name;}
+
+    public void setName(String value) { this.nickname = name;}
 }

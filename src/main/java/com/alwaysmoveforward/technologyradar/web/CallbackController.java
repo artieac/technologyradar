@@ -69,7 +69,7 @@ public class CallbackController
 
             if(targetUser == null)
             {
-                this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer(), tokenAuth.getUserEmail(), tokenAuth.getUserNickname());
+                this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer(), tokenAuth.getUserEmail(), tokenAuth.getUserNickname(), tokenAuth.getName());
             }
 
             res.sendRedirect(redirectOnSuccess);

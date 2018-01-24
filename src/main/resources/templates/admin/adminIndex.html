@@ -1,0 +1,33 @@
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+       xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: uiHeader"></div>
+<br/><br/><br/>
+<input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+<div class="bodyContent">
+    <div class="contentPageTitle">
+        <label>Manage your Technology Radar</label>
+    </div>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td><input type="button" class="btn btn-primary" value="Add Radar" onclick="window.location.href='/admin/Radars'" /></td>
+                <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn btn-primary" value="Grant Access" onclick="window.location.href='/admin/UserAccess'" /></td>
+                <td>Go here to allow other users to edit your Radars.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

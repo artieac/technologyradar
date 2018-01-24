@@ -30,19 +30,19 @@ public class AdminController extends ControllerBase
     @RequestMapping("/index")
     public ModelAndView index(Model viewModel)
     {
-        return this.GenerateRadarInstanceModelAndView();
+        return this.GenerateRadarInstanceModelAndView("admin/adminindex");
     }
 
     @RequestMapping("/Radars")
     public ModelAndView manageRadars()
     {
-        return this.GenerateRadarInstanceModelAndView();
+        return this.GenerateRadarInstanceModelAndView("admin/manageRadars");
     }
 
-    private ModelAndView GenerateRadarInstanceModelAndView()
+    private ModelAndView GenerateRadarInstanceModelAndView(String viewName)
     {
         ModelAndView retVal = new ModelAndView();
-        retVal.setViewName("admin/manageRadars");
+        retVal.setViewName(viewName);
 
         RadarUser currentUser = this.getCurrentUser();
         if(currentUser != null)
@@ -55,6 +55,12 @@ public class AdminController extends ControllerBase
         }
 
         return retVal;
+    }
+
+    @RequestMapping("/UserAccess")
+    public ModelAndView manageUserAccess()
+    {
+        return this.GenerateRadarInstanceModelAndView("admin/manageUserAccess");
     }
 
     @RequestMapping("/Radar/{radarId}")

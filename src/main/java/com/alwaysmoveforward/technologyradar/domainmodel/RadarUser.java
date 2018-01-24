@@ -24,6 +24,8 @@ public class RadarUser {
 
     private String nickname;
 
+    private String name;
+
     public RadarUser()
     {
 
@@ -56,4 +58,9 @@ public class RadarUser {
     public String getNickname() { return this.nickname;}
 
     public void setNickname(String value) { this.nickname = value;}
+
+    public String getName() { return this.name;}
+
+    public void setName(String value) { this.name = value;}
+
 }

@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/home/index.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/home/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,51 +33,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="compiler.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
+      <file leaf-file-name="WebSecurityConfig.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="457">
+              <caret line="76" column="36" lean-forward="false" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
+              <folding>
+                <marker date="1516756398080" expanded="true" signature="3044:3308" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CallbackController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1023">
+              <caret line="71" column="192" lean-forward="false" selection-start-line="71" selection-start-column="192" selection-end-line="71" selection-end-column="192" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadarUser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1513">
+              <caret line="63" column="49" lean-forward="false" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadarUserEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="745">
+              <caret line="69" column="47" lean-forward="false" selection-start-line="69" selection-start-column="47" selection-end-line="69" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manageRadars.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="655">
+              <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manageRadarItems.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadarItems.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-594">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Radar.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/Radar.css">
+      <file leaf-file-name="manageUserAccess.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-271">
-              <caret line="42" column="26" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+            <state relative-caret-position="330">
+              <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modules.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+      <file leaf-file-name="adminIndex.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="462">
+              <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="uiDesigner.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
+      <file leaf-file-name="ControllerBase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2574">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="759">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="header.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
+      <file leaf-file-name="AdminController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="37" column="65" lean-forward="true" selection-start-line="37" selection-start-column="65" selection-end-line="37" selection-end-column="65" />
+            <state relative-caret-position="396">
+              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -85,8 +141,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -144,23 +200,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/auth0.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/com/alwaysmoveforward/technologyradar/TechnologyradarApplicationTests.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.production.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.development.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/target/classes/application.properties" />
         <option value="$PROJECT_DIR$/target/classes/application-production.properties" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/application-production.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/images/RadarBackground.PNG" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/LoginController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java" />
         <option value="$PROJECT_DIR$/target/classes/templates/home/radar.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/LogoutController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Factories/RadarInstanceFactory.js" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Factories/RadarInstanceServiceFactory.js" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/technology/search.html" />
@@ -182,7 +229,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/Models/TechnologyBreakdown.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarItemController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarInstanceController.js" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/radar.js" />
@@ -192,9 +238,19 @@
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/RadarAccessDeniedHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AccessDeniedController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/home/index.html" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
       </list>
     </option>
   </component>
@@ -239,9 +295,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -506,6 +562,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -622,7 +708,161 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="security" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="domainmodel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="technologyradar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Entities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1257,11 +1497,12 @@
       <workItem from="1514983897672" duration="14096000" />
       <workItem from="1515082258317" duration="13937000" />
       <workItem from="1515122898193" duration="27779000" />
+      <workItem from="1516753311767" duration="3097000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="315435000" />
+    <option name="totallyTimeSpent" value="320688000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
@@ -1270,7 +1511,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21484375" sideWeight="0.504375" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12866667" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17633334" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1278,7 +1519,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28645533" sideWeight="0.494375" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28645533" sideWeight="0.494375" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32853025" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1290,7 +1531,6 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958803" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.237" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910663" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1299,6 +1539,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910663" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1354,86 +1595,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1524">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/dao/RadarDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarInstanceController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarUserRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/dao/RadarCategoryDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarCategoryEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/Auth0Repository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="52" column="52" lean-forward="false" selection-start-line="52" selection-start-column="52" selection-end-line="52" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/Radar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1348">
           <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="e#463#464#0" expanded="false" />
-            <element signature="e#511#512#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1441,7 +1606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="853">
           <caret line="34" column="95" lean-forward="false" selection-start-line="34" selection-start-column="95" selection-end-line="34" selection-end-column="95" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1457,7 +1621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="363">
           <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1465,7 +1628,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="129" column="0" lean-forward="false" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1483,15 +1645,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="638">
           <caret line="236" column="17" lean-forward="false" selection-start-line="236" selection-start-column="11" selection-end-line="236" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="818">
-          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1499,9 +1652,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="20" column="30" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="30" />
-          <folding>
-            <marker date="1515693540727" expanded="true" signature="103:1118" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1517,7 +1667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1525,7 +1674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="790">
           <caret line="53" column="137" lean-forward="false" selection-start-line="53" selection-start-column="92" selection-end-line="53" selection-end-column="137" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1533,7 +1681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="902">
           <caret line="155" column="42" lean-forward="false" selection-start-line="155" selection-start-column="42" selection-end-line="155" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1541,7 +1688,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1549,7 +1695,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1557,9 +1702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2437">
           <caret line="173" column="66" lean-forward="false" selection-start-line="173" selection-start-column="66" selection-end-line="173" selection-end-column="66" />
-          <folding>
-            <marker date="1515693540639" expanded="true" signature="2735:2791" ph="select ta.Id... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1567,7 +1709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3432">
           <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1579,19 +1720,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/TechnologyService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1599,7 +1731,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1128">
           <caret line="101" column="36" lean-forward="false" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1607,7 +1738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1615,7 +1745,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="606">
           <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1623,7 +1752,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="673">
           <caret line="28" column="71" lean-forward="false" selection-start-line="28" selection-start-column="51" selection-end-line="28" selection-end-column="71" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1631,7 +1759,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="26" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1639,7 +1766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1668,9 +1794,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="12" column="3" lean-forward="false" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1678,7 +1801,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="17" column="45" lean-forward="false" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1700,7 +1822,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2574">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1710,17 +1832,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="393">
           <caret line="217" column="89" lean-forward="false" selection-start-line="217" selection-start-column="89" selection-end-line="217" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="70" column="55" lean-forward="false" selection-start-line="70" selection-start-column="55" selection-end-line="70" selection-end-column="55" />
-          <folding>
-            <marker date="1516027381831" expanded="true" signature="3044:3308" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1728,7 +1839,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
           <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1736,7 +1846,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="110" column="67" lean-forward="false" selection-start-line="110" selection-start-column="67" selection-end-line="110" selection-end-column="67" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1744,7 +1853,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1752,7 +1860,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1766,17 +1873,115 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/Radar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-271">
-          <caret line="42" column="26" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+        <state relative-caret-position="1386">
+          <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="37" column="65" lean-forward="true" selection-start-line="37" selection-start-column="65" selection-end-line="37" selection-end-column="65" />
+        <state relative-caret-position="1221">
+          <caret line="37" column="65" lean-forward="false" selection-start-line="37" selection-start-column="65" selection-end-line="37" selection-end-column="65" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/Auth0TokenAuthentication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1579">
+          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="64" column="37" lean-forward="false" selection-start-line="64" selection-start-column="37" selection-end-line="64" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/RadarUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1513">
+          <caret line="63" column="49" lean-forward="false" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarUserEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="745">
+          <caret line="69" column="47" lean-forward="false" selection-start-line="69" selection-start-column="47" selection-end-line="69" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/CallbackController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1023">
+          <caret line="71" column="192" lean-forward="false" selection-start-line="71" selection-start-column="192" selection-end-line="71" selection-end-column="192" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadarItems.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-594">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/AdminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="76" column="36" lean-forward="false" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
+          <folding>
+            <marker date="1516756398080" expanded="true" signature="3044:3308" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
