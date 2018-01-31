@@ -10,6 +10,11 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         return $resource('/api/public/User/:userId/Radars', {userId: userId});
     };
 
+    this.getRadarsByUserRequestUrl = function (userId)
+    {
+        return '/api/public/User/' + userId + '/Radars';
+    };
+
     this.getRadarRingsRequest = function ()
     {
         return $resource('/api/radar/rings');
@@ -40,6 +45,12 @@ theApp.service('RadarInstanceService', function ($resource, $http)
     this.deleteRadarItemRequest = function (userId, radarId, radarItemId)
     {
         var retVal = '/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId;
+        return retVal;
+    };
+
+    this.publishRadar = function(userId, radarId)
+    {
+        var retVal = '/api/User/' + userId + '/Radar/' + radarId + '/Publish';
         return retVal;
     };
 });

@@ -92,6 +92,20 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
         return retVal;
     }
 
+    public List<Radar> findAllByRadarUserAndIsPublished(Long radarUserId, boolean isPublished)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Iterable<RadarEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, isPublished);
+
+        for (RadarEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
     public List<Radar> findAllByTechnologyId(Long technologyId)
     {
         List<Radar> retVal = new ArrayList<Radar>();
@@ -139,6 +153,29 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
         return retVal;
     }
 
+    public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
+    {
+        Radar retVal = null;
+        String maxQuery = "select ta.Id, ta.Name, ta.AssessmentDate, ta.RadarUserId, ta.IsPublished";
+        maxQuery += " FROM TechnologyAssessments ta WHERE ta.Id= (SELECT MAX(Id) FROM TechnologyAssessments WHERE TechnologyAssessments.RadarUserId = ?1";
+
+        if(publishedOnly==true)
+        {
+            maxQuery += " AND TechnologyAssessments.IsPublished = 1)";
+        }
+
+        Query q = this.entityManager.createNativeQuery(maxQuery, RadarEntity.class);
+        q.setParameter(1, userId);
+        RadarEntity foundItem = (RadarEntity)q.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
     @Override
     public Radar save(Radar itemToSave)
     {
@@ -161,6 +198,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             radarEntity.setAssessmentDate(itemToSave.getAssessmentDate());
             radarEntity.setName(itemToSave.getName());
             radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+            radarEntity.setIsPublished(itemToSave.getIsPublished());
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null)

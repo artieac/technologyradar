@@ -58,23 +58,27 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     {
         $scope.getRadarSharingLink(userId);
 
-        $scope.radarInstanceList = RadarInstanceService.getRadarsByUserRequest(userId).query();
-
-        var radarInstanceId = $("#radarInstanceId").val();
-
-        if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
-            !$scope.isNullOrUndefined(radarInstanceId) &&
-            radarInstanceId !== '')
-        {
-            for (var i = 0; i < $scope.radarInstanceList.length; i++)
+        $http.get(RadarInstanceService.getRadarsByUserRequestUrl(userId))
+            .success(function (data)
             {
-                if ($scope.radarInstanceList[i].id == radarInstanceId)
+                $scope.radarInstanceList = data;
+
+                var radarInstanceId = $("#radarInstanceId").val();
+
+                if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
+                    !$scope.isNullOrUndefined(radarInstanceId) &&
+                    radarInstanceId !== '')
                 {
-                    $scope.radarInstanceDropdownSelected(userId, $scope.radarInstanceList[i]);
-                    break;
+                    for (var i = 0; i < $scope.radarInstanceList.length; i++)
+                    {
+                        if ($scope.radarInstanceList[i].id == radarInstanceId)
+                        {
+                            $scope.radarInstanceDropdownSelected(userId, $scope.radarInstanceList[i]);
+                            break;
+                        }
+                    }
                 }
-            }
-        }
+            });
     }
 
     $scope.radarInstanceDropdownSelected = function (userId, radarInstance)

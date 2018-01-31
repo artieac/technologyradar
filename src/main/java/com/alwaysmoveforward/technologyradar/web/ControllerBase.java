@@ -4,6 +4,7 @@ import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.security.Auth0TokenAuthentication;
 import com.alwaysmoveforward.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -12,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class ControllerBase
 {
+    @Value("${com.alwaysmoveforward.securityEnabled}")
+    private boolean securityEnabled;
+
     @Autowired
     public RadarUserService radarUserService;
 
@@ -21,15 +25,20 @@ public class ControllerBase
     {
         if(this.currentUser == null)
         {
-           Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
-
-            if(tokenAuth!=null)
+            if(this.securityEnabled==true)
             {
-                this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
-            }
+                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
 
-            this.currentUser = new RadarUser();
-            this.currentUser.setId(1L);
+                if(tokenAuth!=null)
+                {
+                    this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
+                }
+            }
+            else
+            {
+                this.currentUser = new RadarUser();
+                this.currentUser.setId(1L);
+            }
         }
 
         return this.currentUser;

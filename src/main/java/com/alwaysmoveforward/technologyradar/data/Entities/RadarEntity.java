@@ -31,30 +31,31 @@ public class RadarEntity
     @OneToMany(mappedBy = "radarInstance")
     private List<RadarItemEntity> radarItems;
 
+    @Column(name = "IsPublished", nullable = false)
+    private boolean isPublished;
+
     public RadarEntity()
     {
 
     }
 
     public Long getId(){ return this.id;}
-
     public void setId(Long value){ this.id = value;}
 
     public String getName() { return this.name;}
-
     public void setName(String value) { this.name = value;}
 
     public Date getAssessmentDate() { return this.assessmentDate;}
-
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
 
     public RadarUserEntity getRadarUser() { return this.radarUser;}
-
     public void setRadarUser(RadarUserEntity value) { this.radarUser = value;}
 
     public List<RadarItemEntity> getRadarItems() { return this.radarItems;}
-
     public void setRadarItems(List<RadarItemEntity> value) { this.radarItems = value;}
+
+    public boolean getIsPublished(){ return this.isPublished;}
+    public void setIsPublished(boolean value){ this.isPublished = value;}
 
     public RadarEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {

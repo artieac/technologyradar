@@ -64,6 +64,20 @@ public class RadarService
         return retVal;
     }
 
+    public List<Radar> findByRadarUserIdAndIsPublished(Long radarUserId, boolean isPublished)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
+
+        if(foundUser!=null)
+        {
+            retVal = this.radarRepository.findAllByRadarUserAndIsPublished(foundUser.getId(), isPublished);
+        }
+
+        return retVal;
+    }
+
     public Technology findTechnologyById(Long technologyId)
     {
         return this.technologyRepository.findOne(technologyId);
@@ -198,7 +212,8 @@ public class RadarService
         return retVal;
     }
 
-    public boolean deleteRadarItem(Long radarId, Long radarItemId, Long radarUserId){
+    public boolean deleteRadarItem(Long radarId, Long radarItemId, Long radarUserId)
+    {
         boolean retVal = false;
 
         Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, radarUserId);
@@ -209,6 +224,27 @@ public class RadarService
             this.radarRepository.save(radar);
             retVal = true;
         }
+        return retVal;
+    }
+
+    public Radar findMostRecentByUserIdAndPublished(Long userId, boolean publishedOnly)
+    {
+        return this.radarRepository.findMostRecentByUserIdAndPublishedOnly(userId, publishedOnly);
+    }
+
+    public boolean publishRadar(Long userId, Long radarId, boolean shouldPublish)
+    {
+        boolean retVal = false;
+
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
+
+        if(radar!=null)
+        {
+            radar.setIsPublished(shouldPublish);
+            this.radarRepository.save(radar);
+            retVal = true;
+        }
+
         return retVal;
     }
 }

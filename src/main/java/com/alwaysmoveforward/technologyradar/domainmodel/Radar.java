@@ -11,16 +11,12 @@ import java.util.List;
 public class Radar implements Serializable
 {
     private Long id;
-
     private String name;
-
     private Date assessmentDate;
-
     private String creator;
-
     private RadarUser radarUser;
-
     private List<RadarItem> radarItems;
+    private boolean isPublished;
 
     public Radar()
     {
@@ -28,28 +24,26 @@ public class Radar implements Serializable
     }
 
     public Long getId(){ return id;}
-
     public void setId(Long id){ this.id = id;}
 
     public String getName() { return name;}
-
     public void setName(String value) { this.name = value;}
 
     public Date getAssessmentDate() { return assessmentDate;}
-
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
 
     public String getCreator() { return creator;}
-
     public void setCreator(String value) { this.creator = value;}
 
     public List<RadarItem> getRadarItems() { return radarItems;}
-
     public void setRadarItems(List<RadarItem> value) { this.radarItems = value;}
 
     public RadarUser getRadarUser() { return this.radarUser;}
-
     public void setRadarUser(RadarUser value) { this.radarUser = value;}
+
+    public boolean getIsPublished(){ return this.isPublished;}
+    public void setIsPublished(boolean value){ this.isPublished = value;}
+
 
     public void addRadarItem(RadarItem newAssessmentItem)
     {

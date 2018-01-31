@@ -1,7 +1,10 @@
 package com.alwaysmoveforward.technologyradar.web;
 
+import com.alwaysmoveforward.technologyradar.domainmodel.Radar;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
+import com.alwaysmoveforward.technologyradar.services.RadarService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,9 @@ import java.util.Optional;
 public class HomeController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
+
+    @Autowired
+    RadarService radarService;
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -60,6 +66,23 @@ public class HomeController extends ControllerBase
         if(radarInstanceId.isPresent())
         {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
+        }
+
+        modelAndView.setViewName("home/radar");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = { "/public/home/radars/{userId}/mostrecent"})
+    public ModelAndView mostRecentRadar(@PathVariable Long userId)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userId", userId);
+
+        Radar radarInstance = this.radarService.findMostRecentByUserIdAndPublished(userId, true);
+
+        if(radarInstance != null)
+        {
+            modelAndView.addObject("radarInstanceId", radarInstance.getId());
         }
 
         modelAndView.setViewName("home/radar");

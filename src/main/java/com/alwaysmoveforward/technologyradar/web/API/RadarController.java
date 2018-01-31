@@ -4,15 +4,18 @@ import com.alwaysmoveforward.technologyradar.domainmodel.*;
 import com.alwaysmoveforward.technologyradar.services.DiagramConfigurationService;
 import com.alwaysmoveforward.technologyradar.services.RadarService;
 import com.alwaysmoveforward.technologyradar.web.ControllerBase;
+import com.alwaysmoveforward.technologyradar.web.Models.DiagramPresentation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by acorrea on 10/20/2016.
+ * Created by acorrea on 12/24/2017.
  */
 @Controller
 @RequestMapping("/api")
@@ -20,31 +23,77 @@ public class RadarController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarController.class);
 
-    @Autowired
-    DiagramConfigurationService radarSetupService;
 
     @Autowired
-    RadarService radarService;
+    private RadarService radarService;
 
-    @RequestMapping(value = "/radar/rings", produces = "application/json")
-    public @ResponseBody List<RadarRing> getRadarRings()
+    @Autowired
+    private DiagramConfigurationService radarSetupService;
+
+    @RequestMapping(value = "/public/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId)
     {
-        List<RadarRing> retVal = this.radarSetupService.getRadarRings();
+        return this.radarService.findByRadarUserIdAndIsPublished(radarUserId, true);
+    }
+
+    @RequestMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Radar getPublicMostRecentRadarByUser(@PathVariable Long radarUserId)
+    {
+        return this.radarService.findMostRecentByUserIdAndPublished(radarUserId, true);
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId)
+    {
+        return this.radarService.findByRadarUserId(radarUserId);
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radar", method = RequestMethod.POST)
+    public @ResponseBody List<Radar> addRadar(@RequestBody Map modelMap, @PathVariable Long radarUserId)
+    {
+        if(this.getCurrentUser().getId() == radarUserId)
+        {
+            this.radarService.addRadar(radarUserId, modelMap.get("name").toString());
+        }
+
+        return this.radarService.findByRadarUserId(this.getCurrentUser().getId());
+    }
+
+    @RequestMapping(value = "/public/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
+    public @ResponseBody DiagramPresentation getPublicRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId)
+    {
+        return this.radarSetupService.generateDiagramData(radarUserId, radarId);
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
+    public @ResponseBody DiagramPresentation getRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId)
+    {
+        return this.radarSetupService.generateDiagramData(radarUserId, radarId);
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.PUT)
+    public @ResponseBody List<Radar> updateTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId)
+    {
+        if(this.getCurrentUser().getId() == radarUserId)
+        {
+            this.radarService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
+        }
+
+        return this.radarService.findByRadarUserId(this.getCurrentUser().getId());
+    }
+
+    @RequestMapping(value = "/User/{userId}/Radar/{radarId}/Publish", method = RequestMethod.PUT)
+    public @ResponseBody boolean updateRadarIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
+    {
+        boolean retVal = false;
+        boolean isPublished = Boolean.parseBoolean(modelMap.get("isPublished").toString());
+
+        if(this.getCurrentUser().getId() == userId)
+        {
+            retVal = this.radarService.publishRadar(userId, radarId, isPublished);
+        }
 
         return retVal;
     }
 
-    @RequestMapping(value = "/radar/categories", produces = "application/json")
-    public @ResponseBody List<RadarCategory> getRadarCategories()
-    {
-        List<RadarCategory> retVal = this.radarSetupService.getRadarCategories();
-
-        return retVal;
-    }
-
-    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
-    public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
-    {
-        return this.radarService.deleteRadar(radarUserId, radarId);
-    }
 }

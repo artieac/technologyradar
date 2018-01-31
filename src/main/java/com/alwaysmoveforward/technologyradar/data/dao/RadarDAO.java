@@ -11,6 +11,7 @@ import java.util.Date;
 public interface RadarDAO extends PagingAndSortingRepository<RadarEntity, Long>
 {
     Iterable<RadarEntity> findAllByRadarUserId(Long radarUserId);
+    Iterable<RadarEntity> findAllByRadarUserIdAndIsPublished(Long radarUserId, boolean isPublished);
     RadarEntity findByRadarUserAndAssessmentDate(Long radarUserId, Date assessmentDate);
     RadarEntity findByName(String name);
     RadarEntity findByIdAndName(Long radarInstanceId, String name);

@@ -38,6 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${com.auth0.callbackUrl}")
     private String callbackLocation;
 
+    @Value("${com.alwaysmoveforward.securityEnabled}")
+    private boolean securityEnabled;
+
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver
@@ -63,20 +66,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        http
-                .authorizeRequests()
-                .antMatchers("/script/**",
+        if(this.securityEnabled==true)
+        {
+            http
+                    .authorizeRequests()
+                    .antMatchers("/script/**",
                             "/css/**",
                             "/webjars/**",
                             "/Images/**", "/images/**",
-                        "/favicon.ico").permitAll()
-                .antMatchers(callbackLocation,
+                            "/favicon.ico").permitAll()
+                    .antMatchers(callbackLocation,
                             "/login",
                             "/accessDenied").permitAll()
-                .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
-                .antMatchers("/**").authenticated()
-                .and().exceptionHandling().accessDeniedPage("/accessDenied")
-                .and().logout().permitAll();
+                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
+                    .antMatchers("/**").authenticated()
+                    .and().exceptionHandling().accessDeniedPage("/accessDenied")
+                    .and().logout().permitAll();
+        }
+        else
+        {
+            http
+                    .authorizeRequests()
+                    .antMatchers("/script/**",
+                            "/css/**",
+                            "/webjars/**",
+                            "/Images/**", "/images/**",
+                            "/favicon.ico").permitAll()
+                    .antMatchers(callbackLocation,
+                            "/login",
+                            "/accessDenied").permitAll()
+                    .antMatchers(HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
+                    .antMatchers("/**").permitAll()
+                    .and().logout().permitAll();
+        }
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 

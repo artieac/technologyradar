@@ -33,12 +33,14 @@
             <thead>
             <tr>
                 <th width="20%">Name</th>
+                <th width="10%">Published?</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="radarInstance in radarInstances">
                     <td>{{radarInstance.name}}</td>
+                    <td><input type="checkbox" name="showOrdered" value="{{ radarInstance.isPublished }}" ng-model="radarInstance.isPublished" ng-change="publishRadar(currentUserId, radarInstance)"/></td>
                     <td>
                         <div>
                             <button type="button" class="btn btn-primary" ng-click="deleteRadarInstance(currentUserId, radarInstance.id)">Delete</button>

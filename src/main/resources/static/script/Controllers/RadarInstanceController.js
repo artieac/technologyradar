@@ -34,4 +34,16 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
             $scope.currentRadar = data;
         });
     }
+
+    $scope.publishRadar = function(userId, radarInstance)
+    {
+        var parameters = {};
+        parameters.isPublished = radarInstance.isPublished;
+
+        $http.put(RadarInstanceService.publishRadar(userId, radarInstance.id), parameters)
+            .error(function (data)
+            {
+                radarInstance.isPublished = false;
+            });
+    }
 });
