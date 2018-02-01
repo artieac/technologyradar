@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarConfigurationController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarInstanceController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/dao/RadarDAO.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/dao/RadarDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/Radar.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/Radar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarService.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/services/RadarService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application-development.properties" afterPath="$PROJECT_DIR$/src/main/resources/application-development.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database/006_AddCurrent.sql" afterPath="$PROJECT_DIR$/Database/006_AddCurrent.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarInstanceController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarInstanceController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/script/Services/RadarInstanceService.js" afterPath="$PROJECT_DIR$/src/main/resources/static/script/Services/RadarInstanceService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,7 +38,7 @@
       <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="824">
+            <state relative-caret-position="2178">
               <caret line="80" column="83" lean-forward="false" selection-start-line="80" selection-start-column="83" selection-end-line="80" selection-end-column="83" />
               <folding />
             </state>
@@ -66,13 +50,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1848">
               <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1701#1702#0" expanded="false" />
-                <element signature="e#1759#1760#0" expanded="false" />
-                <element signature="e#2602#2603#0" expanded="false" />
-                <element signature="e#2672#2673#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -82,37 +60,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="264">
               <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#746#747#0" expanded="false" />
-                <element signature="e#805#806#0" expanded="false" />
-                <element signature="e#845#846#0" expanded="false" />
-                <element signature="e#883#884#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RadarItemController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarItemController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TechnologyController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/TechnologyController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="22" column="13" lean-forward="false" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,18 +70,12 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1221">
               <caret line="55" column="59" lean-forward="false" selection-start-line="55" selection-start-column="59" selection-end-line="55" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1800#1801#0" expanded="false" />
-                <element signature="e#1863#1864#0" expanded="false" />
-                <element signature="e#1922#1923#0" expanded="false" />
-                <element signature="e#1983#1984#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RadarRepository.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RadarRepository.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRepository.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="528">
@@ -147,24 +89,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RadarEntity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java">
+      <file leaf-file-name="manageUserAccess.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="637">
-              <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+            <state relative-caret-position="330">
+              <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RadarDAO.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/dao/RadarDAO.java">
+      <file leaf-file-name="TechnologyradarApplication.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/TechnologyradarApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state relative-caret-position="132">
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="13" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application-development.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="6" column="43" lean-forward="false" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadarEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="957">
+              <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -273,7 +233,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/application-development.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/security/WebSecurityConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/ControllerBase.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" />
         <option value="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarInstanceController.js" />
@@ -285,6 +244,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
       </list>
     </option>
   </component>
@@ -311,8 +271,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-13" />
     <option name="y" value="-13" />
-    <option name="width" value="3866" />
-    <option name="height" value="2346" />
+    <option name="width" value="3026" />
+    <option name="height" value="1946" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -329,7 +289,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -1011,6 +970,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -1643,19 +1603,20 @@
       <workItem from="1515122898193" duration="27779000" />
       <workItem from="1516753311767" duration="23640000" />
       <workItem from="1517424647888" duration="1014000" />
+      <workItem from="1517455972172" duration="100000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="342245000" />
+    <option name="totallyTimeSpent" value="342345000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="3866" height="2346" extended-state="6" />
+    <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21484375" sideWeight="0.504375" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13776042" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13766667" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1663,7 +1624,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23278688" sideWeight="0.494375" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23227666" sideWeight="0.494375" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32833722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1673,7 +1634,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38594848" sideWeight="0.495625" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958803" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18515626" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.185" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1743,7 +1704,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1821,7 +1781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1579">
           <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1829,7 +1788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1513">
           <caret line="63" column="49" lean-forward="false" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1837,7 +1795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="745">
           <caret line="69" column="47" lean-forward="false" selection-start-line="69" selection-start-column="47" selection-end-line="69" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1845,14 +1802,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1023">
           <caret line="71" column="192" lean-forward="false" selection-start-line="71" selection-start-column="192" selection-end-line="71" selection-end-column="192" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1860,7 +1809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1868,7 +1816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1883,15 +1830,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-97">
           <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/TechnologyradarApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="13" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1899,7 +1837,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="21" column="48" lean-forward="false" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1921,7 +1858,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1128">
           <caret line="64" column="37" lean-forward="false" selection-start-line="64" selection-start-column="37" selection-end-line="64" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1946,18 +1882,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="6" column="43" lean-forward="false" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/domainmodel/Auth0UserProfile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-231">
           <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1965,7 +1893,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1983,14 +1910,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1089">
           <caret line="39" column="43" lean-forward="false" selection-start-line="39" selection-start-column="43" selection-end-line="39" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="10" column="43" lean-forward="false" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -2005,7 +1924,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="934">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2051,9 +1969,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2061,9 +1977,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2071,9 +1985,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="22" column="13" lean-forward="false" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2081,13 +1993,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1221">
           <caret line="55" column="59" lean-forward="false" selection-start-line="55" selection-start-column="59" selection-end-line="55" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1800#1801#0" expanded="false" />
-            <element signature="e#1863#1864#0" expanded="false" />
-            <element signature="e#1922#1923#0" expanded="false" />
-            <element signature="e#1983#1984#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2095,13 +2001,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#746#747#0" expanded="false" />
-            <element signature="e#805#806#0" expanded="false" />
-            <element signature="e#845#846#0" expanded="false" />
-            <element signature="e#883#884#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2109,13 +2009,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1848">
           <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1701#1702#0" expanded="false" />
-            <element signature="e#1759#1760#0" expanded="false" />
-            <element signature="e#2602#2603#0" expanded="false" />
-            <element signature="e#2672#2673#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2129,7 +2023,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="824">
+        <state relative-caret-position="2178">
           <caret line="80" column="83" lean-forward="false" selection-start-line="80" selection-start-column="83" selection-end-line="80" selection-end-column="83" />
           <folding />
         </state>
@@ -2137,7 +2031,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/Entities/RadarEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
+        <state relative-caret-position="957">
           <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
           <folding />
         </state>
@@ -2152,6 +2046,38 @@
             <marker date="1517425587762" expanded="true" signature="4600:4656" ph="select ta.Id... " />
             <marker date="1517425587762" expanded="true" signature="4600:4672" ph="select ta.Id... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="6" column="43" lean-forward="false" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="17" column="38" lean-forward="false" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageUserAccess.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/TechnologyradarApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="13" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>

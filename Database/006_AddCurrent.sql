@@ -1,2 +1,2 @@
-ALTER TABLE TechnologyAssessments ADD Current bit NOT NULL DEFAULT 0;
+ALTER TABLE TechnologyAssessments ADD IsPublished bit NOT NULL DEFAULT 1;
 
