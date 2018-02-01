@@ -34,16 +34,18 @@
             <tr>
                 <th width="20%">Name</th>
                 <th width="10%">Published?</th>
+                <th width="10%">Locked?</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="radarInstance in radarInstances">
                     <td>{{radarInstance.name}}</td>
-                    <td><input type="checkbox" name="showOrdered" value="{{ radarInstance.isPublished }}" ng-model="radarInstance.isPublished" ng-change="publishRadar(currentUserId, radarInstance)"/></td>
+                    <td><input type="checkbox" name="isPublished" value="{{ radarInstance.isPublished }}" ng-model="radarInstance.isPublished" ng-change="publishRadar(currentUserId, radarInstance)"/></td>
+                    <td><input type="checkbox" name="isLocked" value="{{ radarInstance.isLocked }}" ng-model="radarInstance.isLocked" ng-change="lockRadar(currentUserId, radarInstance)"/></td>
                     <td>
                         <div>
-                            <button type="button" class="btn btn-primary" ng-click="deleteRadarInstance(currentUserId, radarInstance.id)">Delete</button>
+                            <button type="button" class="btn btn-primary" ng-disabled="(radarInstance.isPublished==true) || (radarInstance.isLocked==true)" ng-click="deleteRadarInstance(currentUserId, radarInstance.id)">Delete</button>
                         </div>
                     </td>
                 </tr>

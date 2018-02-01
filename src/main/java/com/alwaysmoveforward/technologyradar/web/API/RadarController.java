@@ -96,4 +96,18 @@ public class RadarController extends ControllerBase
         return retVal;
     }
 
+    @RequestMapping(value = "/User/{userId}/Radar/{radarId}/Lock", method = RequestMethod.PUT)
+    public @ResponseBody boolean updateRadarIsLocked(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
+    {
+        boolean retVal = false;
+        boolean isLocked = Boolean.parseBoolean(modelMap.get("isLocked").toString());
+
+        if(this.getCurrentUser().getId() == userId)
+        {
+            retVal = this.radarService.lockRadar(userId, radarId, isLocked);
+        }
+
+        return retVal;
+    }
+
 }

@@ -46,4 +46,16 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
                 radarInstance.isPublished = false;
             });
     }
+
+    $scope.lockRadar = function(userId, radarInstance)
+    {
+        var parameters = {};
+        parameters.isLocked = radarInstance.isLocked;
+
+        $http.put(RadarInstanceService.lockRadar(userId, radarInstance.id), parameters)
+            .error(function (data)
+            {
+                radarInstance.isLocked = false;
+            });
+    }
 });

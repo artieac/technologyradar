@@ -53,7 +53,7 @@
                 <div class="col-md-9">
                     <div id="radar"></div>
                 </div>
-                <div class="col-md-3" sec:authorize="isAuthenticated()">
+                <div class="col-md-3" sec:authorize="isAuthenticated()" ng-show="selectedRadarInstance.isLocked==false">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Radar Item</div>
                         <div id="technologyAssessmentDetailsPanel" class="panel-body">

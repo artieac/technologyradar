@@ -121,11 +121,11 @@ public class RadarService
     {
         boolean retVal = false;
 
-        Radar radarInstance = this.radarRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
 
-        if(radarInstance!=null)
+        if(radar!=null && radar.getIsPublished()==false && radar.getIsLocked()==false)
         {
-            this.radarRepository.delete(radarInstance.getId());
+            this.radarRepository.delete(radar.getId());
             retVal = true;
         }
 
@@ -141,7 +141,7 @@ public class RadarService
             retVal = this.radarRepository.findOne(radarId);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
-            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
+            if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
             {
                 retVal.setName(name);
                 this.radarRepository.save(retVal);
@@ -183,7 +183,7 @@ public class RadarService
         {
             retVal = this.radarRepository.findOne(radarId);
 
-            if(retVal != null && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
+            if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
             {
                 RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
                 retVal.addRadarItem(targetTechnology, radarRing, confidenceLevel, assessmentDetails);
@@ -200,13 +200,13 @@ public class RadarService
 
         if(radarId > 0 && radarItemId > 0 && radarRingId > 0)
         {
-            Radar assessment = this.radarRepository.findOne(radarId);
+            Radar radar = this.radarRepository.findOne(radarId);
 
-            if(assessment != null)
+            if(radar != null && radar.getIsLocked() == false)
             {
                 RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
-                assessment.updateRadarItem(radarItemId, radarRing, confidenceLevel, assessmentDetails);
-                this.radarRepository.save(assessment);
+                radar.updateRadarItem(radarItemId, radarRing, confidenceLevel, assessmentDetails);
+                this.radarRepository.save(radar);
             }
         }
         return retVal;
@@ -218,7 +218,7 @@ public class RadarService
 
         Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, radarUserId);
 
-        if(radar!=null)
+        if(radar!=null && radar.getIsLocked() == false)
         {
             radar.removeRadarItem(radarItemId);
             this.radarRepository.save(radar);
@@ -238,9 +238,25 @@ public class RadarService
 
         Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
 
-        if(radar!=null)
+        if(radar!=null && radar.getIsLocked() == false)
         {
             radar.setIsPublished(shouldPublish);
+            this.radarRepository.save(radar);
+            retVal = true;
+        }
+
+        return retVal;
+    }
+
+    public boolean lockRadar(Long userId, Long radarId, boolean shouldLock)
+    {
+        boolean retVal = false;
+
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
+
+        if(radar!=null)
+        {
+            radar.setIsLocked(shouldLock);
             this.radarRepository.save(radar);
             retVal = true;
         }

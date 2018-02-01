@@ -156,12 +156,12 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
     {
         Radar retVal = null;
-        String maxQuery = "select ta.Id, ta.Name, ta.AssessmentDate, ta.RadarUserId, ta.IsPublished";
-        maxQuery += " FROM TechnologyAssessments ta WHERE ta.Id= (SELECT MAX(Id) FROM TechnologyAssessments WHERE TechnologyAssessments.RadarUserId = ?1";
+        String maxQuery = "select MAX(ta.Id), ta.Name, ta.AssessmentDate, ta.RadarUserId, ta.IsPublished, ta.IsLocked";
+        maxQuery += " FROM TechnologyAssessments ta WHERE ta.RadarUserId = ?1";
 
         if(publishedOnly==true)
         {
-            maxQuery += " AND TechnologyAssessments.IsPublished = 1)";
+            maxQuery += " AND ta.IsPublished = 1)";
         }
 
         Query q = this.entityManager.createNativeQuery(maxQuery, RadarEntity.class);
@@ -199,6 +199,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             radarEntity.setName(itemToSave.getName());
             radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
             radarEntity.setIsPublished(itemToSave.getIsPublished());
+            radarEntity.setIsLocked(itemToSave.getIsLocked());
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null)

@@ -17,10 +17,13 @@ public class Radar implements Serializable
     private RadarUser radarUser;
     private List<RadarItem> radarItems;
     private boolean isPublished;
+    private boolean isLocked;
 
     public Radar()
     {
         this.assessmentDate = new Date();
+        this.isPublished = false;
+        this.isLocked = false;
     }
 
     public Long getId(){ return id;}
@@ -44,6 +47,8 @@ public class Radar implements Serializable
     public boolean getIsPublished(){ return this.isPublished;}
     public void setIsPublished(boolean value){ this.isPublished = value;}
 
+    public boolean getIsLocked(){ return this.isLocked;}
+    public void setIsLocked(boolean value){ this.isLocked = value;}
 
     public void addRadarItem(RadarItem newAssessmentItem)
     {
@@ -57,56 +62,66 @@ public class Radar implements Serializable
 
     public void addRadarItem(Technology targetTechnology, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
-        if (targetTechnology != null)
+        if(this.isLocked == false)
         {
-            boolean alreadyIncluded = false;
-
-            for (int i = 0; i < this.getRadarItems().size(); i++)
+            if (targetTechnology != null)
             {
-                if (this.getRadarItems().get(i).getTechnology().getId() == targetTechnology.getId())
+                boolean alreadyIncluded = false;
+
+                for (int i = 0; i < this.getRadarItems().size(); i++)
                 {
-                    alreadyIncluded = true;
-                    break;
+                    if (this.getRadarItems().get(i).getTechnology().getId() == targetTechnology.getId())
+                    {
+                        alreadyIncluded = true;
+                        break;
+                    }
                 }
-            }
 
-            if (alreadyIncluded == false)
-            {
-                RadarItem newItem = new RadarItem();
-                newItem.setDetails(assessmentDetails);
-                newItem.setRadarRing(radarRing);
-                newItem.setTechnology(targetTechnology);
-                newItem.setConfidenceFactor(confidenceLevel);
-                this.getRadarItems().add(newItem);
+                if (alreadyIncluded == false)
+                {
+                    RadarItem newItem = new RadarItem();
+                    newItem.setDetails(assessmentDetails);
+                    newItem.setRadarRing(radarRing);
+                    newItem.setTechnology(targetTechnology);
+                    newItem.setConfidenceFactor(confidenceLevel);
+                    this.getRadarItems().add(newItem);
+                }
             }
         }
     }
 
     public void updateRadarItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
-        for(int i = 0; i < this.radarItems.size(); i++)
+        if(this.isLocked == false)
         {
-            RadarItem currentItem = this.radarItems.get(i);
-
-            if(currentItem.getId()==assessmentItemId)
+            for(int i = 0; i < this.radarItems.size(); i++)
             {
-                currentItem.setRadarRing(radarRing);
-                currentItem.setConfidenceFactor(confidenceLevel);
-                currentItem.setDetails(assessmentDetails);
-                break;
+                RadarItem currentItem = this.radarItems.get(i);
+
+                if(currentItem.getId()==assessmentItemId)
+                {
+                    currentItem.setRadarRing(radarRing);
+                    currentItem.setConfidenceFactor(confidenceLevel);
+                    currentItem.setDetails(assessmentDetails);
+                    break;
+                }
             }
         }
     }
 
-    public void removeRadarItem(Long assessmentItemId){
-
-        if(this.radarItems != null)
+    public void removeRadarItem(Long assessmentItemId)
+    {
+        if(this.isLocked==false)
         {
-            for(int i = 0; i < this.radarItems.size(); i++)
+            if (this.radarItems != null)
             {
-                if(this.radarItems.get(i).getId() == assessmentItemId){
-                    this.radarItems.remove(i);
-                    break;
+                for (int i = 0; i < this.radarItems.size(); i++)
+                {
+                    if (this.radarItems.get(i).getId() == assessmentItemId)
+                    {
+                        this.radarItems.remove(i);
+                        break;
+                    }
                 }
             }
         }

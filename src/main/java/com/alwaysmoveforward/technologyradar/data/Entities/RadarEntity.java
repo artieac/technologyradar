@@ -34,6 +34,9 @@ public class RadarEntity
     @Column(name = "IsPublished", nullable = false)
     private boolean isPublished;
 
+    @Column(name = "IsLocked", nullable = false)
+    private boolean isLocked;
+
     public RadarEntity()
     {
 
@@ -56,6 +59,9 @@ public class RadarEntity
 
     public boolean getIsPublished(){ return this.isPublished;}
     public void setIsPublished(boolean value){ this.isPublished = value;}
+
+    public boolean getIsLocked(){ return this.isLocked;}
+    public void setIsLocked(boolean value){ this.isLocked = value;}
 
     public RadarEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {

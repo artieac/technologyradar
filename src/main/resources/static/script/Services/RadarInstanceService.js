@@ -53,4 +53,10 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         var retVal = '/api/User/' + userId + '/Radar/' + radarId + '/Publish';
         return retVal;
     };
+
+    this.lockRadar = function(userId, radarId)
+    {
+        var retVal = '/api/User/' + userId + '/Radar/' + radarId + '/Lock';
+        return retVal;
+    };
 });
