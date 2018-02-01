@@ -110,7 +110,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        String query = "select ta.Id, ta.Name, ta.AssessmentDate, ta.RadarUserId";
+        String query = "select ta.Id as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
         query += " FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
 
         Query q = this.entityManager.createNativeQuery(query, RadarEntity.class);
@@ -156,12 +156,12 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
     {
         Radar retVal = null;
-        String maxQuery = "select MAX(ta.Id), ta.Name, ta.AssessmentDate, ta.RadarUserId, ta.IsPublished, ta.IsLocked";
+        String maxQuery = "select MAX(ta.Id) as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
         maxQuery += " FROM TechnologyAssessments ta WHERE ta.RadarUserId = ?1";
 
         if(publishedOnly==true)
         {
-            maxQuery += " AND ta.IsPublished = 1)";
+            maxQuery += " AND ta.IsPublished = 1";
         }
 
         Query q = this.entityManager.createNativeQuery(maxQuery, RadarEntity.class);
