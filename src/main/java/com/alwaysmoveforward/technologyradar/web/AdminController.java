@@ -30,7 +30,7 @@ public class AdminController extends ControllerBase
     @RequestMapping("/index")
     public ModelAndView index(Model viewModel)
     {
-        return this.GenerateRadarInstanceModelAndView("admin/adminindex");
+        return this.GenerateRadarInstanceModelAndView("admin/adminIndex");
     }
 
     @RequestMapping("/Radars")
