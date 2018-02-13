@@ -44,7 +44,7 @@ public class TechnologyController extends ControllerBase
 
             for(int i = 0; i < foundItems.size(); i++)
             {
-                retVal.addTechnologyAssessment(foundItems.get(i));
+                retVal.addTechnologyAssessment(foundItems.get(i), this.getCurrentUser());
             }
         }
 

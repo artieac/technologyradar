@@ -41,7 +41,7 @@ public class TechnologyController extends ControllerBase
 
         for(int i = 0; i < radarList.size(); i++)
         {
-            viewModel.addTechnologyAssessment(radarList.get(i));
+            viewModel.addTechnologyAssessment(radarList.get(i), this.getCurrentUser());
         }
 
         model.setViewName("technology/details");

@@ -1,6 +1,7 @@
 package com.alwaysmoveforward.technologyradar.web.Models;
 
 import com.alwaysmoveforward.technologyradar.domainmodel.Radar;
+import com.alwaysmoveforward.technologyradar.domainmodel.RadarUser;
 import com.alwaysmoveforward.technologyradar.domainmodel.Technology;
 import com.alwaysmoveforward.technologyradar.domainmodel.RadarItem;
 
@@ -13,7 +14,8 @@ import java.util.List;
 public class TechnologyBreakdown
 {
     Technology targetTechnology;
-    List<TechnologyBreakdownItem> items;
+    List<TechnologyBreakdownItem> userItems;
+    List<TechnologyBreakdownItem> otherUsersItems;
 
     public TechnologyBreakdown(Technology technology)
     {
@@ -22,9 +24,11 @@ public class TechnologyBreakdown
 
     public Technology getTargetTechnology() { return this.targetTechnology; }
 
-    public List<TechnologyBreakdownItem> getItems() { return this.items;}
+    public List<TechnologyBreakdownItem> getUserItems() { return this.userItems;}
 
-    public void addTechnologyAssessment(Radar radarInstance)
+    public List<TechnologyBreakdownItem> getOtherUsersItems() { return this.otherUsersItems;}
+
+    public void addTechnologyAssessment(Radar radarInstance, RadarUser currentUser)
     {
         if(radarInstance.getRadarItems() != null)
         {
@@ -32,18 +36,23 @@ public class TechnologyBreakdown
             {
                 if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addTechnologyAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i));
+                    this.addTechnologyAssessmentItem(radarInstance, currentUser, radarInstance.getRadarItems().get(i));
                     break;
                 }
             }
         }
     }
 
-    public void addTechnologyAssessmentItem(Radar assessment, RadarItem assessmentItem)
+    public void addTechnologyAssessmentItem(Radar assessment, RadarUser currentUser, RadarItem assessmentItem)
     {
-        if(this.items == null)
+        if(this.userItems == null)
         {
-            this.items = new ArrayList<TechnologyBreakdownItem>();
+            this.userItems = new ArrayList<TechnologyBreakdownItem>();
+        }
+
+        if(this.otherUsersItems == null)
+        {
+            this.otherUsersItems = new ArrayList<TechnologyBreakdownItem>();
         }
 
         TechnologyBreakdownItem newItem = new TechnologyBreakdownItem();
@@ -53,6 +62,14 @@ public class TechnologyBreakdown
         newItem.setAssessmentUser(assessment.getRadarUser());
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());
-        this.items.add(newItem);
+
+        if(assessment.getRadarUser().getId()==currentUser.getId())
+        {
+            this.userItems.add(newItem);
+        }
+        else
+        {
+            this.otherUsersItems.add(newItem);
+        }
     }
 }
