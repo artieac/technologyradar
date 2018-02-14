@@ -83,5 +83,24 @@ public class AdminController extends ControllerBase
         return retVal;
     }
 
+    @RequestMapping("/Radar/{radarId}/addFromPrevious")
+    public ModelAndView addItemsFromPrevious(@PathVariable Long radarId)
+    {
+        ModelAndView retVal = new ModelAndView();
+        retVal.setViewName("admin/addFromPrevious");
+        retVal.addObject("radarId", radarId);
+
+        RadarUser currentUser = this.getCurrentUser();
+        if(currentUser != null)
+        {
+            retVal.addObject("userId", currentUser.getId());
+        }
+        else
+        {
+            retVal.addObject("userId", -1);
+        }
+
+        return retVal;
+    }
 
 }

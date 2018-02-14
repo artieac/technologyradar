@@ -33,7 +33,9 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-3">
-                    <div class="dropdown pull-left" ng-init="getUserRadars(currentUserId)">
+                    <div sec:authorize="isAuthenticated()" ng-init="getUserRadars(currentUserId, false)"></div>
+                    <div sec:authorize="isAnonymous()" ng-init="getUserRadars(currentUserId, true)"></div>
+                    <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {{selectedRadarInstance.name}}

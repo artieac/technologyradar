@@ -1,12 +1,17 @@
 theApp.controller('RadarInstanceController', function ($scope, $resource, $http, RadarInstanceService)
 {
     $scope.currentUserId = $('#userId').val();
-    $scope.radarInstanceId = $('#radarInstanceId').val();
     $scope.currentRadar = null;
+    $scope.selectedRadarInstance = {};
 
-    $scope.getUserRadars = function(userId)
+    $scope.getRadarsByUser = function(userId)
     {
-        $scope.radarInstances = RadarInstanceService.getRadarsByUserRequest(userId).query();
+        RadarInstanceService.getAllRadarsByUser(userId, $scope.setRadarInstances);
+    }
+
+    $scope.setRadarInstances = function(radarInstances)
+    {
+        $scope.radarInstances = radarInstances;
     }
 
     $scope.addRadar = function(userId)
@@ -23,7 +28,7 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
         $http.delete(RadarInstanceService.deleteRadarRequest(userId, radarId))
             .then(function (data)
             {
-                $scope.getUserRadars(userId);
+                $scope.getRadarsByUser(userId);
             });
     }
 
@@ -37,25 +42,21 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
 
     $scope.publishRadar = function(userId, radarInstance)
     {
-        var parameters = {};
-        parameters.isPublished = radarInstance.isPublished;
+        RadarInstanceService.publishRadar(userId, radarInstance, $scope.revertPublish);
+    }
 
-        $http.put(RadarInstanceService.publishRadar(userId, radarInstance.id), parameters)
-            .error(function (data)
-            {
-                radarInstance.isPublished = false;
-            });
+    $scope.reverPublish = function(radarInstance)
+    {
+        radarInstance.isPublished = false;
     }
 
     $scope.lockRadar = function(userId, radarInstance)
     {
-        var parameters = {};
-        parameters.isLocked = radarInstance.isLocked;
+        RadarInstanceService.lockRadar(userId, radarInstance, $scope.revertLock);
+    }
 
-        $http.put(RadarInstanceService.lockRadar(userId, radarInstance.id), parameters)
-            .error(function (data)
-            {
-                radarInstance.isLocked = false;
-            });
+    $scope.revertLock = function(radarInstance)
+    {
+        radarInstance.isLocked = false;
     }
 });
