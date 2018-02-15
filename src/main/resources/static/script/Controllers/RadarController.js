@@ -137,38 +137,32 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.addRadarItem = function (userId)
     {
-        var radarSaveItem = {};
-
         $scope.isSaving = true;
-
-        radarSaveItem.radarRing = $scope.selectedRadarRing.id;
-        radarSaveItem.confidenceLevel = $scope.selectedConfidence;
-        radarSaveItem.assessmentDetails = $scope.selectedRadarInstanceItem.details;
 
         if ($scope.selectedRadarInstanceItem.id === undefined)
         {
             if (!$scope.isNullOrUndefined($scope.selectedRadarInstanceItem.technology.id))
             {
-                radarSaveItem.technologyId = $scope.selectedRadarInstanceItem.technology.id;
+                RadarInstanceService.addRadarItemExistingTechnology(userId,
+                    $scope.selectedRadarInstance.id,
+                    $scope.selectedRadarRing.id,
+                    $scope.selectedConfidence,
+                    $scope.selectedRadarInstanceItem.details,
+                    $scope.selectedRadarInstanceItem.technology.id,
+                    $scope.saveSuccessCallback, $scope.saveFailureCallback);
             }
             else
             {
-                radarSaveItem.technologyName = $scope.selectedRadarInstanceItem.technology.name;
-                radarSaveItem.radarCategory = $scope.selectedRadarCategory.id;
-                radarSaveItem.url = $scope.selectedRadarInstanceItem.technology.url;
+                RadarInstanceService.addRadarItemNewTechnology(userId,
+                    $scope.selectedRadarInstance.id,
+                    $scope.selectedRadarRing.id,
+                    $scope.selectedConfidence,
+                    $scope.selectedRadarInstanceItem.details,
+                    $scope.selectedRadarInstanceItem.technology.name,
+                    $scope.selectedRadarInstanceItem.technology.url,
+                    $scope.selectedRadarCategory.id,
+                    $scope.saveSuccessCallback, $scope.saveFailureCallback);
             }
-
-            $http.post('/api/User/' + userId + '/Radar/' + $scope.selectedRadarInstance.id + '/Item', radarSaveItem)
-                .success(function (data)
-                {
-                    $scope.renderRadar(data);
-                    $scope.clearRadarItemSelection();
-                    $scope.isSaving = false;
-                })
-                .error(function (data)
-                {
-                    $scope.isSaving = false;
-                });
         }
         else
         {

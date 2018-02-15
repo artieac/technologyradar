@@ -56,24 +56,6 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         });
     }
 
-    this.addRadarRequest = function (userId)
-    {
-        var retVal = '/api/User/' + userId + '/Radar';
-        return retVal;
-    }
-
-    this.deleteRadarRequest = function (userId, radarId)
-    {
-        var retVal = '/api/User/' + userId + '/Radar/' + radarId;
-        return retVal;
-    };
-
-    this.deleteRadarItemRequest = function (userId, radarId, radarItemId)
-    {
-        var retVal = '/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId;
-        return retVal;
-    };
-
     this.publishRadar = function(userId, radarInstance, errorCallback)
     {
         var parameters = {};
@@ -98,29 +80,33 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.addRadarItem = function(userId, radarInstanceId, radarRingId, confidenceLevel, assessmentDetails, technologyId, successCallback, errorCallback)
+    this.addRadarItemExistingTechnology = function(userId, radarInstanceId, radarRingId, confidenceFactor, details, technologyId, successCallback, errorCallback)
     {
         var radarItem = {};
 
+        radarItem.radarRing = {};
         radarItem.radarRing.id = radarRingId;
-        radarItem.confidenceLevel = confidenceLevel;
-        radarItem.assessmentDetails = assessmentDetails;
+        radarItem.confidenceFactor = confidenceFactor;
+        radarItem.technology = {};
+        radarItem.details = details;
         radarItem.technology.id = technologyId;
 
-        RadarInstanceService.addRadarItem(userId, radarInstanceId, -1, radarItem, successCallback, errorCallback);
+        this.addRadarItem(userId, radarInstanceId, -1, radarItem, successCallback, errorCallback);
     };
 
-    this.addRadarItem = function(userId, radarInstanceId, radarRingId, confidenceLevel, assessmentDetails, technologyName, technologyUrl, radarCategoryId, successCallback, errorCallback)
+    this.addRadarItemNewTechnology = function(userId, radarInstanceId, radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId, successCallback, errorCallback)
     {
         var radarItem = {};
 
+        radarItem.radarRing = {};
         radarItem.radarRing.id = radarRingId;
-        radarItem.confidenceLevel = confidenceLevel;
-        radarItem.assessmentDetails = assessmentDetails;
+        radarItem.confidenceFactor = confidenceFactor;
+        radarItem.details = details;
+        radarItem.technology = {};
         radarItem.technology.name = technologyName;
         radarItem.technology.url = technologyUrl;
 
-        RadarInstanceService.addRadarItem(userId, radarInstanceId, radarCategoryId, radarItem, successCallback, errorCallback);
+        this.addRadarItem(userId, radarInstanceId, radarCategoryId, radarItem, successCallback, errorCallback);
     };
 
     this.addRadarItem = function(userId, radarInstanceId, radarCategoryId, radarItem, successCallback, errorCallback)
