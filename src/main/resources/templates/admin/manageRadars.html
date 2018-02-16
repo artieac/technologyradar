@@ -9,7 +9,7 @@
     <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/TechnologyService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarInstanceController.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/ManageRadarsController.js"></script>
 
     <style type="text/css" media="screen">
 
@@ -20,7 +20,7 @@
 
     </style>
 </head>
-<body ng-controller="RadarInstanceController">
+<body ng-controller="ManageRadarsController">
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>

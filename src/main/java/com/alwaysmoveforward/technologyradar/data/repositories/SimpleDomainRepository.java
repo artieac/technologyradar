@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SimpleDomainRepository<
+public abstract class SimpleDomainRepository<
         DomainModel,
         Entity,
         EntityRepository extends PagingAndSortingRepository<Entity, ID>,
@@ -46,6 +46,8 @@ public class SimpleDomainRepository<
     {
         this.domainModelClass = domainModelClass;
     }
+
+    protected abstract Entity findOne(DomainModel domainModel);
 
     @Override
     public Iterable<DomainModel> findAll(Sort sort)
@@ -174,13 +176,18 @@ public class SimpleDomainRepository<
     @Override
     public void delete(ID id)
     {
-
+        this.entityRepository.delete(id);
     }
 
     @Override
     public void delete(DomainModel domainModel)
     {
+        Entity targetItem = this.findOne(domainModel);
 
+        if(targetItem!=null)
+        {
+            this.entityRepository.delete(targetItem);
+        }
     }
 
     @Override

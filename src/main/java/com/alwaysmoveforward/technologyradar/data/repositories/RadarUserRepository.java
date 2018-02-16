@@ -43,6 +43,12 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
 
     }
 
+    @Override
+    protected RadarUserEntity findOne(RadarUser domainModel)
+    {
+        return this.entityRepository.findOne(domainModel.getId());
+    }
+
     public RadarUser findByAuthenticationId(String authenticationId) {
         RadarUser retVal = null;
 

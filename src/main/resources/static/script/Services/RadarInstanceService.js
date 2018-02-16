@@ -159,6 +159,15 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
+    this.deleteRadar =  function (userId, radarId, callbackFunction)
+    {
+        $http.delete('/api/User/' + userId + '/Radar/' + radarId)
+            .then(function (data)
+            {
+                callbackFunction(userId, radarId);
+            });
+    };
+
     this.deleteRadarItem =  function (userId, radarId, radarItemId, callbackFunction)
     {
         $http.delete('/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId)

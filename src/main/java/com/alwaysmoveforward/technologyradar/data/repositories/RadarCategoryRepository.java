@@ -39,4 +39,10 @@ public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategor
 
         return retVal;
     }
+
+    @Override
+    protected RadarCategoryEntity findOne(RadarCategory domainModel)
+    {
+        return this.entityRepository.findOne(domainModel.getId());
+    }
 }

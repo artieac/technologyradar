@@ -11,7 +11,6 @@
     <script type="text/javascript" charset="utf-8" src="/script/Services/TechnologyService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarInstanceController.js"></script>
 
     <style type="text/css" media="screen">
 
@@ -55,7 +54,7 @@
                 <div class="col-md-9">
                     <div id="radar"></div>
                 </div>
-                <div class="col-md-3"  ng-show="selectedRadarInstance.isLocked==false">
+                <div class="col-md-3" sec:authorize="isAuthenticated()" ng-show="selectedRadarInstance.isLocked==false">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Radar Item</div>
                         <div id="technologyAssessmentDetailsPanel" class="panel-body">

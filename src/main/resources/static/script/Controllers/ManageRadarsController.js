@@ -1,4 +1,4 @@
-theApp.controller('RadarInstanceController', function ($scope, $resource, $http, RadarInstanceService)
+theApp.controller('ManageRadarsController', function ($scope, $resource, $http, RadarInstanceService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.currentRadar = null;
@@ -25,11 +25,12 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
 
     $scope.deleteRadarInstance = function(userId, radarId)
     {
-        $http.delete(RadarInstanceService.deleteRadarRequest(userId, radarId))
-            .then(function (data)
-            {
-                $scope.getRadarsByUser(userId);
-            });
+        RadarInstanceService.deleteRadar(userId, radarId, $scope.deleteSuccessFunction);
+    }
+
+    $scope.deleteSuccessFunction = function(userId, radarId)
+    {
+        $scope.getRadarsByUser(userId);
     }
 
     $scope.getRadarInstance = function(radarId, userId)
@@ -45,7 +46,7 @@ theApp.controller('RadarInstanceController', function ($scope, $resource, $http,
         RadarInstanceService.publishRadar(userId, radarInstance, $scope.revertPublish);
     }
 
-    $scope.reverPublish = function(radarInstance)
+    $scope.revertPublish = function(radarInstance)
     {
         radarInstance.isPublished = false;
     }

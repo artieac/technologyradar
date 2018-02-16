@@ -27,6 +27,12 @@ public class RadarRingRepository extends SimpleDomainRepository<RadarRing, Radar
         super(RadarRing.class);
     }
 
+    @Override
+    protected RadarRingEntity findOne(RadarRing domainModel)
+    {
+        return this.entityRepository.findOne(domainModel.getId());
+    }
+
     public List<RadarRing> GetAllOrdered()
     {
         List<RadarRing> retVal = new ArrayList<RadarRing>();

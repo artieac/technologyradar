@@ -44,8 +44,14 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         }
 
         return retVal;
-
     }
+
+    @Override
+    protected TechnologyEntity findOne(Technology domainModel)
+    {
+        return this.entityRepository.findOne(domainModel.getId());
+    }
+
     public Technology findByName(String name)
     {
         Technology retVal = null;
