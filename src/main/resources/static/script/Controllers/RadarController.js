@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, TechnologyService)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, TechnologyService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
@@ -143,7 +143,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         {
             if (!$scope.isNullOrUndefined($scope.selectedRadarInstanceItem.technology.id))
             {
-                RadarInstanceService.addRadarItemExistingTechnology(userId,
+                alert('here');
+                RadarItemService.addRadarItemExistingTechnology(userId,
                     $scope.selectedRadarInstance.id,
                     $scope.selectedRadarRing.id,
                     $scope.selectedConfidence,
@@ -153,7 +154,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             }
             else
             {
-                RadarInstanceService.addRadarItemNewTechnology(userId,
+                RadarItemService.addRadarItemNewTechnology(userId,
                     $scope.selectedRadarInstance.id,
                     $scope.selectedRadarRing.id,
                     $scope.selectedConfidence,
@@ -166,7 +167,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         }
         else
         {
-            RadarInstanceService.updateRadarItem(userId, $scope.selectedRadarInstance, $scope.selectedRadarRing.id, $scope.selectedConfidence, $scope.selectedRadarInstanceItem.details, $scope.selectedRadarInstanceItem.technology, $scope.selectedRadarInstanceItem, $scope.saveSuccessCallback, $scope.saveFailureCallback);
+            RadarItemService.updateRadarItem(userId, $scope.selectedRadarInstance, $scope.selectedRadarRing.id, $scope.selectedConfidence, $scope.selectedRadarInstanceItem.details, $scope.selectedRadarInstanceItem.technology, $scope.selectedRadarInstanceItem, $scope.saveSuccessCallback, $scope.saveFailureCallback);
         }
     };
 
@@ -238,7 +239,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.deleteRadarItem = function (userId, radarId, radarItemId)
     {
-        RadarInstanceService.deleteRadarItem(userId, radarId, radarItemId, $scope.deleteCallbackFunction);
+        RadarItemService.deleteRadarItem(userId, radarId, radarItemId, $scope.deleteCallbackFunction);
     }
 
     $scope.deleteCallbackFunction = function(userId, radarId)

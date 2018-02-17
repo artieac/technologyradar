@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -194,6 +195,29 @@ public class RadarService
         return retVal;
     }
 
+    public Radar addRadarItems(RadarUser radarUser, Long radarId, List<RadarItemToBeAdded> radarItems)
+    {
+        Radar retVal = null;
+
+        if(radarItems!=null)
+        {
+            retVal = this.radarRepository.findOne(radarId);
+
+            if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
+            {
+                for(int i = 0; i < radarItems.size(); i++)
+                {
+                    RadarRing radarRing = this.radarRingRepository.findOne(radarItems.get(i).getRadarRingId());
+                    Technology targetTechnology = this.findTechnologyById(radarItems.get(i).getTechnologyId());
+                    retVal.addRadarItem(targetTechnology, radarRing, radarItems.get(i).getConfidenceFactor(), radarItems.get(i).getDetails());
+                    this.radarRepository.save(retVal);
+                }
+            }
+        }
+
+        return retVal;
+    }
+
     public RadarItem updateRadarItem(Long radarId, Long radarItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         RadarItem retVal = null;
@@ -221,6 +245,25 @@ public class RadarService
         if(radar!=null && radar.getIsLocked() == false)
         {
             radar.removeRadarItem(radarItemId);
+            this.radarRepository.save(radar);
+            retVal = true;
+        }
+        return retVal;
+    }
+
+    public boolean deleteRadarItems(Long userId, Long radarId, List<Long> radarItemIds)
+    {
+        boolean retVal = false;
+
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
+
+        if(radar!=null && radar.getIsLocked() == false)
+        {
+            for(int i =0; i < radarItemIds.size(); i++)
+            {
+                radar.removeRadarItem(radarItemIds.get(i));
+            }
+
             this.radarRepository.save(radar);
             retVal = true;
         }
