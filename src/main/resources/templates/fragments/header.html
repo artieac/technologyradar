@@ -24,6 +24,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="/css/Navbar.css" type="text/css"/>
     <link rel="stylesheet" href="/css/Radar.css" type="text/css"/>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -39,34 +40,32 @@
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top" th:fragment="uiHeader">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Technology Radar</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a sec:authorize="isAnonymous()" href="#" th:href="@{/}">Home</a>
-                    <a sec:authorize="isAuthenticated()" href="#" th:href="@{/home/secureradar}">Home</a>
-                </li>
-                <li><a href="#" th:href="@{/technology/search}">Technology Search</a></li>
-                <li>
-                    <a href="#" th:href="@{/public/home/about}">About</a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a href="#" th:href="@{/admin/index}">Admin</a>
-                </li>
-                <li>
-                    <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
-                    <a sec:authorize="isAuthenticated()" href="https://alwaysmoveforward.auth0.com/v2/logout?returnTo=http%3A%2F%2Ftechnologyradarloadbalancer-468011247.us-east-2.elb.amazonaws.com">Logout</a>
-                </li>
-            </ul>
-        </div>
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Technology Radar</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a sec:authorize="isAnonymous()" href="#" th:href="@{/}">Home</a>
+                <a sec:authorize="isAuthenticated()" href="#" th:href="@{/home/secureradar}">Home</a>
+            </li>
+            <li><a href="#" th:href="@{/technology/search}">Technology Search</a></li>
+            <li>
+                <a href="#" th:href="@{/public/home/about}">About</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{/admin/index}">Admin</a>
+            </li>
+            <li>
+                <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
+                <a sec:authorize="isAuthenticated()" href="https://alwaysmoveforward.auth0.com/v2/logout?returnTo=http%3A%2F%2Ftechnologyradarloadbalancer-468011247.us-east-2.elb.amazonaws.com">Logout</a>
+            </li>
+        </ul>
     </div>
 </div>
 </body>

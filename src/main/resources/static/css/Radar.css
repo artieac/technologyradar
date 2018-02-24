@@ -1,15 +1,16 @@
-.modal-backdrop,
-.modal-backdrop.fade.in{
-    opacity: .80 !important;
-    filter: alpha(opacity=100) !important;
-    background: #fff;
-}
-
 body{
 }
 
+.homePageBody{
+    horiz-align: center;
+}
+
 .container{
-    margin-left:20%;
+    margin-top:5%;
+    margin-left:10%;
+    margin-right:10%;
+    width:80%;
+    display:block;
 }
 
 .detailsSection{
@@ -17,53 +18,105 @@ body{
     margin-bottom:20%;
 }
 
+.heroContainer{
+    vertical-align: middle;
+    vertical-align: middle;
+    margin-left:5%;
+    margin-right:5%;
+}
+
 .heroTitle{
     font-size: larger;
     font-weight: bold;
+    text-align:center;
 }
 
 .detailsAction{
+    margin-top:5%;
     horiz-align: center;
 }
 
-.graphicPanel{
-    margin-top: 5%;
-    margin-bottom:5%;
+.featurePanel{
+    height:25rem;
+    width:80%;
+    margin-top:2%;
+    margin-bottom:2%;
 }
 
-.graphic{
-    background-image: url("/images/RadarBackground.PNG");
+.heroPanel{
+    background-color: rgba(158, 158, 158, 0.2);
+    horiz-align: center;
+    width:90%;
+}
+
+.heroPanel > .panel-info > .panel-heading {
+    background-image: none;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    background-color: rgba(158, 158, 158, 0.2);
+}
+
+.heroCopy{
+    text-align:center;
+}
+
+.versionPanel{
+    background-color: rgba(143,162,39, 0.5);
+}
+
+.versionPanel > .panel-info > .panel-heading {
+    background-image: none;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    background-color: rgba(143, 162, 39, 0.5);
+}
+
+.comparePanel{
+    background-color: rgba(88,116,134, 0.5);
+}
+
+.comparePanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(88,116,134, 0.5);
+}
+
+.sharePanel{
+    background-color: rgba(220,111,29, 0.5);
+}
+
+.sharePanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(220,111,29, 0.5);
+}
+
+.accessPanel{
+    background-color: rgba(183,0,98, 0.5);
+}
+
+.accessPanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(183,0,98, 0.5);
+}
+
+.homePagePanelBody{
+    margin-top:1%;
+}
+
+.homePageGraphic{
+    background-image: url("/images/OpaqueRadarBackground.PNG");
     background-repeat: no-repeat;
-    background-size:contain;
-    width:150%;
-    height:150%;
-}
-
-.navbar-default {
-    border-color: #5493E0;
-    background-color: #5493E0;
-    color: #FFFFFF;
-}
-
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus
-{
-    color:  #FFFFFF;
-    background-color: #5493E0;
-}
-
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus
-{
-    color: #5493E0;
-    background-color: #FFFFFF;
-}
-
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus
-{
-    color: #5493E0;
-    background-color: #5493E0;
+    background-size:100%;
 }
 
 textarea

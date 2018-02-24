@@ -6,35 +6,77 @@
 
 	<div th:replace="fragments/header :: scriptHeader"></div>
 </head>
-<body class="bodyWithBackground">
+<body class="bodyWithBackground homePageGraphic">
 	<div th:replace="fragments/header :: uiHeader"></div>
-	<br/><br/><br/>
-	<div class="container">
+	<div class="container homePageBody">
 		<div class="row">
-			<div class="col-md-6 detailsSection">
-				<div class="heroTitle">
-					Manage and share your own Technology Radar
+			<div class="homePagePanel heroPanel">
+				<div class="panel-info">
+					<div class="panel-heading heroTitle">
+						Manage and share your own Technology Radar
+					</div>
+					<div class="panel-body heroCopy">
+						If you don't pay attention to changing technology you can quickly find yourself falling behind the industry.
+						We all need to pay attention to changes and continuously evaluate those changes to see if industry changes help or hurt us.
+						A technology radar lets you keep track of your assessments of the risks and rewards of various areas of technology, and by joining this site
+						you can manage your own technology radar.
+						<div class="detailsAction">
+							Curious?
+							<div>Take a look at my <a href="/public/home/radar/1/1" onclick="windows.location.href='/public/home/radars/2'">public radar</a></div>
+							<div>or sign in with Auth0 to <a href="/login">try it out</a></div>
+						</div>
+					</div>
 				</div>
-				<div th:if="${unauthorized==true}">
-					You need to <a href="/login">login</a> to view that page.
-				</div>
-				<div class="copy">
-					If you don't pay attention to changing technology you can quickly find yourself falling behind the industry.
-					We all need to pay attention to changes and continuously evaluate those changes to see if industry changes help or hurt us.
-					A technology radar lets you keep track of your assessments of the risks and rewards of various areas of technology, and by joining this site
-					you can manage your own technology radar.
-				</div>
-				<div class="detailsAction">
-					Curious?  Sign in with Auth0 to <a href="/login">try it out</a>
-				</div>
-			</div>
-			<div class="col-md-6 graphicPanel">
-				<div class="graphic"></div>
-
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-lg-6">
+				<div class="homePagePanel featurePanel versionPanel">
+					<div class="panel-info">
+						<div class="panel-heading">Have multiple versions</div>
+						<div class="panel-body">
+							Your opinion of things can and should change over time.  Something that was the defacto standard once upon a time has more than likely
+							been kicked to the curb by newer ways of doing things.
 
+							Keep track of how you feel about things over time and be able to look at that history when you need to remember why you chose something.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="homePagePanel featurePanel comparePanel">
+					<div class="panel-info">
+						<div class="panel-heading">See what others think</div>
+						<div class="panel-body">
+							As other people enter in their own evaluations of things you'll be able to see what they have learned about the same technologies you are considering.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="homePagePanel featurePanel sharePanel">
+					<div class="panel-info">
+						<div class="panel-heading">Show others your radar</div>
+						<div class="panel-body">
+							You're radar can be published to be visible to anyone on the internet, or kept private if you just want to keep it for yourself.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="homePagePanel featurePanel accessPanel">
+					<div class="panel-info">
+						<div class="panel-heading">Let others update your radar</div>
+						<div class="panel-body">
+							COMING SOON!
+							We rarely work individually and often we want to manage a teams worth of decisions.  Here you can grant access that allows anyone on your team to
+							add or update items on your radar.
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
