@@ -7,9 +7,9 @@ body{
 
 .container{
     margin-top:5%;
-    margin-left:10%;
-    margin-right:10%;
-    width:80%;
+    margin-left:5%;
+    margin-right:5%;
+    width:90%;
     display:block;
 }
 
@@ -38,7 +38,7 @@ body{
 
 .featurePanel{
     height:25rem;
-    width:80%;
+    width:90%;
     margin-top:2%;
     margin-bottom:2%;
 }
@@ -46,7 +46,7 @@ body{
 .heroPanel{
     background-color: rgba(158, 158, 158, 0.2);
     horiz-align: center;
-    width:90%;
+    width:95%;
 }
 
 .heroPanel > .panel-info > .panel-heading {
@@ -117,6 +117,19 @@ body{
     background-image: url("/images/OpaqueRadarBackground.PNG");
     background-repeat: no-repeat;
     background-size:100%;
+}
+
+.graphicPanel{
+    margin-top: 5%;
+    margin-bottom:5%;
+}
+
+.graphic{
+    background-image: url("/images/RadarBackground.PNG");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width:200%;
+    height:200%;
 }
 
 textarea
