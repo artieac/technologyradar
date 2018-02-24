@@ -78,7 +78,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             {
                 if ($scope.radarInstanceList[i].id == radarInstanceId)
                 {
-                    $scope.radarInstanceDropdownSelected(userId, $scope.radarInstanceList[i]);
+                    $scope.radarInstanceDropdownSelected($scope.currentUserId, $scope.radarInstanceList[i]);
                     break;
                 }
             }
