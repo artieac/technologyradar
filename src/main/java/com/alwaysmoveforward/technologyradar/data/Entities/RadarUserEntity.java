@@ -69,5 +69,5 @@ public class RadarUserEntity {
 
     public String getName() { return this.name;}
 
-    public void setName(String value) { this.nickname = name;}
+    public void setName(String value) { this.name = value;}
 }
