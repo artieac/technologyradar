@@ -6,33 +6,31 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import radarCollectionActions from '../../../reflux/actions/RadarCollectionActions';
 import RadarCollectionStore from '../../../reflux/stores/RadarCollectionStore';
+import StoreManager from '../../stores/StoreManager';
 
-var ManageRadars = createReactClass({
-    mixins: [
-        Reflux.connect(RadarCollectionStore, "radarCollection")
-    ],
+class ManageRadars extends React.Component{
+    constructor(props){
+        super(props);
 
-    userId: jQuery("#userId").val(),
+        this.storeManager = new StoreManager();
 
-    getInitialState: function() {
-        return {
+        this.state = {
             radarCollection: [],
             userId: jQuery("#userId").val()
         };
-    },
+    }
 
-    componentDidMount: function () {
-        // Add event listeners in componentDidMount
-        this.listenTo(RadarCollectionStore, this.handleGetByUserIdResponse);
-        radarCollectionActions.getByUserId(this.userId);
-    },
+    componentDidMount () {
+        this.storeManager.getRadarCollectionStore().onGetByUserIdTwo(this.userId);
+        this.setState({radarCollection: storeManager.radarCollection});
+    }
 
-    handleGetByUserIdResponse: function (getByUserIdResponse) {
+    handleGetByUserIdResponse (getByUserIdResponse) {
         console.log(getByUserIdResponse);
         this.setState({radarCollection: getByUserIdResponse});
-    },
+    }
 
-    render:function() {
+    render() {
         return (
             <div className="bodyContent">
                 <div className="contentPageTitle">
@@ -54,10 +52,10 @@ var ManageRadars = createReactClass({
             </div>
         );
     }
-});
+};
 
-var RadarTableBody = createReactClass({
-    render:function() {
+class RadarTableBody extends React.Component{
+    render() {
         if(typeof this.props.tableBodyData.radarCollection !== 'undefined'){
             return (
                 <tbody>
@@ -76,27 +74,27 @@ var RadarTableBody = createReactClass({
             );
         }
     }
-});
+};
 
-var RadarRow = createReactClass({
+class RadarRow extends React.Component{
 
-    handleIsPublishedClick:function(){
+    handleIsPublishedClick(){
         radarCollectionActions.publishRadarInstance(this.props.userId, this.props.rowData.id, !this.props.rowData.isPublished);
-    },
+    }
 
-    handleIsLockedClick:function(){
+    handleIsLockedClick(){
         radarCollectionActions.lockRadarInstance(this.props.userId, this.props.rowData.id, !this.props.rowData.isLocked);
-    },
+    }
 
-    handleAddFromPreviousClick:function() {
+    handleAddFromPreviousClick() {
 
-    },
+    }
 
-    handleDeleteClick:function() {
+    handleDeleteClick() {
         radarCollectionActions.deleteRadarInstance(this.props.userId, this.props.rowData.id);
-    },
+    }
 
-    render:function() {
+    render() {
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
@@ -106,32 +104,33 @@ var RadarRow = createReactClass({
                  <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick={this.handleDeleteClick}>Delete</button></td>
              </tr>
         );
-    },
-});
+    }
+};
 
-var NewRadarRow = createReactClass({
-    getInitialState: function() {
-        return {
+class NewRadarRow extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
             radarNameInput: ''
         };
-    },
+    }
 
-    handleSaveButtonClick:function(userId){
+    handleSaveButtonClick(userId){
         radarCollectionActions.createRadarInstance(this.props.userId, this.state.radarNameInput);
-    },
+    }
 
-    handleRadarNameChange:function(event){
+    handleRadarNameChange(event){
         this.setState({radarNameInput:event.target.value});
-    },
+    }
 
-    render:function(){
+    render(){
         return(
             <tr>
                 <td><input type="text" ref="radarName" required="true" onChange={ this.handleRadarNameChange } /></td>
                 <td><input type="button" className="btn btn-primary" value="Add Radar" onClick={this.handleSaveButtonClick} /></td>
             </tr>
         );
-    },
-});
+    }
+};
 
-module.exports = ManageRadars;
+export default ManageRadars;
