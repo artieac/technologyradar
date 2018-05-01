@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageRadars from '../components/admin/ManageRadars';
 
-var AdminApp = createReactClass({
-    render:function(){
+class AdminApp extends React.Component{
+    render(){
         return (
             <div>
                  <div className="contentPageTitle">
@@ -37,7 +37,7 @@ var AdminApp = createReactClass({
             </div>
         );
     }
-});
+}
 
 ReactDOM.render(
     <Router>

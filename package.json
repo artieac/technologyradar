@@ -1,0 +1,58 @@
+{
+  "name": "TechnologyRadar",
+  "version": "1.0.0",
+  "description": "Technology Radar",
+  "author": "Arthur Correa",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/artieac/AlwaysMoveForward.git"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "browser-sync": "^2.23.5",
+    "css-loader": "^0.28.9",
+    "del": "^3.0.0",
+    "exorcist": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.4.0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "react-router": "^4.2.0",
+    "reactify": "^1.1.1",
+    "redux": "^4.0.0",
+    "stream": "0.0.2",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "create-react-class": "^15.6.2",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "os": "^0.1.1",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.2",
+    "react-router-dom": "^4.2.2",
+    "reflux": "^6.4.1"
+  },
+  "bugs": {
+    "url": "https://github.com/artieac/AlwaysMoveForward/issues"
+  },
+  "homepage": "https://github.com/artieac/AlwaysMoveForward#readme",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack",
+    "watch": "webpack -d --watch",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
