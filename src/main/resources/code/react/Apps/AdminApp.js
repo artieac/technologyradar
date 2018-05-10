@@ -3,11 +3,26 @@ import jQuery from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageRadars from '../components/admin/ManageRadars';
+import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
+import adminAppReducer from '../../redux/reducers/adminAppReducer';
+
+const adminAppStore = createStore(adminAppReducer);
 
 class AdminApp extends React.Component{
+    constructor(props){
+        super(props);
+         this.state = {
+            radarCollection: [],
+            userId: jQuery("#userId").val()
+        };
+    }
+
     render(){
         return (
             <div>
@@ -18,9 +33,9 @@ class AdminApp extends React.Component{
                     <tbody>
                         <tr>
                             <td>
-                                <button className="btn btn-primary">
-                                    <Link to='/admin/manageRadars'>Manage Radars</Link>
-                                </button>
+                                <Link to='/admin/manageRadars'>
+                                    <button className="btn btn-primary">Manage Radars</button>
+                                </Link>
                             </td>
                             <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
                         </tr>
@@ -40,12 +55,17 @@ class AdminApp extends React.Component{
 }
 
 ReactDOM.render(
-    <Router>
+    <Provider store={ adminAppStore }>
         <div>
-            <Route exact path="/admin/index" component={ AdminApp } />
-            <Route path="/admin/manageRadars" component={ ManageRadars } />
+            <Router>
+                <Switch>
+                    <Route path="/admin/index" component={ AdminApp } />
+                    <Route path="/admin/manageRadars" component={ ManageRadars } />
+                    <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
+                </Switch>
+            </Router>
         </div>
-    </Router>,
+    </Provider>,
     document.getElementById("adminAppContent")
 );
 
