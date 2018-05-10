@@ -28,12 +28,6 @@ export function setSourceRadarInstanceToState(radarInstance){
     };
 }
 
-export function getSourceRadarInstance(userId, radarId){
-    fetch( '/api/User/' + userId + '/Radar/' + radarId)
-        .then(response => response.json())
-        .then(json => this.props.setSourceRadarInstance({ sourceRadar: json}));
-}
-
 const adminAppReducer = (state = adminAppState, action) => {
   switch (action.type) {
     case actionTypes.SETRADARCOLLECTION:

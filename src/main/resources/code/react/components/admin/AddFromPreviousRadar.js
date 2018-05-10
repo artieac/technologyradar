@@ -6,7 +6,7 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
-import { addRadarCollectionToState, getSourceRadarInstance } from '../../../redux/reducers/adminAppReducer';
+import { addRadarCollectionToState } from '../../../redux/reducers/adminAppReducer';
 import { SplitButton, MenuItem } from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
@@ -34,11 +34,13 @@ class AddFromPreviousRadar extends React.Component{
     }
 
     render() {
+        const { setSourceRadarInstance } = this.props;
+
         return (
             <div>
                 <div className="row">
                     <div className="col-lg-4">
-                        <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar} userId={this.props.userId}/>
+                        <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
                         <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick }>Add</button>
                     </div>
                     <div className="col-lg-4">
@@ -68,12 +70,15 @@ class RadarCollectionDropDown extends React.Component{
 
         return retVal;
     }
+
     render(){
+        const { setSourceRadarInstance } = this.props;
+
         if(this.props.data!==undefined){
             return(
                 <SplitButton title={this.getTitle()} id="radarCollection">
                     {this.props.data.map(function (currentRow) {
-                        return <RadarCollectionDropDownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId}/>
+                        return <RadarCollectionDropDownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSourceRadarInstance={setSourceRadarInstance}/>
                     }.bind(this))}
                 </SplitButton>
             );
@@ -89,7 +94,7 @@ class RadarCollectionDropDown extends React.Component{
 
 class RadarCollectionDropDownItem extends React.Component{
     handleOnClick(){
-        getSourceRadarInstance(this.props.userId, this.props.dropDownItem.id);
+        this.getSourceRadarInstance(this.props.userId, this.props.dropDownItem.id);
     }
 
     getSourceRadarInstance(userId, radarId){
@@ -99,7 +104,7 @@ class RadarCollectionDropDownItem extends React.Component{
     }
 
     render(){
-        return (<MenuItem eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick}>{ this.props.dropDownItem.name }</MenuItem>);
+        return (<MenuItem eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick.bind(this)}>{ this.props.dropDownItem.name }</MenuItem>);
     }
 }
 
