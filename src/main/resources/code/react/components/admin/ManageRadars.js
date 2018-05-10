@@ -4,30 +4,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import radarCollectionActions from '../../../reflux/actions/RadarCollectionActions';
-import RadarCollectionStore from '../../../reflux/stores/RadarCollectionStore';
-import StoreManager from '../../stores/StoreManager';
+import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import * as actionTypes from '../../../redux/reducers/adminActionTypes';
+import addRadarCollectionToState from '../../../redux/reducers/adminAppReducer';
 
 class ManageRadars extends React.Component{
     constructor(props){
         super(props);
-
-        this.storeManager = new StoreManager();
-
-        this.state = {
-            radarCollection: [],
+         this.state = {
             userId: jQuery("#userId").val()
         };
     }
 
-    componentDidMount () {
-        this.storeManager.getRadarCollectionStore().onGetByUserIdTwo(this.userId);
-        this.setState({radarCollection: storeManager.radarCollection});
+    componentDidMount(){
+        this.getRadarCollectionByUserId(this.state.userId);
     }
 
-    handleGetByUserIdResponse (getByUserIdResponse) {
-        console.log(getByUserIdResponse);
-        this.setState({radarCollection: getByUserIdResponse});
+    getRadarCollectionByUserId(userId){
+        fetch( '/api/User/' + userId + '/Radars',)
+            .then(response => response.json())
+            .then(json => this.props.addRadarCollection({ radarCollection: json}));
     }
 
     render() {
@@ -47,7 +44,7 @@ class ManageRadars extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody tableBodyData={this.state.radarCollection} userId={this.state.userId}/>
+                    <RadarTableBody tableBodyData={this.props.radarCollection} userId={this.state.userId}/>
                 </table>
             </div>
         );
@@ -94,13 +91,21 @@ class RadarRow extends React.Component{
         radarCollectionActions.deleteRadarInstance(this.props.userId, this.props.rowData.id);
     }
 
+    getAddFromPreviousLink(userId, radarId){
+        return '/admin/user/' + userId + '/radar/' + radarId + '/addfromprevious';
+    }
+
     render() {
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
                  <td><input type="checkbox" ref="isPublished" value={ this.props.rowData.isPublished } defaultChecked={ this.props.rowData.isPublished } onChange={this.handleIsPublishedClick}/></td>
                  <td><input type="checkbox" ref="isLocked" value={ this.props.rowData.isLocked } defaultChecked={ this.props.rowData.isLocked } onChange={this.handleIsLockedClick}/></td>
-                 <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick={this.handleAddFromPreviousClick}>Add From Previous</button></td>
+                 <td>
+                    <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
+                        <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
+                    </Link>
+                </td>
                  <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick={this.handleDeleteClick}>Delete</button></td>
              </tr>
         );
@@ -133,4 +138,23 @@ class NewRadarRow extends React.Component{
     }
 };
 
-export default ManageRadars;
+const mapDispatchToProps = dispatch => {
+  return {
+    addRadarCollection : radarCollection => {
+        dispatch({
+            type : actionTypes.SETRADARCOLLECTION,
+            payload: radarCollection
+        })
+    }};
+};
+
+function mapStateToProps(state) {
+  return {
+    	radarCollection: state.radarCollection
+    };
+}
+
+export default connect(
+  mapStateToProps,
+    mapDispatchToProps
+)(ManageRadars);
