@@ -1,3 +1,4 @@
+import React from 'react';
 import * as actionTypes from './adminActionTypes';
 
 // src/js/reducers/index.js
@@ -7,24 +8,32 @@ const adminAppState = {
   sourceRadar: {}
 };
 
-export function addRadarCollectionToState(radarCollection){
+function addRadarCollectionToState(radarCollection){
     return {
        type: actionTypes.SETRADARCOLLECTION,
        payload: radarCollection
    };
 }
 
-export function setCurrentRadarInstanceToState(radarInstance){
+function setCurrentRadarInstanceToState(radarInstance) {
     return {
-        type: actionTypes.SETCURRENTRADARINSTANCE,
+        type : actionTypes.SETCURRENTRADARINSTANCE,
         payload: radarInstance
     };
 }
 
-export function setSourceRadarInstanceToState(radarInstance){
+function setSourceRadarInstanceToState(radarInstance) {
     return {
-        type: actionTypes.SETSOURCERADARINSTANCE,
+        type : actionTypes.SETSOURCERADARINSTANCE,
         payload: radarInstance
+    };
+}
+
+function handleRadarItemCheck(shouldAdd) {
+    console.log(JSON.stringify(shouldAdd));
+    return {
+        type : actionTypes.HANDLERADARITEMCHECK,
+        payload: shouldAdd
     };
 }
 
@@ -47,4 +56,4 @@ const adminAppReducer = (state = adminAppState, action) => {
   }
 }
 
-export default adminAppReducer;
+export { adminAppReducer, setCurrentRadarInstanceToState, setSourceRadarInstanceToState, handleRadarItemCheck };

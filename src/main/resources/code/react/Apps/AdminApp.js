@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageRadars from '../components/admin/ManageRadars';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
-import adminAppReducer from '../../redux/reducers/adminAppReducer';
+import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
 
 const adminAppStore = createStore(adminAppReducer);
 

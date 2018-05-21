@@ -5,8 +5,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../redux/reducers/adminActionTypes';
-import { addRadarCollectionToState } from '../../../redux/reducers/adminAppReducer';
+import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleRadarItemCheck } from '../../../redux/reducers/adminAppReducer';
 import { SplitButton, MenuItem } from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
@@ -51,8 +50,8 @@ class AddFromPreviousRadar extends React.Component{
                     </div>
                 </div>
                 <div className="row">
-                    <RadarDetails radarInstance={ this.props.sourceRadar.sourceRadar }/>
-                    <RadarDetails radarInstance={ this.props.currentRadar.currentRadar } />
+                    <RadarDetails radarInstance={ this.props.sourceRadar.sourceRadar } shouldAdd = { false }/>
+                    <RadarDetails radarInstance={ this.props.currentRadar.currentRadar } shouldAdd = { true }/>
                 </div>
             </div>
 
@@ -114,7 +113,7 @@ class RadarDetails extends React.Component{
             return(
                 <div className="col-lg-4">
                     {this.props.radarInstance.quadrants.map(function (currentRow) {
-                        return <RadarQuadrant key={currentRow.quadrant} quadrant = { currentRow }/>
+                        return <RadarQuadrant key={currentRow.quadrant} quadrant = { currentRow } shouldAdd = { this.props.shouldAdd }/>
                     }.bind(this))}
                 </div>
             );
@@ -140,7 +139,7 @@ class RadarQuadrant extends React.Component{
                             <table className="table table-striped">
                                 <tbody>
                                     {this.props.quadrant.items.map(function (currentRow) {
-                                        return <RadarQuadrantItem key={currentRow.assessmentItem.id} quadrantItem = { currentRow }/>
+                                        return <RadarQuadrantItem key={currentRow.assessmentItem.id} quadrantItem = { currentRow } shouldAdd = { this.props.shouldAdd }/>
                                     }.bind(this))}
                                 </tbody>
                             </table>
@@ -153,10 +152,14 @@ class RadarQuadrant extends React.Component{
 }
 
 class RadarQuadrantItem extends React.Component{
+    handleCheckboxClick(){
+        this.props.onHandleRadarItemCheck({ shouldAdd: this.props.shouldAdd});
+    }
+
     render(){
         return(
             <tr>
-                <td><input type="checkbox" name="addToRadar"/></td>
+                <td><input type="checkbox" name="addToRadar" onChange={this.handleCheckboxClick.bind(this)}/></td>
                 <td>{ this.props.quadrantItem.assessmentItem.radarRing.name }</td>
                 <td><a href="">{ this.props.quadrantItem.name}</a></td>
             </tr>
@@ -166,19 +169,10 @@ class RadarQuadrantItem extends React.Component{
 
 const mapAFPRDispatchToProps = dispatch => {
   return {
-    setSourceRadarInstance : sourceRadar => {
-        dispatch({
-            type : actionTypes.SETSOURCERADARINSTANCE,
-            payload: sourceRadar
-        })
-    },
-    setCurrentRadarInstance : currentRadar => {
-        dispatch({
-            type : actionTypes.SETCURRENTRADARINSTANCE,
-            payload: currentRadar
-        })
-    }};
-
+        setSourceRadarInstance : sourceRadar => { dispatch(setSourceRadarInstanceToState(sourceRadar))},
+        setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
+        onHandleRadarItemCheck : shouldAdd  => { dispatch(handleRadarItemCheck(shouldAdd))}
+    };
 };
 
 function mapStateToAFPRProps(state) {
@@ -186,7 +180,6 @@ function mapStateToAFPRProps(state) {
     	radarCollection: state.radarCollection,
     	sourceRadar: state.sourceRadar,
     	currentRadar: state.currentRadar,
-    	foo: state.radarCollection
     };
 }
 
