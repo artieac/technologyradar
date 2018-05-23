@@ -56,10 +56,17 @@ export function handleRemoveRadarItem(targetAssessmentItem) {
     };
 }
 
-export function clearAddAndRemoveRadarItems(){
+export function clearRemoveRadarItems(){
     return {
-        type: actionTypes.CLEARADDREMOVERADARITEMS,
-        payload: true
+        type: actionTypes.CLEARADDITEMS,
+        payload: {}
+    };
+}
+
+export function clearAddRadarItems(){
+    return {
+        type: actionTypes.CLEARREMOVEITEMS,
+        payload: {}
     };
 }
 
@@ -81,12 +88,18 @@ export const adminAppReducer = (state = adminAppState, action) => {
         return Object.assign({}, state, {
             radarItemsToAdd: state.radarItemsToAdd.concat(action.payload)
         })
-    case actionTypes.HANDLEREMOVERADARITEM:
+    case actionTypes.CLEARADDITEMS:
+         return Object.assign({}, state, {
+                 radarItemsToAdd: []
+             })
+     case actionTypes.HANDLEREMOVERADARITEM:
         return Object.assign({}, state, {
             radarItemsToRemove: state.radarItemsToRemove.concat(action.payload)
         })
-    case actionTypes.CLEARADDREMOVERADARITEMS:
-        return state;
+    case actionTypes.CLEARREMOVEITEMS:
+        return Object.assign({}, state, {
+                radarItemsToRemove: []
+            })
     default:
       return state;
   }
