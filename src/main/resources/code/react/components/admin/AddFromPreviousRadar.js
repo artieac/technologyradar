@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem } from '../../../redux/reducers/adminAppReducer';
+import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/adminAppReducer';
 import { SplitButton, MenuItem } from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
@@ -38,6 +38,7 @@ class AddFromPreviousRadar extends React.Component{
           data: JSON.stringify(itemsToAdd),
           success: function() {
             this.getCurrentRadarInstance(this.props.match.params.userId, this.props.match.params.radarId);
+            this.props.onClearAddRadarItems();
            }.bind(this)
         });
     }
@@ -56,8 +57,19 @@ class AddFromPreviousRadar extends React.Component{
           data: JSON.stringify(itemsToRemove),
           success: function() {
             this.getCurrentRadarInstance(this.props.match.params.userId, this.props.match.params.radarId);
+            this.props.onClearRemoveRadarItems();
             }.bind(this)
         });
+    }
+
+    getDestinationRadarName(){
+        var retVal = "";
+
+        if(this.props.currentRadar !== undefined && this.props.currentRadar.currentRadar !== undefined){
+            retVal = this.props.currentRadar.currentRadar.radarName;
+        }
+
+        return retVal;
     }
 
     render() {
@@ -67,12 +79,12 @@ class AddFromPreviousRadar extends React.Component{
             <div>
                 <div className="row">
                     <div className="col-lg-4">
-                        <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
+                        <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
                         <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick.bind(this) }>Add</button>
                     </div>
                     <div className="col-lg-4">
                         <div className="contentPageTitle">
-                            <label>Add Past Radar Items to { this.props.currentRadar.radarName }</label>
+                            <label>Add Past Radar Items to { this.getDestinationRadarName() } </label>
                             <button type="button" className="btn btn-primary" onClick={ this.handleRemoveItemsFromRadarClick.bind(this) }>Remove</button>
                         </div>
                     </div>
@@ -91,8 +103,8 @@ class RadarCollectionDropDown extends React.Component{
     getTitle(){
         var retVal = "";
 
-        if(this.props.data.itemSelection !== undefined){
-            retVal = this.props.data.itemSelection.name;
+        if(this.props.itemSelection !== undefined){
+            retVal = this.props.itemSelection.radarName;
         }
 
         return retVal;
@@ -112,8 +124,8 @@ class RadarCollectionDropDown extends React.Component{
         }
         else{
             return(
-                <ul className="dropdown-menu" aria-labelledby="radarInstanceDropdown">
-                </ul>
+                <SplitButton title="Select" id="radarCollection">
+                </SplitButton>
             );
         }
     }
@@ -201,6 +213,8 @@ const mapAFPRDispatchToProps = dispatch => {
         setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
         onHandleAddRadarItem : targetItem  => { dispatch(handleAddRadarItem(targetItem))},
         onHandleRemoveRadarItem : targetItem  => { dispatch(handleRemoveRadarItem(targetItem))},
+        onClearAddRadarItems : () => { dispatch(clearAddRadarItems())},
+        onClearRemoveRadarItems: () => { dispatch(clearRemoveRadarItems())}
 
     };
 };
