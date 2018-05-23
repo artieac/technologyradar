@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleRadarItemCheck } from '../../../redux/reducers/adminAppReducer';
+import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem } from '../../../redux/reducers/adminAppReducer';
 import { SplitButton, MenuItem } from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
@@ -25,11 +25,39 @@ class AddFromPreviousRadar extends React.Component{
     }
 
     handleAddItemsToRadarClick(){
+        var itemsToAdd = {};
+        itemsToAdd.radarItems = this.props.radarItemsToAdd;
 
+        $.post({
+          headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+          },
+          type: "POST",
+          url: '/api/User/' + this.props.match.params.userId + '/Radar/' + this.props.match.params.radarId + '/Items',
+          data: JSON.stringify(itemsToAdd),
+          success: function() {
+            this.getCurrentRadarInstance(this.props.match.params.userId, this.props.match.params.radarId);
+           }.bind(this)
+        });
     }
 
-    handleRemoveItemsFromRadarClick(){
+    handleRemoveItemsFromRadarClick(userId, radarId){
+        var itemsToRemove = {};
+        itemsToRemove.radarItems = this.props.radarItemsToRemove;
 
+        $.post({
+          headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+          },
+          type: "POST",
+          url: '/api/User/' + this.props.match.params.userId + '/Radar/' + this.props.match.params.radarId + '/Items/Delete',
+          data: JSON.stringify(itemsToRemove),
+          success: function() {
+            this.getCurrentRadarInstance(this.props.match.params.userId, this.props.match.params.radarId);
+            }.bind(this)
+        });
     }
 
     render() {
@@ -40,18 +68,18 @@ class AddFromPreviousRadar extends React.Component{
                 <div className="row">
                     <div className="col-lg-4">
                         <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
-                        <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick }>Add</button>
+                        <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick.bind(this) }>Add</button>
                     </div>
                     <div className="col-lg-4">
                         <div className="contentPageTitle">
                             <label>Add Past Radar Items to { this.props.currentRadar.radarName }</label>
-                            <button type="button" className="btn btn-primary" onClick={ this.handleRemoveItemsFromRadarClick }>Remove</button>
+                            <button type="button" className="btn btn-primary" onClick={ this.handleRemoveItemsFromRadarClick.bind(this) }>Remove</button>
                         </div>
                     </div>
                 </div>
                 <div className="row">
-                    <RadarDetails radarInstance={ this.props.sourceRadar.sourceRadar } shouldAdd = { false }/>
-                    <RadarDetails radarInstance={ this.props.currentRadar.currentRadar } shouldAdd = { true }/>
+                    <RadarDetails radarInstance={ this.props.sourceRadar.sourceRadar } handleOnClick = { this.props.onHandleAddRadarItem }/>
+                    <RadarDetails radarInstance={ this.props.currentRadar.currentRadar } handleOnClick = { this.props.onHandleRemoveRadarItem }/>
                 </div>
             </div>
 
@@ -113,7 +141,7 @@ class RadarDetails extends React.Component{
             return(
                 <div className="col-lg-4">
                     {this.props.radarInstance.quadrants.map(function (currentRow) {
-                        return <RadarQuadrant key={currentRow.quadrant} quadrant = { currentRow } shouldAdd = { this.props.shouldAdd }/>
+                        return <RadarQuadrant key={currentRow.quadrant} quadrant = { currentRow } handleOnClick = { this.props.handleOnClick }/>
                     }.bind(this))}
                 </div>
             );
@@ -139,7 +167,7 @@ class RadarQuadrant extends React.Component{
                             <table className="table table-striped">
                                 <tbody>
                                     {this.props.quadrant.items.map(function (currentRow) {
-                                        return <RadarQuadrantItem key={currentRow.assessmentItem.id} quadrantItem = { currentRow } shouldAdd = { this.props.shouldAdd }/>
+                                        return <RadarQuadrantItem key={currentRow.assessmentItem.id} quadrantItem = { currentRow } handleOnClick = { this.props.handleOnClick }/>
                                     }.bind(this))}
                                 </tbody>
                             </table>
@@ -152,14 +180,14 @@ class RadarQuadrant extends React.Component{
 }
 
 class RadarQuadrantItem extends React.Component{
-    handleCheckboxClick(){
-        this.props.onHandleRadarItemCheck({ shouldAdd: this.props.shouldAdd});
+    handleCheckboxClick(event){
+        this.props.handleOnClick(this.props.quadrantItem.assessmentItem);
     }
 
     render(){
         return(
             <tr>
-                <td><input type="checkbox" name="addToRadar" onChange={this.handleCheckboxClick.bind(this)}/></td>
+                <td><input type="checkbox" name="addToRadar" onChange= {(event) => { this.handleCheckboxClick(event) }}/></td>
                 <td>{ this.props.quadrantItem.assessmentItem.radarRing.name }</td>
                 <td><a href="">{ this.props.quadrantItem.name}</a></td>
             </tr>
@@ -171,7 +199,9 @@ const mapAFPRDispatchToProps = dispatch => {
   return {
         setSourceRadarInstance : sourceRadar => { dispatch(setSourceRadarInstanceToState(sourceRadar))},
         setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
-        onHandleRadarItemCheck : shouldAdd  => { dispatch(handleRadarItemCheck(shouldAdd))}
+        onHandleAddRadarItem : targetItem  => { dispatch(handleAddRadarItem(targetItem))},
+        onHandleRemoveRadarItem : targetItem  => { dispatch(handleRemoveRadarItem(targetItem))},
+
     };
 };
 
@@ -180,6 +210,8 @@ function mapStateToAFPRProps(state) {
     	radarCollection: state.radarCollection,
     	sourceRadar: state.sourceRadar,
     	currentRadar: state.currentRadar,
+    	radarItemsToAdd: state.radarItemsToAdd,
+    	radarItemsToRemove: state.radarItemsToRemove
     };
 }
 

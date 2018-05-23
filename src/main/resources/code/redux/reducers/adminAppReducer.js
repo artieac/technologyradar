@@ -1,43 +1,69 @@
-import React from 'react';
 import * as actionTypes from './adminActionTypes';
 
 // src/js/reducers/index.js
 const adminAppState = {
   radarCollection: [],
   currentRadar: {},
-  sourceRadar: {}
+  sourceRadar: {},
+  radarItemsToAdd: [],
+  radarItemsToRemove: []
 };
 
-function addRadarCollectionToState(radarCollection){
+export function addRadarCollectionToState(radarCollection){
     return {
        type: actionTypes.SETRADARCOLLECTION,
        payload: radarCollection
    };
 }
 
-function setCurrentRadarInstanceToState(radarInstance) {
+export function setCurrentRadarInstanceToState(radarInstance) {
     return {
         type : actionTypes.SETCURRENTRADARINSTANCE,
         payload: radarInstance
     };
 }
 
-function setSourceRadarInstanceToState(radarInstance) {
+export function setSourceRadarInstanceToState(radarInstance) {
     return {
         type : actionTypes.SETSOURCERADARINSTANCE,
         payload: radarInstance
     };
 }
 
-function handleRadarItemCheck(shouldAdd) {
-    console.log(JSON.stringify(shouldAdd));
+function createRadarItemForExistingTechnology(assessmentItem)
+{
+    var radarItem = {};
+
+    radarItem.radarRing = assessmentItem.radarRing.id;
+    radarItem.confidenceLevel = assessmentItem.confidenceFactor;
+    radarItem.assessmentDetails = assessmentItem.details;
+    radarItem.technologyId = assessmentItem.technology.id;
+
+    return radarItem;
+};
+
+export function handleAddRadarItem(targetAssessmentItem) {
     return {
-        type : actionTypes.HANDLERADARITEMCHECK,
-        payload: shouldAdd
+        type : actionTypes.HANDLEADDRADARITEM,
+        payload: createRadarItemForExistingTechnology(targetAssessmentItem)
     };
 }
 
-const adminAppReducer = (state = adminAppState, action) => {
+export function handleRemoveRadarItem(targetAssessmentItem) {
+    return {
+        type : actionTypes.HANDLEREMOVERADARITEM,
+        payload: targetAssessmentItem.id
+    };
+}
+
+export function clearAddAndRemoveRadarItems(){
+    return {
+        type: actionTypes.CLEARADDREMOVERADARITEMS,
+        payload: true
+    };
+}
+
+export const adminAppReducer = (state = adminAppState, action) => {
   switch (action.type) {
     case actionTypes.SETRADARCOLLECTION:
         return Object.assign({}, state, {
@@ -51,9 +77,18 @@ const adminAppReducer = (state = adminAppState, action) => {
         return Object.assign({}, state, {
             sourceRadar: action.payload
         })
+    case actionTypes.HANDLEADDRADARITEM:
+        return Object.assign({}, state, {
+            radarItemsToAdd: state.radarItemsToAdd.concat(action.payload)
+        })
+    case actionTypes.HANDLEREMOVERADARITEM:
+        return Object.assign({}, state, {
+            radarItemsToRemove: state.radarItemsToRemove.concat(action.payload)
+        })
+    case actionTypes.CLEARADDREMOVERADARITEMS:
+        return state;
     default:
       return state;
   }
 }
 
-export { adminAppReducer, setCurrentRadarInstanceToState, setSourceRadarInstanceToState, handleRadarItemCheck };
