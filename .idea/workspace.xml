@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminActionTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminAppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminAppReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/stores/radarCollectionStoreOld.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/reflux/actions/RadarCollectionActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/reflux/stores/RadarCollectionStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" afterDir="false" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,42 +28,65 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="ManageRadars.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars.js">
+      <file leaf-file-name="AdminApp.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="27" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="27" />
+            <state relative-caret-position="-17">
+              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddFromPreviousRadar.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddFromPreviousRadar.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
+            <state relative-caret-position="113">
               <caret line="86" column="94" selection-start-line="86" selection-start-column="94" selection-end-line="86" selection-end-column="94" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RadarItemController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/API/RadarItemController.java">
+      <file leaf-file-name="adminIndex.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-112">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
-              <folding>
-                <element signature="e#1945#1951#0" expanded="true" />
-                <element signature="e#5041#5061#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="192">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InvocableHandlerMethod.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.4.RELEASE/spring-web-4.3.4.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
+      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
+            <state relative-caret-position="238">
+              <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application-development.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" selection-start-line="6" selection-end-line="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application-production.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-production.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="354">
+              <caret line="121" column="34" lean-forward="true" selection-start-line="121" selection-start-column="34" selection-end-line="121" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -83,38 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddFromPreviousController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/AddFromPreviousController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-170">
-              <caret line="119" column="13" selection-start-line="119" selection-start-column="13" selection-end-line="119" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RadarInstanceService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Services/RadarInstanceService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="75" column="93" selection-start-line="75" selection-start-column="93" selection-end-line="75" selection-end-column="93" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="adminActionTypes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminActionTypes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
               <caret line="9" column="29" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RadarItemService.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Services/RadarItemService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-901">
-              <caret line="16" column="113" selection-start-line="16" selection-start-column="113" selection-end-line="16" selection-end-column="113" />
             </state>
           </provider>
         </entry>
@@ -180,7 +179,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarUserRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/TechnologyRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/data/repositories/RadarRingRepository.java" />
@@ -216,9 +214,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/code/reflux/stores/RadarStore" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/admin/ManageRadars.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/AdministrationApp.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" />
         <option value="$PROJECT_DIR$/src/main/resources/webpack.config.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/code/reflux/actions/RadarCollectionActions.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/reflux/stores/RadarCollectionStore.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Stores/RadarCollectionStore.js" />
@@ -231,6 +227,9 @@
         <option value="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminActionTypes.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/redux/reducers/adminAppReducer.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -347,196 +346,7 @@
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
               <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="react" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="Apps" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="Stores" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="redux" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="redux" type="462c0819:PsiDirectoryNode" />
-              <item name="reducers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="redux" type="462c0819:PsiDirectoryNode" />
-              <item name="stores" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="reflux" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="reflux" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="reflux" type="462c0819:PsiDirectoryNode" />
-              <item name="stores" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="dist" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -559,7 +369,7 @@
     <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.48390806" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
@@ -595,7 +405,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TechnologyradarApplication">
+  <component name="RunManager" selected="Maven.technologyradar [spring-boot:run]">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -692,7 +502,7 @@
             <option name="goals">
               <list>
                 <option value="spring-boot:run" />
-                <option value="-Dspring.profiles.active=development" />
+                <option value="-Dspring.profiles.active=production" />
               </list>
             </option>
             <option name="pomFileName" />
@@ -1109,8 +919,8 @@
     <list>
       <item itemvalue="Maven.technologyradar [spring-boot:run]" />
       <item itemvalue="Maven.technologyradar [clean:clean]" />
-      <item itemvalue="Maven.technologyradar [spring-boot:run] (1)" />
       <item itemvalue="Application.TechnologyradarApplication" />
+      <item itemvalue="Maven.technologyradar [spring-boot:run] (1)" />
     </list>
     <recent_temporary>
       <list>
@@ -1180,13 +990,13 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32958803" />
       <window_info id="Capture Tool" order="2" />
       <window_info anchor="right" id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17760417" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17760417" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="4" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49266666" visible="true" weight="0.20085016" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49266666" visible="true" weight="0.20085016" />
       <window_info anchor="bottom" id="Spring" order="8" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1294,13 +1104,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/redux/reducers/rootReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="8" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3264">
@@ -1383,13 +1186,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="6" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/alwaysmoveforward/technologyradar/web/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1407,20 +1203,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/code/reflux/actions/ManageRadarActions.js" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/code/reflux/actions/adminActions.js" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/AdministrationApp.js" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-production.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" selection-start-line="2" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/manageRadars.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1432,13 +1214,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="34" column="7" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1509,13 +1284,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="20" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1602,8 +1370,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPreviousRadar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
+        <state relative-caret-position="113">
           <caret line="86" column="94" selection-start-line="86" selection-start-column="94" selection-end-line="86" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-17">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="121" column="34" lean-forward="true" selection-start-line="121" selection-start-column="34" selection-end-line="121" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" selection-start-line="6" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-production.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -1639,7 +1449,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.48390806" />
               </list>
             </option>
           </splitter-proportions>
@@ -1659,11 +1469,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Spring|technologyradar</last-edited>
+          <last-edited>technologyradar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.48390806" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1683,7 +1494,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
