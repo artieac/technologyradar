@@ -14,21 +14,6 @@
 <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
 <div class="bodyContent">
     <div id="adminAppContent"></div>
-    <div class="contentPageTitle">
-        <label>Manage your Technology Radar</label>
-    </div>
-    <table class="table table-striped">
-        <tbody>
-            <tr>
-                <td><input type="button" class="btn btn-primary" value="Manage Radars" onclick="window.location.href='/admin/Radars'" /></td>
-                <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
-            </tr>
-            <tr>
-                <td><input type="button" class="btn btn-primary" value="Grant Access" onclick="window.location.href='/admin/UserAccess'" /></td>
-                <td>Go here to allow other users to edit your Radars.</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 <script type="text/javascript" charset="utf-8" src="/script/dist/AdminApp.js"></script>
 </body>
