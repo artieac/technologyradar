@@ -11,7 +11,6 @@ theApp.run(function($rootScope) {
 
         if((testObject === null) ||
             (testObject === undefined))
-        {
             retVal = true;
         }
 
