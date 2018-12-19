@@ -11,8 +11,13 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+<<<<<<< HEAD
 .[Ii]dea/
 .[Ii]dea/*
+=======
+.[iI]dea/
+.[iI]dea/*
+>>>>>>> tweak git ignore
 [Tt]arget/
 [Tt]arget/*
 [Nn]ode_modules/
