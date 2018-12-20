@@ -57,9 +57,9 @@ class RadarTableBody extends React.Component{
             return (
                 <tbody>
                     {this.props.tableBodyData.radarCollection.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer }/>
+                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} />
                         }.bind(this))}
-                    <NewRadarRow userId={this.props.userId}/>
+                    <NewRadarRow userId={this.props.userId} parentContainer = { this.props.parentContainer }/>
                 </tbody>
             );
         }
@@ -86,10 +86,10 @@ class RadarRow extends React.Component{
     }
 
     handleIsPublishedClick() {
-        this.setState( { isPublished: this.refs.isPublished.checked })
+         this.setState( { isPublished: !this.state.isPublished })
 
-        var radarToUpdate = {};
-        radarToUpdate.isPublished = this.state.isPublished;
+         var radarToUpdate = {};
+        radarToUpdate.isPublished = !this.state.isPublished;
 
         $.ajax({
               headers: {
@@ -108,7 +108,7 @@ class RadarRow extends React.Component{
     }
 
     handleIsLockedClick(){
-        this.setState( { isLocked: this.refs.isLocked.checked })
+        this.setState( { isLocked: !this.state.isLocked })
 
         var radarToUpdate = {};
         radarToUpdate.isLocked = this.state.isLocked;
@@ -122,10 +122,9 @@ class RadarRow extends React.Component{
               url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Lock',
               data: JSON.stringify(radarToUpdate),
               success: function() {
-                   this.setState( { isLocked: !this.state.isLocked })
                }.bind(this),
-             error: function(xhr, status, err) {
-
+               error: function(xhr, status, err) {
+                    this.setState( { isLocked: !this.state.isLocked })
              }.bind(this)
             });
     }
@@ -152,14 +151,14 @@ class RadarRow extends React.Component{
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td><input type="checkbox" ref="isPublished" value= { this.state.isPublished } defaultChecked={ this.state.isPublished } onChange = { this.handleIsPublishedClick }/></td>
-                 <td><input type="checkbox" ref="isLocked" value = { this.state.isLocked } defaultChecked={ this.state.isLocked } onChange = { this.handleIsLockedClick }/></td>
+                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = { this.handleIsPublishedClick }/></td>
+                 <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick }/></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
-                        <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
+                        <button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
-                 <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick={this.handleDeleteClick}>Delete</button></td>
+                 <td><button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)} onClick={this.handleDeleteClick}>Delete</button></td>
              </tr>
         );
     }
@@ -171,6 +170,9 @@ class NewRadarRow extends React.Component{
         this.state = {
             radarNameInput: ''
         };
+
+        this.handleAddRadar = this.handleAddRadar.bind(this);
+        this.handleRadarNameChange = this.handleRadarNameChange.bind(this);
     }
 
     handleAddRadar() {
@@ -183,10 +185,10 @@ class NewRadarRow extends React.Component{
                       'Content-Type': 'application/json'
               },
               type: "POST",
-              url: '/api/User/' + this.props.match.params.userId + '/Radar',
+              url: '/api/User/' + this.props.userId + '/Radar',
               data: JSON.stringify(radarToAdd),
               success: function() {
-                this.getRadarCollectionByUserId(this.props.match.params.userId,);
+                this.props.parentContainer.getRadarCollectionByUserId(this.props.userId,);
                }.bind(this)
             });
     }
