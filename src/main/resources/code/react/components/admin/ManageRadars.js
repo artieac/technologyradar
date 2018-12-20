@@ -81,9 +81,13 @@ class RadarRow extends React.Component{
             isPublished: this.props.rowData.isPublished,
             isLocked: this.props.rowData.isLocked
         };
+        this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
+        this.handleIsLockedClick = this.handleIsLockedClick.bind(this);
     }
 
     handleIsPublishedClick() {
+        this.setState( { isPublished: !this.refs.isPublished.checked })
+
         var radarToUpdate = {};
         radarToUpdate.isPublished = this.state.isPublished;
 
@@ -98,12 +102,14 @@ class RadarRow extends React.Component{
               success: function() {
                }.bind(this),
               error: function(xhr, status, err) {
-
+                    this.setState( { isPublished: !this.state.isPublished })
               }.bind(this)
             });
     }
 
     handleIsLockedClick(){
+        this.setState( { isLocked: !this.refs.isLocked.checked })
+
         var radarToUpdate = {};
         radarToUpdate.isLocked = this.state.isLocked;
 
@@ -116,6 +122,7 @@ class RadarRow extends React.Component{
               url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Lock',
               data: JSON.stringify(radarToUpdate),
               success: function() {
+                   this.setState( { isLocked: !this.state.isLocked })
                }.bind(this),
              error: function(xhr, status, err) {
 
@@ -145,8 +152,8 @@ class RadarRow extends React.Component{
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onChange = { this.handleIsPublishedClick() }/></td>
-                 <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick() }/></td>
+                 <td><input type="checkbox" ref="isPublished" value= { this.state.isPublished } defaultChecked={ this.state.isPublished } onChange = { this.handleIsPublishedClick }/></td>
+                 <td><input type="checkbox" ref="isLocked" value = { this.state.isLocked } defaultChecked={ this.state.isLocked } onChange = { this.handleIsLockedClick }/></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
                         <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
