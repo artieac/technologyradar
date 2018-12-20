@@ -5,23 +5,33 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/adminAppReducer';
+import { addRadarCollectionToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/adminAppReducer';
 import { SplitButton, MenuItem } from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
     constructor(props){
         super(props);
-         this.state = {};
+         this.state = {
+            userId: this.props.match.params.userId,
+            radarId: this.props.match.params.radarId
+        };
     }
 
     componentDidMount(){
-        this.getCurrentRadarInstance(this.props.match.params.userId, this.props.match.params.radarId);
+        this.getCurrentRadarInstance(this.state.userId, this.state.radarId);
+        this.getRadarCollectionByUserId(this.state.userId);
     }
 
     getCurrentRadarInstance(userId, radarId){
         fetch( '/api/User/' + userId + '/Radar/' + radarId)
             .then(response => response.json())
             .then(json => this.props.setCurrentRadarInstance({ currentRadar: json}));
+    }
+
+    getRadarCollectionByUserId(userId){
+        fetch( '/api/User/' + userId + '/Radars',)
+            .then(response => response.json())
+            .then(json => this.props.addRadarCollection({ radarCollection: json}));
     }
 
     handleAddItemsToRadarClick(){
@@ -100,6 +110,16 @@ class AddFromPreviousRadar extends React.Component{
 }
 
 class RadarCollectionDropDown extends React.Component{
+    constructor(props){
+        super(props);
+         this.state = {
+         };
+    }
+
+    componentDidMount() {
+
+    }
+
     getTitle(){
         var retVal = "";
 
@@ -210,6 +230,7 @@ class RadarQuadrantItem extends React.Component{
 const mapAFPRDispatchToProps = dispatch => {
   return {
         setSourceRadarInstance : sourceRadar => { dispatch(setSourceRadarInstanceToState(sourceRadar))},
+        addRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))},
         setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
         onHandleAddRadarItem : targetItem  => { dispatch(handleAddRadarItem(targetItem))},
         onHandleRemoveRadarItem : targetItem  => { dispatch(handleRemoveRadarItem(targetItem))},
@@ -222,6 +243,7 @@ const mapAFPRDispatchToProps = dispatch => {
 function mapStateToAFPRProps(state) {
   return {
     	sourceRadar: state.sourceRadar,
+    	radarCollection: state.radarCollection,
     	currentRadar: state.currentRadar,
     	radarItemsToAdd: state.radarItemsToAdd,
     	radarItemsToRemove: state.radarItemsToRemove

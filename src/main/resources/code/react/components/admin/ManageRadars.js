@@ -86,10 +86,10 @@ class RadarRow extends React.Component{
     }
 
     handleIsPublishedClick() {
-         this.setState( { isPublished: !this.state.isPublished })
+         this.setState( { isPublished: this.refs.isPublished.checked })
 
          var radarToUpdate = {};
-        radarToUpdate.isPublished = !this.state.isPublished;
+         radarToUpdate.isPublished = this.refs.isPublished.checked;
 
         $.ajax({
               headers: {
@@ -108,10 +108,10 @@ class RadarRow extends React.Component{
     }
 
     handleIsLockedClick(){
-        this.setState( { isLocked: !this.state.isLocked })
+        this.setState( { isLocked: this.refs.isLocked.checked })
 
         var radarToUpdate = {};
-        radarToUpdate.isLocked = this.state.isLocked;
+        radarToUpdate.isLocked = this.refs.isLocked.checked;
 
         $.ajax({
               headers: {
