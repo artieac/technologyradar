@@ -221,7 +221,6 @@ const mapAFPRDispatchToProps = dispatch => {
 
 function mapStateToAFPRProps(state) {
   return {
-    	radarCollection: state.radarCollection,
     	sourceRadar: state.sourceRadar,
     	currentRadar: state.currentRadar,
     	radarItemsToAdd: state.radarItemsToAdd,

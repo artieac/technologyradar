@@ -7,7 +7,7 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
-import addRadarCollectionToState from '../../../redux/reducers/adminAppReducer';
+import { addRadarCollectionToState } from '../../../redux/reducers/adminAppReducer';
 
 class ManageRadars extends React.Component{
     constructor(props){
@@ -44,7 +44,7 @@ class ManageRadars extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody tableBodyData={this.props.radarCollection} userId={this.state.userId}/>
+                    <RadarTableBody tableBodyData={this.props.radarCollection} userId={this.state.userId} parentContainer = { this} />
                 </table>
             </div>
         );
@@ -57,7 +57,7 @@ class RadarTableBody extends React.Component{
             return (
                 <tbody>
                     {this.props.tableBodyData.radarCollection.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId}/>
+                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer }/>
                         }.bind(this))}
                     <NewRadarRow userId={this.props.userId}/>
                 </tbody>
@@ -75,20 +75,66 @@ class RadarTableBody extends React.Component{
 
 class RadarRow extends React.Component{
 
-    handleIsPublishedClick(){
-        radarCollectionActions.publishRadarInstance(this.props.userId, this.props.rowData.id, !this.props.rowData.isPublished);
+    constructor(props){
+        super(props);
+         this.state = {
+            isPublished: this.props.rowData.isPublished,
+            isLocked: this.props.rowData.isLocked
+        };
+    }
+
+    handleIsPublishedClick() {
+        var radarToUpdate = {};
+        radarToUpdate.isPublished = this.state.isPublished;
+
+        $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "PUT",
+              url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Publish',
+              data: JSON.stringify(radarToUpdate),
+              success: function() {
+               }.bind(this),
+              error: function(xhr, status, err) {
+
+              }.bind(this)
+            });
     }
 
     handleIsLockedClick(){
-        radarCollectionActions.lockRadarInstance(this.props.userId, this.props.rowData.id, !this.props.rowData.isLocked);
+        var radarToUpdate = {};
+        radarToUpdate.isLocked = this.state.isLocked;
+
+        $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "PUT",
+              url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Lock',
+              data: JSON.stringify(radarToUpdate),
+              success: function() {
+               }.bind(this),
+             error: function(xhr, status, err) {
+
+             }.bind(this)
+            });
     }
 
-    handleAddFromPreviousClick() {
-
-    }
-
-    handleDeleteClick() {
-        radarCollectionActions.deleteRadarInstance(this.props.userId, this.props.rowData.id);
+    handleDeleteClick(userId, radarId) {
+        $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "DELETE",
+              url: '/api/User/' + userId + '/Radar/' + radarId,
+              success: function() {
+                this.getRadarCollectionByUserId(userId,);
+               }.bind(this)
+            });
     }
 
     getAddFromPreviousLink(userId, radarId){
@@ -99,8 +145,8 @@ class RadarRow extends React.Component{
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td><input type="checkbox" ref="isPublished" value={ this.props.rowData.isPublished } defaultChecked={ this.props.rowData.isPublished } onChange={this.handleIsPublishedClick}/></td>
-                 <td><input type="checkbox" ref="isLocked" value={ this.props.rowData.isLocked } defaultChecked={ this.props.rowData.isLocked } onChange={this.handleIsLockedClick}/></td>
+                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onChange = { this.handleIsPublishedClick() }/></td>
+                 <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick() }/></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
                         <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
@@ -120,8 +166,22 @@ class NewRadarRow extends React.Component{
         };
     }
 
-    handleSaveButtonClick(userId){
-        radarCollectionActions.createRadarInstance(this.props.userId, this.state.radarNameInput);
+    handleAddRadar() {
+        var radarToAdd = {};
+        radarToAdd.name = this.state.radarNameInput;
+
+        $.post({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "POST",
+              url: '/api/User/' + this.props.match.params.userId + '/Radar',
+              data: JSON.stringify(radarToAdd),
+              success: function() {
+                this.getRadarCollectionByUserId(this.props.match.params.userId,);
+               }.bind(this)
+            });
     }
 
     handleRadarNameChange(event){
@@ -132,29 +192,26 @@ class NewRadarRow extends React.Component{
         return(
             <tr>
                 <td><input type="text" ref="radarName" required="true" onChange={ this.handleRadarNameChange } /></td>
-                <td><input type="button" className="btn btn-primary" value="Add Radar" onClick={this.handleSaveButtonClick} /></td>
+                <td><input type="button" className="btn btn-primary" value="Add Radar" onClick={this.handleAddRadar} /></td>
             </tr>
         );
     }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapMRDispatchToProps = dispatch => {
   return {
-    addRadarCollection : radarCollection => {
-        dispatch({
-            type : actionTypes.SETRADARCOLLECTION,
-            payload: radarCollection
-        })
-    }};
+        addRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))}
+    }
 };
 
-function mapStateToProps(state) {
+
+function mapMRStateToProps(state) {
   return {
     	radarCollection: state.radarCollection
     };
 }
 
 export default connect(
-  mapStateToProps,
-    mapDispatchToProps
+  mapMRStateToProps,
+    mapMRDispatchToProps
 )(ManageRadars);
