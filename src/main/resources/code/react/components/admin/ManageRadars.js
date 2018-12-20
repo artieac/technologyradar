@@ -86,7 +86,7 @@ class RadarRow extends React.Component{
     }
 
     handleIsPublishedClick() {
-        this.setState( { isPublished: !this.refs.isPublished.checked })
+        this.setState( { isPublished: this.refs.isPublished.checked })
 
         var radarToUpdate = {};
         radarToUpdate.isPublished = this.state.isPublished;
@@ -108,7 +108,7 @@ class RadarRow extends React.Component{
     }
 
     handleIsLockedClick(){
-        this.setState( { isLocked: !this.refs.isLocked.checked })
+        this.setState( { isLocked: this.refs.isLocked.checked })
 
         var radarToUpdate = {};
         radarToUpdate.isLocked = this.state.isLocked;
