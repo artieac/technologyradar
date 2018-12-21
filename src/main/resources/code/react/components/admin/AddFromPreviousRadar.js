@@ -116,10 +116,6 @@ class RadarCollectionDropDown extends React.Component{
          };
     }
 
-    componentDidMount() {
-
-    }
-
     getTitle(){
         var retVal = "";
 
