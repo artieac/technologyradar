@@ -56,3 +56,25 @@ export function RadarRepository_deleteRadar(userId, radarId, successHandler, err
                 }
             });
 }
+
+export function RadarRepository_addRadar(userId, radarName, successHandler, errorHandler) {
+    var radarToAdd = {};
+    radarToAdd.name = radarName;
+
+    $.post({
+          headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+          },
+          type: "POST",
+          url: '/api/User/' + userId + '/Radar',
+          data: JSON.stringify(radarToAdd),
+          success: function() {
+            successHandler();
+           },
+           error: function(xhr, status, err){
+                errorHandler();
+           }
+        });
+
+}

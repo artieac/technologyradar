@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
 import { addRadarCollectionToState } from '../../../redux/reducers/adminAppReducer';
-import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar} from '../../Repositories/RadarRepository';
+import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar, RadarRepository_addRadar} from '../../Repositories/RadarRepository';
 
 class ManageRadars extends React.Component{
     constructor(props){
@@ -58,7 +58,7 @@ class RadarTableBody extends React.Component{
             return (
                 <tbody>
                     {this.props.tableBodyData.radarCollection.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} />
+                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer }/>
                         }.bind(this))}
                     <NewRadarRow userId={this.props.userId} parentContainer = { this.props.parentContainer }/>
                 </tbody>
@@ -81,8 +81,16 @@ class RadarRow extends React.Component{
             isPublished: this.props.rowData.isPublished,
             isLocked: this.props.rowData.isLocked
         };
+
+        this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
+        this.handlePublishError = this.handlePublishError.bind(this);
         this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
+        this.handleLockSuccess = this.handleLockSuccess.bind(this);
+        this.handleLockError = this.handleLockError.bind(this);
         this.handleIsLockedClick = this.handleIsLockedClick.bind(this);
+        this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this);
+        this.handleDeleteError = this.handleDeleteError.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
     handlePublishSuccess() { }
@@ -93,7 +101,7 @@ class RadarRow extends React.Component{
 
     handleIsPublishedClick() {
         this.setState( { isPublished: this.refs.isPublished.checked })
-        RadarRepository_publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess, this.handlePublishError);
+        RadarRepository_publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess.bind(this), this.handlePublishError.bind(this));
     }
 
     handleLockSuccess() {}
@@ -104,11 +112,11 @@ class RadarRow extends React.Component{
 
     handleIsLockedClick(){
         this.setState( { isLocked: this.refs.isLocked.checked })
-        RadarRepository_lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess, this.handleLockError);
+        RadarRepository_lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
     }
 
     handleDeleteSuccess() {
-        this.props.parentContainer.getRadarCollectionByUserId(this.props.userId);
+        this.props.parentContainer.getRadarCollectionByUserId(this.props.userId,);
     }
 
     handleDeleteError() {
@@ -147,31 +155,28 @@ class NewRadarRow extends React.Component{
             radarNameInput: ''
         };
 
-        this.handleAddRadar = this.handleAddRadar.bind(this);
         this.handleRadarNameChange = this.handleRadarNameChange.bind(this);
-    }
-
-    handleAddRadar() {
-        var radarToAdd = {};
-        radarToAdd.name = this.state.radarNameInput;
-
-        $.post({
-              headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-              },
-              type: "POST",
-              url: '/api/User/' + this.props.userId + '/Radar',
-              data: JSON.stringify(radarToAdd),
-              success: function() {
-                this.props.parentContainer.getRadarCollectionByUserId(this.props.userId,);
-               }.bind(this)
-            });
+        this.handleAddSuccess = this.handleAddSuccess.bind(this);
+        this.handleAddError = this.handleAddError.bind(this);
+        this.handleAddRadar = this.handleAddRadar.bind(this);
     }
 
     handleRadarNameChange(event){
         this.setState({radarNameInput:event.target.value});
     }
+
+    handleAddSuccess() {
+        this.props.parentContainer.getRadarCollectionByUserId(this.props.userId,);
+    }
+
+    handleAddError() {
+
+    }
+
+    handleAddRadar() {
+        RadarRepository_addRadar(this.props.userId, this.state.radarNameInput, this.handleAddSuccess, this.handleAddError );
+    }
+
 
     render(){
         return(
