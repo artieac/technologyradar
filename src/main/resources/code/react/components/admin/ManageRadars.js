@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
 import { addRadarCollectionToState } from '../../../redux/reducers/adminAppReducer';
+import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar} from '../../Repositories/RadarRepository';
 
 class ManageRadars extends React.Component{
     constructor(props){
@@ -74,7 +75,6 @@ class RadarTableBody extends React.Component{
 };
 
 class RadarRow extends React.Component{
-
     constructor(props){
         super(props);
          this.state = {
@@ -85,62 +85,38 @@ class RadarRow extends React.Component{
         this.handleIsLockedClick = this.handleIsLockedClick.bind(this);
     }
 
+    handlePublishSuccess() { }
+
+    handlePublishError() {
+        this.setState( { isPublished: !this.state.isPublished })
+    }
+
     handleIsPublishedClick() {
-         this.setState( { isPublished: this.refs.isPublished.checked })
+        this.setState( { isPublished: this.refs.isPublished.checked })
+        RadarRepository_publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess, this.handlePublishError);
+    }
 
-         var radarToUpdate = {};
-         radarToUpdate.isPublished = this.refs.isPublished.checked;
+    handleLockSuccess() {}
 
-        $.ajax({
-              headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-              },
-              type: "PUT",
-              url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Publish',
-              data: JSON.stringify(radarToUpdate),
-              success: function() {
-               }.bind(this),
-              error: function(xhr, status, err) {
-                    this.setState( { isPublished: !this.state.isPublished })
-              }.bind(this)
-            });
+    handleLockError() {
+        this.setState( { isLocked: !this.state.isLocked })
     }
 
     handleIsLockedClick(){
         this.setState( { isLocked: this.refs.isLocked.checked })
-
-        var radarToUpdate = {};
-        radarToUpdate.isLocked = this.refs.isLocked.checked;
-
-        $.ajax({
-              headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-              },
-              type: "PUT",
-              url: '/api/User/' + this.props.userId + '/Radar/' + this.props.rowData.id + '/Lock',
-              data: JSON.stringify(radarToUpdate),
-              success: function() {
-               }.bind(this),
-               error: function(xhr, status, err) {
-                    this.setState( { isLocked: !this.state.isLocked })
-             }.bind(this)
-            });
+        RadarRepository_lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess, this.handleLockError);
     }
 
-    handleDeleteClick(userId, radarId) {
-        $.ajax({
-              headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-              },
-              type: "DELETE",
-              url: '/api/User/' + userId + '/Radar/' + radarId,
-              success: function() {
-                this.getRadarCollectionByUserId(userId,);
-               }.bind(this)
-            });
+    handleDeleteSuccess() {
+        this.props.parentContainer.getRadarCollectionByUserId(this.props.userId);
+    }
+
+    handleDeleteError() {
+
+    }
+
+    handleDeleteClick() {
+        RadarRepository_deleteRadar(this.props.userId, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
     }
 
     getAddFromPreviousLink(userId, radarId){
@@ -158,7 +134,7 @@ class RadarRow extends React.Component{
                         <button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
-                 <td><button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)} onClick={this.handleDeleteClick}>Delete</button></td>
+                 <td><button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)} onClick = { this.handleDeleteClick }>Delete</button></td>
              </tr>
         );
     }
