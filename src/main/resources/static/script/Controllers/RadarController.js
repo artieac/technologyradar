@@ -143,7 +143,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         {
             if (!$scope.isNullOrUndefined($scope.selectedRadarInstanceItem.technology.id))
             {
-                alert('here');
                 RadarItemService.addRadarItemExistingTechnology(userId,
                     $scope.selectedRadarInstance.id,
                     $scope.selectedRadarRing.id,
@@ -167,7 +166,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         }
         else
         {
-            RadarItemService.updateRadarItem(userId, $scope.selectedRadarInstance, $scope.selectedRadarRing.id, $scope.selectedConfidence, $scope.selectedRadarInstanceItem.details, $scope.selectedRadarInstanceItem.technology, $scope.selectedRadarInstanceItem, $scope.saveSuccessCallback, $scope.saveFailureCallback);
+            RadarItemService.updateRadarItem(userId, $scope.selectedRadarInstance.id, $scope.selectedRadarRing.id, $scope.selectedConfidence, $scope.selectedRadarInstanceItem.details, $scope.selectedRadarInstanceItem.technology, $scope.selectedRadarInstanceItem, $scope.saveSuccessCallback, $scope.saveFailureCallback);
         }
     };
 
