@@ -54,5 +54,6 @@
             <li class="list-group-item" ng-repeat="searchResult in technologySearchResults"><a ng-href="/technology/{{searchResult.id}}">{{searchResult.name}}</a></li>
         </ul>
     </div>
+    <div th:replace="fragments/footer :: uiFooter"></div>
 </body>
 </html>
