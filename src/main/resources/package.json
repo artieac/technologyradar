@@ -5,7 +5,7 @@
   "author": "Arthur Correa",
   "repository": {
     "type": "git",
-    "url": "git://github.com/artieac/AlwaysMoveForward.git"
+    "url": "git://github.com/artieac/pucksandprogramming.git"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -41,9 +41,9 @@
     "reflux": "^6.4.1"
   },
   "bugs": {
-    "url": "https://github.com/artieac/AlwaysMoveForward/issues"
+    "url": "https://github.com/artieac/pucksandprogramming/issues"
   },
-  "homepage": "https://github.com/artieac/AlwaysMoveForward#readme",
+  "homepage": "https://github.com/artieac/pucksandprogramming#readme",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

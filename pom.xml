@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.alwaysmoveforward</groupId>
+	<groupId>com.pucksandprogramming</groupId>
 	<artifactId>technologyradar</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
@@ -26,7 +26,7 @@
 		<apache.commons.version>3.4</apache.commons.version>
 		<model.mapper.version>0.7.5</model.mapper.version>
 		<sumoappender.version>1.2</sumoappender.version>
-		<finalName>com.alwaysmoveforward.technologyradar</finalName>
+		<finalName>com.pucksandprogramming.technologyradar</finalName>
 	</properties>
 
 	<dependencies>
