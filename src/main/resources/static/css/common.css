@@ -1,9 +1,10 @@
 body {
-  background-color: #edeff2;
   font-family: 'Open Sans', sans-serif;
   color: #6a859c;
   font-size: 16px;
   line-height: 20px;
+  margin-left:10%;
+  margin-right:10%
 }
 
 h1 {
@@ -297,6 +298,8 @@ p {
   padding-top: 35px;
   padding-bottom: 35px;
   text-align: left;
+  border-top: black;
+  horizontal-align:left;
 }
 
 .footer.center {
