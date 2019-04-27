@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +34,9 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     private boolean hasExpired() {
         return jwt.getExpiresAt().before(new Date());
     }
+
+    @Value("${com.pucksandprogramming.securityEnabled}")
+    private boolean securityEnabled;
 
     private static Collection<? extends GrantedAuthority> readAuthorities(DecodedJWT jwt) {
         Claim rolesClaim = jwt.getClaim("https://access.control/roles");
@@ -95,7 +99,15 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
 
     @Override
     public boolean isAuthenticated() {
-        return !invalidated && !hasExpired();
+        boolean retVal = false;
+
+        if (this.securityEnabled == true) {
+            retVal = !invalidated && !hasExpired();
+        } else {
+            retVal = true;
+        }
+
+        return retVal;
     }
 }
 

@@ -62,7 +62,7 @@
                 <a href="#" th:href="@{/public/home/about}">About</a>
             </li>
             <li sec:authorize="isAuthenticated()">
-                <a href="#" th:href="@{/admin/index}">Admin</a>
+                <a href="#" th:href="@{/admin/index}">Manage Radars</a>
             </li>
             <li>
                 <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
