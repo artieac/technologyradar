@@ -120,6 +120,15 @@ public class TechnologyRadarMapper
                 }
             };
 
+    private PropertyMap<RadarTypeEntity, RadarType> radarTypeModelMap =
+            new PropertyMap<RadarTypeEntity, RadarType>()
+            {
+                protected void configure()
+                {
+                    map().setId(source.getId());
+                }
+            };
+
     private PropertyMap<RadarUserEntity, RadarUser> radarUserModelMap =
             new PropertyMap<RadarUserEntity, RadarUser>()
             {

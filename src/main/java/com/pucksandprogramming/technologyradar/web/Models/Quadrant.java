@@ -21,10 +21,10 @@ public class Quadrant
     private Integer quadrantStart;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
+    public Quadrant(Integer quadrantStart, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
     {
         this.radarCategory = radarCategory;
-        this.quadrantStart = radarCategory.getQuadrantStart();
+        this.quadrantStart = quadrantStart;
         this.calculateLeftAndTop(diagramWidth, diagramHeight);
         this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
 

@@ -20,8 +20,9 @@ public class RadarCategoryEntity
     @Column(name = "Color", nullable=false, length=512)
     private String color;
 
-    @Column(name = "QuadrantStart", nullable=false)
-    private Integer quadrantStart;
+    @JoinColumn(name = "RadarTypeId", referencedColumnName = "id")
+    @ManyToOne(optional=false)
+    private RadarTypeEntity radarType;
 
     public RadarCategoryEntity()
     {
@@ -40,7 +41,8 @@ public class RadarCategoryEntity
 
     public void setColor(String value) { this.color = value;}
 
-    public Integer getQuadrantStart() { return this.quadrantStart;}
+    public RadarTypeEntity getRadarType() { return this.radarType;}
 
-    public void setQuadrantStart(Integer value) { this.quadrantStart = value;}
+    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
+
 }

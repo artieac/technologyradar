@@ -70,6 +70,18 @@ public class RadarUserService
         return retVal;
     }
 
+    public RadarUser updateUser(RadarUser radarUser)
+    {
+        RadarUser retVal = null;
+
+        if(radarUser!=null)
+        {
+            retVal = this.radarUserRepository.save(radarUser);
+        }
+
+        return retVal;
+    }
+
     public Auth0UserProfile getUserProfile(String issuer, String accessToken)
     {
         String cleanedAccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));

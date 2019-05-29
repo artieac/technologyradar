@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
+import ManageRadarTypes from '../components/admin/ManageRadarTypes';
 import ManageRadars from '../components/admin/ManageRadars';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
 import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
@@ -33,19 +34,18 @@ class AdminApp extends React.Component{
                     <tbody>
                         <tr>
                             <td>
+                                <Link to='/admin/manageRadarTypes'>
+                                    <button className="btn btn-primary">Manage Radar Types</button>
+                                </Link>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <Link to='/admin/manageRadars'>
                                     <button className="btn btn-primary">Manage Radars</button>
                                 </Link>
                             </td>
                             <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button className="btn btn-primary">
-//                                    <Link to='/admin/grantAccess'>Grant Access</Link>
-                                </button>
-                            </td>
-                            <td>Go here to allow other users to edit your Radars.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -60,6 +60,7 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/admin/index" component={ AdminApp } />
+                    <Route path="/admin/manageRadarTypes" component={ ManageRadarTypes } />
                     <Route path="/admin/manageRadars" component={ ManageRadars } />
                     <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
                 </Switch>

@@ -22,6 +22,10 @@ public class RadarRingEntity
     @Column(name="DisplayOrder", nullable=false)
     private Long displayOrder;
 
+    @JoinColumn(name = "RadarTypeId", referencedColumnName = "id")
+    @ManyToOne(optional=false)
+    private RadarTypeEntity radarType;
+
     public RadarRingEntity()
     {
 
@@ -38,4 +42,8 @@ public class RadarRingEntity
     public Long getDisplayOrder(){ return this.displayOrder;}
 
     public void setDisplayOrder(Long value){ this.displayOrder = value;}
+
+    public RadarTypeEntity getRadarType() { return this.radarType;}
+
+    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
 }

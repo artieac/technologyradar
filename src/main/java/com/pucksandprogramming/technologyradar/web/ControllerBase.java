@@ -16,7 +16,7 @@ public class ControllerBase
     private boolean securityEnabled;
 
     @Autowired
-    public RadarUserService radarUserService;
+    private RadarUserService radarUserService;
 
     private RadarUser currentUser = null;
 
@@ -26,7 +26,7 @@ public class ControllerBase
         {
             if(this.securityEnabled==true)
             {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication)SecurityContextHolder.getContext().getAuthentication();
+                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
 
                 if(tokenAuth!=null)
                 {
@@ -36,10 +36,11 @@ public class ControllerBase
             else
             {
                 this.currentUser = new RadarUser();
-                this.currentUser.setId(1L);
+                this.currentUser = this.radarUserService.findOne(1L);
             }
         }
 
         return this.currentUser;
     }
+
 }

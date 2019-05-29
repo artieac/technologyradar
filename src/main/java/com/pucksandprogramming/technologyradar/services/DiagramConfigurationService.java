@@ -74,11 +74,14 @@ public class DiagramConfigurationService
         Iterable<RadarCategory> radarCategories = this.radarCategoryRepository.findAll();
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
+        Integer quadrantStart = 0;
+
         for(RadarCategory radarCategory : radarCategories)
         {
-            Quadrant newQuadrant = new Quadrant(radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
+            Quadrant newQuadrant = new Quadrant(quadrantStart, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
+            quadrantStart += 90;
         }
 
         Radar radarInstance = this.radarService.findById(radarId);

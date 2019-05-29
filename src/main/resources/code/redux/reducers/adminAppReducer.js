@@ -2,12 +2,20 @@ import * as actionTypes from './adminActionTypes';
 
 // src/js/reducers/index.js
 const adminAppState = {
+  radarTypeCollection: [],
   radarCollection: [],
   currentRadar: {},
   sourceRadar: {},
   radarItemsToAdd: [],
   radarItemsToRemove: []
 };
+
+export function addRadarTypeCollectionToState(radarTypeCollection){
+    return {
+       type: actionTypes.SETRADARTYPECOLLECTION,
+       payload: radarTypeCollection
+   };
+}
 
 export function addRadarCollectionToState(radarCollection){
     return {
@@ -71,7 +79,13 @@ export function clearAddRadarItems(){
 }
 
 export const adminAppReducer = (state = adminAppState, action) => {
+ // alert(JSON.stringify(action));
+
   switch (action.type) {
+    case actionTypes.SETRADARTYPECOLLECTION:
+        return Object.assign({}, state, {
+            radarTypeCollection: action.payload
+        })
     case actionTypes.SETRADARCOLLECTION:
         return Object.assign({}, state, {
             radarCollection: action.payload

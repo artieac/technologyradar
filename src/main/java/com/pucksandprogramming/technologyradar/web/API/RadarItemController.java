@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
 import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import org.apache.log4j.Logger;
@@ -26,11 +27,18 @@ public class RadarItemController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    @Autowired
-    RadarService radarService;
+    private RadarService radarService;
+    private DiagramConfigurationService diagramConfigurationService;
+    private RadarUserService radarUserService;
 
     @Autowired
-    DiagramConfigurationService diagramConfigurationService;
+    public RadarItemController(RadarService _radarService,
+                               DiagramConfigurationService _diagramConfigurationService,
+                               RadarUserService _radarUserService){
+        this.radarService = _radarService;
+        this.diagramConfigurationService = _diagramConfigurationService;
+        this.radarUserService = _radarUserService;
+    }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteRadarItem(@PathVariable Long radarId, @PathVariable Long radarItemId, @PathVariable Long radarUserId)
@@ -66,7 +74,7 @@ public class RadarItemController extends ControllerBase
         Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
         String assessmentDetails = modelMap.get("assessmentDetails").toString();
 
-        RadarUser radarUser = radarUserService.findOne(radarUserId);
+        RadarUser radarUser = this.radarUserService.findOne(radarUserId);
 
         if(radarUser != null && radarUser.getId() == this.getCurrentUser().getId())
         {
