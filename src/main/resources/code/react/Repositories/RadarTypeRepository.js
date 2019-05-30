@@ -45,6 +45,17 @@ export function RadarTypeRepository_update(userId, radarType, successHandler) {
         });
 }
 
+export function RadarTypeRepository_delete(userId, radarType){
+     $.ajax({
+          headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+          },
+          type: "DELETE",
+          url: '/api/User/' + userId + '/RadarType/' + radarType.id
+        });
+}
+
 export function RadarTypeRepository_createDefaultRadarType(name){
         var retVal = {};
         retVal.id = -1;

@@ -90,6 +90,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance = radarInstance;
         $scope.getRadarSharingLink(userId);
         $scope.getRadarData(userId, radarInstance.id);
+        $scope.getRadarRings(radarInstance.id);
+        $scope.getRadarCategories(radarInstance.id);
     }
 
     $scope.renderRadar = function (radarData)
@@ -105,9 +107,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         init(radarData.height, radarData.width, radarData.quadrants, radar_arcs, $scope.selectRadarInstanceItem);
     }
 
-    $scope.getRadarRings = function ()
+    $scope.getRadarRings = function (radarId)
     {
-        $scope.radarRingList = RadarInstanceService.getRadarRingsRequest().query();
+        $scope.radarRingList = RadarInstanceService.getRadarRingsRequest(radarId).query();
     }
 
     $scope.selectRadarRing = function (radarRing)
@@ -115,9 +117,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarRing = radarRing;
     }
 
-    $scope.getRadarCategories = function ()
+    $scope.getRadarCategories = function (radarId)
     {
-        $scope.radarCategoryList = RadarInstanceService.getRadarCategoriesRequest().query();
+        $scope.radarCategoryList = RadarInstanceService.getRadarCategoriesRequest(radarId).query();
     }
 
     $scope.selectRadarCategory = function (radarCategory)

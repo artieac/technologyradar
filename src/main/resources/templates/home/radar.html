@@ -72,7 +72,7 @@
                                         <li class="list-group-item" ng-repeat="searchResult in technologySearchResults" ng-click="selectTechnology(searchResult)">{{searchResult.name}}</li>
                                     </ul>
                                 </div>
-                                <div class="row"  ng-init="getRadarCategories()">
+                                <div class="row"  ng-init="getRadarCategories(selectedRadarInstance.id)">
                                     <div class="dropdown pull-left">
                                         <label for="radarCategoryDropdown">Category</label>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="radarCategoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row"  ng-init="getRadarRings()">
+                                <div class="row"  ng-init="getRadarRings(selectedRadarInstance.id)">
                                     <div class="col-md-6">
                                         <div class="dropdown pull-left">
                                             <label for="radarRingDropdown">Radar Ring:</label>

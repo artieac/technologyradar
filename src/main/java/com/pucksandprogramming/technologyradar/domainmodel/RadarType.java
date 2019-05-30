@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.data.Entities.RadarCategoryEntity
 import com.pucksandprogramming.technologyradar.data.Entities.RadarRingEntity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class RadarType {
@@ -27,7 +28,11 @@ public class RadarType {
 
     public void setName(String value) { this.name = value;}
 
-    public List<RadarRing> getRadarRings() { return this.radarRings;}
+    public List<RadarRing> getRadarRings()
+    {
+        this.radarRings.sort(Comparator.comparing(RadarRing::getDisplayOrder));
+        return this.radarRings;
+    }
 
     public void setRadarRings(List<RadarRing> value) { this.radarRings = value;}
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,18 +29,30 @@ public class RadarConfigurationController extends ControllerBase
     @Autowired
     RadarService radarService;
 
-    @RequestMapping(value = "/radar/rings", produces = "application/json")
-    public @ResponseBody List<RadarRing> getRadarRings()
+    @RequestMapping(value = "/radar/{radarId}/rings", produces = "application/json")
+    public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
     {
-        List<RadarRing> retVal = this.radarSetupService.getRadarRings();
+        List<RadarRing> retVal = new ArrayList<RadarRing>();
+
+        Radar targetRadar = this.radarService.findById(radarId);
+
+        if(targetRadar!=null){
+            retVal = targetRadar.getRadarType().getRadarRings();
+        }
 
         return retVal;
     }
 
-    @RequestMapping(value = "/radar/categories", produces = "application/json")
-    public @ResponseBody List<RadarCategory> getRadarCategories()
+    @RequestMapping(value = "/radar/{radarId}/categories", produces = "application/json")
+    public @ResponseBody List<RadarCategory> getRadarCategories(@PathVariable Long radarId)
     {
-        List<RadarCategory> retVal = this.radarSetupService.getRadarCategories();
+        List<RadarCategory> retVal = new ArrayList<RadarCategory>();
+
+        Radar targetRadar = this.radarService.findById(radarId);
+
+        if(targetRadar!=null){
+            retVal = targetRadar.getRadarType().getRadarCategories();
+        }
 
         return retVal;
     }

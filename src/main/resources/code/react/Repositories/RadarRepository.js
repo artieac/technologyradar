@@ -1,4 +1,4 @@
-export function RadarRepository_publishRadar(userId, radarId, radarType, isPublished, successHandler, errorHandler) {
+export function RadarRepository_publishRadar(userId, radarId, isPublished, successHandler, errorHandler) {
      var radarToUpdate = {};
      radarToUpdate.isPublished = isPublished;
 

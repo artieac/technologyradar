@@ -61,8 +61,9 @@ public class DiagramConfigurationService
     {
         DiagramPresentation retVal = new DiagramPresentation(900,1100, 90);
 
-        Iterable<RadarRing> radarRings = this.radarRingRepository.GetAllOrdered();
-        retVal.addRadarArcs(radarRings);
+        Radar radarInstance = this.radarService.findById(radarId);
+
+        retVal.addRadarArcs(radarInstance.getRadarType().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
         List<RadarRingPresentation> radarRingPresentations = retVal.getRadarArcs();
 
@@ -71,20 +72,17 @@ public class DiagramConfigurationService
             radarRingLookup.put(radarRing.getRadarRing().getId(), radarRing);
         }
 
-        Iterable<RadarCategory> radarCategories = this.radarCategoryRepository.findAll();
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
         Integer quadrantStart = 0;
 
-        for(RadarCategory radarCategory : radarCategories)
+        for(RadarCategory radarCategory : radarInstance.getRadarType().getRadarCategories())
         {
             Quadrant newQuadrant = new Quadrant(quadrantStart, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
             quadrantStart += 90;
         }
-
-        Radar radarInstance = this.radarService.findById(radarId);
 
         if(radarInstance != null) {
             retVal.setRadarInstanceDetails(radarInstance);

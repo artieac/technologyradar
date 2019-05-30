@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
 import { addRadarTypeCollectionToState } from '../../../redux/reducers/adminAppReducer';
 import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar, RadarRepository_addRadar} from '../../Repositories/RadarRepository';
-import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update, RadarTypeRepository_createDefaultRadarType } from '../../Repositories/RadarTypeRepository';
+import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update, RadarTypeRepository_createDefaultRadarType, RadarTypeRepository_delete } from '../../Repositories/RadarTypeRepository';
 
 class ManageRadarTypes extends React.Component{
     constructor(props){
@@ -93,16 +93,27 @@ class RadarTypeRow extends React.Component{
         }
     }
 
+    handleDeleteRadarType(radarType){
+        RadarTypeRepository_delete(this.props.userId, radarType);
+    }
+
     render() {
         if(typeof this.props.rowData !== 'undefined'){
             return (
-                <div onClick={() => { this.handleRadarTypeSelection(event) }}>
+                <div>
                     <div className={this.state.showDetails ? 'row border' : 'row'}>
                         <div className="col-lg-2">
                             <input type="text" defaultValue={this.props.rowData.name }  onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} />
                         </div>
                         <div className="col-lg-2">
-                           <input type="button" className="btn btn-primary" value="Save" onClick={() => { this.handleSaveRadarType(this.props.rowData) }}/>
+                            <span className={this.state.showDetails ? 'hidden' : ''}>
+                               <input type="button" className="btn btn-primary" value="Show Details" onClick={() => { this.handleRadarTypeSelection(event) }}/>
+                            </span>
+                            <span className={this.state.showDetails ? '' : 'hidden'}>
+                               <input type="button" className="btn btn-primary" value="Hide Details" onClick={() => { this.handleRadarTypeSelection(event) }}/>
+                               <input type="button" className="btn btn-primary" value="Save" onClick={() => { this.handleSaveRadarType(this.props.rowData) }}/>
+                               <input type="button" className="btn btn-primary" value="Delete" onClick={() => { this.handleDeleteRadarType(this.props.rowData) }}/>
+                           </span>
                         </div>
                     </div>
                     <div className={this.state.showDetails ? 'row border' : 'row hidden'}>
