@@ -4,7 +4,6 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarCategoryRe
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
-import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
 import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
@@ -26,18 +25,18 @@ public class DiagramConfigurationService
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
                                        RadarUserRepository radarUserRepository,
-                                       RadarService radarService)
+                                       RadarInstanceService radarInstanceService)
     {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
-        this.radarService = radarService;
+        this.radarInstanceService = radarInstanceService;
     }
 
     public List<RadarRing> getRadarRings()
@@ -61,7 +60,7 @@ public class DiagramConfigurationService
     {
         DiagramPresentation retVal = new DiagramPresentation(900,1100, 90);
 
-        Radar radarInstance = this.radarService.findById(radarId);
+        Radar radarInstance = this.radarInstanceService.findById(radarId);
 
         retVal.addRadarArcs(radarInstance.getRadarType().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();

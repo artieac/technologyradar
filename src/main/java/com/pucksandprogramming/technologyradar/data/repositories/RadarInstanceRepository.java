@@ -1,10 +1,9 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.dao.*;
-import com.pucksandprogramming.technologyradar.data.Entities.RadarEntity;
+import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarItemEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
-import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
 import org.apache.log4j.Logger;
@@ -20,9 +19,9 @@ import java.util.List;
  * Created by acorrea on 10/21/2016.
  */
 @Repository
-public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long>
+public class RadarInstanceRepository extends SimpleDomainRepository<Radar, RadarInstanceEntity, RadarInstanceDAO, Long>
 {
-    private static final Logger logger = Logger.getLogger(RadarRepository.class);
+    private static final Logger logger = Logger.getLogger(RadarInstanceRepository.class);
 
     @Autowired
     EntityManager entityManager;
@@ -46,18 +45,18 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     RadarTypeDAO radarTypeDAO;
 
     @Autowired
-    public void setEntityRepository(RadarDAO entityRepository)
+    public void setEntityRepository(RadarInstanceDAO entityRepository)
     {
         super.setEntityRepository(entityRepository);
     }
 
-    public RadarRepository()
+    public RadarInstanceRepository()
     {
         super(Radar.class);
     }
 
     @Override
-    protected RadarEntity findOne(Radar domainModel)
+    protected RadarInstanceEntity findOne(Radar domainModel)
     {
         return this.entityRepository.findOne(domainModel.getId());
     }
@@ -66,9 +65,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Iterable<RadarEntity> foundItems = this.entityRepository.findAll();
+        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAll();
 
-        for (RadarEntity foundItem : foundItems)
+        for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
         }
@@ -79,7 +78,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     public Radar findByIdAndRadarUserId(Long radarInstanceId, Long radarUserId){
         Radar retVal = null;
 
-        RadarEntity targetItem = this.entityRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
+        RadarInstanceEntity targetItem = this.entityRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
 
         if(targetItem!=null){
             retVal = this.modelMapper.map(targetItem, Radar.class);
@@ -92,9 +91,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Iterable<RadarEntity> foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
+        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
 
-        for (RadarEntity foundItem : foundItems)
+        for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
         }
@@ -106,9 +105,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Iterable<RadarEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, isPublished);
+        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, isPublished);
 
-        for (RadarEntity foundItem : foundItems)
+        for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
         }
@@ -123,11 +122,11 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
         String query = "select ta.Id as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
         query += " FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
 
-        Query q = this.entityManager.createNativeQuery(query, RadarEntity.class);
+        Query q = this.entityManager.createNativeQuery(query, RadarInstanceEntity.class);
         q.setParameter(1, technologyId);
-        List<RadarEntity> foundItems = q.getResultList();
+        List<RadarInstanceEntity> foundItems = q.getResultList();
 
-        for (RadarEntity foundItem : foundItems)
+        for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
         }
@@ -139,7 +138,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         Radar retVal = null;
 
-        RadarEntity foundItem = this.entityRepository.findByName(radarInstanceName);
+        RadarInstanceEntity foundItem = this.entityRepository.findByName(radarInstanceName);
 
         if (foundItem != null)
         {
@@ -153,7 +152,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     {
         Radar retVal = null;
 
-        RadarEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
+        RadarInstanceEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
 
         if (foundItem != null)
         {
@@ -174,9 +173,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             maxQuery += " AND ta.IsPublished = 1";
         }
 
-        Query q = this.entityManager.createNativeQuery(maxQuery, RadarEntity.class);
+        Query q = this.entityManager.createNativeQuery(maxQuery, RadarInstanceEntity.class);
         q.setParameter(1, userId);
-        RadarEntity foundItem = (RadarEntity)q.getSingleResult();
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
 
         if (foundItem != null)
         {
@@ -189,35 +188,35 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     @Override
     public Radar save(Radar itemToSave)
     {
-        RadarEntity radarEntity = null;
+        RadarInstanceEntity radarInstanceEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null)
         {
-            radarEntity = this.entityRepository.findOne(itemToSave.getId());
+            radarInstanceEntity = this.entityRepository.findOne(itemToSave.getId());
         }
         else
         {
-            radarEntity = new RadarEntity();
+            radarInstanceEntity = new RadarInstanceEntity();
         }
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
         ///.... this sucks
-        if(radarEntity != null)
+        if(radarInstanceEntity != null)
         {
-            radarEntity.setAssessmentDate(itemToSave.getAssessmentDate());
-            radarEntity.setName(itemToSave.getName());
-            radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
-            radarEntity.setIsPublished(itemToSave.getIsPublished());
-            radarEntity.setIsLocked(itemToSave.getIsLocked());
-            radarEntity.setRadarType(radarTypeDAO.findOne(itemToSave.getRadarType().getId()));
+            radarInstanceEntity.setAssessmentDate(itemToSave.getAssessmentDate());
+            radarInstanceEntity.setName(itemToSave.getName());
+            radarInstanceEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+            radarInstanceEntity.setIsPublished(itemToSave.getIsPublished());
+            radarInstanceEntity.setIsLocked(itemToSave.getIsLocked());
+            radarInstanceEntity.setRadarType(radarTypeDAO.findOne(itemToSave.getRadarType().getId()));
 
             // First remove any deletions
-            if(radarEntity != null && radarEntity.getRadarItems() != null)
+            if(radarInstanceEntity != null && radarInstanceEntity.getRadarItems() != null)
             {
-                for(int i = radarEntity.getRadarItems().size() - 1; i >= 0 ; i--)
+                for(int i = radarInstanceEntity.getRadarItems().size() - 1; i >= 0 ; i--)
                 {
-                    RadarItemEntity radarInstanceItemEntity = radarEntity.getRadarItems().get(i);
+                    RadarItemEntity radarInstanceItemEntity = radarInstanceEntity.getRadarItems().get(i);
 
                     boolean foundMatch = false;
 
@@ -232,7 +231,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
 
                     if (foundMatch == false)
                     {
-                        radarEntity.getRadarItems().remove(radarInstanceItemEntity);
+                        radarInstanceEntity.getRadarItems().remove(radarInstanceItemEntity);
                         radarItemDAO.delete(radarInstanceItemEntity);
                     }
                 }
@@ -245,9 +244,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
 
                 boolean foundMatch = false;
 
-                for(int j = 0; j < radarEntity.getRadarItems().size(); j++)
+                for(int j = 0; j < radarInstanceEntity.getRadarItems().size(); j++)
                 {
-                    RadarItemEntity radarInstanceItemEntity = radarEntity.getRadarItems().get(j);
+                    RadarItemEntity radarInstanceItemEntity = radarInstanceEntity.getRadarItems().get(j);
 
                     if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId())
                     {
@@ -262,7 +261,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
                 if(foundMatch == false)
                 {
                     RadarItemEntity newItem = new RadarItemEntity();
-                    newItem.setRadarInstance(radarEntity);
+                    newItem.setRadarInstance(radarInstanceEntity);
                     newItem.setDetails(assessmentItem.getDetails());
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
@@ -293,16 +292,16 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
                     newItem.setTechnology(targetTechnology);
                     radarItemDAO.save(newItem);
 
-                    radarEntity.getRadarItems().add(newItem);
+                    radarInstanceEntity.getRadarItems().add(newItem);
                 }
             }
         }
 
-        if(radarEntity != null)
+        if(radarInstanceEntity != null)
         {
-            this.entityRepository.save(radarEntity);
+            this.entityRepository.save(radarInstanceEntity);
         }
 
-        return this.modelMapper.map(radarEntity, Radar.class);
+        return this.modelMapper.map(radarInstanceEntity, Radar.class);
     }
 }

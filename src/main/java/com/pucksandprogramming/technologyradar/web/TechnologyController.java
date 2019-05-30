@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.web.Models.TechnologyBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class TechnologyController extends ControllerBase
     private static final Logger logger = Logger.getLogger(TechnologyController.class);
 
     @Autowired
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
 
     @RequestMapping("/technology/search")
     public String technologySearch()
@@ -34,8 +34,8 @@ public class TechnologyController extends ControllerBase
     @RequestMapping("/technology/{id}")
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
-        Technology targetTechnology = this.radarService.findTechnologyById(id);
-        List<Radar> radarList = radarService.getAllByTechnologyId(id);
+        Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
+        List<Radar> radarList = radarInstanceService.getAllByTechnologyId(id);
 
         TechnologyBreakdown viewModel = new TechnologyBreakdown(targetTechnology);
 

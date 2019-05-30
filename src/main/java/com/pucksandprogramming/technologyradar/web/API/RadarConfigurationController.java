@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
@@ -27,14 +27,14 @@ public class RadarConfigurationController extends ControllerBase
     DiagramConfigurationService radarSetupService;
 
     @Autowired
-    RadarService radarService;
+    RadarInstanceService radarInstanceService;
 
     @RequestMapping(value = "/radar/{radarId}/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
     {
         List<RadarRing> retVal = new ArrayList<RadarRing>();
 
-        Radar targetRadar = this.radarService.findById(radarId);
+        Radar targetRadar = this.radarInstanceService.findById(radarId);
 
         if(targetRadar!=null){
             retVal = targetRadar.getRadarType().getRadarRings();
@@ -48,7 +48,7 @@ public class RadarConfigurationController extends ControllerBase
     {
         List<RadarCategory> retVal = new ArrayList<RadarCategory>();
 
-        Radar targetRadar = this.radarService.findById(radarId);
+        Radar targetRadar = this.radarInstanceService.findById(radarId);
 
         if(targetRadar!=null){
             retVal = targetRadar.getRadarType().getRadarCategories();
@@ -60,6 +60,6 @@ public class RadarConfigurationController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
     {
-        return this.radarService.deleteRadar(radarUserId, radarId);
+        return this.radarInstanceService.deleteRadar(radarUserId, radarId);
     }
 }

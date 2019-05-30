@@ -1,7 +1,5 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
-
 import javax.persistence.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "TechnologyAssessments")
-public class RadarEntity
+public class RadarInstanceEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,7 +41,7 @@ public class RadarEntity
     @JoinColumn(name = "RadarTypeId", nullable = false)
     private RadarTypeEntity radarType;
 
-    public RadarEntity()
+    public RadarInstanceEntity()
     {
 
     }
@@ -72,9 +70,9 @@ public class RadarEntity
     public RadarTypeEntity getRadarType() { return this.radarType;}
     public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
 
-    public RadarEntity mapRow(ResultSet rs, int rowNum) throws SQLException
+    public RadarInstanceEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {
-        RadarEntity retVal = new RadarEntity();
+        RadarInstanceEntity retVal = new RadarInstanceEntity();
         retVal.setId(rs.getLong("Id"));
         retVal.setName(rs.getString("Name"));
         retVal.setAssessmentDate(rs.getDate("AssessmentDate"));

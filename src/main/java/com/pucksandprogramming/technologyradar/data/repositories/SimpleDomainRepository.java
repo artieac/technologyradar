@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
-import com.pucksandprogramming.technologyradar.data.mapper.TechnologyRadarMapper;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +25,7 @@ public abstract class SimpleDomainRepository<
     private static final Logger logger = Logger.getLogger(SimpleDomainRepository.class);
 
     @Autowired
-    protected TechnologyRadarMapper modelMapper;
+    protected RadarMapper modelMapper;
 
     protected Class<DomainModel> domainModelClass;
 

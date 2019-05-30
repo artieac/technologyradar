@@ -1,8 +1,7 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
-import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
@@ -19,13 +18,13 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api")
-public class RadarController extends ControllerBase
+public class RadarInstanceController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(RadarController.class);
+    private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
 
 
     @Autowired
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
 
     @Autowired
     private DiagramConfigurationService radarSetupService;
@@ -33,19 +32,19 @@ public class RadarController extends ControllerBase
     @RequestMapping(value = "/public/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId)
     {
-        return this.radarService.findByRadarUserIdAndIsPublished(radarUserId, true);
+        return this.radarInstanceService.findByRadarUserIdAndIsPublished(radarUserId, true);
     }
 
     @RequestMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody Radar getPublicMostRecentRadarByUser(@PathVariable Long radarUserId)
     {
-        return this.radarService.findMostRecentByUserIdAndPublished(radarUserId, true);
+        return this.radarInstanceService.findMostRecentByUserIdAndPublished(radarUserId, true);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId)
     {
-        return this.radarService.findByRadarUserId(radarUserId);
+        return this.radarInstanceService.findByRadarUserId(radarUserId);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar", method = RequestMethod.POST)
@@ -55,10 +54,10 @@ public class RadarController extends ControllerBase
         {
             String radarName = modelMap.get("name").toString();
             Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
-            this.radarService.addRadar(radarUserId, radarName, radarTypeId);
+            this.radarInstanceService.addRadar(radarUserId, radarName, radarTypeId);
         }
 
-        return this.radarService.findByRadarUserId(this.getCurrentUser().getId());
+        return this.radarInstanceService.findByRadarUserId(this.getCurrentUser().getId());
     }
 
     @RequestMapping(value = "/public/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
@@ -79,10 +78,10 @@ public class RadarController extends ControllerBase
     {
         if(this.getCurrentUser().getId() == radarUserId)
         {
-            this.radarService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
+            this.radarInstanceService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
         }
 
-        return this.radarService.findByRadarUserId(this.getCurrentUser().getId());
+        return this.radarInstanceService.findByRadarUserId(this.getCurrentUser().getId());
     }
 
     @RequestMapping(value = "/User/{userId}/Radar/{radarId}/Publish", method = RequestMethod.PUT)
@@ -93,7 +92,7 @@ public class RadarController extends ControllerBase
 
         if(this.getCurrentUser().getId() == userId)
         {
-            retVal = this.radarService.publishRadar(userId, radarId, isPublished);
+            retVal = this.radarInstanceService.publishRadar(userId, radarId, isPublished);
         }
 
         return retVal;
@@ -107,7 +106,7 @@ public class RadarController extends ControllerBase
 
         if(this.getCurrentUser().getId() == userId)
         {
-            retVal = this.radarService.lockRadar(userId, radarId, isLocked);
+            retVal = this.radarInstanceService.lockRadar(userId, radarId, isLocked);
         }
 
         return retVal;

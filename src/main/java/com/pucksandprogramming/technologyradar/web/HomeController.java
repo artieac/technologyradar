@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class HomeController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    RadarService radarService;
+    RadarInstanceService radarInstanceService;
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -78,7 +78,7 @@ public class HomeController extends ControllerBase
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        Radar radarInstance = this.radarService.findMostRecentByUserIdAndPublished(userId, true);
+        Radar radarInstance = this.radarInstanceService.findMostRecentByUserIdAndPublished(userId, true);
 
         if(radarInstance != null)
         {

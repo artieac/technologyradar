@@ -2,8 +2,6 @@ package com.pucksandprogramming.technologyradar.data.mapper;
 
 import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
-import com.pucksandprogramming.technologyradar.data.Entities.*;
-import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.stereotype.Component;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -15,12 +13,12 @@ import javax.annotation.PostConstruct;
  * Created by acorrea on 10/18/2016.
  */
 @Component
-public class TechnologyRadarMapper
+public class RadarMapper
 {
 
     private ModelMapper modelMapper;
 
-    public TechnologyRadarMapper()
+    public RadarMapper()
     {
         initializeMapper();
     }
@@ -101,8 +99,8 @@ public class TechnologyRadarMapper
                 }
             };
 
-    private PropertyMap<RadarEntity, Radar> technologyAssessmentMap =
-            new PropertyMap<RadarEntity, Radar>()
+    private PropertyMap<RadarInstanceEntity, Radar> technologyAssessmentMap =
+            new PropertyMap<RadarInstanceEntity, Radar>()
             {
                 protected void configure()
                 {

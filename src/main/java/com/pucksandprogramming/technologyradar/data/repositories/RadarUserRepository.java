@@ -1,14 +1,10 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
-import com.pucksandprogramming.technologyradar.data.Entities.RadarCategoryEntity;
-import com.pucksandprogramming.technologyradar.data.Entities.RadarRingEntity;
-import com.pucksandprogramming.technologyradar.data.Entities.RadarTypeEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
 import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarTypeDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
-import com.pucksandprogramming.technologyradar.data.mapper.TechnologyRadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

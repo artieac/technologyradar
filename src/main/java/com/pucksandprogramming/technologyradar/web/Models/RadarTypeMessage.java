@@ -1,7 +1,5 @@
 package com.pucksandprogramming.technologyradar.web.Models;
 
-import com.pucksandprogramming.technologyradar.data.dao.RadarDAO;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.HomeController;
@@ -25,7 +25,7 @@ public class TechnologyController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
 
     @Autowired
     private TechnologyService technologyService;
@@ -34,14 +34,14 @@ public class TechnologyController extends ControllerBase
     public @ResponseBody
     TechnologyBreakdown getTechnologyAssessments(@PathVariable Long id)
     {
-        Technology targetTechnology = this.radarService.findTechnologyById(id);
+        Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
         TechnologyBreakdown retVal = new TechnologyBreakdown(targetTechnology);
 
         if(targetTechnology != null)
         {
             // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
             // that would make the subsequent calls at lot easier to manage.
-            List<Radar> foundItems = radarService.getAllByTechnologyId(id);
+            List<Radar> foundItems = radarInstanceService.getAllByTechnologyId(id);
 
             for(int i = 0; i < foundItems.size(); i++)
             {

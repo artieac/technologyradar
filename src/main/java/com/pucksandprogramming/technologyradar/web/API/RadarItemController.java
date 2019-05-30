@@ -4,7 +4,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
@@ -27,15 +27,15 @@ public class RadarItemController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
     private DiagramConfigurationService diagramConfigurationService;
     private RadarUserService radarUserService;
 
     @Autowired
-    public RadarItemController(RadarService _radarService,
+    public RadarItemController(RadarInstanceService _radarInstanceService,
                                DiagramConfigurationService _diagramConfigurationService,
                                RadarUserService _radarUserService){
-        this.radarService = _radarService;
+        this.radarInstanceService = _radarInstanceService;
         this.diagramConfigurationService = _diagramConfigurationService;
         this.radarUserService = _radarUserService;
     }
@@ -43,7 +43,7 @@ public class RadarItemController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteRadarItem(@PathVariable Long radarId, @PathVariable Long radarItemId, @PathVariable Long radarUserId)
     {
-        return this.radarService.deleteRadarItem(radarId, radarItemId, radarUserId);
+        return this.radarInstanceService.deleteRadarItem(radarId, radarItemId, radarUserId);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Items/Delete", method = RequestMethod.POST)
@@ -60,7 +60,7 @@ public class RadarItemController extends ControllerBase
                 itemsToRemove.add(Long.parseLong(mapItems.get(i).toString()));
             }
 
-            this.radarService.deleteRadarItems(radarUserId, radarId, itemsToRemove);
+            this.radarInstanceService.deleteRadarItems(radarUserId, radarId, itemsToRemove);
         }
 
         return itemsToRemove;
@@ -91,7 +91,7 @@ public class RadarItemController extends ControllerBase
 
                 itemsToAdd.add(newItem);
 
-                this.radarService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                this.radarInstanceService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
             }
             else
             {
@@ -99,7 +99,7 @@ public class RadarItemController extends ControllerBase
                 Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
                 String technologyUrl = modelMap.get("url").toString();
 
-                this.radarService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
             }
         }
 
@@ -128,7 +128,7 @@ public class RadarItemController extends ControllerBase
                     itemsToAdd.add(newItem);
                 }
 
-                this.radarService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                this.radarInstanceService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
             }
         }
 
@@ -144,7 +144,7 @@ public class RadarItemController extends ControllerBase
 
         if(radarId > 0 && radarItemId > 0 && this.getCurrentUser().getId() == radarUserId);
         {
-            this.radarService.updateRadarItem(radarId, radarItemId, radarRing, confidenceLevel, assessmentDetails);
+            this.radarInstanceService.updateRadarItem(radarId, radarItemId, radarRing, confidenceLevel, assessmentDetails);
         }
 
         return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), radarId);

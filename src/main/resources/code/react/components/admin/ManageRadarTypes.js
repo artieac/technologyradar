@@ -43,9 +43,8 @@ class ManageRadarTypes extends React.Component{
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="row">
-                                <div className="col-lg-2"></div>
-                                <div className="col-lg-2">Name</div>
-                                <div className="col-lg-2">Action</div>
+                                <div className="col-lg-3">Name</div>
+                                <div className="col-lg-3">Action</div>
                             </div>
                             {
                                 this.props.radarTypeCollection.map(function (currentRow) {
@@ -102,10 +101,10 @@ class RadarTypeRow extends React.Component{
             return (
                 <div>
                     <div className={this.state.showDetails ? 'row border' : 'row'}>
-                        <div className="col-lg-2">
+                        <div className="col-lg-3">
                             <input type="text" defaultValue={this.props.rowData.name }  onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} />
                         </div>
-                        <div className="col-lg-2">
+                        <div className="col-lg-3">
                             <span className={this.state.showDetails ? 'hidden' : ''}>
                                <input type="button" className="btn btn-primary" value="Show Details" onClick={() => { this.handleRadarTypeSelection(event) }}/>
                             </span>
