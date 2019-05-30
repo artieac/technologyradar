@@ -86,37 +86,27 @@ public class DiagramConfigurationService
 
         Radar radarInstance = this.radarService.findById(radarId);
 
-        if(radarInstance == null)
-        {
-            if(radarUser != null)
-            {
-                radarInstance = this.radarService.createDefault(radarUser);
-            }
-        }
+        if(radarInstance != null) {
+            retVal.setRadarInstanceDetails(radarInstance);
 
-        retVal.setRadarInstanceDetails(radarInstance);
+            logger.debug(radarInstance);
+            logger.debug(radarInstance.getName());
+            logger.debug(radarInstance.getRadarItems());
+            logger.debug(radarInstance.getRadarItems().size());
 
-        logger.debug(radarInstance);
-        logger.debug(radarInstance.getName());
-        logger.debug(radarInstance.getRadarItems());
-        logger.debug(radarInstance.getRadarItems().size());
+            if (radarInstance.getRadarItems().size() > 0) {
+                for (RadarItem assessmentItem : radarInstance.getRadarItems()) {
+                    Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getTechnology().getRadarCategory().getId());
 
-        if(radarInstance.getRadarItems().size() > 0)
-        {
-            for(RadarItem assessmentItem : radarInstance.getRadarItems())
-            {
-                Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getTechnology().getRadarCategory().getId());
-
-                if(targetQuadrant != null)
-                {
-                    targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
+                    if (targetQuadrant != null) {
+                        targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
+                    }
                 }
             }
-        }
 
-        for(int i = 0; i < retVal.getQuadrants().size(); i++)
-        {
-            retVal.getQuadrants().get(i).evenlyDistributeItems();
+            for (int i = 0; i < retVal.getQuadrants().size(); i++) {
+                retVal.getQuadrants().get(i).evenlyDistributeItems();
+            }
         }
 
         return retVal;

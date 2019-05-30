@@ -1,4 +1,4 @@
-export function RadarRepository_publishRadar(userId, radarId, isPublished, successHandler, errorHandler) {
+export function RadarRepository_publishRadar(userId, radarId, radarType, isPublished, successHandler, errorHandler) {
      var radarToUpdate = {};
      radarToUpdate.isPublished = isPublished;
 
@@ -57,9 +57,10 @@ export function RadarRepository_deleteRadar(userId, radarId, successHandler, err
             });
 }
 
-export function RadarRepository_addRadar(userId, radarName, successHandler, errorHandler) {
+export function RadarRepository_addRadar(userId, radarName, radarType, successHandler, errorHandler) {
     var radarToAdd = {};
     radarToAdd.name = radarName;
+    radarToAdd.radarTypeId = radarType.id;
 
     $.post({
           headers: {

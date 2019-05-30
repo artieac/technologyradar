@@ -35,9 +35,6 @@ public class RadarUserEntity {
     @Column(name="Name", nullable=false, length=512)
     private String name;
 
-    @OneToMany(mappedBy = "radarUser")
-    private List<RadarTypeEntity> radarTypes;
-
     public RadarUserEntity()
     {
 
@@ -74,8 +71,4 @@ public class RadarUserEntity {
     public String getName() { return this.name;}
 
     public void setName(String value) { this.name = value;}
-
-    public List<RadarTypeEntity> getRadarTypes() { return this.radarTypes;}
-
-    public void setRadarTypes(List<RadarTypeEntity> value) { this.radarTypes = value;}
 }

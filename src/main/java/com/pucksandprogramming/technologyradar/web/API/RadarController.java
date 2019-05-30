@@ -53,7 +53,9 @@ public class RadarController extends ControllerBase
     {
         if(this.getCurrentUser().getId() == radarUserId)
         {
-            this.radarService.addRadar(radarUserId, modelMap.get("name").toString());
+            String radarName = modelMap.get("name").toString();
+            Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
+            this.radarService.addRadar(radarUserId, radarName, radarTypeId);
         }
 
         return this.radarService.findByRadarUserId(this.getCurrentUser().getId());

@@ -20,7 +20,6 @@ public class RadarUser {
     private String email;
     private String nickname;
     private String name;
-    private List<RadarType> radarTypes;
 
     public RadarUser()
     {
@@ -58,54 +57,4 @@ public class RadarUser {
     public String getName() { return this.name;}
 
     public void setName(String value) { this.name = value;}
-
-    public List<RadarType> getRadarTypes()
-    {
-        if(this.radarTypes == null)
-        {
-            this.radarTypes = new ArrayList<RadarType>();
-
-        }
-        return this.radarTypes;
-    }
-
-    public void setRadarTypes(List<RadarType> value) { this.radarTypes = value;}
-
-    public void addRadarType(RadarType radarType)
-    {
-        if(radarType != null)
-        {
-            if(radarType.getId() > 0)
-            {
-                if(!this.updateRadarType(radarType))
-                {
-                    this.getRadarTypes().add(radarType);
-                }
-            }
-            else
-            {
-                this.getRadarTypes().add(radarType);
-            }
-        }
-    }
-
-    public boolean updateRadarType(RadarType radarType)
-    {
-        boolean retVal = false;
-
-        if(radarType!=null)
-        {
-            for(int i = 0; i < this.getRadarTypes().size(); i++)
-            {
-                if(this.getRadarTypes().get(i).getId()==radarType.getId())
-                {
-                    this.getRadarTypes().set(i, radarType);
-                    retVal = true;
-                    break;
-                }
-            }
-        }
-
-        return retVal;
-    }
 }

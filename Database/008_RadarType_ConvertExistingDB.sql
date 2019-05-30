@@ -20,3 +20,5 @@ ALTER TABLE `RadarCategories` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1
 
 ALTER TABLE `RadarCategories`  ADD  CONSTRAINT `FK_RadarCategories_RadarTypes` FOREIGN KEY(`RadarTypeId`)
 REFERENCES `RadarTypes` (`Id`);
+
+ALTER TABLE `RadarCategories` DROP COLUMN `QuadrantStart`;

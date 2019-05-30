@@ -22,19 +22,22 @@ public class RadarService
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
+    private RadarTypeRepository radarTypeRepository;
 
     @Autowired
     public RadarService(RadarRepository radarRepository,
                         TechnologyRepository technologyRepository,
                         RadarRingRepository radarRingRepository,
                         RadarCategoryRepository radarCategoryRepository,
-                        RadarUserRepository radarUserRepository)
+                        RadarUserRepository radarUserRepository,
+                        RadarTypeRepository radarTypeRepository)
     {
         this.radarRepository = radarRepository;
         this.technologyRepository = technologyRepository;
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
+        this.radarTypeRepository = radarTypeRepository;
     }
 
     public Radar createDefault(RadarUser radarUser)
@@ -99,7 +102,7 @@ public class RadarService
         return retVal;
     }
 
-    public Radar addRadar(Long radarUserId, String name)
+    public Radar addRadar(Long radarUserId, String name, Long radarTypeId)
     {
         Radar retVal = null;
 
@@ -107,11 +110,13 @@ public class RadarService
         {
             Radar radarInstance = this.radarRepository.findByIdAndName(radarUserId, name);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
+            RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
 
-            if(radarInstance == null && radarUser != null)
+            if(radarInstance == null && radarUser != null && radarType!=null)
             {
                 retVal = this.createDefault(radarUser);
                 retVal.setName(name);
+                retVal.setRadarType(radarType);
                 this.radarRepository.save(retVal);
             }
         }

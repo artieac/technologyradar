@@ -10,9 +10,6 @@ export function RadarTypeRepository_getByUserId(userId, successHandler) {
 }
 
 export function RadarTypeRepository_add(userId, radarType, successHandler) {
-     var newItem = {};
-     newItem.radarType = radarType;
-
      $.ajax({
           headers: {
                   'Accept': 'application/json',
@@ -20,7 +17,7 @@ export function RadarTypeRepository_add(userId, radarType, successHandler) {
           },
           type: "POST",
           url: '/api/User/' + userId + '/RadarType',
-          data: JSON.stringify(newItem),
+          data: JSON.stringify(radarType),
           success: function() {
                 successHandler();
            },
@@ -31,9 +28,6 @@ export function RadarTypeRepository_add(userId, radarType, successHandler) {
 }
 
 export function RadarTypeRepository_update(userId, radarType, successHandler) {
-     var updateItem = {};
-     updateItem.radarType = radarType;
-
      $.ajax({
           headers: {
                   'Accept': 'application/json',
@@ -51,4 +45,31 @@ export function RadarTypeRepository_update(userId, radarType, successHandler) {
         });
 }
 
+export function RadarTypeRepository_createDefaultRadarType(name){
+        var retVal = {};
+        retVal.id = -1;
+        retVal.name= name;
+
+        retVal.radarRings = [];
+        retVal.radarRings.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarRingOne", "1"));
+        retVal.radarRings.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarRingTwo", "2"));
+        retVal.radarRings.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarRingThree", "3"));
+        retVal.radarRings.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarRingFour", "4"));
+
+        retVal.radarCategories = [];
+        retVal.radarCategories.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarCategoryOne", "#8FA227"));
+        retVal.radarCategories.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarCategoryTwo", "#8FA227"));
+        retVal.radarCategories.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarCategoryTwo", "#8FA227"));
+        retVal.radarCategories.push(RadarTypeRepository_createDefaultRadarTypeDetail("RadarCategoryTwo", "#8FA227"));
+
+        return retVal;
+}
+
+export function RadarTypeRepository_createDefaultRadarTypeDetail(name, option){
+        var retVal = {};
+        retVal.id = -1;
+        retVal.name= name;
+        retVal.displayOption = option;
+        return retVal;
+}
 

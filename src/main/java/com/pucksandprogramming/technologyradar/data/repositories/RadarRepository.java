@@ -43,6 +43,9 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
     RadarItemDAO radarItemDAO;
 
     @Autowired
+    RadarTypeDAO radarTypeDAO;
+
+    @Autowired
     public void setEntityRepository(RadarDAO entityRepository)
     {
         super.setEntityRepository(entityRepository);
@@ -207,6 +210,7 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
             radarEntity.setIsPublished(itemToSave.getIsPublished());
             radarEntity.setIsLocked(itemToSave.getIsLocked());
+            radarEntity.setRadarType(radarTypeDAO.findOne(itemToSave.getRadarType().getId()));
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null)

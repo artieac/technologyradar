@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import * as actionTypes from '../../../redux/reducers/adminActionTypes';
 import { addRadarTypeCollectionToState } from '../../../redux/reducers/adminAppReducer';
 import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar, RadarRepository_addRadar} from '../../Repositories/RadarRepository';
-import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update } from '../../Repositories/RadarTypeRepository';
+import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update, RadarTypeRepository_createDefaultRadarType } from '../../Repositories/RadarTypeRepository';
 
 class ManageRadarTypes extends React.Component{
     constructor(props){
@@ -68,14 +68,16 @@ class RadarTypeRow extends React.Component{
     constructor(props){
         super(props);
          this.state = {
+            showDetails: false
         };
 
+        this.handleRadarTypeSelection = this.handleRadarTypeSelection.bind(this);
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
 
     }
 
     handleRadarTypeSelection(event){
-
+        this.setState({ showDetails: !this.state.showDetails});
     }
 
     handleRadarTypeNameChangeEvent(event){
@@ -94,11 +96,8 @@ class RadarTypeRow extends React.Component{
     render() {
         if(typeof this.props.rowData !== 'undefined'){
             return (
-                <div>
-                    <div className="row">
-                        <div className="col-lg-2">
-                            <input type="radio" name="selectRadarType" onChange= {(event) => { this.handleRadarTypeSelection(event) }}/>
-                        </div>
+                <div onClick={() => { this.handleRadarTypeSelection(event) }}>
+                    <div className={this.state.showDetails ? 'row border' : 'row'}>
                         <div className="col-lg-2">
                             <input type="text" defaultValue={this.props.rowData.name }  onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} />
                         </div>
@@ -106,7 +105,7 @@ class RadarTypeRow extends React.Component{
                            <input type="button" className="btn btn-primary" value="Save" onClick={() => { this.handleSaveRadarType(this.props.rowData) }}/>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className={this.state.showDetails ? 'row border' : 'row hidden'}>
                         <div className="col-lg-6">
                             <div className="panel panel-default">
                                 <div className="panel-heading">Rings</div>
@@ -161,10 +160,10 @@ class RadarTypeDetails extends React.Component{
             return(
                 <div className="row">
                     <div className="col-lg-3">
-                        <input type="text" ref="typeDetailsName" value={this.props.rowData.name} required="required" onChange={ this.handleTypeDetailsNameChange } />
+                        <input type="text" ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }} />
                     </div>
                     <div className="col-lg-3">
-                        <input type="text" ref="typeDetailsDisplayOption" value={this.props.rowData.displayOption} onChange={ this.handleDisplayOptionChange } />
+                        <input type="text" ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} />
                     </div>
                 </div>
             );
@@ -186,13 +185,7 @@ class NewRadarTypeRow extends React.Component{
     }
 
     handleAddRadarType() {
-        var newRadarType = {};
-        newRadarType.id = -1;
-        newRadarType.name= "";
-        newRadarType.radarRings = [];
-        newRadarType.radarCategories = [];
-
-        this.props.parentContainer.props.radarTypeCollection.push(newRadarType);
+        this.props.parentContainer.props.radarTypeCollection.push(RadarTypeRepository_createDefaultRadarType(""));
         this.props.parentContainer.forceUpdate();
     }
 

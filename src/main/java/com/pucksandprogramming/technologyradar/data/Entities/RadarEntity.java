@@ -1,5 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
+
 import javax.persistence.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +39,10 @@ public class RadarEntity
     @Column(name = "IsLocked", nullable = false)
     private boolean isLocked;
 
+    @OneToOne
+    @JoinColumn(name = "RadarTypeId", nullable = false)
+    private RadarTypeEntity radarType;
+
     public RadarEntity()
     {
 
@@ -62,6 +68,9 @@ public class RadarEntity
 
     public boolean getIsLocked(){ return this.isLocked;}
     public void setIsLocked(boolean value){ this.isLocked = value;}
+
+    public RadarTypeEntity getRadarType() { return this.radarType;}
+    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
 
     public RadarEntity mapRow(ResultSet rs, int rowNum) throws SQLException
     {
