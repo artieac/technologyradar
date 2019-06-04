@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class RadarInstanceController extends ControllerBase
     private DiagramConfigurationService radarSetupService;
 
     @RequestMapping(value = "/public/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId)
+    public @ResponseBody List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId, @RequestParam(required = false) String radarTypeId)
     {
         return this.radarInstanceService.findByRadarUserIdAndIsPublished(radarUserId, true);
     }
@@ -42,9 +43,16 @@ public class RadarInstanceController extends ControllerBase
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId)
-    {
-        return this.radarInstanceService.findByRadarUserId(radarUserId);
+    public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId, @RequestParam(name="radarTypeId", required = false) String radarTypeId) {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        if (radarTypeId != null) {
+            retVal = this.radarInstanceService.findByRadarUserIdAndRadarTypeId(radarUserId, Long.parseLong(radarTypeId));
+        } else {
+            retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+        }
+
+        return retVal;
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar", method = RequestMethod.POST)

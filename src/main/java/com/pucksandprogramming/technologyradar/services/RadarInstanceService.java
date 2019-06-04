@@ -67,6 +67,19 @@ public class RadarInstanceService
         return retVal;
     }
 
+    public List<Radar> findByRadarUserIdAndRadarTypeId(Long radarUserId, Long radarTypeId)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
+
+        if(foundUser!=null)
+        {
+            retVal = this.radarInstanceRepository.findAllByRadarUserAndRadarTypeId(foundUser.getId(), radarTypeId);
+        }
+
+        return retVal;
+    }
     public List<Radar> findByRadarUserIdAndIsPublished(Long radarUserId, boolean isPublished)
     {
         List<Radar> retVal = new ArrayList<Radar>();

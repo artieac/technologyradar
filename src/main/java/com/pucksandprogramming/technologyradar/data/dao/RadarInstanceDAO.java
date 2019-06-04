@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.dao;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
+import com.pucksandprogramming.technologyradar.data.Entities.RadarTypeEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Date;
@@ -16,4 +17,6 @@ public interface RadarInstanceDAO extends PagingAndSortingRepository<RadarInstan
     RadarInstanceEntity findByName(String name);
     RadarInstanceEntity findByIdAndName(Long radarInstanceId, String name);
     RadarInstanceEntity findByIdAndRadarUserId(Long radarInstanceId, Long radarUserId);
+    Iterable<RadarInstanceEntity> findAllByRadarUserIdAndRadarTypeId(Long radarUserId, Long radarTypeId);
+
 }

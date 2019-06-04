@@ -6,32 +6,40 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addRadarCollectionToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/adminAppReducer';
-import { SplitButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton, Dropdown} from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
     constructor(props){
         super(props);
          this.state = {
             userId: this.props.match.params.userId,
-            radarId: this.props.match.params.radarId
+            radarId: this.props.match.params.radarId,
+            filteredRadarCollection: []
         };
+
+        this.handleCurrentRadarInstanceSuccess = this.handleCurrentRadarInstanceSuccess.bind(this);
+        this.getRadarCollectionByUserIdAndRadarTypeId = this.getRadarCollectionByUserIdAndRadarTypeId.bind(this);
     }
 
     componentDidMount(){
         this.getCurrentRadarInstance(this.state.userId, this.state.radarId);
-        this.getRadarCollectionByUserId(this.state.userId);
     }
 
     getCurrentRadarInstance(userId, radarId){
         fetch( '/api/User/' + userId + '/Radar/' + radarId)
             .then(response => response.json())
-            .then(json => this.props.setCurrentRadarInstance({ currentRadar: json}));
+            .then(json => this.handleCurrentRadarInstanceSuccess(json));
     }
 
-    getRadarCollectionByUserId(userId){
-        fetch( '/api/User/' + userId + '/Radars',)
+    handleCurrentRadarInstanceSuccess(targetRadar){
+        this.props.setCurrentRadarInstance({ currentRadar: targetRadar});
+        this.getRadarCollectionByUserIdAndRadarTypeId(this.state.userId, targetRadar.radarType.id);
+    }
+
+    getRadarCollectionByUserIdAndRadarTypeId(userId, radarTypeId){
+        fetch( '/api/User/' + userId + '/Radars?radarTypeId=' + radarTypeId,)
             .then(response => response.json())
-            .then(json => this.props.addRadarCollection({ radarCollection: json}));
+            .then(json => this.setState({ filteredRadarCollection: json}));
     }
 
     handleAddItemsToRadarClick(){
@@ -89,7 +97,7 @@ class AddFromPreviousRadar extends React.Component{
             <div>
                 <div className="row">
                     <div className="col-lg-4">
-                        <RadarCollectionDropDown data={this.props.radarCollection.radarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
+                        <RadarCollectionDropDown data={this.state.filteredRadarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.match.params.userId} setSourceRadarInstance={setSourceRadarInstance}/>
                         <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick.bind(this) }>Add</button>
                     </div>
                     <div className="col-lg-4">
@@ -117,7 +125,7 @@ class RadarCollectionDropDown extends React.Component{
     }
 
     getTitle(){
-        var retVal = "";
+        var retVal = "Select Radar";
 
         if(this.props.itemSelection !== undefined){
             retVal = this.props.itemSelection.radarName;
@@ -131,11 +139,11 @@ class RadarCollectionDropDown extends React.Component{
 
         if(this.props.data!==undefined){
             return(
-                <SplitButton title={this.getTitle()} id="radarCollection">
+                <DropdownButton title={this.getTitle()} id="radarCollection">
                     {this.props.data.map(function (currentRow) {
                         return <RadarCollectionDropDownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSourceRadarInstance={setSourceRadarInstance}/>
                     }.bind(this))}
-                </SplitButton>
+                </DropdownButton>
             );
         }
         else{
@@ -152,14 +160,14 @@ class RadarCollectionDropDownItem extends React.Component{
         this.getSourceRadarInstance(this.props.userId, this.props.dropDownItem.id);
     }
 
-    getSourceRadarInstance(userId, radarId){
+    getSourceRadarInstance(userId, radarId, radarTypeId){
         fetch( '/api/User/' + userId + '/Radar/' + radarId)
             .then(response => response.json())
             .then(json => this.props.setSourceRadarInstance({ sourceRadar: json}));
     }
 
     render(){
-        return (<MenuItem eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick.bind(this)}>{ this.props.dropDownItem.name }</MenuItem>);
+        return (<Dropdown.Item eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick.bind(this)}>{ this.props.dropDownItem.name }</Dropdown.Item>);
     }
 }
 
