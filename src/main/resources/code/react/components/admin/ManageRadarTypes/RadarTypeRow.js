@@ -4,7 +4,7 @@ import createReactClass from 'create-react-class';
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
 import { RadarRingDetails } from './RadarRingDetails';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
-import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update, RadarTypeRepository_createDefaultRadarType, RadarTypeRepository_delete } from '../../../Repositories/RadarTypeRepository';
+import { RadarTypeRepository_getByUserId, RadarTypeRepository_add, RadarTypeRepository_update, RadarTypeRepository_delete } from '../../../Repositories/RadarTypeRepository';
 
 export class RadarTypeRow extends React.Component{
     constructor(props){

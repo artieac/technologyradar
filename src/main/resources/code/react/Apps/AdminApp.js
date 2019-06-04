@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageRadarTypesPage from '../components/admin/ManageRadarTypes/ManageRadarTypesPage';
-import ManageRadars from '../components/admin/ManageRadars';
+import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
 import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
 
@@ -62,7 +62,7 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/admin/index" component={ AdminApp } />
                     <Route path="/admin/manageRadarTypes" component={ ManageRadarTypesPage } />
-                    <Route path="/admin/manageRadars" component={ ManageRadars } />
+                    <Route path="/admin/manageRadars" component={ ManageRadarsPage } />
                     <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
                 </Switch>
             </Router>

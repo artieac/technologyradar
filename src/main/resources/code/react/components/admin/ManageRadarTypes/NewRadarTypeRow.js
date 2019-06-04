@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
+import { RadarTypeRepository_createDefaultRadarType } from '../../../Repositories/RadarTypeRepository';
 
 export class NewRadarTypeRow extends React.Component{
     constructor(props){
