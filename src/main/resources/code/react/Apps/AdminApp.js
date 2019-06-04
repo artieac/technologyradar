@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
-import ManageRadarTypes from '../components/admin/ManageRadarTypes';
+import ManageRadarTypesPage from '../components/admin/ManageRadarTypes/ManageRadarTypesPage';
 import ManageRadars from '../components/admin/ManageRadars';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
 import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
@@ -38,6 +38,7 @@ class AdminApp extends React.Component{
                                     <button className="btn btn-primary">Manage Radar Types</button>
                                 </Link>
                             </td>
+                            <td>Go here to add additional radar types.</td>
                         </tr>
                         <tr>
                             <td>
@@ -60,7 +61,7 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/admin/index" component={ AdminApp } />
-                    <Route path="/admin/manageRadarTypes" component={ ManageRadarTypes } />
+                    <Route path="/admin/manageRadarTypes" component={ ManageRadarTypesPage } />
                     <Route path="/admin/manageRadars" component={ ManageRadars } />
                     <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
                 </Switch>
