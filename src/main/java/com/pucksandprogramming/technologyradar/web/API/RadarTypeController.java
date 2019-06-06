@@ -1,7 +1,9 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
+import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.RadarTypeService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
@@ -16,8 +18,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api")
-public class RadarTypeController extends ControllerBase{
-
+public class RadarTypeController extends ControllerBase
+{
     private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
 
     @Autowired
@@ -26,8 +28,30 @@ public class RadarTypeController extends ControllerBase{
     @Autowired
     private RadarTypeService radarTypeService;
 
+    @Autowired
+    private RadarInstanceService radarInstanceService;
+
+
+    @RequestMapping(value = "/RadarTypes", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId()
+    {
+        List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
+
+        List<RadarType> foundItems = this.radarTypeService.findAll(true);
+
+        for (RadarType radarTypeItem : foundItems)
+        {
+            retVal.add(new RadarTypeMessage(radarTypeItem));
+        }
+
+        return retVal;
+    }
+
     @RequestMapping(value = "/User/{radarUserId}/RadarTypes", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId(@PathVariable Long radarUserId)
+    public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId(@PathVariable Long radarUserId,
+                                                                      @RequestParam(name="includeOwned", required = false, defaultValue = "true") boolean includeOwned,
+                                                                      @RequestParam(name="includeAssociated", required = false, defaultValue = "false") boolean includeAssociated,
+                                                                      @RequestParam(name="includeOthers", required = false, defaultValue = "false") boolean includeOthers)
     {
         List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
 
@@ -35,9 +59,26 @@ public class RadarTypeController extends ControllerBase{
 
         if(targetUser!=null)
         {
-            List<RadarType> userRadarTypes = radarTypeService.findAllByUserId(targetUser.getId());
+            List<RadarType> userRadarTypes = new ArrayList<RadarType>();
 
-            for(RadarType radarTypeItem : userRadarTypes)
+            if(includeOwned==true)
+            {
+                userRadarTypes.addAll(radarTypeService.findAllByUserId(targetUser.getId(), includeAssociated));
+            }
+            else
+            {
+                if (includeAssociated == true)
+                {
+                    userRadarTypes.addAll(radarTypeService.findAllAssociatedRadarTypes(targetUser.getId()));
+                }
+            }
+
+            if(includeOthers == true)
+            {
+                userRadarTypes.addAll(radarTypeService.findOthersRadarTypes(targetUser.getId()));
+            }
+
+            for (RadarType radarTypeItem : userRadarTypes)
             {
                 retVal.add(new RadarTypeMessage(radarTypeItem));
             }

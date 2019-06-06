@@ -183,17 +183,16 @@ public class RadarInstanceService
                 targetTechnology.setName(technologyName);
                 targetTechnology.setCreateDate(new Date());
                 targetTechnology.setUrl(technologyUrl);
-                targetTechnology.setCreator("");
-                targetTechnology.setRadarCategory(this.radarCategoryRepository.findOne(radarCategoryId));
+                targetTechnology.setCreator(radarUser.getId().toString());
             }
 
-            retVal = this.addRadarItem(radarUser, radarId, targetTechnology, radarRingId, confidenceLevel, assessmentDetails);
+            retVal = this.addRadarItem(radarUser, radarId, targetTechnology, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
         }
 
         return retVal;
     }
 
-    public Radar addRadarItem(RadarUser radarUser, Long radarId, Technology targetTechnology, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
+    public Radar addRadarItem(RadarUser radarUser, Long radarId, Technology targetTechnology, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         Radar retVal = null;
 
@@ -204,8 +203,13 @@ public class RadarInstanceService
             if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
             {
                 RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
-                retVal.addRadarItem(targetTechnology, radarRing, confidenceLevel, assessmentDetails);
-                this.radarInstanceRepository.save(retVal);
+                RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarCategoryId);
+
+                if(retVal.getRadarType().hasRadarRing(radarRing) && retVal.getRadarType().hasRadarCategory(radarCategory))
+                {
+                    retVal.addRadarItem(targetTechnology, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                    this.radarInstanceRepository.save(retVal);
+                }
             }
         }
 
@@ -225,8 +229,9 @@ public class RadarInstanceService
                 for(int i = 0; i < radarItems.size(); i++)
                 {
                     RadarRing radarRing = this.radarRingRepository.findOne(radarItems.get(i).getRadarRingId());
+                    RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarItems.get(i).getRadarCategoryId());
                     Technology targetTechnology = this.findTechnologyById(radarItems.get(i).getTechnologyId());
-                    retVal.addRadarItem(targetTechnology, radarRing, radarItems.get(i).getConfidenceFactor(), radarItems.get(i).getDetails());
+                    retVal.addRadarItem(targetTechnology, radarCategory, radarRing, radarItems.get(i).getConfidenceFactor(), radarItems.get(i).getDetails());
                     this.radarInstanceRepository.save(retVal);
                 }
             }
@@ -235,7 +240,7 @@ public class RadarInstanceService
         return retVal;
     }
 
-    public RadarItem updateRadarItem(Long radarId, Long radarItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
+    public RadarItem updateRadarItem(Long radarId, Long radarCategoryId, Long radarItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         RadarItem retVal = null;
 
@@ -246,7 +251,8 @@ public class RadarInstanceService
             if(radar != null && radar.getIsLocked() == false)
             {
                 RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
-                radar.updateRadarItem(radarItemId, radarRing, confidenceLevel, assessmentDetails);
+                RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarCategoryId);
+                radar.updateRadarItem(radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
                 this.radarInstanceRepository.save(radar);
             }
         }

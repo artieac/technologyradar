@@ -12,6 +12,7 @@ export class RadarCategoryDetails extends React.Component{
 
         this.handleColorOnSelect = this.handleColorOnSelect.bind(this);
         this.getColorName = this.getColorName.bind(this);
+        this.handleTypeDetailsNameChange = this.handleTypeDetailsNameChange.bind(this);
     }
 
 
@@ -24,14 +25,18 @@ export class RadarCategoryDetails extends React.Component{
         return this.props.colorNameMap[colorValue];
     }
 
+    handleTypeDetailsNameChange(event){
+        this.props.rowData.name = event.target.value;
+    }
+
     render(){
         if(this.props.rowData!==undefined){
             return(
                 <div className="row">
-                    <div className="col-lg-3">
-                        <input type="text" ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }} />
+                    <div className="col-md-6">
+                        <input type="text" className={this.props.readOnly ? 'readonly="readonly"' : ''} ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
-                    <div className="col-lg-3">
+                    <div className={this.props.readonly ? 'hidden col-lg-3' : 'col-md-2'} >
                         <DropdownButton id="categoryColorSelection" title={this.getColorName(this.props.rowData.displayOption)} onSelect={(event) => this.handleColorOnSelect(event)}>
                           <Dropdown.Item as="button" eventKey={this.props.colorMap["Green"]}>Green</Dropdown.Item>
                           <Dropdown.Item as="button" eventKey={this.props.colorMap["Blue"]}>Blue</Dropdown.Item>

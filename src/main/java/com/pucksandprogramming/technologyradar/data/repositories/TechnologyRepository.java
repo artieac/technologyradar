@@ -75,7 +75,9 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
 
     public List<Technology> findByRadarCategoryId(Long radarCategoryId)
     {
-        List<TechnologyEntity> foundItems = this.entityRepository.findByRadarCategoryId(radarCategoryId);
+        Query query = entityManager.createNamedQuery("findByRadarCategoryId");
+        query.setParameter("radarCategoryId", radarCategoryId);
+        List<TechnologyEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 

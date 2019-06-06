@@ -8,10 +8,12 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RadarTypeService {
+public class RadarTypeService
+{
     private RadarTypeRepository radarTypeRepository;
     private RadarUserRepository radarUserRepository;
 
@@ -22,17 +24,43 @@ public class RadarTypeService {
         this.radarUserRepository = radarUserRepository;
     }
 
-    public List<RadarType> findAllByUserId(Long userId){
-        return this.radarTypeRepository.findAllByUserId(userId);
+    public List<RadarType> findAll(boolean publishedOnly)
+    {
+        return this.findAll(publishedOnly);
     }
 
-    public RadarType update(RadarType radarType, RadarUser currentUser, Long ownerId) {
+    public List<RadarType> findAllByUserId(Long userId, boolean includeAssociated)
+    {
+        List<RadarType> retVal = new ArrayList<RadarType>();
 
-        if(radarType!=null) {
+        retVal = this.radarTypeRepository.findAllByUserId(userId);
 
+        if(includeAssociated==true)
+        {
+            retVal.addAll(this.findAllAssociatedRadarTypes(userId));
+        }
+
+        return retVal;
+    }
+
+    public List<RadarType> findAllAssociatedRadarTypes(Long userId)
+    {
+        return this.radarTypeRepository.findAllAssociatedRadarTypes(userId);
+    }
+
+    public List<RadarType> findOthersRadarTypes(Long userId)
+    {
+        return this.radarTypeRepository.findOthersRadarTypes(userId);
+    }
+
+    public RadarType update(RadarType radarType, RadarUser currentUser, Long ownerId)
+    {
+        if(radarType!=null)
+        {
             RadarUser targetUser = radarUserRepository.findOne(ownerId);
-            if (targetUser != null && targetUser.getId() == currentUser.getId()) {
-                radarType.setRadarUser(targetUser);
+            if (targetUser != null && targetUser.getId() == currentUser.getId())
+            {
+                radarType.setCreator(targetUser);
                 radarType = this.radarTypeRepository.save(radarType);
             }
         }
@@ -40,14 +68,17 @@ public class RadarTypeService {
         return radarType;
     }
 
-    public boolean delete(Long radarTypeId, RadarUser currentUser, Long ownerId) {
+    public boolean delete(Long radarTypeId, RadarUser currentUser, Long ownerId)
+    {
         boolean retVal = true;
 
         RadarUser targetUser = radarUserRepository.findOne(ownerId);
-        if (targetUser != null && targetUser.getId() == currentUser.getId()) {
+        if (targetUser != null && targetUser.getId() == currentUser.getId())
+        {
             this.radarTypeRepository.delete(radarTypeId);
         }
-        else{
+        else
+        {
             retVal = false;
         }
 

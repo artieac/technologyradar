@@ -57,17 +57,20 @@ public class TechnologyController extends ControllerBase
     {
         String technologyName = "";
 
-        if(allRequestParams.containsKey("technologyName")){
+        if(allRequestParams.containsKey("technologyName"))
+        {
             technologyName = allRequestParams.get("technologyName");
         }
 
         Long radarRingId = new Long(-1);
-        if(allRequestParams.containsKey("radarRingId")){
+        if(allRequestParams.containsKey("radarRingId"))
+        {
             radarRingId = Long.parseLong(allRequestParams.get("radarRingId"));
         }
 
         Long radarCategoryId = new Long(-1);
-        if(allRequestParams.containsKey("radarCategoryId")){
+        if(allRequestParams.containsKey("radarCategoryId"))
+        {
             radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
         }
 

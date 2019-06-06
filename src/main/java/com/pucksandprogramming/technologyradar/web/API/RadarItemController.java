@@ -34,7 +34,8 @@ public class RadarItemController extends ControllerBase
     @Autowired
     public RadarItemController(RadarInstanceService _radarInstanceService,
                                DiagramConfigurationService _diagramConfigurationService,
-                               RadarUserService _radarUserService){
+                               RadarUserService _radarUserService)
+    {
         this.radarInstanceService = _radarInstanceService;
         this.diagramConfigurationService = _diagramConfigurationService;
         this.radarUserService = _radarUserService;
@@ -70,7 +71,8 @@ public class RadarItemController extends ControllerBase
     public @ResponseBody
     DiagramPresentation addRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId)
     {
-        Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
+        Long radarCategoryId = Long.parseLong(modelMap.get("radarCategory").toString());
+        Long radarRingId = Long.parseLong(modelMap.get("radarRing").toString());
         Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
         String assessmentDetails = modelMap.get("assessmentDetails").toString();
 
@@ -84,7 +86,8 @@ public class RadarItemController extends ControllerBase
             {
                 List<RadarItemToBeAdded> itemsToAdd = new ArrayList<RadarItemToBeAdded>();
 
-                RadarItemToBeAdded newItem = new RadarItemToBeAdded(Long.parseLong(modelMap.get("radarRing").toString()),
+                RadarItemToBeAdded newItem = new RadarItemToBeAdded(radarCategoryId,
+                                                                    radarRingId,
                                                                     Long.parseLong(modelMap.get("technologyId").toString()),
                                                                     modelMap.get("assessmentDetails").toString(),
                                                                     Integer.parseInt(modelMap.get("confidenceLevel").toString()));
@@ -96,10 +99,9 @@ public class RadarItemController extends ControllerBase
             else
             {
                 String technologyName = modelMap.get("technologyName").toString();
-                Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
                 String technologyUrl = modelMap.get("url").toString();
 
-                this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
             }
         }
 
@@ -121,7 +123,8 @@ public class RadarItemController extends ControllerBase
 
                 for (int i = 0; i < requestParameters.size(); i++)
                 {
-                    RadarItemToBeAdded newItem = new RadarItemToBeAdded(Long.parseLong(requestParameters.get(i).get("radarRing").toString()),
+                    RadarItemToBeAdded newItem = new RadarItemToBeAdded(Long.parseLong(requestParameters.get(i).get("radarCategoryId").toString()),
+                                                                        Long.parseLong(requestParameters.get(i).get("radarRing").toString()),
                                                                         Long.parseLong(requestParameters.get(i).get("technologyId").toString()),
                                                                         requestParameters.get(i).get("assessmentDetails").toString(),
                                                                         Integer.parseInt(requestParameters.get(i).get("confidenceLevel").toString()));
@@ -138,17 +141,16 @@ public class RadarItemController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.POST)
     public @ResponseBody DiagramPresentation updateRadarItem(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId, @PathVariable Long radarItemId)
     {
+        Long radarCategory = Long.parseLong(modelMap.get("radarCategory").toString());
         Long radarRing = Long.parseLong(modelMap.get("radarRing").toString());
         Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
         String assessmentDetails = modelMap.get("assessmentDetails").toString();
 
         if(radarId > 0 && radarItemId > 0 && this.getCurrentUser().getId() == radarUserId);
         {
-            this.radarInstanceService.updateRadarItem(radarId, radarItemId, radarRing, confidenceLevel, assessmentDetails);
+            this.radarInstanceService.updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
         }
 
         return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), radarId);
     }
-
-
 }

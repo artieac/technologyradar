@@ -26,11 +26,11 @@ export class RadarRingDetails extends React.Component{
         if(this.props.rowData!==undefined){
             return(
                 <div className="row">
-                    <div className="col-lg-3">
-                        <input type="text" ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }} />
+                    <div className="col-md-6">
+                        <input type="text" className={this.props.readonly ? 'readonly="readonly"' : ''} ref="typeDetailsName" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
-                    <div className="col-lg-3">
-                        <input type="text" ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} />
+                    <div className="col-md-1">
+                        <input type="text" className={this.props.readOnly ? 'readonly="readonly"' : ''} ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }}/>
                     </div>
                 </div>
             );

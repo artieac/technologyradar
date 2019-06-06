@@ -83,7 +83,8 @@ public class DiagramConfigurationService
             quadrantStart += 90;
         }
 
-        if(radarInstance != null) {
+        if(radarInstance != null)
+        {
             retVal.setRadarInstanceDetails(radarInstance);
 
             logger.debug(radarInstance);
@@ -91,17 +92,21 @@ public class DiagramConfigurationService
             logger.debug(radarInstance.getRadarItems());
             logger.debug(radarInstance.getRadarItems().size());
 
-            if (radarInstance.getRadarItems().size() > 0) {
-                for (RadarItem assessmentItem : radarInstance.getRadarItems()) {
-                    Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getTechnology().getRadarCategory().getId());
+            if (radarInstance.getRadarItems().size() > 0)
+            {
+                for (RadarItem assessmentItem : radarInstance.getRadarItems())
+                {
+                    Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getRadarCategory().getId());
 
-                    if (targetQuadrant != null) {
+                    if (targetQuadrant != null)
+                    {
                         targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
                     }
                 }
             }
 
-            for (int i = 0; i < retVal.getQuadrants().size(); i++) {
+            for (int i = 0; i < retVal.getQuadrants().size(); i++)
+            {
                 retVal.getQuadrants().get(i).evenlyDistributeItems();
             }
         }

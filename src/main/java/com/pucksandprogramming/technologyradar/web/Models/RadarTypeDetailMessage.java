@@ -3,7 +3,8 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 
-public class RadarTypeDetailMessage {
+public class RadarTypeDetailMessage
+{
     private Long id;
     private String name;
     private String displayOption;

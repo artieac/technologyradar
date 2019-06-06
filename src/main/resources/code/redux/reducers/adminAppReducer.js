@@ -7,7 +7,8 @@ const adminAppState = {
   currentRadar: {},
   sourceRadar: {},
   radarItemsToAdd: [],
-  radarItemsToRemove: []
+  radarItemsToRemove: [],
+  associatedRadarTypeCollection: []
 };
 
 export function addRadarTypeCollectionToState(radarTypeCollection){
@@ -78,10 +79,21 @@ export function clearAddRadarItems(){
     };
 }
 
+export function addAssociatedRadarTypeCollectionToState(associatedRadarTypeCollection){
+    return {
+       type: actionTypes.SETASSOCIATEDRADARTYPECOLLECTION,
+       payload: associatedRadarTypeCollection
+   };
+}
+
 export const adminAppReducer = (state = adminAppState, action) => {
  // alert(JSON.stringify(action));
 
   switch (action.type) {
+    case actionTypes.SETASSOCIATEDRADARTYPECOLLECTION:
+        return Object.assign({}, state, {
+            associatedRadarTypeCollection: action.payload
+        })
     case actionTypes.SETRADARTYPECOLLECTION:
         return Object.assign({}, state, {
             radarTypeCollection: action.payload

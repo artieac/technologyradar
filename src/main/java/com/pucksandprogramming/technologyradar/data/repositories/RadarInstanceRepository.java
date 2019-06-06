@@ -266,6 +266,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
                     {
                         foundMatch = true;
                         radarInstanceItemEntity.setDetails(assessmentItem.getDetails());
+                        radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
                         radarInstanceItemEntity.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                         radarInstanceItemEntity.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         break;
@@ -277,6 +278,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
                     RadarItemEntity newItem = new RadarItemEntity();
                     newItem.setRadarInstance(radarInstanceEntity);
                     newItem.setDetails(assessmentItem.getDetails());
+                    newItem.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
 
@@ -299,7 +301,6 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
                         targetTechnology.setCreator(assessmentItem.getTechnology().getCreator());
                         targetTechnology.setCreateDate(assessmentItem.getTechnology().getCreateDate());
                         targetTechnology.setUrl(assessmentItem.getTechnology().getUrl());
-                        targetTechnology.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getTechnology().getRadarCategory().getId()));
                         technologyDAO.save(targetTechnology);
                     }
 

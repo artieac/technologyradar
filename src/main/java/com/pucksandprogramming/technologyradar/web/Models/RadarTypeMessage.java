@@ -5,7 +5,8 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RadarTypeMessage {
+public class RadarTypeMessage
+{
     private Long id;
     private String name;
     public List<RadarTypeDetailMessage> radarRings;

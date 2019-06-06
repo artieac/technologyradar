@@ -64,7 +64,7 @@ public class Radar implements Serializable
         this.radarItems.add(newAssessmentItem);
     }
 
-    public void addRadarItem(Technology targetTechnology, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void addRadarItem(Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         if(this.isLocked == false)
         {
@@ -85,6 +85,7 @@ public class Radar implements Serializable
                 {
                     RadarItem newItem = new RadarItem();
                     newItem.setDetails(assessmentDetails);
+                    newItem.setRadarCategory(radarCategory);
                     newItem.setRadarRing(radarRing);
                     newItem.setTechnology(targetTechnology);
                     newItem.setConfidenceFactor(confidenceLevel);
@@ -94,7 +95,7 @@ public class Radar implements Serializable
         }
     }
 
-    public void updateRadarItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void updateRadarItem(Long assessmentItemId, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         if(this.isLocked == false)
         {
@@ -104,6 +105,7 @@ public class Radar implements Serializable
 
                 if(currentItem.getId()==assessmentItemId)
                 {
+                    currentItem.setRadarCategory(radarCategory);
                     currentItem.setRadarRing(radarRing);
                     currentItem.setConfidenceFactor(confidenceLevel);
                     currentItem.setDetails(assessmentDetails);

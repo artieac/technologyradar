@@ -43,7 +43,8 @@ public class RadarInstanceController extends ControllerBase
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId, @RequestParam(name="radarTypeId", required = false) String radarTypeId) {
+    public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId, @RequestParam(name="radarTypeId", required = false) String radarTypeId)
+    {
         List<Radar> retVal = new ArrayList<Radar>();
 
         if (radarTypeId != null) {

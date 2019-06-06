@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,22 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         super(RadarType.class);
     }
 
+    private List<RadarType> mapList(List<RadarTypeEntity> source)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        if(source!=null)
+        {
+            for(int i = 0; i < source.size(); i++)
+            {
+                RadarType newItem = this.modelMapper.map(source.get(i), RadarType.class);
+                retVal.add(newItem);
+            }
+        }
+
+        return retVal;
+    }
+
     @Override
     protected RadarTypeEntity findOne(RadarType domainModel)
     {
@@ -47,7 +64,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
     {
         List<RadarType> retVal = new ArrayList<RadarType>();
 
-        Iterable<RadarTypeEntity> foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
+        Iterable<RadarTypeEntity> foundItems = this.entityRepository.findAllByCreatorId(radarUserId);
 
         for (RadarTypeEntity foundItem : foundItems)
         {
@@ -55,6 +72,36 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         }
 
         return retVal;
+    }
+
+    public List<RadarType> findAllAssociatedRadarTypes(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllAssociated");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
+    public List<RadarType> findAllByIsPublished(boolean isPublished)
+    {
+        List<RadarType> retVal = new ArrayList<RadarType>();
+
+        Iterable<RadarTypeEntity> foundItems = this.entityRepository.findAllByIsPublished(isPublished);
+
+        for (RadarTypeEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, RadarType.class));
+        }
+
+        return retVal;
+    }
+
+    public List<RadarType> findOthersRadarTypes(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findOthersRadarTypes");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
     }
 
     @Override
@@ -74,10 +121,11 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
             ///.... this sucks
             if (radarTypeEntity != null) {
                 radarTypeEntity.setName(itemToSave.getName());
-                radarTypeEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+                radarTypeEntity.setIsPublished(itemToSave.getIsPublished());
+                radarTypeEntity.setCreator(radarUserDAO.findOne(itemToSave.getCreator().getId()));
 
                 // save it here so we can add the rings and categories.  Not sure how else to do this.  Doesn't feel right though.
-                this.entityRepository.save(radarTypeEntity);
+                radarTypeEntity = this.entityRepository.saveAndFlush(radarTypeEntity);
 
                 // process Radar Rings
                 // First remove any deletions

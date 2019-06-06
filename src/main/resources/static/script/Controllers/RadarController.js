@@ -147,6 +147,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             {
                 RadarItemService.addRadarItemExistingTechnology(userId,
                     $scope.selectedRadarInstance.id,
+                    $scope.selectedRadarCategory.id,
                     $scope.selectedRadarRing.id,
                     $scope.selectedConfidence,
                     $scope.selectedRadarInstanceItem.details,
@@ -157,6 +158,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             {
                 RadarItemService.addRadarItemNewTechnology(userId,
                     $scope.selectedRadarInstance.id,
+                    $scope.selectedRadarCategory.id,
                     $scope.selectedRadarRing.id,
                     $scope.selectedConfidence,
                     $scope.selectedRadarInstanceItem.details,
@@ -204,7 +206,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.selectTechnology = function (technology)
     {
-        $scope.selectedRadarCategory = technology.radarCategory;
         $scope.selectedRadarInstanceItem.technology = technology;
         $scope.technologySearchResults = null;
     };
@@ -219,6 +220,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstanceItem = radarInstanceItem;
         $scope.selectTechnology(radarInstanceItem.technology);
         $scope.selectedRadarRing = $scope.selectedRadarInstanceItem.radarRing;
+        $scope.selectedRadarCategory = $scope.selectedRadarInstanceItem.radarCategory;
         $scope.selectedConfidence = $scope.selectedRadarInstanceItem.confidenceFactor;
         $scope.$digest();
     }
