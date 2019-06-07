@@ -5,7 +5,7 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { addRadarCollectionToState, addRadarTypeCollectionToState} from '../../../../redux/reducers/adminAppReducer';
-import { RadarRepository_publishRadar, RadarRepository_lockRadar, RadarRepository_deleteRadar} from '../../../Repositories/RadarRepository';
+import { RadarRepository} from '../../../Repositories/RadarRepository';
 
 export class RadarRow extends React.Component{
     constructor(props){
@@ -14,6 +14,8 @@ export class RadarRow extends React.Component{
             isPublished: this.props.rowData.isPublished,
             isLocked: this.props.rowData.isLocked
         };
+
+        this.radarRepository = new RadarRepository();
 
         this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
         this.handlePublishError = this.handlePublishError.bind(this);
@@ -34,7 +36,7 @@ export class RadarRow extends React.Component{
 
     handleIsPublishedClick() {
         this.setState( { isPublished: this.refs.isPublished.checked })
-        RadarRepository_publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess.bind(this), this.handlePublishError.bind(this));
+        this.radarRepository.publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess.bind(this), this.handlePublishError.bind(this));
     }
 
     handleLockSuccess() {}
@@ -45,7 +47,7 @@ export class RadarRow extends React.Component{
 
     handleIsLockedClick(){
         this.setState( { isLocked: this.refs.isLocked.checked })
-        RadarRepository_lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
+        this.radarRepository.lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
     }
 
     handleDeleteSuccess() {
@@ -57,7 +59,7 @@ export class RadarRow extends React.Component{
     }
 
     handleDeleteClick() {
-        RadarRepository_deleteRadar(this.props.userId, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
+        this.radarRepository.deleteRadar(this.props.userId, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
     }
 
     getAddFromPreviousLink(userId, radarId){

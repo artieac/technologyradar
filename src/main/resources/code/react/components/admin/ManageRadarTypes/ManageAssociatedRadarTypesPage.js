@@ -5,9 +5,9 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addAssociatedRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
-import { RadarTypeList } from './RadarTypeList';
-import { RadarTypeEditor } from './RadarTypeEditor';
+import { addAssociatedRadarTypeCollectionToState, addSharedRadarTypeCollectionToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/adminAppReducer';
+import RadarTypeList from './RadarTypeList';
+import RadarTypeEditor from './RadarTypeEditor';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
 class ManageAssociatedRadarTypesPage extends React.Component{
@@ -20,19 +20,23 @@ class ManageAssociatedRadarTypesPage extends React.Component{
 
         this.radarTypeRepository = new RadarTypeRepository();
 
-        this.handleGetAssociatedByUserIdSuccess = this.handleGetAssociatedByUserIdSuccess.bind(this);
+        this.handleGetOtherUsersSharedRadarTypesSuccess = this.handleGetOtherUsersSharedRadarTypesSuccess.bind(this);
     }
 
     componentDidMount(){
-        this.radarTypeRepository.getAssociatedByUserId(this.state.userId, this.handleGetAssociatedByUserIdSuccess);
+        this.radarTypeRepository.getOtherUsersSharedRadarTypes(this.state.userId, this.handleGetOtherUsersSharedRadarTypesSuccess);
     }
 
-    handleGetAssociatedByUserIdSuccess(associatedRadarTypeCollection){
-        this.props.storeAssociatedRadarTypeCollection(associatedRadarTypeCollection);
+    handleGetOtherUsersSharedRadarTypesSuccess(sharedRadarTypeCollection){
+        this.props.storeSharedRadarTypeCollection(sharedRadarTypeCollection);
+
+        if(sharedRadarTypeCollection.length > 0){
+            this.props.storeSelectedRadarType(sharedRadarTypeCollection[0]);
+        }
     }
 
     render() {
-        if(this.props.associatedRadarTypeCollection !== undefined){
+        if(this.props.sharedRadarTypeCollection !== undefined){
             return (
                 <div className="bodyContent">
                     <div className="contentPageTitle">
@@ -43,12 +47,12 @@ class ManageAssociatedRadarTypesPage extends React.Component{
                         <div className="col-md-6">
                             <div className="row">
                                 <div className="col-md-6">
-                                    <RadarTypeList radarTypeCollection={this.props.radarTypeCollection} onSelectRadarType={this.handleRadarTypeSelection}/>
+                                    <RadarTypeList userId={this.state.userId} radarTypeCollection={this.props.sharedRadarTypeCollection}/>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6">
-                            <RadarTypeEditor radarType={this.state.selectedRadarType} userId={this.state.userId} readonly={true}/>
+                            <RadarTypeEditor userId={this.state.userId} readonly={true} parentContainer={this} />
                         </div>
                     </div>
                 </div>
@@ -60,21 +64,18 @@ class ManageAssociatedRadarTypesPage extends React.Component{
     }
 };
 
-
-const mapMARTDispatchToProps = dispatch => {
+function mapStateToProps(state) {
   return {
-        storeAssociatedRadarTypeCollection : associatedRadarTypeCollection => { dispatch(addAssociatedRadarTypeCollectionToState(associatedRadarTypeCollection))}
-    }
-};
-
-
-function mapMARTPStateToProps(state) {
-  return {
-    	associatedRadarTypeCollection: state.associatedRadarTypeCollection
+    	sharedRadarTypeCollection: state.sharedRadarTypeCollection
     };
 }
 
-export default connect(
-  mapMARTPStateToProps,
-    mapMARTDispatchToProps
-)(ManageAssociatedRadarTypesPage);
+const mapDispatchToProps = dispatch => {
+  return {
+        storeSharedRadarTypeCollection : sharedRadarTypeCollection => { dispatch(addSharedRadarTypeCollectionToState(sharedRadarTypeCollection))},
+        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))}
+
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageAssociatedRadarTypesPage);

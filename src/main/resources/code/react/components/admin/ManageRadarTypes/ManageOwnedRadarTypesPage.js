@@ -6,28 +6,25 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
 import { addRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
-import { RadarTypeList } from './RadarTypeList';
-import { RadarTypeEditor } from './RadarTypeEditor';
-import { NewRadarTypeRow } from './NewRadarTypeRow';
+import RadarTypeList from './RadarTypeList';
+import RadarTypeEditor from './RadarTypeEditor';
+import NewRadarTypeRow from './NewRadarTypeRow';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
 class ManageOwnedRadarTypesPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val(),
-            selectedRadarType: {}
+            userId: jQuery("#userId").val()
         };
 
         this.radarTypeRepository = new RadarTypeRepository();
 
-        this.handleRadarTypeSelection = this.handleRadarTypeSelection.bind(this);
         this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
     }
 
     componentDidMount(){
        this.getByUserId();
-       this.setState({selectedRadarType : this.radarTypeRepository.createDefaultRadarType('Radar Type Name')});
     }
 
     getByUserId(){
@@ -39,60 +36,45 @@ class ManageOwnedRadarTypesPage extends React.Component{
         this.forceUpdate();
     }
 
-    handleRadarTypeSelection(radarType){
-        this.setState({selectedRadarType: radarType});
-        this.forceUpdate();
-    }
-
     render() {
-        if(this.props.radarTypeCollection !== undefined && this.props.radarTypeCollection.length > 0){
-            return (
-                <div className="bodyContent">
-                    <div className="contentPageTitle">
-                        <label>Manage Your Radar Types</label>
+        return (
+            <div className="bodyContent">
+                <div className="contentPageTitle">
+                    <label>Manage Your Radar Types</label>
+                </div>
+                <p>Add a new type to have rate different types of things</p>
+                <div className="row">
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-6">
+                               <NewRadarTypeRow userId={this.props.userId} onSelectRadarType={this.handleRadarTypeSelection}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <RadarTypeList userId={this.state.userId} radarTypeCollection={this.props.radarTypeCollection}/>
+                            </div>
+                        </div>
                     </div>
-                    <p>Add a new type to have rate different types of things</p>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="row">
-                                <div className="col-md-6">
-                                   <NewRadarTypeRow userId={this.props.userId} onSelectRadarType={this.handleRadarTypeSelection}/>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <RadarTypeList radarTypeCollection={this.props.radarTypeCollection} onSelectRadarType={this.handleRadarTypeSelection}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-8">
-                            <RadarTypeEditor radarType={this.state.selectedRadarType} userId={this.state.userId} parentContainer={this}/>
-                        </div>
+                    <div className="col-md-8">
+                        <RadarTypeEditor userId={this.state.userId} parentContainer={this}/>
                     </div>
                 </div>
-            );
-        }
-        else{
-            return (<div></div>);
-        }
+            </div>
+        );
     }
 };
 
-
-const mapMORTPDispatchToProps = dispatch => {
-  return {
-        storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
-    }
-};
-
-
-function mapMORTStateToProps(state) {
+function mapStateToProps(state) {
   return {
     	radarTypeCollection: state.radarTypeCollection
     };
 }
 
-export default connect(
-  mapMORTStateToProps,
-    mapMORTPDispatchToProps
-)(ManageOwnedRadarTypesPage);
+const mapDispatchToProps = dispatch => {
+  return {
+        storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageOwnedRadarTypesPage);

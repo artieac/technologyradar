@@ -6,6 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface RadarTypeDAO extends JpaRepository<RadarTypeEntity, Long>
 {
-    Iterable<RadarTypeEntity> findAllByCreatorId(Long radarUserId);
+    RadarTypeEntity findByRadarUserIdAndId(Long radarUserId, Long id);
+    Iterable<RadarTypeEntity> findAllByRadarUserId(Long radarUserId);
     Iterable<RadarTypeEntity> findAllByIsPublished(boolean isPublished);
 }

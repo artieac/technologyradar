@@ -77,7 +77,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
         RadarUserEntity radarUserEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
-            if (itemToSave != null && itemToSave.getId() != null) {
+            if (itemToSave != null && itemToSave.getId() != null && itemToSave.getId() > 0) {
                 radarUserEntity = this.entityRepository.findOne(itemToSave.getId());
             } else {
                 radarUserEntity = new RadarUserEntity();
@@ -97,10 +97,10 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
             }
 
             if (radarUserEntity != null) {
-                this.entityRepository.save(radarUserEntity);
+                radarUserEntity = this.entityRepository.save(radarUserEntity);
             }
         }
 
-        return this.modelMapper.map(this.findOne(itemToSave.getId()), RadarUser.class);
+        return this.modelMapper.map(this.findOne(radarUserEntity.getId()), RadarUser.class);
     }
 }

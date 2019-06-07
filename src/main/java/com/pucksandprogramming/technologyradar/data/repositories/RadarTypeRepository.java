@@ -60,11 +60,24 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.entityRepository.findOne(domainModel.getId());
     }
 
+    public RadarType findByRadarUaerIdAndId(Long radarUserId, Long id)
+    {
+        RadarType retVal = null;
+
+        RadarTypeEntity targetItem = this.entityRepository.findByRadarUserIdAndId(radarUserId, id);
+
+        if(targetItem!=null){
+            retVal = this.modelMapper.map(targetItem, RadarType.class);
+        }
+
+        return retVal;
+    }
+
     public List<RadarType> findAllByUserId(Long radarUserId)
     {
         List<RadarType> retVal = new ArrayList<RadarType>();
 
-        Iterable<RadarTypeEntity> foundItems = this.entityRepository.findAllByCreatorId(radarUserId);
+        Iterable<RadarTypeEntity> foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
 
         for (RadarTypeEntity foundItem : foundItems)
         {
@@ -77,6 +90,14 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
     public List<RadarType> findAllAssociatedRadarTypes(Long radarUserId)
     {
         Query query = entityManager.createNamedQuery("findAllAssociated");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
+    public List<RadarType> findAllSharedRadarTypesExcludeOwned(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllSharedRadarTypesExcludeOwned");
         query.setParameter("radarUserId", radarUserId);
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
@@ -122,7 +143,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
             if (radarTypeEntity != null) {
                 radarTypeEntity.setName(itemToSave.getName());
                 radarTypeEntity.setIsPublished(itemToSave.getIsPublished());
-                radarTypeEntity.setCreator(radarUserDAO.findOne(itemToSave.getCreator().getId()));
+                radarTypeEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
 
                 // save it here so we can add the rings and categories.  Not sure how else to do this.  Doesn't feel right though.
                 radarTypeEntity = this.entityRepository.saveAndFlush(radarTypeEntity);

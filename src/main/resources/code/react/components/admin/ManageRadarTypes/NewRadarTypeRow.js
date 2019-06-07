@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
+import { connect } from "react-redux";
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
+import { addSelectedRadarTypeToState } from  '../../../../redux/reducers/adminAppReducer';
+import { addRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
-export class NewRadarTypeRow extends React.Component{
+class NewRadarTypeRow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -17,7 +20,7 @@ export class NewRadarTypeRow extends React.Component{
     }
 
     handleAddRadarType() {
-        this.props.onSelectRadarType(this.radarTypeRepository.createDefaultRadarType(""));
+        this.props.storeSelectedRadarType(this.radarTypeRepository.createDefaultRadarType(""));
     }
 
     render(){
@@ -30,3 +33,20 @@ export class NewRadarTypeRow extends React.Component{
         );
     }
 };
+
+function mapNRTRStateToProps(state) {
+  return {
+        selectedRadarType : state.selectedRadarType
+    };
+};
+
+const mapNRTRLDispatchToProps = dispatch => {
+  return {
+        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))}
+    }
+};
+
+export default connect(
+  mapNRTRStateToProps,
+    mapNRTRLDispatchToProps
+)(NewRadarTypeRow);

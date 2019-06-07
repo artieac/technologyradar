@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
 import { addRadarCollectionToState, addRadarTypeCollectionToState} from '../../../../redux/reducers/adminAppReducer';
-import { RadarTypeRepository_getByUserId} from '../../../Repositories/RadarTypeRepository';
+import { RadarRepository} from '../../../Repositories/RadarRepository';
+import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository'
 import { RadarRow } from './RadarRow';
 import { NewRadarRow } from './NewRadarRow';
 
@@ -18,18 +19,21 @@ class ManageRadarsPage extends React.Component{
             userId: jQuery("#userId").val()
         };
 
+        this.radarRepository = new RadarRepository();
+        this.radarTypeRepository = new RadarTypeRepository();
+
+        this.getUserRadarsResponse = this.getUserRadarsResponse.bind(this);
         this.getRadarTypeCollectionResponse = this.getRadarTypeCollectionResponse.bind(this);
     }
 
     componentDidMount(){
-        this.getRadarCollectionByUserId(this.state.userId);
-        RadarTypeRepository_getByUserId(this.state.userId, this.getRadarTypeCollectionResponse) ;
+        this.radarRepository.getByUserId(this.state.userId, this.getUserRadarsResponse);
+        this.radarTypeRepository.getByUserId(this.state.userId, this.getRadarTypeCollectionResponse) ;
     }
 
-    getRadarCollectionByUserId(userId){
-        fetch( '/api/User/' + userId + '/Radars',)
-            .then(response => response.json())
-            .then(json => this.props.addRadarCollection({ radarCollection: json}));
+    getUserRadarsResponse(radarCollection){
+        this.props.storeRadarCollection(radarCollection);
+        this.forceUpdate();
     }
 
     getRadarTypeCollectionResponse(radarTypes){
@@ -83,22 +87,19 @@ class RadarTableBody extends React.Component{
     }
 };
 
-const mapMRPDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
-        addRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))},
+        storeRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))},
         storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
     }
 };
 
 
-function mapMRPStateToProps(state) {
+function mapStateToProps(state) {
   return {
     	radarCollection: state.radarCollection,
     	radarTypeCollection: state.radarTypeCollection
     };
 }
 
-export default connect(
-  mapMRPStateToProps,
-    mapMRPDispatchToProps
-)(ManageRadarsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageRadarsPage);

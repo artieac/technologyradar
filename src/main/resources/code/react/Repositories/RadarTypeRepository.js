@@ -38,9 +38,9 @@ export class RadarTypeRepository {
             });
     }
 
-    getAssociatedByUserId(userId, successHandler) {
-        jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeAssociated=true',
+    getOtherUsersSharedRadarTypes(userId, successHandler){
+       jQuery.ajax({
+                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeSharedByOthers=true',
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -98,4 +98,25 @@ export class RadarTypeRepository {
               }
             });
     }
-}
+
+    publishRadarType(userId, radarTypeId, isPublished, successHandler, errorHandler) {
+         var radarTypeToUpdate = {};
+         radarTypeToUpdate.isPublished = isPublished;
+
+         $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "PUT",
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Publish',
+              data: JSON.stringify(radarTypeToUpdate),
+              success: function() {
+                    successHandler();
+               },
+              error: function(xhr, status, err) {
+                    errorHandler();
+              }
+            });
+        }
+};

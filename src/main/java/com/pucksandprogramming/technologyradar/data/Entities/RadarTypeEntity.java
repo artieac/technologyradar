@@ -8,9 +8,10 @@ import java.util.List;
 @org.hibernate.annotations.NamedNativeQueries
 (
     {
-        @org.hibernate.annotations.NamedNativeQuery(name = "findAllAssociated", query = "select * from RadarTypes rt where rt.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId = :radarUserId)", resultClass = RadarTypeEntity.class),         @org.hibernate.annotations.NamedNativeQuery(name = "findAllAssociatedRadarTypes", query = "select * from RadarTypes rt where t.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId = :radarUserId)", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllAssociated", query = "select * from RadarTypes rt where rt.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId = :radarUserId)", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllSharedRadarTypesExcludeOwned", query = "select * from RadarTypes rt where rt.IsPublished = true AND rt.radarUserId <> :radarUserId", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findOthersRadarTypes", query = "select * from RadarTypes rt where rt.IsPublished = true AND rt.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId <> :radarUserId)", resultClass = RadarTypeEntity.class),
-    }
+     }
 )
 public class RadarTypeEntity {
     @Id
@@ -29,7 +30,7 @@ public class RadarTypeEntity {
 
     @ManyToOne
     @JoinColumn(name = "RadarUserId", nullable=false)
-    private RadarUserEntity creator;
+    private RadarUserEntity radarUser;
 
     @Column(name = "IsPublished", nullable=false)
     private boolean isPublished;
@@ -45,8 +46,8 @@ public class RadarTypeEntity {
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public RadarUserEntity getCreator(){ return this.creator;}
-    public void setCreator(RadarUserEntity value){ this.creator = value;}
+    public RadarUserEntity getRadarUser(){ return this.radarUser;}
+    public void setRadarUser(RadarUserEntity value){ this.radarUser = value;}
 
     public List<RadarRingEntity> getRadarRings() { return this.radarRings;}
     public void setRadarRings(List<RadarRingEntity> value) { this.radarRings = value;}

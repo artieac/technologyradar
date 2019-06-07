@@ -9,8 +9,10 @@ public class RadarTypeMessage
 {
     private Long id;
     private String name;
-    public List<RadarTypeDetailMessage> radarRings;
-    public List<RadarTypeDetailMessage> radarCategories;
+    private boolean isPublished;
+    private Long radarUserId;
+    private List<RadarTypeDetailMessage> radarRings;
+    private List<RadarTypeDetailMessage> radarCategories;
 
     public RadarTypeMessage()
     {
@@ -28,7 +30,8 @@ public class RadarTypeMessage
         {
             this.id = radarType.getId();
             this.name = radarType.getName();
-
+            this.isPublished = radarType.getIsPublished();
+            this.radarUserId = radarType.getRadarUser().getId();
             this.radarRings = new ArrayList<RadarTypeDetailMessage>();
 
             for(int i = 0; i < radarType.getRadarRings().size(); i++)
@@ -53,6 +56,7 @@ public class RadarTypeMessage
 
         retVal.setId(this.getId());
         retVal.setName(this.getName());
+        retVal.setIsPublished(this.getIsPublished());
 
         for(RadarTypeDetailMessage detailMessage : this.radarRings)
         {
@@ -72,6 +76,12 @@ public class RadarTypeMessage
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
+
+    public boolean getIsPublished() { return this.isPublished;}
+    public void setIsPublished(boolean value) { this.isPublished = value;}
+
+    public Long getRadarUserId() { return this.radarUserId;}
+    public void setRadarUserId(Long value) { this.radarUserId = value;}
 
     public List<RadarTypeDetailMessage> getRadarRings() { return this.radarRings;}
     public void setRadarRings(List<RadarTypeDetailMessage> value) { this.radarRings = value;}

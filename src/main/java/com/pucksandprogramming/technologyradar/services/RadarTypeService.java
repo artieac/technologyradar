@@ -48,6 +48,11 @@ public class RadarTypeService
         return this.radarTypeRepository.findAllAssociatedRadarTypes(userId);
     }
 
+    public List<RadarType> findAllSharedRadarTypesExcludeOwned(Long userId)
+    {
+        return this.radarTypeRepository.findAllSharedRadarTypesExcludeOwned(userId);
+    }
+
     public List<RadarType> findOthersRadarTypes(Long userId)
     {
         return this.radarTypeRepository.findOthersRadarTypes(userId);
@@ -60,7 +65,7 @@ public class RadarTypeService
             RadarUser targetUser = radarUserRepository.findOne(ownerId);
             if (targetUser != null && targetUser.getId() == currentUser.getId())
             {
-                radarType.setCreator(targetUser);
+                radarType.setRadarUser(targetUser);
                 radarType = this.radarTypeRepository.save(radarType);
             }
         }
@@ -80,6 +85,22 @@ public class RadarTypeService
         else
         {
             retVal = false;
+        }
+
+        return retVal;
+    }
+
+    public boolean publishRadarType(Long radarUserId, Long radarTypeId, boolean shouldPublish)
+    {
+        boolean retVal = false;
+
+        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(radarUserId, radarTypeId);
+
+        if(radarType!=null)
+        {
+            radarType.setIsPublished(shouldPublish);
+            this.radarTypeRepository.save(radarType);
+            retVal = true;
         }
 
         return retVal;

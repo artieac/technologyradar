@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -50,7 +51,7 @@ public class RadarTypeController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/RadarTypes", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId(@PathVariable Long radarUserId,
                                                                       @RequestParam(name="includeOwned", required = false, defaultValue = "true") boolean includeOwned,
-                                                                      @RequestParam(name="includeAssociated", required = false, defaultValue = "false") boolean includeAssociated,
+                                                                      @RequestParam(name="includeSharedByOthers", required = false, defaultValue = "false") boolean includeSharedByOthers,
                                                                       @RequestParam(name="includeOthers", required = false, defaultValue = "false") boolean includeOthers)
     {
         List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
@@ -63,13 +64,13 @@ public class RadarTypeController extends ControllerBase
 
             if(includeOwned==true)
             {
-                userRadarTypes.addAll(radarTypeService.findAllByUserId(targetUser.getId(), includeAssociated));
+                userRadarTypes.addAll(radarTypeService.findAllByUserId(targetUser.getId(), false));
             }
             else
             {
-                if (includeAssociated == true)
+                if (includeSharedByOthers == true)
                 {
-                    userRadarTypes.addAll(radarTypeService.findAllAssociatedRadarTypes(targetUser.getId()));
+                    userRadarTypes.addAll(radarTypeService.findAllSharedRadarTypesExcludeOwned(targetUser.getId()));
                 }
             }
 
@@ -121,6 +122,20 @@ public class RadarTypeController extends ControllerBase
     public @ResponseBody boolean updateRadarType(@PathVariable Long radarUserId, @PathVariable Long radarTypeId)
     {
         return this.radarTypeService.delete(radarTypeId, this.getCurrentUser(), radarUserId);
+    }
+
+    @RequestMapping(value = "/User/{userId}/RadarType/{radarTypeId}/Publish", method = RequestMethod.PUT)
+    public @ResponseBody boolean updateRadarTypeIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarTypeId)
+    {
+        boolean retVal = false;
+        boolean isPublished = Boolean.parseBoolean(modelMap.get("isPublished").toString());
+
+        if(this.getCurrentUser().getId() == userId)
+        {
+            retVal = this.radarTypeService.publishRadarType(userId, radarTypeId, isPublished);
+        }
+
+        return retVal;
     }
 
 }

@@ -4,10 +4,9 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import { RadarTypeListItem } from './RadarTypeListItem';
-import { RadarTypeRepository_getAssociatedByUserId } from '../../../Repositories/RadarTypeRepository';
+import RadarTypeListItem from './RadarTypeListItem';
 
-export class RadarTypeList extends React.Component{
+class RadarTypeList extends React.Component{
     constructor(props){
         super(props);
          this.state = {
@@ -26,7 +25,7 @@ export class RadarTypeList extends React.Component{
                         </div>
                         {
                             this.props.radarTypeCollection.map((currentRow) => {
-                                return <RadarTypeListItem key={currentRow.id} radarType={currentRow} userId={this.state.userId} parentContainer = { this } readonly={true} onSelectRadarType={this.props.onSelectRadarType}/>
+                                return <RadarTypeListItem key={currentRow.id} radarType={currentRow} userId={this.props.userId} parentContainer = { this } readonly={true} onSelectRadarType={this.props.onSelectRadarType}/>
                             })
                         }
                     </div>
@@ -39,20 +38,15 @@ export class RadarTypeList extends React.Component{
     }
 };
 
-
-const mapRTLDispatchToProps = dispatch => {
-  return {
-    }
-};
-
-
-function mapRTLStateToProps(state) {
+function mapStateToProps(state) {
   return {
     	associatedRadarTypeCollection: state.associatedRadarTypeCollection
     };
 }
 
-export default connect(
-  mapRTLStateToProps,
-    mapRTLDispatchToProps
-)(RadarTypeList);
+const mapDispatchToProps = dispatch => {
+  return {
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RadarTypeList);

@@ -9,7 +9,7 @@ import { RadarRingDetails } from './RadarRingDetails';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
-export class RadarTypeEditor extends React.Component{
+class RadarTypeEditor extends React.Component{
     constructor(props){
         super(props);
          this.state = {
@@ -33,19 +33,25 @@ export class RadarTypeEditor extends React.Component{
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
         this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
+        this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
     }
 
     handleRadarTypeNameChangeEvent(event){
-         this.props.radarType.name = event.target.value;
+         this.props.selectedRadarType.name = event.target.value;
+        this.forceUpdate();
+    }
+
+    handleSharedWithOthersChange(event){
+        this.props.selectedRadarType.isPublished = this.refs.isPublished.checked;
         this.forceUpdate();
     }
 
     handleSaveRadarType(){
-        if(this.props.radarType.id > 0){
-            this.radarTypeRepository.updateRadarType(this.props.userId, this.props.radarType, this.handleEditChangeSuccess);
+        if(this.props.selectedRadarType.id > 0){
+            this.radarTypeRepository.updateRadarType(this.props.userId, this.props.selectedRadarType, this.handleEditChangeSuccess);
         }
         else{
-            this.radarTypeRepository.addRadarType(this.props.userId, this.props.radarType, this.handleEditChangeSuccess);
+            this.radarTypeRepository.addRadarType(this.props.userId, this.props.selectedRadarType, this.handleEditChangeSuccess);
         }
     }
 
@@ -54,63 +60,73 @@ export class RadarTypeEditor extends React.Component{
     }
 
     handleDeleteRadarType(){
-        this.radarTypeRepository.deleteRadarType(this.props.userId, this.props.radarType, this.handleEditChangeSuccess);
+        this.radarTypeRepository.deleteRadarType(this.props.userId, this.props.selectedRadarType, this.handleEditChangeSuccess);
     }
 
     render() {
-        return (
-            <div>
-                <div className='row'>
-                    <div className="col-md-6">
-                        <label>Name</label>
-                        <input type="text" value={this.props.radarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.readonly}/>
+        if(this.props.selectedRadarType !== undefined && this.props.selectedRadarType.name !== undefined){
+            return (
+                <div>
+                    <div className='row'>
+                        <div className="col-md-3">Name</div>
+                        <div className="col-md-6">
+                            <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.readonly}/>
+                        </div>
+                        <div className="col-md-3">
+                           <input type="button" className='btn btn-primary' disabled={this.props.readonly} value="Save" onClick={ this.handleSaveRadarType }/>
+                        </div>
                     </div>
-                    <div className="col-md-6">
-                       <input type="button" className='btn btn-primary' disabled={this.props.readonly} value="Save" onClick={ this.handleSaveRadarType }/>
-                       <input type="button" className='btn btn-primary' disabled={this.props.readonly} value="Delete" onClick={ this.handleDeleteRadarType }/>
+                    <div className="row">
+                        <div className="col-md-3">Share with others?</div>
+                        <div className="col-md-6">
+                            <input type="checkbox" ref="isPublished" checked={ this.props.selectedRadarType.isPublished } onChange = {(event) => this.handleSharedWithOthersChange(event) } readOnly={this.props.readonly}/>
+                        </div>
+                        <div className="col-md-3">
+                           <input type="button" className='btn btn-primary' disabled={this.props.readonly} value="Delete" onClick={ this.handleDeleteRadarType }/>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">Rings</div>
-                            <div className="panel-body">
-                                {this.props.radarType.radarRings.map((currentRow) => {
-                                    return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} readonly={this.props.readonly}/>
-                                    })}
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="panel panel-default">
+                                <div className="panel-heading">Rings</div>
+                                <div className="panel-body">
+                                    {this.props.selectedRadarType.radarRings.map((currentRow) => {
+                                        return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} readonly={this.props.readonly}/>
+                                        })}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="panel panel-default">
+                                <div className="panel-heading">Categories</div>
+                                <div className="panel-body">
+                                    {this.props.selectedRadarType.radarCategories.map((currentRow) =>{
+                                        return <RadarCategoryDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer } colorMap={this.state.radarCategoriesColorMap} colorNameMap={this.state.radarCategoriesColorNameMap}/>
+                                        })}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-12">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">Categories</div>
-                            <div className="panel-body">
-                                {this.props.radarType.radarCategories.map((currentRow) =>{
-                                    return <RadarCategoryDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer } colorMap={this.state.radarCategoriesColorMap} colorNameMap={this.state.radarCategoriesColorNameMap}/>
-                                    })}
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else{
+            return(<div></div>);
+        }
     }
 };
 
-const mapRTEDispatchToProps = dispatch => {
+
+function mapStateToProps(state) {
+  return {
+    	selectedRadarType: state.selectedRadarType
+    };
+};
+
+const mapDispatchToProps = dispatch => {
   return {
         storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
     }
 };
 
-
-function mapRTEStateToProps(state) {
-  return {
-    	radarTypeCollection: state.radarTypeCollection
-    };
-}
-
-export default connect(
-  mapRTEStateToProps,
-    mapRTEDispatchToProps
-)(RadarTypeEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(RadarTypeEditor);

@@ -13,7 +13,7 @@ public class RadarType {
     private String name;
     private List<RadarRing> radarRings;
     private List<RadarCategory> radarCategories;
-    private RadarUser creator;
+    private RadarUser radarUser;
     private boolean isPublished;
 
     public RadarType()
@@ -38,8 +38,8 @@ public class RadarType {
     public List<RadarCategory> getRadarCategories() { return this.radarCategories;}
     public void setRadarCategories(List<RadarCategory> value) { this.radarCategories = value;}
 
-    public RadarUser getCreator() { return this.creator;}
-    public void setCreator(RadarUser value) { this.creator = value;}
+    public RadarUser getRadarUser() { return this.radarUser;}
+    public void setRadarUser(RadarUser value) { this.radarUser = value;}
 
     public boolean getIsPublished() { return this.isPublished;}
     public void setIsPublished(boolean value){ this.isPublished = value;}

@@ -5,7 +5,7 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 import { RadarCollectionDropDownItem } from './RadarCollectionDropdownItem';
-import { RadarRepository_addRadar} from '../../../Repositories/RadarRepository';
+import { RadarRepository } from '../../../Repositories/RadarRepository';
 import { RadarTypeDropdown } from './RadarTypeDropdown';
 
 export class NewRadarRow extends React.Component{
@@ -15,6 +15,8 @@ export class NewRadarRow extends React.Component{
             radarNameInput: '',
             selectedRadarType: {}
         };
+
+        this.radarRepository = new RadarRepository();
 
         this.handleRadarNameChange = this.handleRadarNameChange.bind(this);
         this.handleAddSuccess = this.handleAddSuccess.bind(this);
@@ -37,7 +39,7 @@ export class NewRadarRow extends React.Component{
     }
 
     handleAddRadar() {
-        RadarRepository_addRadar(this.props.userId, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+        this.radarRepository.addRadar(this.props.userId, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
     }
 
     handleDropdownSelectionNotify(radarType){
