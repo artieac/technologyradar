@@ -12,9 +12,10 @@ import ManageOwnedRadarTypesPage from '../components/admin/ManageRadarTypes/Mana
 import ManageAssociatedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
-import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
+import radarReducer from '../../redux/reducers/admin/RadarReducer';
+import radarTypeReducer from '../../redux/reducers/admin/RadarTypeReducer';
 
-const adminAppStore = createStore(adminAppReducer);
+const adminAppStore = createStore(combineReducers({radarReducer,radarTypeReducer}));
 
 class AdminApp extends React.Component{
     constructor(props){

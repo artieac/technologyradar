@@ -1,10 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.*;
-import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarTypeDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
+import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -28,6 +25,9 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     @Autowired
     RadarUserDAO radarUserDAO;
+
+    @Autowired
+    AssociatedRadarTypeDAO associatedRadarTypeDAO;
 
     @Autowired
     public void setEntityRepository(RadarTypeDAO entityRepository) {
@@ -253,5 +253,52 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         }
 
         return this.modelMapper.map(radarTypeEntity, RadarType.class);
+    }
+
+    public boolean saveAssociatedRadarType(RadarUser radarUser, RadarType radarType)
+    {
+        boolean retVal = false;
+
+        if (radarType != null && radarUser != null)
+        {
+            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
+
+            if(associatedRadarTypeEntityadarTypeEntity==null)
+            {
+                associatedRadarTypeEntityadarTypeEntity = new AssociatedRadarTypeEntity();
+                associatedRadarTypeEntityadarTypeEntity.setRadarUserId(radarUser.getId());
+                associatedRadarTypeEntityadarTypeEntity.setRadarTypeId(radarType.getId());
+                associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.save(associatedRadarTypeEntityadarTypeEntity);
+
+                if(associatedRadarTypeEntityadarTypeEntity.getId() > 0)
+                {
+                    retVal = true;
+                }
+            }
+            else
+            {
+                retVal = true;
+            }
+        }
+
+        return retVal;
+    }
+
+    public boolean deleteAssociatedRadarType(RadarUser radarUser, RadarType radarType)
+    {
+        boolean retVal = false;
+
+        if (radarType != null && radarUser != null)
+        {
+            AssociatedRadarTypeEntity radarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
+
+            if (radarTypeEntity != null)
+            {
+                this.associatedRadarTypeDAO.delete(radarTypeEntity.getId());
+                retVal = true;
+            }
+        }
+
+        return retVal;
     }
 }

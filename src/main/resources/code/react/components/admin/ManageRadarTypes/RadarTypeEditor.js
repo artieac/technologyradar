@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
-import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
+import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import { RadarRingDetails } from './RadarRingDetails';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
@@ -119,13 +117,13 @@ class RadarTypeEditor extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	selectedRadarType: state.selectedRadarType
+    	selectedRadarType: state.radarTypeReducer.selectedRadarType
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
     }
 };
 

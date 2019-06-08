@@ -90,17 +90,45 @@ public class RadarTypeService
         return retVal;
     }
 
-    public boolean publishRadarType(Long radarUserId, Long radarTypeId, boolean shouldPublish)
+    public boolean publishRadarType(RadarUser currentUser, Long radarTypeId, boolean shouldPublish)
     {
         boolean retVal = false;
 
-        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(radarUserId, radarTypeId);
+        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(currentUser.getId(), radarTypeId);
 
         if(radarType!=null)
         {
-            radarType.setIsPublished(shouldPublish);
-            this.radarTypeRepository.save(radarType);
-            retVal = true;
+            if (radarType.getRadarUser().getId() == currentUser.getId())
+            {
+                radarType.setIsPublished(shouldPublish);
+                this.radarTypeRepository.save(radarType);
+                retVal = true;
+            }
+        }
+
+        return retVal;
+    }
+
+    public boolean associatedRadarType(RadarUser currentUser, Long radarTypeId, boolean shouldAssociate)
+    {
+        boolean retVal = false;
+
+        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
+
+        if(radarType!=null)
+        {
+            // don't allow a user to associate their own radar
+            if (radarType.getRadarUser().getId() != currentUser.getId())
+            {
+                if(shouldAssociate==true)
+                {
+                    retVal = this.radarTypeRepository.saveAssociatedRadarType(currentUser, radarType);
+                }
+                else
+                {
+                    retVal = this.radarTypeRepository.deleteAssociatedRadarType(currentUser, radarType);
+                }
+            }
         }
 
         return retVal;

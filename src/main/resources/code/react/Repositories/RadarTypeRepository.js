@@ -49,6 +49,28 @@ export class RadarTypeRepository {
             });
     }
 
+    getAssociatedRadarTypes(userId, successHandler){
+       jQuery.ajax({
+                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeAssociated=true',
+                async: true,
+                dataType: 'json',
+                success: function (radarTypeCollection) {
+                    successHandler(radarTypeCollection);
+                }.bind(this)
+            });
+    }
+
+    getOwnedAndAssociatedByUserId(userId, successHandler){
+        jQuery.ajax({
+                 url: '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true',
+                 async: true,
+                 dataType: 'json',
+                 success: function (radarTypeCollection) {
+                     successHandler(radarTypeCollection);
+                 }.bind(this)
+             });
+     }
+
     addRadarType(userId, radarType, successHandler) {
          $.ajax({
               headers: {
@@ -99,9 +121,10 @@ export class RadarTypeRepository {
             });
     }
 
-    publishRadarType(userId, radarTypeId, isPublished, successHandler, errorHandler) {
-         var radarTypeToUpdate = {};
-         radarTypeToUpdate.isPublished = isPublished;
+
+    associateRadarType(userId, radarTypeId, shouldAssociate, successHandler, errorHandler) {
+         var radarTypeAssociation = {};
+         radarTypeAssociation.shouldAssociate = shouldAssociate;
 
          $.ajax({
               headers: {
@@ -109,8 +132,8 @@ export class RadarTypeRepository {
                       'Content-Type': 'application/json'
               },
               type: "PUT",
-              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Publish',
-              data: JSON.stringify(radarTypeToUpdate),
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Associate',
+              data: JSON.stringify(radarTypeAssociation),
               success: function() {
                     successHandler();
                },

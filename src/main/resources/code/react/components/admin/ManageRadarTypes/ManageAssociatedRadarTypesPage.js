@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addAssociatedRadarTypeCollectionToState, addSharedRadarTypeCollectionToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/adminAppReducer';
+import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeEditor from './RadarTypeEditor';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
@@ -14,67 +12,69 @@ class ManageAssociatedRadarTypesPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val(),
-            selectedRadarType: {}
+            userId: jQuery("#userId").val()
         };
 
         this.radarTypeRepository = new RadarTypeRepository();
 
         this.handleGetOtherUsersSharedRadarTypesSuccess = this.handleGetOtherUsersSharedRadarTypesSuccess.bind(this);
+        this.handleGetAssociatedRadarTypesSuccess = this.handleGetAssociatedRadarTypesSuccess.bind(this);
     }
 
     componentDidMount(){
         this.radarTypeRepository.getOtherUsersSharedRadarTypes(this.state.userId, this.handleGetOtherUsersSharedRadarTypesSuccess);
+        this.radarTypeRepository.getAssociatedRadarTypes(this.state.userId, this.handleGetAssociatedRadarTypesSuccess);
     }
 
-    handleGetOtherUsersSharedRadarTypesSuccess(sharedRadarTypeCollection){
-        this.props.storeSharedRadarTypeCollection(sharedRadarTypeCollection);
+    handleGetOtherUsersSharedRadarTypesSuccess(sharedRadarTypes){
+        this.props.storeSharedRadarTypes(sharedRadarTypes);
 
-        if(sharedRadarTypeCollection.length > 0){
-            this.props.storeSelectedRadarType(sharedRadarTypeCollection[0]);
+        if(sharedRadarTypes.length > 0){
+            this.props.storeSelectedRadarType(sharedRadarTypes[0]);
         }
+    }
+
+    handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
+        this.props.storeAssociatedRadarTypes(associatedRadarTypes);
+        this.forceUpdate();
     }
 
     render() {
-        if(this.props.sharedRadarTypeCollection !== undefined){
-            return (
-                <div className="bodyContent">
-                    <div className="contentPageTitle">
-                        <label>Associate Radar Types From Others</label>
-                    </div>
-                    <p>Discover radar types that others have created</p>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <RadarTypeList userId={this.state.userId} radarTypeCollection={this.props.sharedRadarTypeCollection}/>
-                                </div>
+        return (
+            <div className="bodyContent">
+                <div className="contentPageTitle">
+                    <label>Associate Radar Types From Others</label>
+                </div>
+                <p>Discover radar types that others have created</p>
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <RadarTypeList userId={this.state.userId} radarTypes={this.props.sharedRadarTypes}/>
                             </div>
                         </div>
-                        <div className="col-md-6">
-                            <RadarTypeEditor userId={this.state.userId} readonly={true} parentContainer={this} />
-                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <RadarTypeEditor userId={this.state.userId} readonly={true} parentContainer={this} />
                     </div>
                 </div>
-            );
-        }
-        else{
-            return (<div></div>);
-        }
+            </div>
+        );
     }
 };
 
 function mapStateToProps(state) {
   return {
-    	sharedRadarTypeCollection: state.sharedRadarTypeCollection
+    	sharedRadarTypes: state.radarTypeReducer.sharedRadarTypes,
+    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes
     };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeSharedRadarTypeCollection : sharedRadarTypeCollection => { dispatch(addSharedRadarTypeCollectionToState(sharedRadarTypeCollection))},
-        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))}
-
+        storeSharedRadarTypes : sharedRadarTypes => { dispatch(addSharedRadarTypesToState(sharedRadarTypes))},
+        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))},
+        storeAssociatedRadarTypes : associatedRadarTypes => { dispatch(addAssociatedRadarTypesToState(associatedRadarTypes))}
     }
 };
 

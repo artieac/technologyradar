@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 export class RadarCategoryDetails extends React.Component{

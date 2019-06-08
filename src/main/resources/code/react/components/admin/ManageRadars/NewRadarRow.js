@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
+import { connect } from "react-redux";
+import { addRadarsToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 import { RadarCollectionDropDownItem } from './RadarCollectionDropdownItem';
 import { RadarRepository } from '../../../Repositories/RadarRepository';
@@ -20,6 +22,7 @@ export class NewRadarRow extends React.Component{
 
         this.handleRadarNameChange = this.handleRadarNameChange.bind(this);
         this.handleAddSuccess = this.handleAddSuccess.bind(this);
+        this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
         this.handleAddError = this.handleAddError.bind(this);
         this.handleAddRadar = this.handleAddRadar.bind(this);
         this.handleDropdownSelectionNotify = this.handleDropdownSelectionNotify.bind(this);
@@ -31,7 +34,11 @@ export class NewRadarRow extends React.Component{
     }
 
     handleAddSuccess() {
+        this.radarRepository.getByUserId(this.props.userId, this.props.storeRadars);
+    }
 
+    handleGetByUserIdSuccess(radars){
+        this.props.storeRadars(radars);
     }
 
     handleAddError() {
@@ -58,3 +65,16 @@ export class NewRadarRow extends React.Component{
         );
     }
 };
+
+function mapStateToProps(state) {
+  return {
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+        storeRadars : radars => { dispatch(addRadarsToState(radars))}
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewRadarRow);

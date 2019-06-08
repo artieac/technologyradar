@@ -52,37 +52,38 @@ public class RadarTypeController extends ControllerBase
     public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId(@PathVariable Long radarUserId,
                                                                       @RequestParam(name="includeOwned", required = false, defaultValue = "true") boolean includeOwned,
                                                                       @RequestParam(name="includeSharedByOthers", required = false, defaultValue = "false") boolean includeSharedByOthers,
-                                                                      @RequestParam(name="includeOthers", required = false, defaultValue = "false") boolean includeOthers)
+                                                                      @RequestParam(name="includeAssociated", required = false, defaultValue = "false") boolean includeAssociated)
     {
         List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
 
         RadarUser targetUser = radarUserService.findOne(radarUserId);
+        List<RadarType> foundItems = new ArrayList<RadarType>();
 
         if(targetUser!=null)
         {
-            List<RadarType> userRadarTypes = new ArrayList<RadarType>();
-
             if(includeOwned==true)
             {
-                userRadarTypes.addAll(radarTypeService.findAllByUserId(targetUser.getId(), false));
-            }
-            else
-            {
-                if (includeSharedByOthers == true)
-                {
-                    userRadarTypes.addAll(radarTypeService.findAllSharedRadarTypesExcludeOwned(targetUser.getId()));
-                }
+                foundItems.addAll(radarTypeService.findAllByUserId(targetUser.getId(), false));
             }
 
-            if(includeOthers == true)
+            if (includeSharedByOthers == true)
             {
-                userRadarTypes.addAll(radarTypeService.findOthersRadarTypes(targetUser.getId()));
+                foundItems.addAll(radarTypeService.findAllSharedRadarTypesExcludeOwned(targetUser.getId()));
             }
 
-            for (RadarType radarTypeItem : userRadarTypes)
+            if(includeAssociated == true)
             {
-                retVal.add(new RadarTypeMessage(radarTypeItem));
+                foundItems.addAll(radarTypeService.findAllAssociatedRadarTypes(targetUser.getId()));
             }
+        }
+        else
+        {
+            foundItems = this.radarTypeService.findAll(true);
+        }
+
+        for (RadarType radarTypeItem : foundItems)
+        {
+            retVal.add(new RadarTypeMessage(radarTypeItem));
         }
 
         return retVal;
@@ -132,10 +133,23 @@ public class RadarTypeController extends ControllerBase
 
         if(this.getCurrentUser().getId() == userId)
         {
-            retVal = this.radarTypeService.publishRadarType(userId, radarTypeId, isPublished);
+            retVal = this.radarTypeService.publishRadarType(this.getCurrentUser(), radarTypeId, isPublished);
         }
 
         return retVal;
     }
 
+    @RequestMapping(value = "/User/{userId}/RadarType/{radarTypeId}/Associate", method = RequestMethod.PUT)
+    public @ResponseBody boolean associatedRadarType(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarTypeId)
+    {
+        boolean retVal = false;
+        boolean shouldAssociate = Boolean.parseBoolean(modelMap.get("shouldAssociate").toString());
+
+        if(this.getCurrentUser().getId() == userId)
+        {
+            retVal = this.radarTypeService.associatedRadarType(this.getCurrentUser(), radarTypeId, shouldAssociate);
+        }
+
+        return retVal;
+    }
 }

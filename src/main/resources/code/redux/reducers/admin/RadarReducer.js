@@ -1,34 +1,26 @@
-import * as actionTypes from './adminActionTypes';
+import * as actionTypes from './RadarActionTypes';
 
 // src/js/reducers/index.js
-const adminAppState = {
-  radarTypeCollection: [],
-  radarCollection: [],
+const radarManagementState = {
+  radars: [],
   currentRadar: {},
   sourceRadar: {},
   radarItemsToAdd: [],
   radarItemsToRemove: [],
-  sharedRadarTypeCollection: [],
-  selectedRadarType: {}
+  radarTypes: []
 };
 
-export function addRadarTypeCollectionToState(radarTypeCollection){
+export function addRadarsToState(radars){
     return {
-       type: actionTypes.SETRADARTYPECOLLECTION,
-       payload: radarTypeCollection
+       type: actionTypes.SETRADARCOLLECTION,
+       payload: radars
    };
 }
 
-export function addSelectedRadarTypeToState(radarType){
+export function addRadarTypesToState(radarTypes){
     return {
-       type: actionTypes.SETSELECTEDRADARTYPE,
-       payload: radarType
-   };
-}
-export function addRadarCollectionToState(radarCollection){
-    return {
-       type: actionTypes.SETRADARCOLLECTION,
-       payload: radarCollection
+       type: actionTypes.SETRADARTYPECOLLECTION,
+       payload: radarTypes
    };
 }
 
@@ -50,6 +42,7 @@ function createRadarItemForExistingTechnology(assessmentItem)
 {
     var radarItem = {};
 
+    radarItem.radarCategory = assessmentItem.radarCategory.id;
     radarItem.radarRing = assessmentItem.radarRing.id;
     radarItem.confidenceLevel = assessmentItem.confidenceFactor;
     radarItem.assessmentDetails = assessmentItem.details;
@@ -86,35 +79,14 @@ export function clearAddRadarItems(){
     };
 }
 
-export function addSharedRadarTypeCollectionToState(sharedRadarTypeCollection){
-    return {
-       type: actionTypes.SETSHAREDRADARTYPECOLLECTION,
-       payload: sharedRadarTypeCollection
-   };
-}
 
-export const adminAppReducer = (state = adminAppState, action) => {
+export default function(state = radarManagementState, action) {
  // alert(JSON.stringify(action));
 
   switch (action.type) {
-    case actionTypes.SETSELECTEDRADARTYPE:
-        return Object.assign({}, state, {
-            selectedRadarType: action.payload
-        })
-        break;
-    case actionTypes.SETSHAREDRADARTYPECOLLECTION:
-        return Object.assign({}, state, {
-            sharedRadarTypeCollection: action.payload
-        })
-        break;
-    case actionTypes.SETRADARTYPECOLLECTION:
-        return Object.assign({}, state, {
-            radarTypeCollection: action.payload
-        })
-        break;
     case actionTypes.SETRADARCOLLECTION:
         return Object.assign({}, state, {
-            radarCollection: action.payload
+            radars: action.payload
         })
         break;
     case actionTypes.SETCURRENTRADARINSTANCE:
@@ -145,6 +117,11 @@ export const adminAppReducer = (state = adminAppState, action) => {
         return Object.assign({}, state, {
                 radarItemsToRemove: []
             })
+        break;
+    case actionTypes.SETRADARTYPECOLLECTION:
+        return Object.assign({}, state, {
+            radarTypes: action.payload
+        })
         break;
     default:
       return state;

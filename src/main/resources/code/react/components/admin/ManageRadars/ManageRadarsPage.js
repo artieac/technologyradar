@@ -3,10 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addRadarCollectionToState, addRadarTypeCollectionToState} from '../../../../redux/reducers/adminAppReducer';
+import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState, addRadarTypesToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository'
 import { RadarRow } from './RadarRow';
@@ -28,16 +27,16 @@ class ManageRadarsPage extends React.Component{
 
     componentDidMount(){
         this.radarRepository.getByUserId(this.state.userId, this.getUserRadarsResponse);
-        this.radarTypeRepository.getByUserId(this.state.userId, this.getRadarTypeCollectionResponse) ;
+        this.radarTypeRepository.getOwnedAndAssociatedByUserId(this.state.userId, this.getRadarTypeCollectionResponse) ;
     }
 
-    getUserRadarsResponse(radarCollection){
-        this.props.storeRadarCollection(radarCollection);
+    getUserRadarsResponse(radars){
+        this.props.storeRadars(radars);
         this.forceUpdate();
     }
 
     getRadarTypeCollectionResponse(radarTypes){
-        this.props.storeRadarTypeCollection(radarTypes);
+        this.props.storeRadarTypes(radarTypes);
     }
 
     render() {
@@ -58,7 +57,7 @@ class ManageRadarsPage extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody tableBodyData={this.props.radarCollection} userId={this.state.userId} parentContainer = { this}  radarTypes={this.props.radarTypeCollection}/>
+                    <RadarTableBody tableBodyData={this.props.radars} userId={this.state.userId} parentContainer = { this}  radarTypes={this.props.radarTypes}/>
                 </table>
             </div>
         );
@@ -67,13 +66,13 @@ class ManageRadarsPage extends React.Component{
 
 class RadarTableBody extends React.Component{
     render() {
-        if(typeof this.props.tableBodyData.radarCollection !== 'undefined'){
+        if(typeof this.props.tableBodyData !== 'undefined'){
             return (
                 <tbody>
-                    {this.props.tableBodyData.radarCollection.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer } />
+                    {this.props.tableBodyData.map(function (currentRow) {
+                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} />
                         }.bind(this))}
-                    <NewRadarRow userId={this.props.userId} parentContainer = { this.props.parentContainer } radarTypes={this.props.radarTypes}/>
+                    <NewRadarRow userId={this.props.userId} radarTypes={this.props.radarTypes}/>
                 </tbody>
             );
         }
@@ -89,16 +88,16 @@ class RadarTableBody extends React.Component{
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))},
-        storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
+        storeRadars : radars => { dispatch(addRadarsToState(radars))},
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
     }
 };
 
 
 function mapStateToProps(state) {
   return {
-    	radarCollection: state.radarCollection,
-    	radarTypeCollection: state.radarTypeCollection
+    	radars: state.radarReducer.radars,
+    	radarTypes: state.radarReducer.radarTypes
     };
 }
 

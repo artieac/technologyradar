@@ -14,12 +14,11 @@ public class AssociatedRadarTypeEntity
     @Column(name = "Id", nullable = false)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "RadarUserId", nullable=false)
-//    private RadarUserEntity radarUser;
+    @Column(name = "RadarUserId", nullable=false)
+    private Long radarUserId;
 
-//    @Column(name = "RadarTypeId", nullable = false)
-//    private List<RadarTypeEntity> radarTypes;
+    @Column(name = "RadarTypeId", nullable = false)
+    private Long radarTypeId;
 
     public AssociatedRadarTypeEntity()
     {
@@ -29,9 +28,9 @@ public class AssociatedRadarTypeEntity
     public Long getId() { return this.id;}
     public void setId(Long value) { this.id = value;}
 
-//    public RadarUserEntity getRadarUser() { return this.radarUser;}
-//    public void setRadarUser(RadarUserEntity value) { this.radarUser = value;}
+    public Long getRadarUserId() { return this.radarUserId;}
+    public void setRadarUserId(Long value) { this.radarUserId = value;}
 
-//    public List<RadarTypeEntity> getRadarType() { return this.radarTypes;}
-//    public void setRadarType(List<RadarTypeEntity> value) { this.radarTypes = value;}
+    public Long getRadarTypeId() { return this.radarTypeId;}
+    public void setRadarTypeId(Long value) { this.radarTypeId = value;}
 }

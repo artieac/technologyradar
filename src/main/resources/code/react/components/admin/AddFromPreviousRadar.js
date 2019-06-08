@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarCollectionToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/adminAppReducer';
+import radarReducer from '../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../../redux/reducers/admin/RadarReducer';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 
 class AddFromPreviousRadar extends React.Component{
@@ -231,10 +232,20 @@ class RadarQuadrantItem extends React.Component{
     }
 }
 
-const mapAFPRDispatchToProps = dispatch => {
+function mapStateToProps(state) {
+  return {
+    	sourceRadar: state.radarReducer.sourceRadar,
+    	radarCollection: state.radarReducer.radars,
+    	currentRadar: state.radarReducer.currentRadar,
+    	radarItemsToAdd: state.radarReducer.radarItemsToAdd,
+    	radarItemsToRemove: state.radarReducer.radarItemsToRemove
+    };
+}
+
+const mapDispatchToProps = dispatch => {
   return {
         setSourceRadarInstance : sourceRadar => { dispatch(setSourceRadarInstanceToState(sourceRadar))},
-        addRadarCollection : radarCollection => { dispatch(addRadarCollectionToState(radarCollection))},
+        addRadarCollection : radarCollection => { dispatch(addRadarsToState(radarCollection))},
         setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
         onHandleAddRadarItem : targetItem  => { dispatch(handleAddRadarItem(targetItem))},
         onHandleRemoveRadarItem : targetItem  => { dispatch(handleRemoveRadarItem(targetItem))},
@@ -244,17 +255,4 @@ const mapAFPRDispatchToProps = dispatch => {
     };
 };
 
-function mapStateToAFPRProps(state) {
-  return {
-    	sourceRadar: state.sourceRadar,
-    	radarCollection: state.radarCollection,
-    	currentRadar: state.currentRadar,
-    	radarItemsToAdd: state.radarItemsToAdd,
-    	radarItemsToRemove: state.radarItemsToRemove
-    };
-}
-
-export default connect(
-  mapStateToAFPRProps,
-    mapAFPRDispatchToProps
-)(AddFromPreviousRadar);
+export default connect(mapStateToProps, mapDispatchToProps)(AddFromPreviousRadar);

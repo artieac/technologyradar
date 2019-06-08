@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
+import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeEditor from './RadarTypeEditor';
 import NewRadarTypeRow from './NewRadarTypeRow';
@@ -31,8 +29,8 @@ class ManageOwnedRadarTypesPage extends React.Component{
        this.radarTypeRepository.getByUserId(this.state.userId, this.handleGetByUserIdSuccess);
     }
 
-    handleGetByUserIdSuccess(radarTypeCollection){
-        this.props.storeRadarTypeCollection(radarTypeCollection);
+    handleGetByUserIdSuccess(radarTypes){
+        this.props.storeRadarTypes(radarTypes);
         this.forceUpdate();
     }
 
@@ -47,12 +45,12 @@ class ManageOwnedRadarTypesPage extends React.Component{
                     <div className="col-md-4">
                         <div className="row">
                             <div className="col-md-6">
-                               <NewRadarTypeRow userId={this.props.userId} onSelectRadarType={this.handleRadarTypeSelection}/>
+                               <NewRadarTypeRow userId={this.props.userId} />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <RadarTypeList userId={this.state.userId} radarTypeCollection={this.props.radarTypeCollection}/>
+                                <RadarTypeList userId={this.state.userId} radarTypes={this.props.radarTypes}/>
                             </div>
                         </div>
                     </div>
@@ -67,13 +65,13 @@ class ManageOwnedRadarTypesPage extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	radarTypeCollection: state.radarTypeCollection
+    	radarTypes: state.radarTypeReducer.radarTypes
     };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadarTypeCollection : radarTypeCollection => { dispatch(addRadarTypeCollectionToState(radarTypeCollection))}
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
     }
 };
 

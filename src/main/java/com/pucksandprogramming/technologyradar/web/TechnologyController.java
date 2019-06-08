@@ -25,10 +25,10 @@ public class TechnologyController extends ControllerBase
     @Autowired
     private RadarInstanceService radarInstanceService;
 
-    @RequestMapping("/technology/search")
+    @RequestMapping("/assessments/search")
     public String technologySearch()
     {
-        return "technology/search";
+        return "assessments/search";
     }
 
     @RequestMapping("/technology/{id}")

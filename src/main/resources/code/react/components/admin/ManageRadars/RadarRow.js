@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
-import { addRadarCollectionToState, addRadarTypeCollectionToState} from '../../../../redux/reducers/adminAppReducer';
+import { connect } from "react-redux";
+import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState } from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 
 export class RadarRow extends React.Component{
@@ -51,7 +53,7 @@ export class RadarRow extends React.Component{
     }
 
     handleDeleteSuccess() {
-        this.props.parentContainer.getRadarCollectionByUserId(this.props.userId,);
+        this.radarRepository.getByUserId(this.props.userId, this.props.storeRadars) ;
     }
 
     handleDeleteError() {
@@ -83,3 +85,18 @@ export class RadarRow extends React.Component{
         );
     }
 };
+
+
+function mapStateToProps(state) {
+  return {
+        radars : state.radarReducer.radars
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+        storeRadars : radars => { dispatch(addRadarsToState(radars))}
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RadarRow);

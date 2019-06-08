@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import * as actionTypes from '../../../../redux/reducers/adminActionTypes';
-import { addSelectedRadarTypeToState } from  '../../../../redux/reducers/adminAppReducer';
-import { addRadarTypeCollectionToState } from '../../../../redux/reducers/adminAppReducer';
+import { addSelectedRadarTypeToState, addRadarTypesToState } from  '../../../../redux/reducers/admin/RadarTypeReducer';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
 class NewRadarTypeRow extends React.Component{
@@ -36,7 +34,7 @@ class NewRadarTypeRow extends React.Component{
 
 function mapNRTRStateToProps(state) {
   return {
-        selectedRadarType : state.selectedRadarType
+        selectedRadarType : state.radarTypeReducer.selectedRadarType
     };
 };
 

@@ -123,7 +123,7 @@ public class RadarItemController extends ControllerBase
 
                 for (int i = 0; i < requestParameters.size(); i++)
                 {
-                    RadarItemToBeAdded newItem = new RadarItemToBeAdded(Long.parseLong(requestParameters.get(i).get("radarCategoryId").toString()),
+                    RadarItemToBeAdded newItem = new RadarItemToBeAdded(Long.parseLong(requestParameters.get(i).get("radarCategory").toString()),
                                                                         Long.parseLong(requestParameters.get(i).get("radarRing").toString()),
                                                                         Long.parseLong(requestParameters.get(i).get("technologyId").toString()),
                                                                         requestParameters.get(i).get("assessmentDetails").toString(),

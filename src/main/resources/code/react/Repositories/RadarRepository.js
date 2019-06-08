@@ -7,7 +7,7 @@ export class RadarRepository{
                 dataType: 'json',
                 success: function (radarCollection) {
                     successHandler(radarCollection);
-                }.bind(this)
+                }
             });
     }
 

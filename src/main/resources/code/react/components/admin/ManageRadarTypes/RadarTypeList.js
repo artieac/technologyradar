@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+
 import RadarTypeListItem from './RadarTypeListItem';
 
 class RadarTypeList extends React.Component{
@@ -15,7 +15,7 @@ class RadarTypeList extends React.Component{
     }
 
     render() {
-        if(this.props.radarTypeCollection !== undefined){
+        if(this.props.radarTypes !== undefined){
             return (
                 <div className="row">
                     <div className="col-lg-12">
@@ -24,8 +24,8 @@ class RadarTypeList extends React.Component{
                             <div className="col-lg-3">Action</div>
                         </div>
                         {
-                            this.props.radarTypeCollection.map((currentRow) => {
-                                return <RadarTypeListItem key={currentRow.id} radarType={currentRow} userId={this.props.userId} parentContainer = { this } readonly={true} onSelectRadarType={this.props.onSelectRadarType}/>
+                            this.props.radarTypes.map((currentRow) => {
+                                return <RadarTypeListItem key={currentRow.id} radarType={currentRow} userId={this.props.userId} parentContainer = { this } readonly={true} />
                             })
                         }
                     </div>
@@ -40,7 +40,7 @@ class RadarTypeList extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	associatedRadarTypeCollection: state.associatedRadarTypeCollection
+    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes
     };
 }
 
