@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
-import { RadarCollectionDropDownItem } from './RadarCollectionDropdownItem';
+import { RadarTypeDropdownItem } from './RadarTypeDropdownItem';
 
 export class RadarTypeDropdown extends React.Component{
     constructor(props){
@@ -34,17 +34,25 @@ export class RadarTypeDropdown extends React.Component{
     render(){
         if(this.props.data!==undefined){
             return(
-                <DropdownButton title={this.getTitle()} id="radarTypeDropdown">
-                    {this.props.data.map(function (currentRow) {
-                        return <RadarCollectionDropDownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSelectedItem={this.setSelectedItem }/>
-                    }.bind(this))}
-                </DropdownButton>
+                <div className="dropdown">
+                    <button className="btn btn-primary dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        { this.getTitle() }
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="radarTypeDropdown">
+                        {this.props.data.map(function (currentRow) {
+                            return <RadarTypeDropdownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSelectedItem={this.setSelectedItem }/>
+                        }.bind(this))}
+                    </div>
+                </div>
             );
         }
         else{
             return(
-                <DropdownButton title="Select" id="radarTypeDropdown">
-                </DropdownButton>
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    { this.getTitle() }
+                  </button>
+                </div>
             );
         }
     }

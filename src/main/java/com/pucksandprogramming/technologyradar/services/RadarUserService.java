@@ -63,7 +63,7 @@ public class RadarUserService
                 retVal.setEmail(email);
                 retVal.setNickname(nickname);
                 retVal.setName(name);
-                this.radarUserRepository.save(retVal);
+                retVal = this.radarUserRepository.save(retVal);
             }
         }
 

@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
 import { addRadarsToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
-import { RadarCollectionDropDownItem } from './RadarCollectionDropdownItem';
 import { RadarRepository } from '../../../Repositories/RadarRepository';
 import { RadarTypeDropdown } from './RadarTypeDropdown';
 

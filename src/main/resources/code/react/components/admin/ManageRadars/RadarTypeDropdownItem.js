@@ -4,13 +4,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
-import { DropdownButton, Dropdown} from 'react-bootstrap';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
-export class RadarCollectionDropDownItem extends React.Component{
+export class RadarTypeDropdownItem extends React.Component{
     constructor(props){
         super(props);
         this.state = {
         };
+
+        this.handleOnClick = this.handleOnClick.bind(this);
     }
 
     handleOnClick(){
@@ -20,11 +22,13 @@ export class RadarCollectionDropDownItem extends React.Component{
     render(){
         if(this.props.dropDownItem!==undefined){
             return (
-                <Dropdown.Item eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick.bind(this)}>{ this.props.dropDownItem.name }</Dropdown.Item>
+                <div>
+                    <a className="dropdown-item" onClick={this.handleOnClick}>{ this.props.dropDownItem.name }</a>
+                </div>
             );
         }
         else{
-            return <Dropdown.Item></Dropdown.Item>
+            return <Droodown.Item></Droodown.Item>
         }
     }
 };

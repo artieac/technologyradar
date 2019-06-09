@@ -1,7 +1,10 @@
 package com.pucksandprogramming.technologyradar.web;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.services.DefaultRadarTypeManager;
+import com.pucksandprogramming.technologyradar.services.RadarTypeService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -19,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @SuppressWarnings("unused")
 @Controller
@@ -26,6 +30,8 @@ public class CallbackController
 {
     @Autowired
     private RadarUserService userService;
+
+    @Autowired RadarTypeService radarTypeService;
 
     @Autowired
     private AuthenticationController controller;
@@ -63,7 +69,17 @@ public class CallbackController
 
             if(targetUser == null)
             {
-                this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer(), tokenAuth.getUserEmail(), tokenAuth.getUserNickname(), tokenAuth.getName());
+                targetUser = this.userService.addUser(tokenAuth.getIdentifier(), tokenAuth.getAuthority(), tokenAuth.getIssuer(), tokenAuth.getUserEmail(), tokenAuth.getUserNickname(), tokenAuth.getName());
+
+                if(targetUser.getId() > 0)
+                {
+                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeService);
+
+                    for(RadarType radarType : defaultRadars)
+                    {
+                        this.radarTypeService.associatedRadarType(targetUser, radarType.getId(), true);
+                    }
+                }
             }
 
             res.sendRedirect(redirectOnSuccess);

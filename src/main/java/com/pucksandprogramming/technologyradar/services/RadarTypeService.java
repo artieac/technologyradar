@@ -6,6 +6,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarUserReposi
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ public class RadarTypeService
     {
         this.radarTypeRepository = radarTypeRepository;
         this.radarUserRepository = radarUserRepository;
+    }
+
+    public RadarType findOne(Long radarTypeId)
+    {
+        return this.radarTypeRepository.findOne(radarTypeId);
     }
 
     public List<RadarType> findAll(boolean publishedOnly)
@@ -133,4 +139,5 @@ public class RadarTypeService
 
         return retVal;
     }
+
 }
