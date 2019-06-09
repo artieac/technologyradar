@@ -11,24 +11,24 @@ import java.util.List;
 /**
  * Created by acorrea on 10/26/2016.
  */
-public class TechnologyBreakdown
+public class RadarSubjectBreakdown
 {
     Technology targetTechnology;
-    List<TechnologyBreakdownItem> userItems;
-    List<TechnologyBreakdownItem> otherUsersItems;
+    List<RadarSubjectBreakdownItem> userItems;
+    List<RadarSubjectBreakdownItem> otherUsersItems;
 
-    public TechnologyBreakdown(Technology technology)
+    public RadarSubjectBreakdown(Technology technology)
     {
         this.targetTechnology = technology;
     }
 
     public Technology getTargetTechnology() { return this.targetTechnology; }
 
-    public List<TechnologyBreakdownItem> getUserItems() { return this.userItems;}
+    public List<RadarSubjectBreakdownItem> getUserItems() { return this.userItems;}
 
-    public List<TechnologyBreakdownItem> getOtherUsersItems() { return this.otherUsersItems;}
+    public List<RadarSubjectBreakdownItem> getOtherUsersItems() { return this.otherUsersItems;}
 
-    public void addTechnologyAssessment(Radar radarInstance, RadarUser currentUser)
+    public void addRadarSubjectAssessment(Radar radarInstance, RadarUser currentUser)
     {
         if(radarInstance.getRadarItems() != null)
         {
@@ -36,30 +36,31 @@ public class TechnologyBreakdown
             {
                 if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addTechnologyAssessmentItem(radarInstance, currentUser, radarInstance.getRadarItems().get(i));
+                    this.addRadarSubjectAssessmentItem(radarInstance, currentUser, radarInstance.getRadarItems().get(i));
                     break;
                 }
             }
         }
     }
 
-    public void addTechnologyAssessmentItem(Radar assessment, RadarUser currentUser, RadarItem assessmentItem)
+    public void addRadarSubjectAssessmentItem(Radar assessment, RadarUser currentUser, RadarItem assessmentItem)
     {
         if(this.userItems == null)
         {
-            this.userItems = new ArrayList<TechnologyBreakdownItem>();
+            this.userItems = new ArrayList<RadarSubjectBreakdownItem>();
         }
 
         if(this.otherUsersItems == null)
         {
-            this.otherUsersItems = new ArrayList<TechnologyBreakdownItem>();
+            this.otherUsersItems = new ArrayList<RadarSubjectBreakdownItem>();
         }
 
-        TechnologyBreakdownItem newItem = new TechnologyBreakdownItem();
+        RadarSubjectBreakdownItem newItem = new RadarSubjectBreakdownItem();
         newItem.setAssessmentId(assessment.getId());
         newItem.setAssessmentName(assessment.getName());
         newItem.setAssessmentDate(assessment.getAssessmentDate());
         newItem.setAssessmentUser(assessment.getRadarUser());
+        newItem.setAssessmentCategory(assessmentItem.getRadarCategory());
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());
 

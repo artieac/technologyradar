@@ -34,7 +34,7 @@ public class RadarTypeController extends ControllerBase
 
 
     @RequestMapping(value = "/RadarTypes", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<RadarTypeMessage> getRadarTypesByUserId()
+    public @ResponseBody List<RadarTypeMessage> getRadarTypes()
     {
         List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
 

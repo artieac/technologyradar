@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, TechnologyService)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
@@ -170,7 +170,16 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         }
         else
         {
-            RadarItemService.updateRadarItem(userId, $scope.selectedRadarInstance.id, $scope.selectedRadarRing.id, $scope.selectedConfidence, $scope.selectedRadarInstanceItem.details, $scope.selectedRadarInstanceItem.technology, $scope.selectedRadarInstanceItem, $scope.saveSuccessCallback, $scope.saveFailureCallback);
+            RadarItemService.updateRadarItem(userId,
+                $scope.selectedRadarInstance.id,
+                $scope.selectedRadarCategory.id,
+                $scope.selectedRadarRing.id,
+                $scope.selectedConfidence,
+                $scope.selectedRadarInstanceItem.details,
+                $scope.selectedRadarInstanceItem.technology,
+                $scope.selectedRadarInstanceItem,
+                $scope.saveSuccessCallback,
+                $scope.saveFailureCallback);
         }
     };
 

@@ -1,5 +1,6 @@
 package com.pucksandprogramming.technologyradar.web.Models;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 
@@ -8,13 +9,14 @@ import java.util.Date;
 /**
  * Created by acorrea on 12/28/2017.
  */
-public class TechnologyBreakdownItem
+public class RadarSubjectBreakdownItem
 {
     Long assessmentId;
     Date assessmentDate;
     String assessmentName;
     RadarUser assessmentUser;
     RadarRing assessmentRing;
+    RadarCategory assessmentCategory;
     String assessmentDetails;
 
     public Long getAssessmentId() { return this.assessmentId;}
@@ -31,6 +33,9 @@ public class TechnologyBreakdownItem
 
     public RadarRing getAssessmentRing() { return this.assessmentRing;}
     public void setAssessmentRing(RadarRing value) { this.assessmentRing = value;}
+
+    public RadarCategory getAssessmentCategory() { return this.assessmentCategory;}
+    public void setAssessmentCategory(RadarCategory value) { this.assessmentCategory = value;}
 
     public String getAssessmentDetails() { return this.assessmentDetails;}
     public void setAssessmentDetails(String value) { this.assessmentDetails = value;}

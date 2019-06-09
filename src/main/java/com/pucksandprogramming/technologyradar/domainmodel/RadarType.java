@@ -74,9 +74,16 @@ public class RadarType {
     {
         boolean retVal = false;
 
-        if(radarRing != null)
+        if(radarRing != null && this.radarRings != null)
         {
-            retVal = this.radarRings.contains(radarRing);
+            for(RadarRing testRing : this.radarRings)
+            {
+                if(testRing.getId() == radarRing.getId())
+                {
+                    retVal = true;
+                    break;
+                }
+            }
         }
 
         return retVal;
@@ -86,9 +93,16 @@ public class RadarType {
     {
         boolean retVal = false;
 
-        if(radarCategory != null)
+        if(radarCategory != null && this.radarCategories != null)
         {
-            retVal = this.radarCategories.contains(radarCategory);
+            for(RadarCategory testCategory : this.radarCategories)
+            {
+                if(testCategory.getId() == radarCategory.getId())
+                {
+                    retVal = true;
+                    break;
+                }
+            }
         }
 
         return retVal;

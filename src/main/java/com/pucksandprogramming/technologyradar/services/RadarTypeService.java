@@ -26,7 +26,7 @@ public class RadarTypeService
 
     public List<RadarType> findAll(boolean publishedOnly)
     {
-        return this.findAll(publishedOnly);
+        return this.radarTypeRepository.findAllByIsPublished(publishedOnly);
     }
 
     public List<RadarType> findAllByUserId(Long userId, boolean includeAssociated)

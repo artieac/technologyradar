@@ -240,7 +240,7 @@ public class RadarInstanceService
         return retVal;
     }
 
-    public RadarItem updateRadarItem(Long radarId, Long radarCategoryId, Long radarItemId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
+    public RadarItem updateRadarItem(Long radarId, Long radarItemId, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails)
     {
         RadarItem retVal = null;
 

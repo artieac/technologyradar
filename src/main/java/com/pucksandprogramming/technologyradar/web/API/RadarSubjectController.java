@@ -6,7 +6,7 @@ import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.HomeController;
-import com.pucksandprogramming.technologyradar.web.Models.TechnologyBreakdown;
+import com.pucksandprogramming.technologyradar.web.Models.RadarSubjectBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +18,9 @@ import java.util.Map;
 /**
  * Created by acorrea on 10/27/2016.
  */
-@Controller("TechnologyAPI")
-@RequestMapping("/api/technology")
-public class TechnologyController extends ControllerBase
+@Controller("RadarSubjectAPI")
+@RequestMapping("/api/RadarSubject")
+public class RadarSubjectController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
@@ -32,10 +32,10 @@ public class TechnologyController extends ControllerBase
 
     @RequestMapping("/{id}/assessments")
     public @ResponseBody
-    TechnologyBreakdown getTechnologyAssessments(@PathVariable Long id)
+    RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id)
     {
         Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
-        TechnologyBreakdown retVal = new TechnologyBreakdown(targetTechnology);
+        RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology);
 
         if(targetTechnology != null)
         {
@@ -45,7 +45,7 @@ public class TechnologyController extends ControllerBase
 
             for(int i = 0; i < foundItems.size(); i++)
             {
-                retVal.addTechnologyAssessment(foundItems.get(i), this.getCurrentUser());
+                retVal.addRadarSubjectAssessment(foundItems.get(i), this.getCurrentUser());
             }
         }
 
@@ -53,13 +53,13 @@ public class TechnologyController extends ControllerBase
     }
 
     @RequestMapping("/search")
-    public @ResponseBody List<Technology> searchTechnology(@RequestParam Map<String, String> allRequestParams)
+    public @ResponseBody List<Technology> searchRadarSubjects(@RequestParam Map<String, String> allRequestParams)
     {
-        String technologyName = "";
+        String radarSubjectName = "";
 
-        if(allRequestParams.containsKey("technologyName"))
+        if(allRequestParams.containsKey("name"))
         {
-            technologyName = allRequestParams.get("technologyName");
+            radarSubjectName = allRequestParams.get("name");
         }
 
         Long radarRingId = new Long(-1);
@@ -74,7 +74,7 @@ public class TechnologyController extends ControllerBase
             radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
         }
 
-        List<Technology> retVal = this.technologyService.searchTechnology(technologyName, radarRingId, radarCategoryId);
+        List<Technology> retVal = this.technologyService.searchTechnology(radarSubjectName, radarRingId, radarCategoryId);
 
         return retVal;
     }

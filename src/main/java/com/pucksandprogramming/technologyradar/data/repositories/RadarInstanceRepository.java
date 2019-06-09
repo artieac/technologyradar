@@ -133,8 +133,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        String query = "select ta.Id as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
-        query += " FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
+        String query = "select * FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
 
         Query q = this.entityManager.createNativeQuery(query, RadarInstanceEntity.class);
         q.setParameter(1, technologyId);

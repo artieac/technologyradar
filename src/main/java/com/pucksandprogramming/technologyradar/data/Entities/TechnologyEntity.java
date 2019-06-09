@@ -11,14 +11,14 @@ import java.util.Date;
 @Entity
 @Table(name = "Technology")
 @org.hibernate.annotations.NamedNativeQueries(
-        {
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarRingId", query = "select * from Technology t where t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarCategoryId", query = "select * from Technology t where t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId)", resultClass = TechnologyEntity.class),
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByNameAndRadarRingId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByNameAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId)", resultClass = TechnologyEntity.class),
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarRingIdAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId AND tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
-                @org.hibernate.annotations.NamedNativeQuery(name = "findByNameRadarRingIdAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId AND tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class)
-        }
+    {
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarRingId", query = "select * from Technology t where t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarCategoryId", query = "select * from Technology t where t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId)", resultClass = TechnologyEntity.class),
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByNameAndRadarRingId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByNameAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId)", resultClass = TechnologyEntity.class),
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarRingIdAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId AND tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class),
+            @org.hibernate.annotations.NamedNativeQuery(name = "findByNameRadarRingIdAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId AND tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class)
+    }
 )
 public class TechnologyEntity
 {

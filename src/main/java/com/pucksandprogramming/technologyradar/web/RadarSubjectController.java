@@ -3,7 +3,7 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
-import com.pucksandprogramming.technologyradar.web.Models.TechnologyBreakdown;
+import com.pucksandprogramming.technologyradar.web.Models.RadarSubjectBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,33 +18,33 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Controller
-public class TechnologyController extends ControllerBase
+public class RadarSubjectController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(TechnologyController.class);
+    private static final Logger logger = Logger.getLogger(RadarSubjectController.class);
 
     @Autowired
     private RadarInstanceService radarInstanceService;
 
-    @RequestMapping("/assessments/search")
+    @RequestMapping("/radarsubject/search")
     public String technologySearch()
     {
-        return "assessments/search";
+        return "radarsubject/search";
     }
 
-    @RequestMapping("/technology/{id}")
+    @RequestMapping("/radarsubject/{id}")
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
         Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
         List<Radar> radarList = radarInstanceService.getAllByTechnologyId(id);
 
-        TechnologyBreakdown viewModel = new TechnologyBreakdown(targetTechnology);
+        RadarSubjectBreakdown viewModel = new RadarSubjectBreakdown(targetTechnology);
 
         for(int i = 0; i < radarList.size(); i++)
         {
-            viewModel.addTechnologyAssessment(radarList.get(i), this.getCurrentUser());
+            viewModel.addRadarSubjectAssessment(radarList.get(i), this.getCurrentUser());
         }
 
-        model.setViewName("technology/details");
+        model.setViewName("radarsubject/details");
         model.addObject("targetTechnology", targetTechnology);
         model.addObject("assessmentItems", radarList);
         return model;

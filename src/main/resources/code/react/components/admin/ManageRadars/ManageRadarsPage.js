@@ -8,8 +8,7 @@ import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
 import { addRadarsToState, addRadarTypesToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository'
-import { RadarRow } from './RadarRow';
-import { NewRadarRow } from './NewRadarRow';
+import { RadarTableBody }  from './RadarTableBody';
 
 class ManageRadarsPage extends React.Component{
     constructor(props){
@@ -64,27 +63,6 @@ class ManageRadarsPage extends React.Component{
     }
 };
 
-class RadarTableBody extends React.Component{
-    render() {
-        if(typeof this.props.tableBodyData !== 'undefined'){
-            return (
-                <tbody>
-                    {this.props.tableBodyData.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} />
-                        }.bind(this))}
-                    <NewRadarRow userId={this.props.userId} radarTypes={this.props.radarTypes}/>
-                </tbody>
-            );
-        }
-        else{
-            return(
-                <tbody>
-                    <NewRadarRow userId={this.props.userId}/>
-                </tbody>
-            );
-        }
-    }
-};
 
 const mapDispatchToProps = dispatch => {
   return {

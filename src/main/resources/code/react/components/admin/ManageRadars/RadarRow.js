@@ -9,7 +9,7 @@ import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
 import { addRadarsToState } from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 
-export class RadarRow extends React.Component{
+class RadarRow extends React.Component{
     constructor(props){
         super(props);
          this.state = {
@@ -28,6 +28,7 @@ export class RadarRow extends React.Component{
         this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this);
         this.handleDeleteError = this.handleDeleteError.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
     }
 
     handlePublishSuccess() { }
@@ -53,7 +54,11 @@ export class RadarRow extends React.Component{
     }
 
     handleDeleteSuccess() {
-        this.radarRepository.getByUserId(this.props.userId, this.props.storeRadars) ;
+        this.radarRepository.getByUserId(this.props.userId,  this.handleGetByUserIdSuccess);
+    }
+
+    handleGetByUserIdSuccess(radars){
+        this.props.storeRadars(radars);
     }
 
     handleDeleteError() {
