@@ -8,6 +8,11 @@ CREATE TABLE `RadarTypes`(
 
 INSERT INTO `RadarTypes` (Name, RadarUserId) VALUES ('Technology Radar',1);
 
+ALTER TABLE `TechnologyAssessments` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1;
+
+ALTER TABLE `TechnologyAssessments` ADD CONSTRAINT `FK_TechnologyAssessments_RadarTypes` FOREIGN KEY(`RadarTypeId`)
+REFERENCES `RadarTypes`(`Id`);
+
 ALTER TABLE `RadarRings` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1;
 
 ALTER TABLE `RadarRings`  ADD  CONSTRAINT `FK_RadarRings_RadarTypes` FOREIGN KEY(`RadarTypeId`)
