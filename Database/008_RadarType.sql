@@ -6,18 +6,19 @@ CREATE TABLE `RadarTypes`(
 	PRIMARY KEY (`Id`),
 	UNIQUE INDEX `IX_RadarType_Id` (`Id` ASC));
 
-ALTER TABLE `RadarTypes`  ADD  CONSTRAINT `FK_RadarTypes_RadarUser` FOREIGN KEY(`RadarUserId`)
-REFERENCES `RadarUser` (`Id`);
+INSERT INTO `RadarTypes` (Name, RadarUserId) VALUES ('Technology Radar',1);
 
-ALTER TABLE `RadarRings` ADD COLUMN `RadarTypeId` BIGINT NOT NULL;
+ALTER TABLE `RadarRings` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1;
 
 ALTER TABLE `RadarRings`  ADD  CONSTRAINT `FK_RadarRings_RadarTypes` FOREIGN KEY(`RadarTypeId`)
 REFERENCES `RadarTypes` (`Id`);
 
-ALTER TABLE `RadarCategories` ADD COLUMN `RadarTypeId` BIGINT NOT NULL;
+ALTER TABLE `RadarCategories` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1;
 
 ALTER TABLE `RadarCategories`  ADD  CONSTRAINT `FK_RadarCategories_RadarTypes` FOREIGN KEY(`RadarTypeId`)
 REFERENCES `RadarTypes` (`Id`);
+
+ALTER TABLE `RadarCategories` DROP COLUMN `QuadrantStart`;
 
 ALTER TABLE `TechnologyAssessmentItems` ADD COLUMN `RadarCategoryId` BIGINT NOT NULL DEFAULT 1;
 
@@ -37,7 +38,8 @@ WHERE
 
 SET SQL_SAFE_UPDATES = 1;
 
-ALTER TABLE `Technology` DROP COLUMN `RadarCategoryId`;
+ALTER TABLE `Technology` DROP FOREIGN KEY `FK_Technology_RadarCategories`;
+
 ALTER TABLE `Technology` DROP COLUMN `RadarCategoryId`;
 
 CREATE TABLE `AssociatedRadarTypes`(
@@ -46,3 +48,5 @@ CREATE TABLE `AssociatedRadarTypes`(
 	`RadarTypeId` BIGINT NOT NULL,
 	PRIMARY KEY (`Id`),
 	UNIQUE INDEX `IX_AssociatedRadarTypes_Id` (`Id` ASC));
+
+ALTER TABLE `RadarTypes` ADD COLUMN IsPublished bit NOT NULL DEFAULT 0;
