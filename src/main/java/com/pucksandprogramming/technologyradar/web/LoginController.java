@@ -30,14 +30,17 @@ public class LoginController
     {
         logger.debug("Performing login");
 
+        String redirectUri = req.getScheme() + "://" + req.getServerName();
+
         String serverPort = "";
 
         if(req.getServerPort()!=80 && req.getServerPort()!=443)
         {
             serverPort = Integer.toString(req.getServerPort());
+            redirectUri += ":" + serverPort;
         }
 
-        String redirectUri = req.getScheme() + "://" + req.getServerName() + ":" + serverPort + callbackLocation;
+        redirectUri += callbackLocation;
         String authorizeUrl = controller.buildAuthorizeUrl(req, redirectUri)
                 .withAudience(String.format("https://%s/userinfo", appConfig.getDomain()))
                 .build();

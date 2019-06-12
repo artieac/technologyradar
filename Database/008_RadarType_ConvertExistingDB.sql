@@ -22,3 +22,6 @@ ALTER TABLE `RadarCategories`  ADD  CONSTRAINT `FK_RadarCategories_RadarTypes` F
 REFERENCES `RadarTypes` (`Id`);
 
 ALTER TABLE `RadarCategories` DROP COLUMN `QuadrantStart`;
+
+ALTER TABLE `TechnologyAssessments` ADD COLUMN `RadarTypeId` BIGINT NOT NULL DEFAULT 1;
+ALTER TABLE `TechnologyAssessments` ADD CONSTRAINT `FK_TechnologyAssessments_RadarTypes` FOREIGN KEY(`RadarTypeId`) REFERENCES `RadarTypes`(`Id`);
