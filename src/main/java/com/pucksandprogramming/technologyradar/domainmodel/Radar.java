@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,13 @@ public class Radar implements Serializable
 
     public Date getAssessmentDate() { return assessmentDate;}
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
+
+    public String getFormattedAssessmentDate()
+    {
+        String pattern = "MM-yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(this.assessmentDate);
+    }
 
     public String getCreator() { return creator;}
     public void setCreator(String value) { this.creator = value;}

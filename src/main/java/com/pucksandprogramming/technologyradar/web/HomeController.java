@@ -57,7 +57,7 @@ public class HomeController extends ControllerBase
 
     // I hate this url format, but I can't figure out how to get seccurity working with the
     // format that I want
-    @RequestMapping(value = { "/public/home/radars/{userId}", "/public/home/radar/{userId}/{radarInstanceId}" })
+    @RequestMapping(value = { "/public/home/user/{userId}/radar/{radarInstanceId}" })
     public ModelAndView publicRadar(@PathVariable Long userId, @PathVariable Optional<Long> radarInstanceId)
     {
         ModelAndView modelAndView = new ModelAndView();
@@ -72,7 +72,7 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/public/home/radars/{userId}/mostrecent"})
+    @RequestMapping(value = { "/public/home/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
     public ModelAndView mostRecentRadar(@PathVariable Long userId)
     {
         ModelAndView modelAndView = new ModelAndView();

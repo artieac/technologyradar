@@ -178,16 +178,25 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
     {
         Radar retVal = null;
-        String maxQuery = "select MAX(ta.Id) as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
-        maxQuery += " FROM TechnologyAssessments ta WHERE ta.RadarUserId = ?1";
+        String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
+                maxQuery += " FROM TechnologyAssessments ta WHERE ta.id =";
+                maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = ?";
 
         if(publishedOnly==true)
         {
-            maxQuery += " AND ta.IsPublished = 1";
+            maxQuery += " AND ta2.IsPublished = ?";
         }
+
+        maxQuery += ")";
 
         Query q = this.entityManager.createNativeQuery(maxQuery, RadarInstanceEntity.class);
         q.setParameter(1, userId);
+
+        if(publishedOnly==true)
+        {
+            q.setParameter(2, publishedOnly);
+        }
+
         RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
 
         if (foundItem != null)

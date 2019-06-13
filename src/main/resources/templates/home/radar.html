@@ -38,11 +38,11 @@
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {{selectedRadarInstance.name}}
+                            {{getDropdownLabel(selectedRadarInstance)}}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
-                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{radarInstance.name}}</a></li>
+                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
                 </div>

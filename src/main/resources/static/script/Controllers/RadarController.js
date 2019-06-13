@@ -269,7 +269,15 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         RadarInstanceService.lockRadar(userId, radarId);
     }
 
-    $scope.showCreateNewRadarModel = function()
+    $scope.getDropdownLabel = function(radarInstance)
     {
+        var retVal = "";
+
+        if(radarInstance !==undefined && radarInstance.name!==undefined)
+        {
+            retVal = radarInstance.name + " - " + radarInstance.formattedAssessmentDate;
+        }
+
+        return retVal;
     }
 });

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +82,7 @@ public class DiagramPresentation
     {
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
-        this.assessmentDate = radarInstance.getAssessmentDate();
+        this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
         this.radarType = new RadarTypeMessage(radarInstance.getRadarType());
     }
 
