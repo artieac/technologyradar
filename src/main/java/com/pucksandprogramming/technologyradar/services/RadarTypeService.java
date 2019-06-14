@@ -64,6 +64,11 @@ public class RadarTypeService
         return this.radarTypeRepository.findOthersRadarTypes(userId);
     }
 
+    public List<RadarType> findAllForPublishedRadars(Long userId)
+    {
+        return this.radarTypeRepository.findAllForPublishedRadars(userId);
+    }
+
     public RadarType update(RadarType radarType, RadarUser currentUser, Long ownerId)
     {
         if(radarType!=null)

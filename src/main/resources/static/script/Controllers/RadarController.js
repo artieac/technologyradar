@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTypeService)
 {
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
@@ -50,17 +50,17 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         RadarInstanceService.getRadarInstance(userId, radarId, $scope.renderRadar);
     }
 
-    $scope.getUserRadars = function (userId, publishedOnly)
+    $scope.getUserRadars = function (userId, selectedRadarType, publishedOnly)
     {
         $scope.getRadarSharingLink(userId);
 
         if (publishedOnly === true)
         {
-            RadarInstanceService.getPublishedRadarsByUser(userId, $scope.setRadarInstances);
+            RadarInstanceService.getPublishedRadarsByUserAndRadarTypes(userId, selectedRadarType, $scope.setRadarInstances);
         }
         else
         {
-            RadarInstanceService.getAllRadarsByUser(userId, $scope.setRadarInstances);
+            RadarInstanceService.getAllRadarsByUserAndRadarTypes(userId, selectedRadarType, $scope.setRadarInstances);
         }
     }
 
@@ -279,5 +279,22 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         }
 
         return retVal;
+    }
+
+    $scope.getRadarTypes = function(currentUserId, isAnonymous){
+        $scope.isAnonymous = isAnonymous;
+        $scope.radarTypes = RadarTypeService.getUserRadarTypesRequest(currentUserId, isAnonymous).query();
+    }
+
+    $scope.radarTypeDropdownSelected = function(currentUserId, radarType){
+        $scope.selectedRadarType = radarType;
+        $scope.getUserRadars(currentUserId, radarType, $scope.isAnonymous);
+    }
+
+    $scope.radarTypeAllSelected = function(currentUserId){
+        $scope.selectedRadarType = {};
+        $scope.selectedRadarType.id = -1;
+        $scope.selectedRadarType.name = "All";
+        $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
     }
 });

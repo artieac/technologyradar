@@ -1,5 +1,6 @@
 theApp.controller('RadarSubjectController', function ($scope, $resource, $http, RadarInstanceService, RadarSubjectService)
 {
+    $scope.currentUserId = $('#userId').val();
     $scope.radarSubjectDetailsSelectionId = $('#radarSubjectId').val();
 
     $scope.getRadarSubject = function (radarSubjectId)
@@ -52,16 +53,16 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
         $scope.allPublishedRadarTypes = getAllPublishedRadarTypes.query();
     }
 
-    $scope.getAssociatedRadarTypes = function(userId)
+    $scope.getAssociatedRadarTypes = function()
     {
         var getAssociatedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=false&includeAssociated=true');
-        $scope.getAssociatedRadarTypes = getAssociatedRadarTypes.query({userId: userId});
+        $scope.getAssociatedRadarTypes = getAssociatedRadarTypes.query({userId: $scope.currentUserId});
     }
 
-    $scope.getOwnedRadarTypes = function(userId)
+    $scope.getUserRadarTypes = function()
     {
-        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=true');
-        $scope.getOwnedRadarTypes = getOwnedRadarTypes.query();
+        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=true&includeAssociated=true');
+        $scope.userOwnedRadarTypes = getOwnedRadarTypes.query({userId: $scope.currentUserId});
     }
 
     $scope.getRadarSubjectAssessments = function(){

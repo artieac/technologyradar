@@ -115,6 +115,19 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public List<Radar> findAllByRadarUserRadarTypeIdAndIsPublished(Long radarUserId, Long radarTypeId, boolean isPublished)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndRadarTypeIdAndIsPublished(radarUserId, radarTypeId, isPublished);
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
     public List<Radar> findAllByRadarUserAndIsPublished(Long radarUserId, boolean isPublished)
     {
         List<Radar> retVal = new ArrayList<Radar>();
@@ -142,20 +155,6 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
-        }
-
-        return retVal;
-    }
-
-    public Radar findByName(String radarInstanceName)
-    {
-        Radar retVal = null;
-
-        RadarInstanceEntity foundItem = this.entityRepository.findByName(radarInstanceName);
-
-        if (foundItem != null)
-        {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
         }
 
         return retVal;

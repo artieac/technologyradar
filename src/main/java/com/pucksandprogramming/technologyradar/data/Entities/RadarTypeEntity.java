@@ -11,6 +11,7 @@ import java.util.List;
         @org.hibernate.annotations.NamedNativeQuery(name = "findAllAssociated", query = "select * from RadarTypes rt where rt.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId = :radarUserId)", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findAllSharedRadarTypesExcludeOwned", query = "select * from RadarTypes rt where rt.IsPublished = true AND rt.radarUserId <> :radarUserId", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findOthersRadarTypes", query = "select * from RadarTypes rt where rt.IsPublished = true AND rt.Id IN (SELECT art.RadarTypeId FROM AssociatedRadarTypes art WHERE art.RadarUserId <> :radarUserId)", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllForPublishedRadars", query = "select * from RadarTypes rt where rt.id IN (select distinct(RadarTypeId) FROM TechnologyAssessments ta where ta.RadarUserId = :radarUserId AND ta.IsPublished = true)", resultClass = RadarTypeEntity.class),
      }
 )
 public class RadarTypeEntity {

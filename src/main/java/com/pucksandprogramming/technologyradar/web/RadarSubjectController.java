@@ -26,9 +26,15 @@ public class RadarSubjectController extends ControllerBase
     private RadarInstanceService radarInstanceService;
 
     @RequestMapping("/radarsubject/search")
-    public String technologySearch()
+    public ModelAndView technologySearch(ModelAndView model)
     {
-        return "radarsubject/search";
+        model.setViewName("radarsubject/search");
+
+        if(this.getCurrentUser()!=null)
+        {
+            model.addObject("userId", this.getCurrentUser().getId());
+        }
+        return model;
     }
 
     @RequestMapping("/radarsubject/{id}")
@@ -47,6 +53,12 @@ public class RadarSubjectController extends ControllerBase
         model.setViewName("radarsubject/details");
         model.addObject("targetTechnology", targetTechnology);
         model.addObject("assessmentItems", radarList);
+
+        if(this.getCurrentUser()!=null)
+        {
+            model.addObject("userId", this.getCurrentUser().getId());
+        }
+
         return model;
     }
 }

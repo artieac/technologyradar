@@ -11,6 +11,7 @@
 </head>
 <body ng-controller="RadarSubjectController">
     <div th:replace="fragments/header :: uiHeader"></div>
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <br/><br/><br/>
     <div class="panel-primary" ng-form="searchInputForm">
         <div class="panel-heading">Radar Subject</div>
@@ -23,7 +24,7 @@
                 <div class="col-md-3">
                     <div class="row" ng-init="getAllPublishedRadarTypes()">
                         <div class="dropdown pull-left">
-                            <label for="pubishedRadarTypesDropdown">All Shared Radar Types</label>
+                            <label for="pubishedRadarTypesDropdown">Shared Radar Types</label>
                             <button class="btn btn-default dropdown-toggle" type="button" id="pubishedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 {{selectedRadarType.name}}
                                 <span class="caret"></span>
@@ -33,32 +34,16 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getOwnedRadarTypes()">
-                        <div class="col-md-3">
-                            <div class="dropdown pull-left">
-                                <label for="ownedRadarTypesDropdown">My Radar Types</label>
-                                <button class="btn btn-default dropdown-toggle" type="button" id="ownedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    {{selectedRadarType.name}}
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="ownedRadarTypesDropdown">
-                                    <li ng-repeat="radarType in ownedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getAssociatedRadarTypes()">
-                        <div class="col-md-3">
-                            <div class="dropdown pull-left">
-                                <label for="associatedRadarTypesDropdown">Shared Radar Types I Use</label>
-                                <button class="btn btn-default dropdown-toggle" type="button" id="associatedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    {{selectedRadarType.name}}
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="associatedRadarTypesDropdown">
-                                    <li ng-repeat="radarType in associatedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
-                                </ul>
-                            </div>
+                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getUserRadarTypes()">
+                        <div class="dropdown pull-left">
+                            <label for="userRadarTypesDropdown">My Radar Types</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="userRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{selectedRadarType.name}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="userRadarTypesDropdown">
+                                <li ng-repeat="radarType in userOwnedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>

@@ -125,6 +125,14 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.mapList(foundItems);
     }
 
+    public List<RadarType> findAllForPublishedRadars(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllForPublishedRadars");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
     @Override
     public RadarType save(RadarType itemToSave)
     {

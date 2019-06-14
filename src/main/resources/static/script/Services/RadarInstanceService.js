@@ -36,6 +36,38 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
+    this.getPublishedRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
+    {
+        var url =  '/api/public/User/' + userId + '/Radars';
+
+         if(radarType!==undefined)
+         {
+            url += "?radarTypeId=" + radarType.id;
+         }
+
+        $http.get(url)
+            .success(function (data)
+            {
+                successCallback(data);
+            });
+    };
+
+    this.getAllRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
+    {
+        var url =  '/api/User/' + userId + '/Radars';
+
+         if(radarType!==undefined)
+         {
+            url += "?radarTypeId=" + radarType.id;
+         }
+
+        $http.get(url)
+            .success(function (data)
+            {
+                successCallback(data);
+            });
+    };
+
     this.getRadarRingsRequest = function (radarId)
     {
         return $resource('/api/radar/' + radarId + '/rings');

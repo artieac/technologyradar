@@ -61,24 +61,48 @@ public class RadarTypeController extends ControllerBase
 
         if(targetUser!=null)
         {
-            if(includeOwned==true)
+            if (this.getCurrentUser() != null && targetUser.getId() == this.getCurrentUser().getId())
             {
-                foundItems.addAll(radarTypeService.findAllByUserId(targetUser.getId(), false));
-            }
+                if (includeOwned == true)
+                {
+                    foundItems.addAll(radarTypeService.findAllByUserId(targetUser.getId(), false));
+                }
 
-            if (includeSharedByOthers == true)
-            {
-                foundItems.addAll(radarTypeService.findAllSharedRadarTypesExcludeOwned(targetUser.getId()));
-            }
+                if (includeSharedByOthers == true)
+                {
+                    foundItems.addAll(radarTypeService.findAllSharedRadarTypesExcludeOwned(targetUser.getId()));
+                }
 
-            if(includeAssociated == true)
+                if (includeAssociated == true)
+                {
+                    foundItems.addAll(radarTypeService.findAllAssociatedRadarTypes(targetUser.getId()));
+                }
+            }
+            else
             {
-                foundItems.addAll(radarTypeService.findAllAssociatedRadarTypes(targetUser.getId()));
+                foundItems = this.radarTypeService.findAllForPublishedRadars(targetUser.getId());
             }
         }
-        else
+
+        for (RadarType radarTypeItem : foundItems)
         {
-            foundItems = this.radarTypeService.findAll(true);
+            retVal.add(new RadarTypeMessage(radarTypeItem));
+        }
+
+        return retVal;
+    }
+
+    @RequestMapping(value = "/public/User/{radarUserId}/RadarTypes", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<RadarTypeMessage> getRadarTypesForPublishedRadars(@PathVariable Long radarUserId)
+    {
+        List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();
+
+        RadarUser targetUser = radarUserService.findOne(radarUserId);
+        List<RadarType> foundItems = new ArrayList<RadarType>();
+
+        if(targetUser!=null)
+        {
+            foundItems = this.radarTypeService.findAllForPublishedRadars(targetUser.getId());
         }
 
         for (RadarType radarTypeItem : foundItems)

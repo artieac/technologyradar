@@ -24,4 +24,16 @@ theApp.service('RadarTypeService', function ($resource, $http)
     {
         return $resource('/api/radartype/' + radarTypeId);
     }
-}
+
+    this.getUserRadarTypesRequest = function(userId, publishedOnly)
+    {
+        if(publishedOnly==true)
+        {
+            return $resource('/api/public/User/' + userId + '/RadarTypes');
+        }
+        else
+        {
+            return $resource('/api/User/' + userId + '/RadarTypes');
+        }
+    }
+});

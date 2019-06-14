@@ -11,6 +11,7 @@
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarItemService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTypeService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
 
     <style type="text/css" media="screen">
@@ -33,8 +34,21 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-3">
-                    <div sec:authorize="isAuthenticated()" ng-init="getUserRadars(currentUserId, false)"></div>
-                    <div sec:authorize="isAnonymous()" ng-init="getUserRadars(currentUserId, true)"></div>
+                    <div sec:authorize="isAuthenticated()" ng-init="getRadarTypes(currentUserId, false)"></div>
+                    <div sec:authorize="isAnonymous()" ng-init="getRadarTypes(currentUserId, true)"></div>
+                    <div class="dropdown pull-left">
+                        <label for="radarTypeDropdown">Select Radar Type:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedRadarType.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
+                            <li><a ng-click="radarTypeAllSelected(currentUserId)">All</a></li>
+                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
