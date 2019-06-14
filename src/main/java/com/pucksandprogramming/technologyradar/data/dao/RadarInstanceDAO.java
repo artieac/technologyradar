@@ -18,5 +18,4 @@ public interface RadarInstanceDAO extends PagingAndSortingRepository<RadarInstan
     RadarInstanceEntity findByIdAndRadarUserId(Long radarInstanceId, Long radarUserId);
     Iterable<RadarInstanceEntity> findAllByRadarUserIdAndRadarTypeIdAndIsPublished(Long radarUserId, Long radarTypeId, boolean isPublished);
     Iterable<RadarInstanceEntity> findAllByRadarUserIdAndRadarTypeId(Long radarUserId, Long radarTypeId);
-
 }

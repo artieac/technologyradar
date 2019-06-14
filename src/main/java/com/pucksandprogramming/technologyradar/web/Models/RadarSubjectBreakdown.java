@@ -64,7 +64,7 @@ public class RadarSubjectBreakdown
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());
 
-        if(assessment.getRadarUser().getId()==currentUser.getId())
+        if(currentUser != null && (assessment.getRadarUser().getId()==currentUser.getId()))
         {
             this.userItems.add(newItem);
         }

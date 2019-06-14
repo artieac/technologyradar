@@ -114,7 +114,7 @@ public class RadarInstanceService
         return this.technologyRepository.findOne(technologyId);
     }
 
-    public List<Radar> getAllByTechnologyId(Long technologyId)
+    public List<Radar> getAllByTechnologyId(Long technologyId, boolean isPublished)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -122,7 +122,7 @@ public class RadarInstanceService
 
         if(foundItem!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByTechnologyId(foundItem.getId());
+            retVal = this.radarInstanceRepository.findAllByTechnologyIdAndIsPublished(foundItem.getId(), isPublished);
         }
 
         return retVal;

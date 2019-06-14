@@ -142,15 +142,14 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public List<Radar> findAllByTechnologyId(Long technologyId)
+    public List<Radar> findAllByTechnologyIdAndIsPublished(Long technologyId, boolean isPublished)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        String query = "select * FROM TechnologyAssessments ta WHERE ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = ?1)";
-
-        Query q = this.entityManager.createNativeQuery(query, RadarInstanceEntity.class);
-        q.setParameter(1, technologyId);
-        List<RadarInstanceEntity> foundItems = q.getResultList();
+        Query query = entityManager.createNamedQuery("findByTechnologyIdAndIsPublished");
+        query.setParameter("technologyId", technologyId);
+        query.setParameter("isPublished", isPublished);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
 
         for (RadarInstanceEntity foundItem : foundItems)
         {

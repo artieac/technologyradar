@@ -11,6 +11,12 @@ import java.util.List;
  */
 @Entity
 @Table(name = "TechnologyAssessments")
+@org.hibernate.annotations.NamedNativeQueries
+(
+    {
+        @org.hibernate.annotations.NamedNativeQuery(name = "findByTechnologyIdAndIsPublished", query = "SELECT * FROM TechnologyAssessments ta WHERE ta.IsPublished = :isPublished AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId)", resultClass = RadarInstanceEntity.class),
+    }
+)
 public class RadarInstanceEntity
 {
     @Id

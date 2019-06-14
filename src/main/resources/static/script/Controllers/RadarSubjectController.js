@@ -66,7 +66,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
     }
 
     $scope.getRadarSubjectAssessments = function(){
-        var getRadarSubjectAssessments = $resource('/api/RadarSubject/:radarSubjectId/assessments');
+        var getRadarSubjectAssessments = $resource('/api/public/RadarSubject/:radarSubjectId/assessments');
         $scope.radarSubjectAssessments = getRadarSubjectAssessments.get({radarSubjectId : this.radarSubjectDetailsSelectionId});
     }
 });

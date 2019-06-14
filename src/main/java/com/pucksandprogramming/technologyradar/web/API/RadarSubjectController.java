@@ -41,7 +41,7 @@ public class RadarSubjectController extends ControllerBase
         {
             // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
             // that would make the subsequent calls at lot easier to manage.
-            List<Radar> foundItems = radarInstanceService.getAllByTechnologyId(id);
+            List<Radar> foundItems = radarInstanceService.getAllByTechnologyId(id, true);
 
             for(int i = 0; i < foundItems.size(); i++)
             {

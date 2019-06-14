@@ -41,7 +41,7 @@ public class RadarSubjectController extends ControllerBase
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
         Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
-        List<Radar> radarList = radarInstanceService.getAllByTechnologyId(id);
+        List<Radar> radarList = radarInstanceService.getAllByTechnologyId(id, true);
 
         RadarSubjectBreakdown viewModel = new RadarSubjectBreakdown(targetTechnology);
 

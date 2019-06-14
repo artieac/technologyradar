@@ -80,7 +80,7 @@
     <div>
         <h3>Found Items</h3>
         <ul id="searchResults" class="list-group">
-            <li class="list-group-item" ng-repeat="searchResult in radarSubjectSearchResults"><a ng-href="/radarsubject/{{searchResult.id}}">{{searchResult.name}}</a></li>
+            <li class="list-group-item" ng-repeat="searchResult in radarSubjectSearchResults"><a ng-href="/public/radarsubject/{{searchResult.id}}">{{searchResult.name}}</a></li>
         </ul>
     </div>
     <div th:replace="fragments/footer :: uiFooter"></div>
