@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,18 +42,29 @@ public class RadarSubjectController extends ControllerBase
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
         Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
-        List<Radar> radarList = radarInstanceService.getAllByTechnologyId(id, true);
-
         RadarSubjectBreakdown viewModel = new RadarSubjectBreakdown(targetTechnology);
+        List<Radar> ownedRadarList = new ArrayList<Radar>();
 
-        for(int i = 0; i < radarList.size(); i++)
+        if(this.getCurrentUser()!=null)
         {
-            viewModel.addRadarSubjectAssessment(radarList.get(i), this.getCurrentUser());
+            ownedRadarList = radarInstanceService.getAllOwnedByTechnologyId(id, this.getCurrentUser());
+        }
+
+        for(int i = 0; i < ownedRadarList.size(); i++)
+        {
+            viewModel.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
+        }
+
+        List<Radar> publishedRadarList = radarInstanceService.getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+
+        for(int i = 0; i < publishedRadarList.size(); i++)
+        {
+            viewModel.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
         }
 
         model.setViewName("radarsubject/details");
         model.addObject("targetTechnology", targetTechnology);
-        model.addObject("assessmentItems", radarList);
+        model.addObject("assessmentItems", viewModel);
 
         if(this.getCurrentUser()!=null)
         {

@@ -159,6 +159,40 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public List<Radar> findAllByTechnolgyIdAndRadarUserId(Long technologyId, Long radarUserId)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Query query = entityManager.createNamedQuery("findAllOwnedByTechnologyIdAndIsPublished");
+        query.setParameter("technologyId", technologyId);
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> findAllNotOwnedByTechnolgyIdAndRadarUserId(Long technologyId, Long radarUserId)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Query query = entityManager.createNamedQuery("findAllNotOwnedByTechnologyIdAndIsPublished");
+        query.setParameter("technologyId", technologyId);
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
     public Radar findByIdAndName(Long radarInstanceId, String assessmentName)
     {
         Radar retVal = null;

@@ -128,6 +128,34 @@ public class RadarInstanceService
         return retVal;
     }
 
+    public List<Radar> getAllOwnedByTechnologyId(Long technologyId, RadarUser currentUser)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Technology foundItem = this.technologyRepository.findOne(technologyId);
+
+        if(foundItem!=null && currentUser != null)
+        {
+            retVal = this.radarInstanceRepository.findAllByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> getAllNotOwnedByTechnologyId(Long technologyId, RadarUser currentUser)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Technology foundItem = this.technologyRepository.findOne(technologyId);
+
+        if(foundItem!=null && currentUser != null)
+        {
+            retVal = this.radarInstanceRepository.findAllNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
+        }
+
+        return retVal;
+    }
+
     public Radar addRadar(Long radarUserId, String name, Long radarTypeId)
     {
         Radar retVal = null;

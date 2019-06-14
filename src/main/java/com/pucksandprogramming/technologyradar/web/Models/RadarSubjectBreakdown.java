@@ -28,7 +28,7 @@ public class RadarSubjectBreakdown
 
     public List<RadarSubjectBreakdownItem> getOtherUsersItems() { return this.otherUsersItems;}
 
-    public void addRadarSubjectAssessment(Radar radarInstance, RadarUser currentUser)
+    public void addOwnedRadarSubjectAssessment(Radar radarInstance)
     {
         if(radarInstance.getRadarItems() != null)
         {
@@ -36,14 +36,28 @@ public class RadarSubjectBreakdown
             {
                 if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
                 {
-                    this.addRadarSubjectAssessmentItem(radarInstance, currentUser, radarInstance.getRadarItems().get(i));
+                    this.addRadarSubjectAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i), true);
+                    break;
+                }
+            }
+        }
+    }
+    public void addPublishedRadarSubjectAssessment(Radar radarInstance)
+    {
+        if(radarInstance.getRadarItems() != null)
+        {
+            for(int i = 0; i < radarInstance.getRadarItems().size(); i++)
+            {
+                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
+                {
+                    this.addRadarSubjectAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i), false);
                     break;
                 }
             }
         }
     }
 
-    public void addRadarSubjectAssessmentItem(Radar assessment, RadarUser currentUser, RadarItem assessmentItem)
+    public void addRadarSubjectAssessmentItem(Radar assessment, RadarItem assessmentItem, boolean isOwned)
     {
         if(this.userItems == null)
         {
@@ -64,7 +78,7 @@ public class RadarSubjectBreakdown
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());
 
-        if(currentUser != null && (assessment.getRadarUser().getId()==currentUser.getId()))
+        if(isOwned)
         {
             this.userItems.add(newItem);
         }

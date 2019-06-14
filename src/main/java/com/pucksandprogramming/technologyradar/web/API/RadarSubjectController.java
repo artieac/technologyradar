@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +42,25 @@ public class RadarSubjectController extends ControllerBase
         {
             // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
             // that would make the subsequent calls at lot easier to manage.
-            List<Radar> foundItems = radarInstanceService.getAllByTechnologyId(id, true);
+            List<Radar> ownedRadarList = new ArrayList<Radar>();
 
-            for(int i = 0; i < foundItems.size(); i++)
+            if(this.getCurrentUser()!=null)
             {
-                retVal.addRadarSubjectAssessment(foundItems.get(i), this.getCurrentUser());
+                ownedRadarList = radarInstanceService.getAllOwnedByTechnologyId(id, this.getCurrentUser());
             }
+
+            for(int i = 0; i < ownedRadarList.size(); i++)
+            {
+                retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
+            }
+
+            List<Radar> publishedRadarList = radarInstanceService.getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+
+            for(int i = 0; i < publishedRadarList.size(); i++)
+            {
+                retVal.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
+            }
+
         }
 
         return retVal;
