@@ -33,7 +33,7 @@ public class RadarTypeController extends ControllerBase
     private RadarInstanceService radarInstanceService;
 
 
-    @RequestMapping(value = "/RadarTypes", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/public/RadarTypes", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<RadarTypeMessage> getRadarTypes()
     {
         List<RadarTypeMessage> retVal = new ArrayList<RadarTypeMessage>();

@@ -49,7 +49,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getAllPublishedRadarTypes = function()
     {
-        var getAllPublishedRadarTypes = $resource('/api/RadarTypes');
+        var getAllPublishedRadarTypes = $resource('/api/public/RadarTypes');
         $scope.allPublishedRadarTypes = getAllPublishedRadarTypes.query();
     }
 

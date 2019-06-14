@@ -25,7 +25,7 @@ public class RadarSubjectController extends ControllerBase
     @Autowired
     private RadarInstanceService radarInstanceService;
 
-    @RequestMapping("/radarsubject/search")
+    @RequestMapping(value ={"/radarsubject/search", "/public/radarsubject/search"})
     public ModelAndView technologySearch(ModelAndView model)
     {
         model.setViewName("radarsubject/search");
@@ -37,7 +37,7 @@ public class RadarSubjectController extends ControllerBase
         return model;
     }
 
-    @RequestMapping("/radarsubject/{id}")
+    @RequestMapping(value={"/radarsubject/{id}", "/public/radarsubject/{id}"})
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
         Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);

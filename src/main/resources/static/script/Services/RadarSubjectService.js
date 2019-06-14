@@ -4,7 +4,7 @@ theApp.service('RadarSubjectService', function ($resource, $http) {
         return $resource('/api/RadarSubject/search?name=:radarSubjectName');
     };
 
-    this.searchRequest = function(radarSubjectName, selectedCateogory, selectedRadarRing)
+    this.searchRequest = function(radarSubjectName, selectedCateogory, selectedRadarRing, publicOnly)
     {
         var queryString = "";
 
@@ -23,7 +23,7 @@ theApp.service('RadarSubjectService', function ($resource, $http) {
             queryString += "&radarRingId=" + selectedRadarRing.id;
         }
 
-        return $resource ('/api/RadarSubject/search?' + queryString);
+        return $resource ('/api/public/RadarSubject/search?' + queryString);
     };
 
     this.searchByCategoryId = function(categoryId)

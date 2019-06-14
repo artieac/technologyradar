@@ -26,11 +26,14 @@ public class ControllerBase
         {
             if(this.securityEnabled==true)
             {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
-
-                if(tokenAuth!=null)
+                if(SecurityContextHolder.getContext().getAuthentication() instanceof  Auth0TokenAuthentication)
                 {
-                    this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
+                    Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+
+                    if (tokenAuth != null)
+                    {
+                        this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
+                    }
                 }
             }
             else

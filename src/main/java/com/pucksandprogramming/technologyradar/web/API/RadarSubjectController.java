@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by acorrea on 10/27/2016.
  */
 @Controller("RadarSubjectAPI")
-@RequestMapping("/api/RadarSubject")
+@RequestMapping("/api/public/RadarSubject")
 public class RadarSubjectController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
