@@ -16,6 +16,4 @@ public interface TechnologyDAO extends PagingAndSortingRepository<TechnologyEnti
     TechnologyEntity findByName(String name);
 
     List<TechnologyEntity> findByNameStartingWith(String technologyName);
-
-    List<TechnologyEntity> findByRadarCategoryId(Long radarCategoryId);
 }

@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Radar implements Serializable
     private List<RadarItem> radarItems;
     private boolean isPublished;
     private boolean isLocked;
+    private RadarType radarType;
 
     public Radar()
     {
@@ -35,6 +37,13 @@ public class Radar implements Serializable
     public Date getAssessmentDate() { return assessmentDate;}
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
 
+    public String getFormattedAssessmentDate()
+    {
+        String pattern = "MM-yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(this.assessmentDate);
+    }
+
     public String getCreator() { return creator;}
     public void setCreator(String value) { this.creator = value;}
 
@@ -50,6 +59,9 @@ public class Radar implements Serializable
     public boolean getIsLocked(){ return this.isLocked;}
     public void setIsLocked(boolean value){ this.isLocked = value;}
 
+    public RadarType getRadarType() { return this.radarType;}
+    public void setRadarType(RadarType value) { this.radarType = value;}
+
     public void addRadarItem(RadarItem newAssessmentItem)
     {
         if(this.radarItems == null)
@@ -60,7 +72,7 @@ public class Radar implements Serializable
         this.radarItems.add(newAssessmentItem);
     }
 
-    public void addRadarItem(Technology targetTechnology, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void addRadarItem(Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         if(this.isLocked == false)
         {
@@ -81,6 +93,7 @@ public class Radar implements Serializable
                 {
                     RadarItem newItem = new RadarItem();
                     newItem.setDetails(assessmentDetails);
+                    newItem.setRadarCategory(radarCategory);
                     newItem.setRadarRing(radarRing);
                     newItem.setTechnology(targetTechnology);
                     newItem.setConfidenceFactor(confidenceLevel);
@@ -90,7 +103,7 @@ public class Radar implements Serializable
         }
     }
 
-    public void updateRadarItem(Long assessmentItemId, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void updateRadarItem(Long assessmentItemId, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
     {
         if(this.isLocked == false)
         {
@@ -100,6 +113,7 @@ public class Radar implements Serializable
 
                 if(currentItem.getId()==assessmentItemId)
                 {
+                    currentItem.setRadarCategory(radarCategory);
                     currentItem.setRadarRing(radarRing);
                     currentItem.setConfidenceFactor(confidenceLevel);
                     currentItem.setDetails(assessmentDetails);

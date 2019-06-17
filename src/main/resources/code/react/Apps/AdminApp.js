@@ -8,11 +8,14 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
-import ManageRadars from '../components/admin/ManageRadars';
+import ManageOwnedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage';
+import ManageAssociatedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage';
+import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
-import { adminAppReducer } from '../../redux/reducers/adminAppReducer';
+import radarReducer from '../../redux/reducers/admin/RadarReducer';
+import radarTypeReducer from '../../redux/reducers/admin/RadarTypeReducer';
 
-const adminAppStore = createStore(adminAppReducer);
+const adminAppStore = createStore(combineReducers({radarReducer,radarTypeReducer}));
 
 class AdminApp extends React.Component{
     constructor(props){
@@ -33,19 +36,27 @@ class AdminApp extends React.Component{
                     <tbody>
                         <tr>
                             <td>
+                                <Link to='/admin/manageOwnedRadarTypes'>
+                                    <button className="btn btn-primary">Manage Your Radar Types</button>
+                                </Link>
+                            </td>
+                            <td>Go here to add additional radar types.</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <Link to='/admin/manageAssociatedRadarTypes'>
+                                    <button className="btn btn-primary">Manage Associated Radar Types</button>
+                                </Link>
+                            </td>
+                            <td>Go here to add additional radar types.</td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <Link to='/admin/manageRadars'>
                                     <button className="btn btn-primary">Manage Radars</button>
                                 </Link>
                             </td>
                             <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button className="btn btn-primary">
-//                                    <Link to='/admin/grantAccess'>Grant Access</Link>
-                                </button>
-                            </td>
-                            <td>Go here to allow other users to edit your Radars.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -60,7 +71,9 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/admin/index" component={ AdminApp } />
-                    <Route path="/admin/manageRadars" component={ ManageRadars } />
+                    <Route path="/admin/manageOwnedRadarTypes" component={ ManageOwnedRadarTypesPage } />
+                    <Route path="/admin/manageAssociatedRadarTypes" component={ ManageAssociatedRadarTypesPage } />
+                    <Route path="/admin/manageRadars" component={ ManageRadarsPage } />
                     <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
                 </Switch>
             </Router>

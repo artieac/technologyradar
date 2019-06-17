@@ -1,8 +1,11 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
+import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
+import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
+import com.pucksandprogramming.technologyradar.data.dao.RadarTypeDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +20,15 @@ import java.util.List;
 public class RadarUserRepository extends SimpleDomainRepository<RadarUser, RadarUserEntity, RadarUserDAO, Long> {
     @Autowired
     EntityManager entityManager;
+
+    @Autowired
+    RadarTypeDAO radarTypeDAO;
+
+    @Autowired
+    RadarRingDAO radarRingDAO;
+
+    @Autowired
+    RadarCategoryDAO radarCategoryDAO;
 
     @Autowired
     public void setEntityRepository(RadarUserDAO entityRepository) {
@@ -60,15 +72,35 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     }
 
     @Override
-    public RadarUser save(RadarUser radarUser)
+    public RadarUser save(RadarUser itemToSave)
     {
-        RadarUserEntity itemToSave = this.modelMapper.map(radarUser, RadarUserEntity.class);
+        RadarUserEntity radarUserEntity = null;
 
-        if(itemToSave != null)
-        {
-            this.entityRepository.save(itemToSave);
+        if(itemToSave !=null && itemToSave.getId() != null) {
+            if (itemToSave != null && itemToSave.getId() != null && itemToSave.getId() > 0) {
+                radarUserEntity = this.entityRepository.findOne(itemToSave.getId());
+            } else {
+                radarUserEntity = new RadarUserEntity();
+            }
+
+            // THe mapper doesn't overwrite an instance so I keep getting transient errors
+            // for now manually map it, and later look for another mapper
+            ///.... this sucks
+            if (radarUserEntity != null) {
+                radarUserEntity.setAuthenticationId(itemToSave.getAuthenticationId());
+                radarUserEntity.setAuthority(itemToSave.getAuthority());
+                radarUserEntity.setEmail(itemToSave.getEmail());
+                radarUserEntity.setIssuer(itemToSave.getIssuer());
+                radarUserEntity.setName(itemToSave.getName());
+                radarUserEntity.setNickname(itemToSave.getNickname());
+                radarUserEntity.setRoleId(itemToSave.getRoleId());
+            }
+
+            if (radarUserEntity != null) {
+                radarUserEntity = this.entityRepository.save(radarUserEntity);
+            }
         }
 
-        return null;
+        return this.modelMapper.map(this.findOne(radarUserEntity.getId()), RadarUser.class);
     }
 }

@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.services.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class HomeController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    RadarService radarService;
+    RadarInstanceService radarInstanceService;
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -57,7 +57,7 @@ public class HomeController extends ControllerBase
 
     // I hate this url format, but I can't figure out how to get seccurity working with the
     // format that I want
-    @RequestMapping(value = { "/public/home/radars/{userId}", "/public/home/radar/{userId}/{radarInstanceId}" })
+    @RequestMapping(value = { "/public/home/user/{userId}/radar/{radarInstanceId}" })
     public ModelAndView publicRadar(@PathVariable Long userId, @PathVariable Optional<Long> radarInstanceId)
     {
         ModelAndView modelAndView = new ModelAndView();
@@ -72,13 +72,13 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/public/home/radars/{userId}/mostrecent"})
+    @RequestMapping(value = { "/public/home/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
     public ModelAndView mostRecentRadar(@PathVariable Long userId)
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        Radar radarInstance = this.radarService.findMostRecentByUserIdAndPublished(userId, true);
+        Radar radarInstance = this.radarInstanceService.findMostRecentByUserIdAndPublished(userId, true);
 
         if(radarInstance != null)
         {

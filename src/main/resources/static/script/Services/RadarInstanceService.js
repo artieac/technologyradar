@@ -36,14 +36,46 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.getRadarRingsRequest = function ()
+    this.getPublishedRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
     {
-        return $resource('/api/radar/rings');
+        var url =  '/api/public/User/' + userId + '/Radars';
+
+         if(radarType!==undefined)
+         {
+            url += "?radarTypeId=" + radarType.id;
+         }
+
+        $http.get(url)
+            .success(function (data)
+            {
+                successCallback(data);
+            });
     };
 
-    this.getRadarCategoriesRequest = function ()
+    this.getAllRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
     {
-        return $resource('/api/radar/categories');
+        var url =  '/api/User/' + userId + '/Radars';
+
+         if(radarType!==undefined)
+         {
+            url += "?radarTypeId=" + radarType.id;
+         }
+
+        $http.get(url)
+            .success(function (data)
+            {
+                successCallback(data);
+            });
+    };
+
+    this.getRadarRingsRequest = function (radarId)
+    {
+        return $resource('/api/radar/' + radarId + '/rings');
+    };
+
+    this.getRadarCategoriesRequest = function (radarId)
+    {
+        return $resource('/api/radar/' + radarId + '/categories');
     };
 
     this.getRadarInstance = function(userId, radarId, callbackFunction)

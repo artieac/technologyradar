@@ -1,9 +1,10 @@
 theApp.service('RadarItemService', function ($resource, $http)
 {
-    this.createRadarItemForExistingTechnology = function(radarRingId, confidenceFactor, details, technologyId)
+    this.createRadarItemForExistingTechnology = function(radarCategoryId, radarRingId, confidenceFactor, details, technologyId)
     {
         var radarItem = {};
 
+        radarItem.radarCategory = radarCategoryId;
         radarItem.radarRing = radarRingId;
         radarItem.confidenceLevel = confidenceFactor;
         radarItem.assessmentDetails = details;
@@ -12,29 +13,29 @@ theApp.service('RadarItemService', function ($resource, $http)
         return radarItem;
     };
 
-    this.addRadarItemExistingTechnology = function(userId, radarInstanceId, radarRingId, confidenceFactor, details, technologyId, successCallback, errorCallback)
+    this.addRadarItemExistingTechnology = function(userId, radarInstanceId, radarCategoryId, radarRingId, confidenceFactor, details, technologyId, successCallback, errorCallback)
     {
-        var radarItem = this.createRadarItemForExistingTechnology(radarRingId, confidenceFactor, details, technologyId);
+        var radarItem = this.createRadarItemForExistingTechnology(radarCategoryId, radarRingId, confidenceFactor, details, technologyId);
         this.addRadarItem(userId, radarInstanceId, radarItem, successCallback, errorCallback);
     };
 
-    this.createRadarItemForNewTechnology = function(radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId)
+    this.createRadarItemForNewTechnology = function(radarCategoryId, radarRingId, confidenceFactor, details, technologyName, technologyUrl)
     {
         var radarItem = {};
 
+        radarItem.radarCategory = radarCategoryId;
         radarItem.radarRing = radarRingId;
         radarItem.confidenceLevel = confidenceFactor;
         radarItem.assessmentDetails = details;
         radarItem.technologyName = technologyName;
-        radarItem.radarCategory = radarCategoryId;
         radarItem.url = technologyUrl;
 
         return radarItem;
     }
 
-    this.addRadarItemNewTechnology = function(userId, radarInstanceId, radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId, successCallback, errorCallback)
+    this.addRadarItemNewTechnology = function(userId, radarInstanceId, radarCategoryId, radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId, successCallback, errorCallback)
     {
-        var radarItem = this.createRadarItemForNewTechnology(radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId);
+        var radarItem = this.createRadarItemForNewTechnology(radarCategoryId, radarRingId, confidenceFactor, details, technologyName, technologyUrl, radarCategoryId);
         this.addRadarItem(userId, radarInstanceId, radarItem, successCallback, errorCallback);
     };
 
@@ -67,9 +68,9 @@ theApp.service('RadarItemService', function ($resource, $http)
             });
     };
 
-    this.updateRadarItem = function(userId, radarInstanceId, radarRingId, confidenceFactor, details, technologyId, radarInstanceItem, successCallback, errorCallback)
+    this.updateRadarItem = function(userId, radarInstanceId, radarCategoryId, radarRingId, confidenceFactor, details, technologyId, radarInstanceItem, successCallback, errorCallback)
     {
-        var radarSaveItem = this.createRadarItemForExistingTechnology(radarRingId, confidenceFactor, details, technologyId);
+        var radarSaveItem = this.createRadarItemForExistingTechnology(radarCategoryId, radarRingId, confidenceFactor, details, technologyId);
 
         $http.post('/api/User/' + userId + '/Radar/' + radarInstanceId + '/Item/' + radarInstanceItem.id, radarSaveItem)
             .success(function (data)

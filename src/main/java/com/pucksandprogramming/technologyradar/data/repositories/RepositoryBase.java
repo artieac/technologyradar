@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
-import com.pucksandprogramming.technologyradar.data.mapper.TechnologyRadarMapper;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class RepositoryBase<DomainModel>
 {
     @Autowired
-    protected TechnologyRadarMapper modelMapper;
+    protected RadarMapper modelMapper;
 
     protected Class<DomainModel> domainModelClass;
 

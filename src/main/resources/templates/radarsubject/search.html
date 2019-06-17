@@ -1,0 +1,88 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+       ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
+    <script type="text/javascript" src="/script/Controllers/RadarSubjectController.js"></script>
+</head>
+<body ng-controller="RadarSubjectController">
+    <div th:replace="fragments/header :: uiHeader"></div>
+    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <br/><br/><br/>
+    <div class="panel-primary" ng-form="searchInputForm">
+        <div class="panel-heading">Radar Subject</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="searchName">Name</label>
+                    <input type="text" class="form-control" id="searchName" name="searchName" ng-model="searchParameters.radarSubjectName" />
+                </div>
+                <div class="col-md-3">
+                    <div class="row" ng-init="getAllPublishedRadarTypes()">
+                        <div class="dropdown pull-left">
+                            <label for="pubishedRadarTypesDropdown">Shared Radar Types</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="pubishedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{selectedRadarType.name}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="pubishedRadarTypesDropdown">
+                                <li ng-repeat="radarType in allPublishedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getUserRadarTypes()">
+                        <div class="dropdown pull-left">
+                            <label for="userRadarTypesDropdown">My Radar Types</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="userRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{selectedRadarType.name}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="userRadarTypesDropdown">
+                                <li ng-repeat="radarType in userOwnedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dropdown pull-left">
+                        <label for="radarCategoryDropdown">Category</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="radarCategoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedRadarCategory.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="radarCategoryDropdown">
+                            <li ng-repeat="radarCategory in radarCategories"><a ng-click="selectRadarCategory(radarCategory)">{{radarCategory.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dropdown pull-left">
+                        <label for="radarRingDropdown">Radar Ring:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="radarRingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedRadarRing.name}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="radarRingDropdown">
+                            <li ng-repeat="radarRing in radarRings"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" ng-click="searchRadarSubjects();">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3>Found Items</h3>
+        <ul id="searchResults" class="list-group">
+            <li class="list-group-item" ng-repeat="searchResult in radarSubjectSearchResults"><a ng-href="/public/radarsubject/{{searchResult.id}}">{{searchResult.name}}</a></li>
+        </ul>
+    </div>
+    <div th:replace="fragments/footer :: uiFooter"></div>
+</body>
+</html>

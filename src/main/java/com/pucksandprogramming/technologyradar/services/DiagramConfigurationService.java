@@ -4,7 +4,6 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarCategoryRe
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
-import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
 import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
@@ -26,18 +25,18 @@ public class DiagramConfigurationService
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
-    private RadarService radarService;
+    private RadarInstanceService radarInstanceService;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
                                        RadarUserRepository radarUserRepository,
-                                       RadarService radarService)
+                                       RadarInstanceService radarInstanceService)
     {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
-        this.radarService = radarService;
+        this.radarInstanceService = radarInstanceService;
     }
 
     public List<RadarRing> getRadarRings()
@@ -61,8 +60,9 @@ public class DiagramConfigurationService
     {
         DiagramPresentation retVal = new DiagramPresentation(900,1100, 90);
 
-        Iterable<RadarRing> radarRings = this.radarRingRepository.GetAllOrdered();
-        retVal.addRadarArcs(radarRings);
+        Radar radarInstance = this.radarInstanceService.findById(radarId);
+
+        retVal.addRadarArcs(radarInstance.getRadarType().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
         List<RadarRingPresentation> radarRingPresentations = retVal.getRadarArcs();
 
@@ -71,49 +71,44 @@ public class DiagramConfigurationService
             radarRingLookup.put(radarRing.getRadarRing().getId(), radarRing);
         }
 
-        Iterable<RadarCategory> radarCategories = this.radarCategoryRepository.findAll();
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
-        for(RadarCategory radarCategory : radarCategories)
+        Integer quadrantStart = 0;
+
+        for(RadarCategory radarCategory : radarInstance.getRadarType().getRadarCategories())
         {
-            Quadrant newQuadrant = new Quadrant(radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
+            Quadrant newQuadrant = new Quadrant(quadrantStart, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
+            quadrantStart += 90;
         }
 
-        Radar radarInstance = this.radarService.findById(radarId);
-
-        if(radarInstance == null)
+        if(radarInstance != null)
         {
-            if(radarUser != null)
+            retVal.setRadarInstanceDetails(radarInstance);
+
+            logger.debug(radarInstance);
+            logger.debug(radarInstance.getName());
+            logger.debug(radarInstance.getRadarItems());
+            logger.debug(radarInstance.getRadarItems().size());
+
+            if (radarInstance.getRadarItems().size() > 0)
             {
-                radarInstance = this.radarService.createDefault(radarUser);
-            }
-        }
-
-        retVal.setRadarInstanceDetails(radarInstance);
-
-        logger.debug(radarInstance);
-        logger.debug(radarInstance.getName());
-        logger.debug(radarInstance.getRadarItems());
-        logger.debug(radarInstance.getRadarItems().size());
-
-        if(radarInstance.getRadarItems().size() > 0)
-        {
-            for(RadarItem assessmentItem : radarInstance.getRadarItems())
-            {
-                Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getTechnology().getRadarCategory().getId());
-
-                if(targetQuadrant != null)
+                for (RadarItem assessmentItem : radarInstance.getRadarItems())
                 {
-                    targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
+                    Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getRadarCategory().getId());
+
+                    if (targetQuadrant != null)
+                    {
+                        targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
+                    }
                 }
             }
-        }
 
-        for(int i = 0; i < retVal.getQuadrants().size(); i++)
-        {
-            retVal.getQuadrants().get(i).evenlyDistributeItems();
+            for (int i = 0; i < retVal.getQuadrants().size(); i++)
+            {
+                retVal.getQuadrants().get(i).evenlyDistributeItems();
+            }
         }
 
         return retVal;

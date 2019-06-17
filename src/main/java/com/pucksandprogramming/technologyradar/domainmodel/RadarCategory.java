@@ -9,31 +9,19 @@ import java.util.Date;
 public class RadarCategory implements Serializable
 {
     private Long id;
-
     private String name;
-
     private String color;
-
-    private Integer quadrantStart;
 
     public RadarCategory()
     {
     }
 
     public Long getId(){ return id;}
-
     public void setId(Long value){ this.id = value;}
 
     public String getName() { return name;}
-
     public void setName(String value) { this.name = value;}
 
     public String getColor() { return color;}
-
     public void setColor(String value) { this.color = value;}
-
-    public Integer getQuadrantStart() { return this.quadrantStart;}
-
-    public void setQuadrantStart(Integer value) { this.quadrantStart = value;}
-
 }
