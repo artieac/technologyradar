@@ -255,7 +255,7 @@ public class RadarInstanceService
                     RadarItem radarItemToAdd = new RadarItem(-1L, targetTechnology, radarCategory, radarRing, confidenceLevel, assessmentDetails);
                     RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(retVal.getRadarUser().getId(), retVal.getId(), targetTechnology.getId());
 
-                    radarItemToAdd.setState(previousRadarItem);
+                    radarItemToAdd.determineState(previousRadarItem);
                     retVal.addRadarItem(radarItemToAdd);
 
                     this.radarInstanceRepository.save(retVal);
@@ -313,7 +313,7 @@ public class RadarInstanceService
                 radarItemToUpdate.setDetails(assessmentDetails);
 
                 RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(radar.getRadarUser().getId(), radar.getId(), radarItemToUpdate.getTechnology().getId());
-                radarItemToUpdate.setState(previousRadarItem);
+                radarItemToUpdate.determineState(previousRadarItem);
 
                 radar.updateRadarItem(radarItemId, radarItemToUpdate);
                 this.radarInstanceRepository.save(radar);

@@ -76,7 +76,7 @@ public class RadarItem implements Serializable
     public Integer getState() { return this.state;}
     public void setState(Integer value) { this.state = value;}
 
-    public void setState(RadarItem previousRadarItem)
+    public void determineState(RadarItem previousRadarItem)
     {
         this.setState(State_Stable);
 
