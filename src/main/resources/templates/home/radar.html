@@ -29,6 +29,7 @@
     <br/><br/><br/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
+    <input type="hidden" id="radarTypeId" name="radarInstanceId" th:value="${radarTypeId}"/>
     <div class="panel-primary"  ng-controller="RadarController">
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
@@ -62,7 +63,7 @@
                 </div>
                 <div class="col-sm-6">
                     <label for="sharingLink">Public link:</label>
-                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><button ng-click="copyText()">Copy</button>
+                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
                 </div>
             </div>
             <div class="row">

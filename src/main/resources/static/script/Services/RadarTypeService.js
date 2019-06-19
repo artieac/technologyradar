@@ -36,4 +36,24 @@ theApp.service('RadarTypeService', function ($resource, $http)
             return $resource('/api/User/' + userId + '/RadarTypes');
         }
     }
+
+    this.getUserRadarTypes = function(userId, publishedOnly, successCallback)
+    {
+        var url =  '';
+
+        if(publishedOnly == true)
+        {
+            url = '/api/public/User/' + userId + '/RadarTypes';
+        }
+        else
+        {
+            url = '/api/User/' + userId + '/RadarTypes';
+        }
+
+        $http.get(url)
+            .success(function (data)
+            {
+                successCallback(data);
+            });
+    }
 });

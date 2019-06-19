@@ -11,12 +11,25 @@ public class QuadrantItem
     private PolarCoords polarCoords;
     private RadarRingPresentation radarRing;
     private RadarItem assessmentItem;
+    private String movement;
 
     public QuadrantItem(Integer quadrantVisualStart, RadarRingPresentation radarRing, RadarItem assessmentItem)
     {
         this.assessmentItem = assessmentItem;
         this.radarRing = radarRing;
         this.polarCoords = new PolarCoords(this.radarRing.calculateArcPlacement(assessmentItem.getConfidenceFactor()), quadrantVisualStart);
+
+        switch(assessmentItem.getState())
+        {
+            case RadarItem.State_New:
+                this.movement = "t";
+                break;
+            case RadarItem.State_Changed:
+                this.movement = "t";
+                break;
+            default:
+                this.movement = "c";
+        }
     }
 
 
@@ -30,11 +43,11 @@ public class QuadrantItem
     public PolarCoords getPolarCoords() { return this.polarCoords;}
 
     @JsonProperty
-    public String getMovement() { return "c";}
+    public String getMovement() { return this.movement;}
 
     @JsonProperty
     public String getUrl()
     {
-        return "/technology/" + this.assessmentItem.getTechnology().getId();
+        return "/radarsubject/" + this.assessmentItem.getTechnology().getId();
     }
 }

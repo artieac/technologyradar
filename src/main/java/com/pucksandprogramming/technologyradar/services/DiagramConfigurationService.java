@@ -74,13 +74,14 @@ public class DiagramConfigurationService
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
         Integer quadrantStart = 0;
+        Integer quadrantSize = 360 / radarInstance.getRadarType().getRadarCategories().size();
 
         for(RadarCategory radarCategory : radarInstance.getRadarType().getRadarCategories())
         {
-            Quadrant newQuadrant = new Quadrant(quadrantStart, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
+            Quadrant newQuadrant = new Quadrant(quadrantStart, quadrantSize, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
-            quadrantStart += 90;
+            quadrantStart += quadrantSize;
         }
 
         if(radarInstance != null)

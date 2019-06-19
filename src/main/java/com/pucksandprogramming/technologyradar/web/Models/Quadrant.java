@@ -19,12 +19,14 @@ public class Quadrant
     private Integer leftLocation;
     private Integer topLocation;
     private Integer quadrantStart;
+    private Integer quandrantSize;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(Integer quadrantStart, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
+    public Quadrant(Integer quadrantStart, Integer quandrantSize, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
     {
         this.radarCategory = radarCategory;
         this.quadrantStart = quadrantStart;
+        this.quandrantSize = quandrantSize;
         this.calculateLeftAndTop(diagramWidth, diagramHeight);
         this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
 
@@ -113,7 +115,7 @@ public class Quadrant
         {
             List<QuadrantItem> quadrantItems = this.quadrantRings.get(stateId);
 
-            int distanceBetween = 90 / (quadrantItems.size() + 2);
+            int distanceBetween = quandrantSize / (quadrantItems.size() + 2);
             int currentLocation = this.quadrantStart + distanceBetween;
 
             // recalculate the quadrant start

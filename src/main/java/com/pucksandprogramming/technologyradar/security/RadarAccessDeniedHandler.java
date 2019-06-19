@@ -5,6 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 /**
  * Created by acorrea on 1/11/2018.
  */
+@Component
 public class RadarAccessDeniedHandler implements AccessDeniedHandler
 {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -33,6 +35,6 @@ public class RadarAccessDeniedHandler implements AccessDeniedHandler
                     + request.getRequestURI());
         }
 
-        response.sendRedirect(request.getContextPath() + "/accessDenied");
+        response.sendRedirect(request.getContextPath() + "/index");
     }
 }

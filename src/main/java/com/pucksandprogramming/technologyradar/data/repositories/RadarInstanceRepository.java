@@ -239,6 +239,24 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
+    {
+        RadarItem retVal = null;
+
+        Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
+        query.setParameter("technologyId", radarSubjectId);
+        query.setParameter("radarUserId", radarUserId);
+        query.setParameter("previousRadarInstanceId", previousRadarInstanceId);
+        List<RadarItemEntity> foundItems = query.getResultList();
+
+        if (foundItems != null && foundItems.isEmpty()==false)
+        {
+            retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
+        }
+
+        return retVal;
+
+    }
     @Override
     public Radar save(Radar itemToSave)
     {
@@ -309,6 +327,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
                         radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
                         radarInstanceItemEntity.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                         radarInstanceItemEntity.setConfidenceFactor(assessmentItem.getConfidenceFactor());
+                        radarInstanceItemEntity.setState(assessmentItem.getState());
                         break;
                     }
                 }
@@ -321,6 +340,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
                     newItem.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
+                    newItem.setState(assessmentItem.getState());
 
                     TechnologyEntity targetTechnology = null;
 

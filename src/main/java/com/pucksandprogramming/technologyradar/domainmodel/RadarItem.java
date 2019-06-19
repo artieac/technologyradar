@@ -7,16 +7,52 @@ import java.io.Serializable;
  */
 public class RadarItem implements Serializable
 {
+    public static final int State_New = 0;
+    public static final int State_Changed = 1;
+    public static final int State_Stable = 2;
+
+    public static Integer determineState(RadarItem previousRadarItem, RadarCategory radarCategory, RadarRing radarRing)
+    {
+        Integer retVal = State_Stable;
+
+        if(previousRadarItem==null)
+        {
+            retVal = State_New;
+        }
+        else
+        {
+            if((radarCategory.getId()!=previousRadarItem.getRadarCategory().getId()) ||
+                    radarRing.getId()!=previousRadarItem.getRadarRing().getId())
+            {
+                retVal = State_Changed;
+            }
+        }
+
+        return retVal;
+    }
+
     private Long id;
     private String details;
     private RadarRing radarRing;
     private Technology technology;
     private Integer confidenceFactor;
     private RadarCategory radarCategory;
+    private Integer state;
 
     public RadarItem()
     {
 
+    }
+
+    public RadarItem(Long id, Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    {
+        this.setId(id);
+        this.setDetails(assessmentDetails);
+        this.setRadarCategory(radarCategory);
+        this.setRadarRing(radarRing);
+        this.setTechnology(targetTechnology);
+        this.setConfidenceFactor(confidenceLevel);
+        this.setState(State_New);
     }
 
     public Long getId(){ return id;}
@@ -36,5 +72,26 @@ public class RadarItem implements Serializable
 
     public RadarCategory getRadarCategory() { return this.radarCategory;}
     public void setRadarCategory(RadarCategory value) { this.radarCategory = value;}
+
+    public Integer getState() { return this.state;}
+    public void setState(Integer value) { this.state = value;}
+
+    public void setState(RadarItem previousRadarItem)
+    {
+        this.setState(State_Stable);
+
+        if(previousRadarItem==null)
+        {
+            this.setState(State_New);
+        }
+        else
+        {
+            if((this.radarCategory.getId()!=previousRadarItem.getRadarCategory().getId()) ||
+                    this.radarRing.getId()!=previousRadarItem.getRadarRing().getId())
+            {
+                this.setState(State_Changed);
+            }
+        }
+    }
 }
 
