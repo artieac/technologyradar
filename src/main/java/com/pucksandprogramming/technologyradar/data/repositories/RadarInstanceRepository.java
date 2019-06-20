@@ -239,6 +239,40 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, Long radarTypeId, boolean publishedOnly)
+    {
+        Radar retVal = null;
+        String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
+        maxQuery += " FROM TechnologyAssessments ta WHERE ta.id =";
+        maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId";
+        maxQuery += "  AND ta2.RadarTypeId = :radarTypeId";
+
+        if(publishedOnly==true)
+        {
+            maxQuery += " AND ta2.IsPublished = :isPublished";
+        }
+
+        maxQuery += ")";
+
+        Query q = this.entityManager.createNativeQuery(maxQuery, RadarInstanceEntity.class);
+        q.setParameter("radarUserId", userId);
+        q.setParameter("radarTypeId", radarTypeId);
+
+        if(publishedOnly==true)
+        {
+            q.setParameter("isPublished", publishedOnly);
+        }
+
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
     public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
     {
         RadarItem retVal = null;

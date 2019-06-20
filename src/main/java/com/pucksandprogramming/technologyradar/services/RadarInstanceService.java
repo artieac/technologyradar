@@ -361,6 +361,11 @@ public class RadarInstanceService
         return this.radarInstanceRepository.findMostRecentByUserIdAndPublishedOnly(userId, publishedOnly);
     }
 
+    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, Long radarTypeId, boolean publishedOnly)
+    {
+        return this.radarInstanceRepository.findMostRecentByUserIdRadarTypeAndPublished(userId, radarTypeId, publishedOnly);
+    }
+
     public boolean publishRadar(Long userId, Long radarId, boolean shouldPublish)
     {
         boolean retVal = false;

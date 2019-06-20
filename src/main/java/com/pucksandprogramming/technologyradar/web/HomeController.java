@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 /**
@@ -93,6 +94,38 @@ public class HomeController extends ControllerBase
         {
             modelAndView.addObject("radarInstanceId", radarInstance.getId());
             modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
+        }
+
+        if(isEmbeddable)
+        {
+            modelAndView.setViewName("home/embeddedradar");
+        }
+        else {
+            modelAndView.setViewName("home/radar");
+        }
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = { "/public/home/user/{userId}/radartype/{radarTypeId}/radars"})
+    public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
+                                                @PathVariable Long radarTypeId,
+                                                @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent,
+                                                @RequestParam(name="embeddable", required = false, defaultValue="false") boolean isEmbeddable)
+
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userId", userId);
+        modelAndView.addObject("radarTypeId", radarTypeId);
+
+        if(mostRecent==true)
+        {
+            Radar radarInstance = this.radarInstanceService.findMostRecentByUserIdRadarTypeAndPublished(userId, radarTypeId, true);
+
+            if (radarInstance != null)
+            {
+                modelAndView.addObject("radarInstanceId", radarInstance.getId());
+            }
         }
 
         if(isEmbeddable)
