@@ -1,0 +1,1 @@
+ALTER TABLE `TechnologyAssessmentItems` ADD COLUMN `State` INTEGER NOT NULL DEFAULT 2;

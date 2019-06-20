@@ -23,7 +23,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         if($scope.selectedRadarInstance !== null && $scope.selectedRadarInstance !== undefined &&
             $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
         {
-            $scope.radarSharingLink += "/public/home/radar/" + userId + "/" + $scope.selectedRadarInstance.id;
+            $scope.radarSharingLink += "/public/home/user/" + userId + "/radar/" + $scope.selectedRadarInstance.id;
             ;
         }
         else
@@ -283,7 +283,27 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.getRadarTypes = function(currentUserId, isAnonymous){
         $scope.isAnonymous = isAnonymous;
-        $scope.radarTypes = RadarTypeService.getUserRadarTypesRequest(currentUserId, isAnonymous).query();
+        RadarTypeService.getUserRadarTypes(currentUserId, isAnonymous, $scope.setRadarTypes);
+    }
+
+    $scope.setRadarTypes = function(radarTypes){
+        $scope.radarTypes = radarTypes;
+
+        var radarTypeId = $("#radarTypeId").val();
+
+        if (!$scope.isNullOrUndefined($scope.radarTypes) &&
+            !$scope.isNullOrUndefined(radarTypeId) &&
+            radarTypeId !== '')
+        {
+            for (var i = 0; i < $scope.radarTypes.length; i++)
+            {
+                if ($scope.radarTypes[i].id == radarTypeId)
+                {
+                    $scope.radarTypeDropdownSelected($scope.currentUserId, $scope.radarTypes[i]);
+                    break;
+                }
+            }
+        }
     }
 
     $scope.radarTypeDropdownSelected = function(currentUserId, radarType){

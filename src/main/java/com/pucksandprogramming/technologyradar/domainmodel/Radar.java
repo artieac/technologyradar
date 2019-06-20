@@ -62,27 +62,37 @@ public class Radar implements Serializable
     public RadarType getRadarType() { return this.radarType;}
     public void setRadarType(RadarType value) { this.radarType = value;}
 
-    public void addRadarItem(RadarItem newAssessmentItem)
+    public RadarItem findRadarItemById(Long radarItemId)
     {
-        if(this.radarItems == null)
-        {
-            this.radarItems = new ArrayList<RadarItem>();
-        }
+        RadarItem retVal = null;
 
-        this.radarItems.add(newAssessmentItem);
+        for (int i = 0; i < this.radarItems.size(); i++)
+        {
+            if (this.radarItems.get(i).getId() == radarItemId)
+            {
+                retVal = this.radarItems.get(i);
+                break;
+            }
+        }
+        return retVal;
     }
 
-    public void addRadarItem(Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void addRadarItem(RadarItem newRadarItem)
     {
         if(this.isLocked == false)
         {
-            if (targetTechnology != null)
+            if(this.radarItems == null)
+            {
+                this.radarItems = new ArrayList<RadarItem>();
+            }
+
+            if (newRadarItem != null && newRadarItem.getTechnology()!=null)
             {
                 boolean alreadyIncluded = false;
 
                 for (int i = 0; i < this.getRadarItems().size(); i++)
                 {
-                    if (this.getRadarItems().get(i).getTechnology().getId() == targetTechnology.getId())
+                    if (this.getRadarItems().get(i).getTechnology().getId() == newRadarItem.getTechnology().getId())
                     {
                         alreadyIncluded = true;
                         break;
@@ -91,34 +101,25 @@ public class Radar implements Serializable
 
                 if (alreadyIncluded == false)
                 {
-                    RadarItem newItem = new RadarItem();
-                    newItem.setDetails(assessmentDetails);
-                    newItem.setRadarCategory(radarCategory);
-                    newItem.setRadarRing(radarRing);
-                    newItem.setTechnology(targetTechnology);
-                    newItem.setConfidenceFactor(confidenceLevel);
-                    this.getRadarItems().add(newItem);
+                    this.getRadarItems().add(newRadarItem);
                 }
             }
         }
     }
 
-    public void updateRadarItem(Long assessmentItemId, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public void updateRadarItem(Long assessmentItemId, RadarItem updatedRadarItem)
     {
         if(this.isLocked == false)
         {
-            for(int i = 0; i < this.radarItems.size(); i++)
-            {
-                RadarItem currentItem = this.radarItems.get(i);
+            RadarItem targetItem = this.findRadarItemById(assessmentItemId);
 
-                if(currentItem.getId()==assessmentItemId)
-                {
-                    currentItem.setRadarCategory(radarCategory);
-                    currentItem.setRadarRing(radarRing);
-                    currentItem.setConfidenceFactor(confidenceLevel);
-                    currentItem.setDetails(assessmentDetails);
-                    break;
-                }
+            if(targetItem!=null)
+            {
+                targetItem.setDetails(updatedRadarItem.getDetails());
+                targetItem.setRadarRing(updatedRadarItem.getRadarRing());
+                targetItem.setRadarCategory(updatedRadarItem.getRadarCategory());
+                targetItem.setConfidenceFactor(updatedRadarItem.getConfidenceFactor());
+                targetItem.setState(updatedRadarItem.getState());
             }
         }
     }

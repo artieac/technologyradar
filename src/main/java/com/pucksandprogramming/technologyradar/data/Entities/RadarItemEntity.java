@@ -7,6 +7,17 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "TechnologyAssessmentItems")
+@org.hibernate.annotations.NamedNativeQueries
+(
+        {
+                @org.hibernate.annotations.NamedNativeQuery(name = "getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId", query = "Select * from TechnologyAssessmentItems where TechnologyId = :technologyId AND TechnologyAssessmentId IN (\n" +
+                        "select MAX(ta.Id) FROM TechnologyAssessments ta, TechnologyAssessmentItems tai where \n" +
+                        "\tta.RadarUserId = :radarUserId\n" +
+                        "    AND ta.Id < :previousRadarInstanceId\n" +
+                        "\tAND tai.TechnologyAssessmentId = ta.Id\n" +
+                        "    AND tai.TechnologyId = :technologyId) ORDER BY Id;", resultClass = RadarItemEntity.class),
+        }
+)
 public class RadarItemEntity
 {
     @Id
@@ -36,6 +47,9 @@ public class RadarItemEntity
     @Column(name = "ConfidenceFactor", nullable = false)
     private Integer confidenceFactor;
 
+    @Column(name = "State")
+    private Integer state;
+
     public RadarItemEntity()
     {
 
@@ -61,4 +75,7 @@ public class RadarItemEntity
 
     public Integer getConfidenceFactor() { return this.confidenceFactor;}
     public void setConfidenceFactor(Integer value) { this.confidenceFactor = value;}
+
+    public Integer getState() { return this.state;}
+    public void setState(Integer value) { this.state = value;}
 }

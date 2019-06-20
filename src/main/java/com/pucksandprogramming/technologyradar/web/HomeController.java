@@ -66,6 +66,13 @@ public class HomeController extends ControllerBase
         if(radarInstanceId.isPresent())
         {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
+
+            Radar targetRadar = radarInstanceService.findById(radarInstanceId.get());
+
+            if(targetRadar!=null)
+            {
+                modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
+            }
         }
 
         modelAndView.setViewName("home/radar");

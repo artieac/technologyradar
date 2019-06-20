@@ -250,7 +250,14 @@ public class RadarInstanceService
 
                 if(retVal.getRadarType().hasRadarRing(radarRing) && retVal.getRadarType().hasRadarCategory(radarCategory))
                 {
-                    retVal.addRadarItem(targetTechnology, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                    Integer itemState = RadarItem.State_New;
+
+                    RadarItem radarItemToAdd = new RadarItem(-1L, targetTechnology, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                    RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(retVal.getRadarUser().getId(), retVal.getId(), targetTechnology.getId());
+
+                    radarItemToAdd.determineState(previousRadarItem);
+                    retVal.addRadarItem(radarItemToAdd);
+
                     this.radarInstanceRepository.save(retVal);
                 }
             }
@@ -271,12 +278,17 @@ public class RadarInstanceService
             {
                 for(int i = 0; i < radarItems.size(); i++)
                 {
-                    RadarRing radarRing = this.radarRingRepository.findOne(radarItems.get(i).getRadarRingId());
-                    RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarItems.get(i).getRadarCategoryId());
-                    Technology targetTechnology = this.findTechnologyById(radarItems.get(i).getTechnologyId());
-                    retVal.addRadarItem(targetTechnology, radarCategory, radarRing, radarItems.get(i).getConfidenceFactor(), radarItems.get(i).getDetails());
-                    this.radarInstanceRepository.save(retVal);
+                    RadarItemToBeAdded currentItemToAdd = radarItems.get(i);
+                    RadarRing radarRing = this.radarRingRepository.findOne(currentItemToAdd.getRadarRingId());
+                    RadarCategory radarCategory = this.radarCategoryRepository.findOne(currentItemToAdd.getRadarCategoryId());
+                    Technology targetTechnology = this.findTechnologyById(currentItemToAdd.getTechnologyId());
+
+                    RadarItem newRadarItem = new RadarItem(-1L, targetTechnology, radarCategory, radarRing, currentItemToAdd.getConfidenceFactor(), currentItemToAdd.getDetails());
+
+                    retVal.addRadarItem(newRadarItem);
                 }
+
+                this.radarInstanceRepository.save(retVal);
             }
         }
 
@@ -293,9 +305,17 @@ public class RadarInstanceService
 
             if(radar != null && radar.getIsLocked() == false)
             {
-                RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
-                RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarCategoryId);
-                radar.updateRadarItem(radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                RadarItem radarItemToUpdate = radar.findRadarItemById(radarItemId);
+                radarItemToUpdate.setId(radarItemId);
+                radarItemToUpdate.setRadarRing(this.radarRingRepository.findOne(radarRingId));
+                radarItemToUpdate.setRadarCategory(this.radarCategoryRepository.findOne(radarCategoryId));
+                radarItemToUpdate.setConfidenceFactor(confidenceLevel);
+                radarItemToUpdate.setDetails(assessmentDetails);
+
+                RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(radar.getRadarUser().getId(), radar.getId(), radarItemToUpdate.getTechnology().getId());
+                radarItemToUpdate.determineState(previousRadarItem);
+
+                radar.updateRadarItem(radarItemId, radarItemToUpdate);
                 this.radarInstanceRepository.save(radar);
             }
         }
