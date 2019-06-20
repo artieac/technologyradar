@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -67,11 +68,11 @@ public class HomeController extends ControllerBase
         {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
-            Radar targetRadar = radarInstanceService.findById(radarInstanceId.get());
+            Radar radarInstance = radarInstanceService.findById(radarInstanceId.get());
 
-            if(targetRadar!=null)
+            if(radarInstance!=null)
             {
-                modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
+                modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
             }
         }
 
@@ -80,7 +81,8 @@ public class HomeController extends ControllerBase
     }
 
     @RequestMapping(value = { "/public/home/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
-    public ModelAndView mostRecentRadar(@PathVariable Long userId)
+    public ModelAndView mostRecentRadar(@PathVariable Long userId,
+                                        @RequestParam(name="embeddable", required = false, defaultValue="false") Boolean isEmbeddable)
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
@@ -90,9 +92,17 @@ public class HomeController extends ControllerBase
         if(radarInstance != null)
         {
             modelAndView.addObject("radarInstanceId", radarInstance.getId());
+            modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
         }
 
-        modelAndView.setViewName("home/radar");
+        if(isEmbeddable)
+        {
+            modelAndView.setViewName("home/embeddedradar");
+        }
+        else {
+            modelAndView.setViewName("home/radar");
+        }
+
         return modelAndView;
     }
 
