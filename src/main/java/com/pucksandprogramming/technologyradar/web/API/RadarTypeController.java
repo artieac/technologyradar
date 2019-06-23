@@ -176,4 +176,11 @@ public class RadarTypeController extends ControllerBase
 
         return retVal;
     }
+
+    @RequestMapping(value = "/User/{radarUserId}/RadarType/{radarTypeId}/ring/{radarRingId}", method = RequestMethod.DELETE, produces = "application/json")
+    public @ResponseBody boolean updateRadarType(@PathVariable Long radarUserId, @PathVariable Long radarTypeId, @PathVariable Long radarRingId)
+    {
+        return this.radarTypeService.deleteRing(this.getCurrentUser(), radarUserId, radarTypeId, radarRingId);
+    }
+
 }

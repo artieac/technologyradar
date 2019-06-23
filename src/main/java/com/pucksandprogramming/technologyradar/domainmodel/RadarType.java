@@ -107,4 +107,16 @@ public class RadarType {
 
         return retVal;
     }
+
+    public void removeRadarRing(Long ringId)
+    {
+        for(int i = 0; i < this.radarRings.size(); i++)
+        {
+            if(this.radarRings.get(i).getId()==ringId)
+            {
+                this.radarRings.remove(i);
+                break;
+            }
+        }
+    }
 }

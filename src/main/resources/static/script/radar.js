@@ -101,7 +101,7 @@ for (var i = 0; i < radar_data.length; i++) {
 
     offsetIndex = -1;
 
-    for(var stageIdx = 0; stageIdx < 4; stageIdx++) {
+    for(var stageIdx = 0; stageIdx < radar_arcs.length; stageIdx++) {
         offsetIndex++;
 
         if(stageIdx > 0) {

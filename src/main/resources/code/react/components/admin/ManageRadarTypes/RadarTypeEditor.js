@@ -32,6 +32,7 @@ class RadarTypeEditor extends React.Component{
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
         this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
         this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
+        this.handleAddNewRing = this.handleAddNewRing.bind(this);
     }
 
     handleRadarTypeNameChangeEvent(event){
@@ -59,6 +60,16 @@ class RadarTypeEditor extends React.Component{
 
     handleDeleteRadarType(){
         this.radarTypeRepository.deleteRadarType(this.props.userId, this.props.selectedRadarType, this.handleEditChangeSuccess);
+    }
+
+    handleAddNewRing(){
+        var newRadarRing = {};
+        newRadarRing.id = -1;
+        newRadarRing.name = "New Radar Ring";
+        newRadarRing.displayOption = this.props.selectedRadarType.radarRings.length;
+
+        this.props.selectedRadarType.radarRings.push(newRadarRing);
+        this.forceUpdate();
     }
 
     render() {
@@ -89,8 +100,13 @@ class RadarTypeEditor extends React.Component{
                                 <div className="panel-heading">Rings</div>
                                 <div className="panel-body">
                                     {this.props.selectedRadarType.radarRings.map((currentRow) => {
-                                        return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} readonly={this.props.readonly}/>
+                                        return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} radarTypeId={this.props.selectedRadarType.id} readonly={this.props.readonly}/>
                                         })}
+                                     <div className="row">
+                                        <div className="col-md-12">
+                                            <input type="button" className="btn btn-primary" value="Add New Ring" disabled={this.props.selectedRadarType.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
+                                        </div>
+                                     </div>
                                 </div>
                             </div>
                         </div>

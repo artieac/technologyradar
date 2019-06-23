@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.services;
 
 import com.pucksandprogramming.technologyradar.data.repositories.Auth0Repository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarInstanceRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
@@ -17,12 +18,14 @@ public class RadarTypeService
 {
     private RadarTypeRepository radarTypeRepository;
     private RadarUserRepository radarUserRepository;
+    private RadarInstanceRepository radarInstanceRepository;
 
     @Autowired
-    public RadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository)
+    public RadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository, RadarInstanceRepository radarInstanceRepository)
     {
         this.radarTypeRepository = radarTypeRepository;
         this.radarUserRepository = radarUserRepository;
+        this.radarInstanceRepository = radarInstanceRepository;
     }
 
     public RadarType findOne(Long radarTypeId)
@@ -139,6 +142,25 @@ public class RadarTypeService
                 {
                     retVal = this.radarTypeRepository.deleteAssociatedRadarType(currentUser, radarType);
                 }
+            }
+        }
+
+        return retVal;
+    }
+
+    public boolean deleteRing(RadarUser currentUser, Long userId, Long radarTypeId, Long radarRingId)
+    {
+        boolean retVal = false;
+
+        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(currentUser.getId(), radarTypeId);
+
+        if(radarType!=null)
+        {
+            if (radarType.getRadarUser().getId() == currentUser.getId())
+            {
+                radarType.removeRadarRing(radarRingId);
+                this.radarTypeRepository.save(radarType);
+                retVal = true;
             }
         }
 

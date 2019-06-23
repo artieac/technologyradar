@@ -121,6 +121,19 @@ export class RadarTypeRepository {
             });
     }
 
+    deleteRadarRing(userId, radarTypeId, radarRingId, successHandler){
+         $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "DELETE",
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/ring/' + radarRingId,
+             success: function() {
+                   successHandler();
+              }
+            });
+    }
 
     associateRadarType(userId, radarTypeId, shouldAssociate, successHandler, errorHandler) {
          var radarTypeAssociation = {};

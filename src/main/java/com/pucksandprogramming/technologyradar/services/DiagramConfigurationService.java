@@ -58,7 +58,9 @@ public class DiagramConfigurationService
 
     public DiagramPresentation generateDiagramData(RadarUser radarUser, Long radarId)
     {
-        DiagramPresentation retVal = new DiagramPresentation(900,1100, 90);
+        DiagramPresentation retVal = new DiagramPresentation(   DiagramPresentation.DiagramDisplayHeight,
+                                                                DiagramPresentation.DiagramDisplayWidth,
+                                                                DiagramPresentation.RingDiameter);
 
         Radar radarInstance = this.radarInstanceService.findById(radarId);
 
