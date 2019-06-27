@@ -31,25 +31,6 @@ public class RadarInstanceController extends ControllerBase
     @Autowired
     private DiagramConfigurationService radarSetupService;
 
-    @RequestMapping(value = "/public/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId,
-                                                           @RequestParam(name="radarTypeId", required = false, defaultValue="-1") Long radarTypeId)
-    {
-        if(radarTypeId < 0)
-        {
-            return this.radarInstanceService.findByRadarUserIdAndIsPublished(radarUserId, true);
-        }
-        else
-        {
-            return this.radarInstanceService.findByRadarUserIdRadarTypeIdAndIsPublished(radarUserId, radarTypeId, true);
-        }
-    }
-
-    @RequestMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody Radar getPublicMostRecentRadarByUser(@PathVariable Long radarUserId)
-    {
-        return this.radarInstanceService.findMostRecentByUserIdAndPublished(radarUserId, true);
-    }
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId,
@@ -57,15 +38,17 @@ public class RadarInstanceController extends ControllerBase
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        if (radarTypeId < 0)
+        if(this.getCurrentUser().getId()==radarUserId)
         {
-            retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+            if (radarTypeId < 0)
+            {
+                retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+            }
+            else
+            {
+                retVal = this.radarInstanceService.findByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
+            }
         }
-        else
-        {
-            retVal = this.radarInstanceService.findByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
-        }
-
         return retVal;
     }
 
@@ -76,17 +59,11 @@ public class RadarInstanceController extends ControllerBase
         {
             String radarName = modelMap.get("name").toString();
             Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
-            this.radarInstanceService.addRadar(radarUserId, radarName, radarTypeId);
+            Long radarTypeVersion = Long.parseLong(modelMap.get("radarTypeVersion").toString());
+            this.radarInstanceService.addRadar(radarUserId, radarName, radarTypeId, radarTypeVersion);
         }
 
         return this.radarInstanceService.findByRadarUserId(this.getCurrentUser().getId());
-    }
-
-    @RequestMapping(value = "/public/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
-    public @ResponseBody
-    DiagramPresentation getPublicRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId)
-    {
-        return this.radarSetupService.generateDiagramData(radarUserId, radarId);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
@@ -134,4 +111,16 @@ public class RadarInstanceController extends ControllerBase
         return retVal;
     }
 
+    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
+    public @ResponseBody List<Radar> deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
+    {
+        List<Radar> retVal = new ArrayList<>();
+
+        if(this.radarInstanceService.deleteRadar(radarUserId, radarId))
+        {
+            retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+        }
+
+        return retVal;
+    }
 }

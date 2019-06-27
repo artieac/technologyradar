@@ -3,9 +3,7 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +27,7 @@ public class DiagramPresentation
     private List<Quadrant> quadrantList;
     private List<RadarRingPresentation> radarArcs;
     private List<RadarRing> radarRings;
-    private RadarTypeMessage radarType;
+    private RadarTypeViewModel radarType;
 
     public DiagramPresentation(Integer height, Integer width, Integer ringDiameter)
     {
@@ -70,7 +68,7 @@ public class DiagramPresentation
         return this.assessmentDate;
     }
 
-    public RadarTypeMessage getRadarType() { return this.radarType;}
+    public RadarTypeViewModel getRadarType() { return this.radarType;}
 
     @JsonProperty
     public List<RadarRingPresentation> getRadarArcs() {
@@ -92,7 +90,7 @@ public class DiagramPresentation
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
         this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
-        this.radarType = new RadarTypeMessage(radarInstance.getRadarType());
+        this.radarType = new RadarTypeViewModel(radarInstance.getRadarType());
     }
 
     public void sddRadarArc(RadarRing radarRing)

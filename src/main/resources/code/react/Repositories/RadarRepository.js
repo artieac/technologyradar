@@ -1,8 +1,14 @@
 export class RadarRepository{
 
-    getByUserId(userId, successHandler) {
+    getByUserId(userId, canSeeHistory, successHandler) {
+        var url = '/api/User/' + userId + '/Radars';
+
+        if(canSeeHistory==true){
+            url += "?getAllVersions=true";
+        }
+
         jQuery.ajax({
-                url: '/api/User/' + userId + '/Radars',
+                url: url,
                 async: true,
                 dataType: 'json',
                 success: function (radarCollection) {
@@ -61,8 +67,8 @@ export class RadarRepository{
               },
               type: "DELETE",
               url: '/api/User/' + userId + '/Radar/' + radarId,
-              success: function() {
-                successHandler();
+              success: function(radars) {
+                successHandler(radars);
                },
                error: function(xhr, status, err){
                     errorHandler();
@@ -74,6 +80,7 @@ export class RadarRepository{
         var radarToAdd = {};
         radarToAdd.name = radarName;
         radarToAdd.radarTypeId = radarType.id;
+        radarToAdd.radarTypeVersion = radarType.version;
 
         $.post({
               headers: {
@@ -83,8 +90,8 @@ export class RadarRepository{
               type: "POST",
               url: '/api/User/' + userId + '/Radar',
               data: JSON.stringify(radarToAdd),
-              success: function() {
-                successHandler();
+              success: function(radarTypes) {
+                successHandler(radarTypes);
                },
                error: function(xhr, status, err){
                     errorHandler();

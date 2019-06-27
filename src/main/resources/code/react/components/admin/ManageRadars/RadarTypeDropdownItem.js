@@ -23,7 +23,7 @@ export class RadarTypeDropdownItem extends React.Component{
         if(this.props.dropDownItem!==undefined){
             return (
                 <div>
-                    <a className="dropdown-item" onClick={this.handleOnClick}>{ this.props.dropDownItem.name }</a>
+                    <a className="dropdown-item" onClick={this.handleOnClick}>{ this.props.dropDownItem.name } - v{this.props.dropDownItem.version}</a>
                 </div>
             );
         }

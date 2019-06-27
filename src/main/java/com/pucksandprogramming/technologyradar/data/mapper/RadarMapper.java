@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import javax.annotation.PostConstruct;
+import javax.print.attribute.standard.Destination;
 
 /**
  * Created by acorrea on 10/18/2016.
@@ -35,6 +36,8 @@ public class RadarMapper
         // Product Config
         modelMapper.addMappings(radarConfigModelMap);
         modelMapper.addMappings(radarCategoryModelMap);
+        modelMapper.addMappings(radarTypeModelMap);
+        modelMapper.addMappings(radarTypeEntityModelMap);
         modelMapper.addMappings(technologyConfigModelMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
@@ -123,7 +126,17 @@ public class RadarMapper
             {
                 protected void configure()
                 {
-                    map().setId(source.getId());
+                    map().setId(source.getVersionedId().getId());
+                    map().setVersion(source.getVersionedId().getVersion());
+                }
+            };
+
+    private PropertyMap<RadarType, RadarTypeEntity> radarTypeEntityModelMap =
+            new PropertyMap<RadarType, RadarTypeEntity>()
+            {
+                protected void configure()
+                {
+                    skip().setVersionedId(null);
                 }
             };
 

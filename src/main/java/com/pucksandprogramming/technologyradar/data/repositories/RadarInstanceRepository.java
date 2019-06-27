@@ -1,5 +1,6 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
+import com.pucksandprogramming.technologyradar.data.Entities.VersionedIdEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarItemEntity;
@@ -105,7 +106,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
+        Iterable<RadarInstanceEntity> foundItems = null; //this.entityRepository.findAllByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
 
         for (RadarInstanceEntity foundItem : foundItems)
         {
@@ -119,7 +120,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndRadarTypeIdAndIsPublished(radarUserId, radarTypeId, isPublished);
+        Iterable<RadarInstanceEntity> foundItems = null; //this.entityRepository.findAllByRadarUserIdAndRadarTypeIdAndIsPublished(radarUserId, radarTypeId, isPublished);
         for (RadarInstanceEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
@@ -315,7 +316,8 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
             radarInstanceEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
             radarInstanceEntity.setIsPublished(itemToSave.getIsPublished());
             radarInstanceEntity.setIsLocked(itemToSave.getIsLocked());
-            radarInstanceEntity.setRadarType(radarTypeDAO.findOne(itemToSave.getRadarType().getId()));
+            VersionedIdEntity versionedIdEntity = new VersionedIdEntity(itemToSave.getRadarType().getId(), itemToSave.getRadarType().getVersion());
+            radarInstanceEntity.setRadarType(radarTypeDAO.findOne(versionedIdEntity));
 
             // First remove any deletions
             if(radarInstanceEntity != null && radarInstanceEntity.getRadarItems() != null)

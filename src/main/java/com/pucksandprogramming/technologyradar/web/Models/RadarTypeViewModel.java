@@ -5,21 +5,22 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RadarTypeMessage
+public class RadarTypeViewModel
 {
     private Long id;
+    private Long version;
     private String name;
     private boolean isPublished;
     private Long radarUserId;
     private List<RadarTypeDetailMessage> radarRings;
     private List<RadarTypeDetailMessage> radarCategories;
 
-    public RadarTypeMessage()
+    public RadarTypeViewModel()
     {
 
     }
 
-    public RadarTypeMessage(RadarType radarType)
+    public RadarTypeViewModel(RadarType radarType)
     {
         this.Initialize(radarType);
     }
@@ -29,6 +30,7 @@ public class RadarTypeMessage
         if(radarType != null)
         {
             this.id = radarType.getId();
+            this.version = radarType.getVersion();
             this.name = radarType.getName();
             this.isPublished = radarType.getIsPublished();
             this.radarUserId = radarType.getRadarUser().getId();
@@ -55,6 +57,7 @@ public class RadarTypeMessage
         RadarType retVal = new RadarType();
 
         retVal.setId(this.getId());
+        retVal.setVersion(this.getVersion());
         retVal.setName(this.getName());
         retVal.setIsPublished(this.getIsPublished());
 
@@ -73,6 +76,9 @@ public class RadarTypeMessage
 
     public Long getId() { return this.id;}
     public void setId(Long value) { this.id = value;}
+
+    public Long getVersion() { return this.version;}
+    public void setVersion(Long value) { this.version = value;}
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}

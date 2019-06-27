@@ -20,6 +20,7 @@ public class RadarUser {
     private String email;
     private String nickname;
     private String name;
+    private Long userType;
 
     public RadarUser()
     {
@@ -49,4 +50,31 @@ public class RadarUser {
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
+
+    public Long getUserType(){ return this.userType;}
+    public void setUserType(Long value){ this.userType = value;}
+
+    public boolean canSeeHistory()
+    {
+        boolean retVal = false;
+
+        if(this.userType==UserType.Subscriber_Trial || this.userType==UserType.Subscriber)
+        {
+            retVal = true;
+        }
+
+        return retVal;
+    }
+
+    public boolean canShareHistory()
+    {
+        boolean retVal = false;
+
+        if(this.userType==UserType.Subscriber_Trial || this.userType==UserType.Subscriber)
+        {
+            retVal = true;
+        }
+
+        return retVal;
+    }
 }

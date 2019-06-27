@@ -27,9 +27,15 @@ export class RadarTypeRepository {
             return retVal;
     }
 
-    getByUserId(userId, successHandler) {
+    getByUserId(userId, getAllVersions, successHandler) {
+        var getUrl = '/api/User/' + userId + '/RadarTypes';
+
+        if(getAllVersions===false){
+            getUrl += '?getAllVersions=true';
+        }
+
         jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes',
+                url: getUrl,
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -37,6 +43,37 @@ export class RadarTypeRepository {
                 }.bind(this)
             });
     }
+
+    getHistory(userId, radarTypeId, successHandler){
+        var getUrl = '/api/User/' + userId + '/RadarType/' + radarTypeId + '?allVersions=true';
+
+        jQuery.ajax({
+                url: getUrl,
+                async: true,
+                dataType: 'json',
+                success: function (radarTypeHistory) {
+                    successHandler(radarTypeHistory);
+                }.bind(this)
+            });
+    }
+
+    getOwnedAndAssociatedByUserId(userId, getAllVersions, successHandler){
+        var url = '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true';
+
+        if(getAllVersions==true)
+        {
+            url += "&allVersions=true";
+        }
+
+        jQuery.ajax({
+                 url: url,
+                 async: true,
+                 dataType: 'json',
+                 success: function (radarTypeCollection) {
+                     successHandler(radarTypeCollection);
+                 }.bind(this)
+             });
+     }
 
     getOtherUsersSharedRadarTypes(userId, successHandler){
        jQuery.ajax({
@@ -59,17 +96,6 @@ export class RadarTypeRepository {
                 }.bind(this)
             });
     }
-
-    getOwnedAndAssociatedByUserId(userId, successHandler){
-        jQuery.ajax({
-                 url: '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true',
-                 async: true,
-                 dataType: 'json',
-                 success: function (radarTypeCollection) {
-                     successHandler(radarTypeCollection);
-                 }.bind(this)
-             });
-     }
 
     addRadarType(userId, radarType, successHandler) {
          $.ajax({

@@ -64,7 +64,7 @@ public class DefaultRadarTypeManager
             {
                 Long idValue = Long.parseLong(idString);
 
-                RadarType foundRadar = this.radarTypeService.findOne(idValue);
+                RadarType foundRadar = null;//this.radarTypeService.findOne(idValue);
 
                 if(foundRadar!=null)
                 {

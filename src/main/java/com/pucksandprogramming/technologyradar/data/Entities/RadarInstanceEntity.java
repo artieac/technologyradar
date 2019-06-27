@@ -46,7 +46,11 @@ public class RadarInstanceEntity
     private boolean isLocked;
 
     @OneToOne
-    @JoinColumn(name = "RadarTypeId", nullable = false)
+    @JoinColumns
+    ({
+            @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
+            @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
+    })
     private RadarTypeEntity radarType;
 
     public RadarInstanceEntity()
@@ -77,13 +81,4 @@ public class RadarInstanceEntity
 
     public RadarTypeEntity getRadarType() { return this.radarType;}
     public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
-
-    public RadarInstanceEntity mapRow(ResultSet rs, int rowNum) throws SQLException
-    {
-        RadarInstanceEntity retVal = new RadarInstanceEntity();
-        retVal.setId(rs.getLong("Id"));
-        retVal.setName(rs.getString("Name"));
-        retVal.setAssessmentDate(rs.getDate("AssessmentDate"));
-        return retVal;
-    }
 }

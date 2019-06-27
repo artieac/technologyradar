@@ -28,7 +28,6 @@ class RadarRow extends React.Component{
         this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this);
         this.handleDeleteError = this.handleDeleteError.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
-        this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
     }
 
     handlePublishSuccess() { }
@@ -53,11 +52,8 @@ class RadarRow extends React.Component{
         this.radarRepository.lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
     }
 
-    handleDeleteSuccess() {
-        this.radarRepository.getByUserId(this.props.userId,  this.handleGetByUserIdSuccess);
-    }
-
-    handleGetByUserIdSuccess(radars){
+    handleDeleteSuccess(radars)
+    {
         this.props.storeRadars(radars);
     }
 
@@ -77,7 +73,8 @@ class RadarRow extends React.Component{
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td>{ this.props.rowData.radarType.name}</td>
+                 <td>{ this.props.rowData.assessmentDate}</td>
+                 <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
                  <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = { this.handleIsPublishedClick }/></td>
                  <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick }/></td>
                  <td>
@@ -94,7 +91,8 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radars : state.radarReducer.radars
+        radars : state.radarReducer.radars,
+        currentUser : state.radarReducer.currentUser
     };
 };
 

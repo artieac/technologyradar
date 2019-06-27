@@ -35,6 +35,9 @@ public class RadarUserEntity {
     @Column(name="Name", nullable=false, length=512)
     private String name;
 
+    @Column(name="UserType", nullable=false)
+    private Long userType;
+
     public RadarUserEntity()
     {
 
@@ -63,4 +66,7 @@ public class RadarUserEntity {
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
+
+    public Long getUserType(){ return this.userType;}
+    public void setUserType(Long value){ this.userType = value;}
 }

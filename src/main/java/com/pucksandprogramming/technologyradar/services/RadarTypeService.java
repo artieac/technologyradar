@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.Auth0Repository
 import com.pucksandprogramming.technologyradar.data.repositories.RadarInstanceRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,33 +29,14 @@ public class RadarTypeService
         this.radarInstanceRepository = radarInstanceRepository;
     }
 
-    public RadarType findOne(Long radarTypeId)
+    public RadarType findOne(Long radarTypeId, Long version)
     {
-        return this.radarTypeRepository.findOne(radarTypeId);
+        return this.radarTypeRepository.findOne(radarTypeId, version);
     }
 
     public List<RadarType> findAll(boolean publishedOnly)
     {
         return this.radarTypeRepository.findAllByIsPublished(publishedOnly);
-    }
-
-    public List<RadarType> findAllByUserId(Long userId, boolean includeAssociated)
-    {
-        List<RadarType> retVal = new ArrayList<RadarType>();
-
-        retVal = this.radarTypeRepository.findAllByUserId(userId);
-
-        if(includeAssociated==true)
-        {
-            retVal.addAll(this.findAllAssociatedRadarTypes(userId));
-        }
-
-        return retVal;
-    }
-
-    public List<RadarType> findAllAssociatedRadarTypes(Long userId)
-    {
-        return this.radarTypeRepository.findAllAssociatedRadarTypes(userId);
     }
 
     public List<RadarType> findAllSharedRadarTypesExcludeOwned(Long userId)
@@ -87,84 +69,5 @@ public class RadarTypeService
         return radarType;
     }
 
-    public boolean delete(Long radarTypeId, RadarUser currentUser, Long ownerId)
-    {
-        boolean retVal = true;
-
-        RadarUser targetUser = radarUserRepository.findOne(ownerId);
-        if (targetUser != null && targetUser.getId() == currentUser.getId())
-        {
-            this.radarTypeRepository.delete(radarTypeId);
-        }
-        else
-        {
-            retVal = false;
-        }
-
-        return retVal;
-    }
-
-    public boolean publishRadarType(RadarUser currentUser, Long radarTypeId, boolean shouldPublish)
-    {
-        boolean retVal = false;
-
-        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(currentUser.getId(), radarTypeId);
-
-        if(radarType!=null)
-        {
-            if (radarType.getRadarUser().getId() == currentUser.getId())
-            {
-                radarType.setIsPublished(shouldPublish);
-                this.radarTypeRepository.save(radarType);
-                retVal = true;
-            }
-        }
-
-        return retVal;
-    }
-
-    public boolean associatedRadarType(RadarUser currentUser, Long radarTypeId, boolean shouldAssociate)
-    {
-        boolean retVal = false;
-
-        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
-
-        if(radarType!=null)
-        {
-            // don't allow a user to associate their own radar
-            if (radarType.getRadarUser().getId() != currentUser.getId())
-            {
-                if(shouldAssociate==true)
-                {
-                    retVal = this.radarTypeRepository.saveAssociatedRadarType(currentUser, radarType);
-                }
-                else
-                {
-                    retVal = this.radarTypeRepository.deleteAssociatedRadarType(currentUser, radarType);
-                }
-            }
-        }
-
-        return retVal;
-    }
-
-    public boolean deleteRing(RadarUser currentUser, Long userId, Long radarTypeId, Long radarRingId)
-    {
-        boolean retVal = false;
-
-        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(currentUser.getId(), radarTypeId);
-
-        if(radarType!=null)
-        {
-            if (radarType.getRadarUser().getId() == currentUser.getId())
-            {
-                radarType.removeRadarRing(radarRingId);
-                this.radarTypeRepository.save(radarType);
-                retVal = true;
-            }
-        }
-
-        return retVal;
-    }
 
 }

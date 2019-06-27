@@ -7,8 +7,16 @@ const radarManagementState = {
   sourceRadar: {},
   radarItemsToAdd: [],
   radarItemsToRemove: [],
-  radarTypes: []
+  radarTypes: [],
+  currentUser: {}
 };
+
+export function addCurrentUserToState(currentUser){
+    return{
+        type: actionTypes.SETCURRENTUSER,
+        payload: currentUser
+    };
+}
 
 export function addRadarsToState(radars){
     return {
@@ -84,6 +92,11 @@ export default function(state = radarManagementState, action) {
  // alert(JSON.stringify(action));
 
   switch (action.type) {
+    case actionTypes.SETCURRENTUSER:
+        return Object.assign({}, state, {
+            currentUser: action.payload
+        })
+        break;
     case actionTypes.SETRADARCOLLECTION:
         return Object.assign({}, state, {
             radars: action.payload

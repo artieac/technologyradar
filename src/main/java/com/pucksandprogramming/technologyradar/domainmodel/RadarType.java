@@ -3,18 +3,22 @@ package com.pucksandprogramming.technologyradar.domainmodel;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarCategoryEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarRingEntity;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
 public class RadarType {
 
     private Long id;
+    private Long version;
     private String name;
     private List<RadarRing> radarRings;
     private List<RadarCategory> radarCategories;
     private RadarUser radarUser;
     private boolean isPublished;
+    private Calendar createDate;
 
     public RadarType()
     {
@@ -23,6 +27,9 @@ public class RadarType {
 
     public Long getId(){ return this.id;}
     public void setId(Long value){ this.id = value;}
+
+    public Long getVersion() { return this.version;}
+    public void setVersion(Long value) { this.version = value;}
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
@@ -43,6 +50,9 @@ public class RadarType {
 
     public boolean getIsPublished() { return this.isPublished;}
     public void setIsPublished(boolean value){ this.isPublished = value;}
+
+    public Calendar getCreateDate() { return this.createDate;}
+    public void setCreateDate(Calendar value){ this.createDate = value;}
 
     public void addRadarRing(RadarRing radarRing)
     {

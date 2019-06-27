@@ -3,6 +3,7 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.services.AssociatedRadarTypeService;
 import com.pucksandprogramming.technologyradar.services.DefaultRadarTypeManager;
 import com.pucksandprogramming.technologyradar.services.RadarTypeService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
@@ -31,10 +32,15 @@ public class CallbackController
     @Autowired
     private RadarUserService userService;
 
-    @Autowired RadarTypeService radarTypeService;
+    @Autowired
+    private RadarTypeService radarTypeService;
+
+    @Autowired
+    private AssociatedRadarTypeService associatedRadarTypeService;
 
     @Autowired
     private AuthenticationController controller;
+
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
@@ -77,7 +83,7 @@ public class CallbackController
 
                     for(RadarType radarType : defaultRadars)
                     {
-                        this.radarTypeService.associatedRadarType(targetUser, radarType.getId(), true);
+                        this.associatedRadarTypeService.associatedRadarType(targetUser, radarType.getId(), radarType.getVersion(), true);
                     }
                 }
             }

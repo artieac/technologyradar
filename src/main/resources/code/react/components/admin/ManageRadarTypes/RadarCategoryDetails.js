@@ -33,9 +33,9 @@ export class RadarCategoryDetails extends React.Component{
             return(
                 <div className="row">
                     <div className="col-md-6">
-                        <input type="text" className={this.props.readOnly ? 'readonly="readonly"' : ''} ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
+                        <input type="text" className={this.props.editMode===true ? '' : 'readonly="readonly"'} ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
-                    <div className={this.props.readonly ? 'hidden col-lg-3' : 'col-md-2'} >
+                    <div className={this.props.editMode===true ? 'col-md-2' : 'hidden col-lg-3'} >
                         <DropdownButton id="categoryColorSelection" title={this.getColorName(this.props.rowData.displayOption)} onSelect={(event) => this.handleColorOnSelect(event)}>
                           <Dropdown.Item as="button" eventKey={this.props.colorMap["Green"]}>Green</Dropdown.Item>
                           <Dropdown.Item as="button" eventKey={this.props.colorMap["Blue"]}>Blue</Dropdown.Item>

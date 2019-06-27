@@ -5,8 +5,40 @@ const radarTypeManagementState = {
   radarTypes: [],
   associatedRadarTypes: [],
   sharedRadarType: [],
-  selectedRadarType: {}
+  selectedRadarType: {},
+  currentUser: {},
+  showHistory: false,
+  showEdit: true,
+  radarTypeHistory: []
 };
+
+export function addRadarTypeHistoryToState(radarTypeHistory){
+    return {
+        type: actionTypes.SETRADARTYPEHISTORY,
+        payload: radarTypeHistory
+    };
+}
+
+export function setShowHistory(showHistory){
+    return {
+        type: actionTypes.SETSHOWHISTORY,
+        payload: showHistory
+    };
+}
+
+export function setShowEdit(showEdit){
+    return {
+        type: actionTypes.SETSHOWEDIT,
+        payload: showEdit
+    };
+}
+
+export function addCurrentUserToState(currentUser){
+    return {
+        type: actionTypes.SETCURRENTUSER,
+        payload: currentUser
+    };
+}
 
 export function addRadarTypesToState(radarTypes){
     return {
@@ -40,6 +72,28 @@ export default function(state = radarTypeManagementState, action) {
  // alert(JSON.stringify(action));
 
   switch (action.type) {
+    case actionTypes.SETRADARTYPEHISTORY:
+        return Object.assign({}, state, {
+            radarTypeHistory: action.payload
+        })
+        break;
+    case actionTypes.SETSHOWHISTORY:
+        return Object.assign({}, state, {
+            showHistory: action.payload,
+            showEdit: !action.payload
+        })
+        break;
+    case actionTypes.SETSHOWEDIT:
+        return Object.assign({}, state, {
+            showEdit: action.payload,
+            showHistory: !action.payload
+        })
+        break;
+    case actionTypes.SETCURRENTUSER:
+        return Object.assign({}, state, {
+            currentUser: action.payload
+        })
+        break;
     case actionTypes.SETSELECTEDRADARTYPE:
         return Object.assign({}, state, {
             selectedRadarType: action.payload

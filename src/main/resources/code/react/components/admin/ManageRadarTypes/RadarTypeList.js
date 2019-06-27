@@ -24,8 +24,8 @@ class RadarTypeList extends React.Component{
                             <div className="col-lg-3">Action</div>
                         </div>
                         {
-                            this.props.radarTypes.map((currentRow) => {
-                                return <RadarTypeListItem key={currentRow.id} radarType={currentRow} userId={this.props.userId} parentContainer = { this } readonly={true} />
+                            this.props.radarTypes.map((currentRow, index) => {
+                                return <RadarTypeListItem key={index} radarType={currentRow} parentContainer = { this } readonly={true} />
                             })
                         }
                     </div>
@@ -40,7 +40,8 @@ class RadarTypeList extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes
+    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
+    	currentUser : state.radarTypeReducer.currentUser
     };
 }
 

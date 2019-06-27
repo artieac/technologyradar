@@ -5,7 +5,7 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
-import RadarTypeEditor from './RadarTypeEditor';
+import RadarTypeDetails from './RadarTypeDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 
 class ManageAssociatedRadarTypesPage extends React.Component{
@@ -55,7 +55,7 @@ class ManageAssociatedRadarTypesPage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <RadarTypeEditor userId={this.state.userId} readonly={true} parentContainer={this} />
+                        <RadarTypeEditor userId={this.state.userId} editMode={false} parentContainer={this} />
                     </div>
                 </div>
             </div>

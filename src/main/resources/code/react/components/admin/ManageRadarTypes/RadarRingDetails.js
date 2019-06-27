@@ -6,14 +6,16 @@ import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarType
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
-export class RadarRingDetails extends React.Component{
+class RadarRingDetails extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            isDeleted: false
         };
 
         this.handleTypeDetailsNameChange = this.handleTypeDetailsNameChange.bind(this);
         this.handleDisplayOptionChange = this.handleDisplayOptionChange.bind(this);
+        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
     }
 
     handleTypeDetailsNameChange(event){
@@ -24,17 +26,35 @@ export class RadarRingDetails extends React.Component{
         this.props.rowData.displayOption = event.target.value;
     }
 
+    handleOnDeleteClick(event){
+        if(this.props.selectedRadarType!==undefined){
+            if(this.props.selectedRadarType.radarRings!==undefined){
+                for(var i = 0; i < this.props.selectedRadarType.radarRings.length; i++){
+                    if(this.props.selectedRadarType.radarRings[i].id==this.props.rowData.id){
+                        this.props.selectedRadarType.radarRings.splice(i, 1);
+                        this.setState({isDeleted : true});
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.forceUpdate();
+    }
+
     render(){
         if(this.props.rowData!==undefined){
             return(
-                <div className="row">
+                <div className={this.state.isDeleted ? "hidden row" : "row"}>
                     <div className="col-md-6">
-                        <input type="text" className={this.props.readonly ? 'readonly="readonly"' : ''} ref="typeDetailsName" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
+                        <input type="text" className={this.props.showEdit ? '' : 'readonly="readonly"'} ref="typeDetailsName" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
                     <div className="col-md-2">
-                        <input type="text" className={this.props.readOnly ? 'readonly="readonly"' : ''} ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>
+                        <input type="text" className={this.props.showEdit ?  '' : 'readonly="readonly"'} ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>
                     </div>
-                    <DeleteRadarRingButton readOnly={this.props.readonly} userId={this.props.userId} radarTypeId={this.props.radarTypeId} radarRing={this.props.rowData}/>
+                    <div className={this.props.showEdit ?  "col-md-2" : "hidden"}>
+                        <input type="button" value="Delete" className="btn btn-primary" onClick = {(event) => { this.handleOnDeleteClick(event) }}/>
+                    </div>
                 </div>
             );
         }
@@ -44,32 +64,11 @@ export class RadarRingDetails extends React.Component{
     }
 };
 
-class DeleteRadarRingButton extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-        };
-
-        this.radarTypeRepository = new RadarTypeRepository();
-
-        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
-    }
-
-    handleOnDeleteClick(event){
-        this.radarTypeRepository.deleteRadarRing(this.props.userId, this.props.radarTypeId, this.props.radarRing.id);
-    }
-
-    render(){
-        return(
-            <div className={this.props.readOnly ? "hidden" : "col-md-2"}>
-                <input type="button" value="Delete" className="btn btn-primary" disabled={!this.props.radarRing.canDelete } onClick = {(event) => { this.handleOnDeleteClick(event) }}/>
-            </div>
-        );
-    }
-}
 function mapStateToProps(state) {
   return {
-    	selectedRadarType: state.radarTypeReducer.selectedRadarType
+    	selectedRadarType: state.radarTypeReducer.selectedRadarType,
+        showHistory: state.radarTypeReducer.showHistory,
+        showEdit: state.radarTypeReducer.showEdit
     };
 };
 

@@ -33,12 +33,14 @@ class NewRadarRow extends React.Component{
         this.setState({radarNameInput:event.target.value});
     }
 
-    handleAddSuccess() {
-        this.radarRepository.getByUserId(this.props.userId, this.handleGetByUserIdSuccess);
+    handleAddSuccess(radars) {
+        alert(JSON.stringify(radars));
+        this.props.storeRadars(radars);
     }
 
     handleGetByUserIdSuccess(radars){
         this.props.storeRadars(radars);
+        this.forceUpdate();
     }
 
     handleAddError() {

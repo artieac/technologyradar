@@ -56,10 +56,4 @@ public class RadarConfigurationController extends ControllerBase
 
         return retVal;
     }
-
-    @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.DELETE)
-    public @ResponseBody boolean deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
-    {
-        return this.radarInstanceService.deleteRadar(radarUserId, radarId);
-    }
 }
