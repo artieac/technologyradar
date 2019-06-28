@@ -29,37 +29,49 @@ class AdminApp extends React.Component{
     render(){
         return (
             <div>
-                 <div className="contentPageTitle">
-                    <label>Manage your Technology Radar</label>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="contentPageTitle">
+                            <label>Manage your Technology Radar</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <div className="panel panel-primary">
+                                <div className="panel-heading">Manage Your Radar Types</div>
+                                <div id="ManageRadarTypesPanel" className="panel-body">
+                                    <p>A Radar Type is used to define how you will classify and rate your topics.</p>
+                                    <p>Go here to manage your existing types or add new ones</p>
+                                    <Link to='/admin/manageOwnedRadarTypes'>
+                                        <button className="btn btn-primary">Radar Types</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="panel panel-primary">
+                                <div className="panel-heading">Associate Radar Types</div>
+                                <div id="AssociateRadarTypesPanel" className="panel-body">
+                                    <p>See other's radar types and mark the so you can also use them'.</p>
+                                    <Link to='/admin/manageAssociatedRadarTypes'>
+                                        <button className="btn btn-primary">Associated Radar Types</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="panel panel-primary">
+                                <div className="panel-heading">Manage your Radars</div>
+                                <div id="ManageRadarsPanels" className="panel-body">
+                                    <p>Once you have Radar Types defined go here to create an instance of a Radar Type.</p>
+                                    <Link to='/admin/manageRadars'>
+                                        <button className="btn btn-primary">Your Radars</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <table className="table table-striped">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <Link to='/admin/manageOwnedRadarTypes'>
-                                    <button className="btn btn-primary">Manage Your Radar Types</button>
-                                </Link>
-                            </td>
-                            <td>Go here to add additional radar types.</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <Link to='/admin/manageAssociatedRadarTypes'>
-                                    <button className="btn btn-primary">Manage Associated Radar Types</button>
-                                </Link>
-                            </td>
-                            <td>Go here to add additional radar types.</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <Link to='/admin/manageRadars'>
-                                    <button className="btn btn-primary">Manage Radars</button>
-                                </Link>
-                            </td>
-                            <td>Go here to add an additional radar instance to your account.  This way you can track how your opinions have changed over time.</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         );
     }

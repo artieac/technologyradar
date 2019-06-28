@@ -1,4 +1,4 @@
-package com.pucksandprogramming.technologyradar.web.API;
+package com.pucksandprogramming.technologyradar.web.Public.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
@@ -7,6 +7,7 @@ import com.pucksandprogramming.technologyradar.services.DiagramConfigurationServ
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
+import com.pucksandprogramming.technologyradar.web.API.RadarInstanceController;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api")
-public class PublicRadarController extends ControllerBase
+public class PublicRadarAPIController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
 

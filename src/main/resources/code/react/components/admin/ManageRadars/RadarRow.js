@@ -69,6 +69,10 @@ class RadarRow extends React.Component{
         return '/admin/user/' + userId + '/radar/' + radarId + '/addfromprevious';
     }
 
+    getAddItemsLink(radarId){
+        return "/home/secureradar/" + radarId;
+    }
+
     render() {
         return (
              <tr>
@@ -77,6 +81,7 @@ class RadarRow extends React.Component{
                  <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
                  <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = { this.handleIsPublishedClick }/></td>
                  <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick }/></td>
+                 <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-primary" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
                         <button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)}>Add From Previous</button>

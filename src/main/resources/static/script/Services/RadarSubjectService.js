@@ -1,10 +1,5 @@
 theApp.service('RadarSubjectService', function ($resource, $http) {
-    this.searchByNameRequest = function (radarSubjectName)
-    {
-        return $resource('/api/RadarSubject/search?name=:radarSubjectName');
-    };
-
-    this.searchRequest = function(radarSubjectName, selectedRadarType, selectedCateogory, selectedRadarRing, publicOnly)
+    this.searchRequest = function(radarSubjectName, selectedRadarType, selectedCateogory, selectedRadarRing, isAnonymous)
     {
         var queryString = "";
 
@@ -28,11 +23,13 @@ theApp.service('RadarSubjectService', function ($resource, $http) {
             queryString += "&radarRingId=" + selectedRadarRing.id;
         }
 
-        return $resource ('/api/public/RadarSubject/search?' + queryString);
-    };
-
-    this.searchByCategoryId = function(categoryId)
-    {
-        return $resource ('/api/RadarSubject?categoryId=:categoryId');
+        if(isAnonymous==true)
+        {
+            return $resource ('/api/public/RadarSubject/search?' + queryString);
+        }
+        else
+        {
+            return $resource ('/api/public/RadarSubject/search?' + queryString);
+        }
     };
 });

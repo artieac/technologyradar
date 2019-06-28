@@ -4,7 +4,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
     $scope.showAddItemSection = false;
-    $scope.isAnonymous = $('#isAnonymous').val();
+    $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
 
     $scope.clickAddItemButton = function()
     {
@@ -57,11 +57,11 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         RadarInstanceService.getRadarInstance(userId, radarId, isAnonymous, $scope.renderRadar);
     }
 
-    $scope.getUserRadars = function (userId, selectedRadarType, publishedOnly)
+    $scope.getUserRadars = function (userId, selectedRadarType, isAnonymous)
     {
         $scope.getRadarSharingLink(userId);
 
-        if (publishedOnly === true)
+        if (isAnonymous == true)
         {
             RadarInstanceService.getPublishedRadarsByUserAndRadarTypes(userId, selectedRadarType, $scope.setRadarInstances);
         }
@@ -97,8 +97,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance = radarInstance;
         $scope.getRadarSharingLink(userId);
         $scope.getRadarData(userId, radarInstance.id, $scope.isAnonymous);
-        $scope.getRadarRings(radarInstance.id);
-        $scope.getRadarCategories(radarInstance.id);
+        $scope.radarRings = radarInstance.radarType.radarRings;
+        $scope.radarCategories = radarInstance.radarType.radarCategories;
     }
 
     $scope.renderRadar = function (radarData)
@@ -114,19 +114,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         init(radarData.height, radarData.width, radarData.quadrants, radar_arcs, $scope.selectRadarInstanceItem);
     }
 
-    $scope.getRadarRings = function (radarId)
-    {
-        $scope.radarRingList = RadarInstanceService.getRadarRingsRequest(radarId).query();
-    }
-
     $scope.selectRadarRing = function (radarRing)
     {
         $scope.selectedRadarRing = radarRing;
-    }
-
-    $scope.getRadarCategories = function (radarId)
-    {
-        $scope.radarCategoryList = RadarInstanceService.getRadarCategoriesRequest(radarId).query();
     }
 
     $scope.selectRadarCategory = function (radarCategory)
@@ -296,14 +286,17 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.radarTypes = radarTypes;
 
         var radarTypeId = $("#radarTypeId").val();
+        var radarTypeVersion = $("#radarTypeVersion").val();
 
         if (!$scope.isNullOrUndefined($scope.radarTypes) &&
             !$scope.isNullOrUndefined(radarTypeId) &&
-            radarTypeId !== '')
+            radarTypeId !== '' &&
+            !$scope.isNullOrUndefined(radarTypeVersion) &&
+            radarTypeVersion !== '')
         {
             for (var i = 0; i < $scope.radarTypes.length; i++)
             {
-                if ($scope.radarTypes[i].id == radarTypeId)
+                if ($scope.radarTypes[i].id == radarTypeId && $scope.radarTypes[i].version == radarTypeVersion)
                 {
                     $scope.radarTypeDropdownSelected($scope.currentUserId, $scope.radarTypes[i]);
                     break;

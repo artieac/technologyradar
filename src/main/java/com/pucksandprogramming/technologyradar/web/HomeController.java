@@ -46,7 +46,15 @@ public class HomeController extends ControllerBase
 
         if(radarInstanceId.isPresent())
         {
-            modelAndView.addObject("radarInstanceId", radarInstanceId.get());
+            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
+            Radar targetRadar = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findById(radarInstanceId.get());
+
+            if (targetRadar != null)
+            {
+                modelAndView.addObject("radarInstanceId", radarInstanceId.get());
+                modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
+                modelAndView.addObject("radarTypeVersion", targetRadar.getRadarType().getVersion());
+            }
         }
 
         modelAndView.setViewName("home/radar");
@@ -71,6 +79,7 @@ public class HomeController extends ControllerBase
             if(radarInstance!=null)
             {
                 modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
+                modelAndView.addObject("radarTypeVersion", radarInstance.getRadarType().getVersion());
             }
         }
 

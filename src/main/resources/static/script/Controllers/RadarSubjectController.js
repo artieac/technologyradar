@@ -1,19 +1,7 @@
 theApp.controller('RadarSubjectController', function ($scope, $resource, $http, RadarInstanceService, RadarSubjectService)
 {
-    $scope.currentUserId = $('#userId').val();
+    $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
     $scope.radarSubjectDetailsSelectionId = $('#radarSubjectId').val();
-
-    $scope.isUserLoggedIn = function()
-    {
-        var retVal = false;
-
-        if($scope.currentUserId > 0)
-        {
-            retVal = true;
-        }
-
-        return retVal;
-    }
 
     $scope.getRadarSubject = function (radarSubjectId)
     {
@@ -34,13 +22,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
     $scope.searchRadarSubjects = function()
     {
         var radarSubjectName = jQuery("#searchName").val();
-        $scope.radarSubjectSearchResults = RadarSubjectService.searchRequest(radarSubjectName, $scope.selectedRadarType, $scope.selectedRadarCategory, $scope.selectedRadarRing).query();
-    };
-
-    $scope.searchForRadarSubjectByCategoryId = function(categoryId)
-    {
-        var searchRadarSubjectsByCategoryId = $resource ('/api/radarsubject?categoryId=:categoryId');
-        $scope.radarSubjectSearchResults = searchRadarSubjectsByCategoryId.query({ categoryId: categoryId});
+        $scope.radarSubjectSearchResults = RadarSubjectService.searchRequest(radarSubjectName, $scope.selectedRadarType, $scope.selectedRadarCategory, $scope.selectedRadarRing, $scope.isAnonymous).query();
     };
 
     $scope.selectRadarSubject = function(radarSubject)
@@ -59,16 +41,24 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
         $scope.radarRings = radarType.radarRings;
     }
 
-    $scope.getAllPublishedRadarTypes = function()
+    $scope.getPublishedRadarTypes = function()
     {
-        var getAllPublishedRadarTypes = $resource('/api/public/RadarTypes');
-        $scope.allPublishedRadarTypes = getAllPublishedRadarTypes.query();
+        if($scope.isAnonymous==true)
+        {
+            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
+            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
+        }
+        else
+        {
+            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
+            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
+        }
     }
 
     $scope.getAssociatedRadarTypes = function()
     {
         var getAssociatedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=false&includeAssociated=true');
-        $scope.getAssociatedRadarTypes = getAssociatedRadarTypes.query({userId: $scope.currentUserId});
+        $scope.associatedRadarTypes = getAssociatedRadarTypes.query({userId: $scope.currentUserId});
     }
 
     $scope.getUserRadarTypes = function()
@@ -77,8 +67,17 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
         $scope.userOwnedRadarTypes = getOwnedRadarTypes.query({userId: $scope.currentUserId});
     }
 
-    $scope.getRadarSubjectAssessments = function(){
-        var getRadarSubjectAssessments = $resource('/api/public/RadarSubject/:radarSubjectId/assessments');
-        $scope.radarSubjectAssessments = getRadarSubjectAssessments.get({radarSubjectId : this.radarSubjectDetailsSelectionId});
+    $scope.getRadarSubjectAssessments = function()
+    {
+        if($scope.isAnonymous==true)
+        {
+            var getRadarSubjectAssessments = $resource('/api/public/RadarSubject/:radarSubjectId/assessments');
+            $scope.radarSubjectAssessments = getRadarSubjectAssessments.get({radarSubjectId : this.radarSubjectDetailsSelectionId});
+        }
+        else
+        {
+            var getRadarSubjectAssessments = $resource('/api/public/RadarSubject/:radarSubjectId/assessments');
+            $scope.radarSubjectAssessments = getRadarSubjectAssessments.get({radarSubjectId : this.radarSubjectDetailsSelectionId});
+        }
     }
 });

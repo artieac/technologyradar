@@ -68,16 +68,6 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.getRadarRingsRequest = function (radarId)
-    {
-        return $resource('/api/radar/' + radarId + '/rings');
-    };
-
-    this.getRadarCategoriesRequest = function (radarId)
-    {
-        return $resource('/api/radar/' + radarId + '/categories');
-    };
-
     this.getRadarInstance = function(userId, radarId, isAnonymous, callbackFunction)
     {
         var getRequest = {};

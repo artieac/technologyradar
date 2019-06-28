@@ -34,7 +34,6 @@ class NewRadarRow extends React.Component{
     }
 
     handleAddSuccess(radars) {
-        alert(JSON.stringify(radars));
         this.props.storeRadars(radars);
     }
 

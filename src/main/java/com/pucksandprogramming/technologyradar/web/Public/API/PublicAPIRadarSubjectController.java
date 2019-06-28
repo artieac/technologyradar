@@ -1,7 +1,8 @@
-package com.pucksandprogramming.technologyradar.web.API;
+package com.pucksandprogramming.technologyradar.web.Public.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.PublicRadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
@@ -10,23 +11,23 @@ import com.pucksandprogramming.technologyradar.web.Models.RadarSubjectBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by acorrea on 10/27/2016.
- */
-@Controller("RadarSubjectAPI")
-@RequestMapping("/api/RadarSubject")
-public class RadarSubjectController extends ControllerBase
+@Controller()
+@RequestMapping("/api/public/RadarSubject")
+public class PublicAPIRadarSubjectController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = Logger.getLogger(PublicAPIRadarSubjectController.class);
 
     @Autowired
-    private RadarInstanceServiceFactory radarInstanceServiceFactory;
+    private PublicRadarInstanceService radarInstanceService;
 
     @Autowired
     private TechnologyService technologyService;
@@ -40,21 +41,7 @@ public class RadarSubjectController extends ControllerBase
 
         if(targetTechnology != null)
         {
-            // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
-            // that would make the subsequent calls at lot easier to manage.
-            List<Radar> ownedRadarList = new ArrayList<Radar>();
-
-            if(this.getCurrentUser()!=null)
-            {
-                ownedRadarList = radarInstanceServiceFactory.getMostRecent().getAllOwnedByTechnologyId(id, this.getCurrentUser());
-            }
-
-            for(int i = 0; i < ownedRadarList.size(); i++)
-            {
-                retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
-            }
-
-            List<Radar> publishedRadarList = radarInstanceServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+            List<Radar> publishedRadarList = radarInstanceService.getAllByTechnologyId(id);
 
             for(int i = 0; i < publishedRadarList.size(); i++)
             {
@@ -98,3 +85,4 @@ public class RadarSubjectController extends ControllerBase
         return retVal;
     }
 }
+
