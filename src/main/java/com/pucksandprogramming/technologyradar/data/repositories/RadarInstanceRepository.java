@@ -251,11 +251,24 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
-        Query query =  this.entityManager.createNamedQuery("findAllByUserTypeVersionAndIsPublished");
-        query.setParameter("radarUserId", radarUserId);
-        query.setParameter("radarTypeId", radarTypeId);
-        query.setParameter("radarTypeVersion", radarTypeVersion);
-        query.setParameter("isPublished", true);
+        Query query =  null;
+
+        if(publishedOnly==true)
+        {
+            query = this.entityManager.createNamedQuery("findAllByUserTypeVersionAndIsPublished");
+            query.setParameter("radarUserId", radarUserId);
+            query.setParameter("radarTypeId", radarTypeId);
+            query.setParameter("radarTypeVersion", radarTypeVersion);
+            query.setParameter("isPublished", true);
+        }
+        else
+        {
+            query = this.entityManager.createNamedQuery("findAllByUserTypeVersion");
+            query.setParameter("radarUserId", radarUserId);
+            query.setParameter("radarTypeId", radarTypeId);
+            query.setParameter("radarTypeVersion", radarTypeVersion);
+        }
+
         List<RadarInstanceEntity> foundItems = query.getResultList();
 
         for (RadarInstanceEntity foundItem : foundItems)

@@ -51,9 +51,4 @@ public abstract class RadarTypeServiceBase
     public abstract List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, Long radarTypeId);
     public abstract List<RadarType> findTypesByPublishedRadars(RadarUser owningUser);
     public abstract List<RadarType> findSharedRadarTypes(RadarUser currentUser, Long userToExclude);
-
-    public List<RadarType> findTypesByPublishedRadars()
-    {
-        return this.radarTypeRepository.findAllForPublishedRadars();
-    }
 }

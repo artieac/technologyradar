@@ -12,6 +12,8 @@
 <body ng-controller="RadarSubjectController">
     <div th:replace="fragments/header :: uiHeader"></div>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input sec:authorize="isAuthenticated()" type="hiden" name="isAnonymous" value="false"/>
+    <input sec:authorize="isAnonymous()" type="hiden" name="isAnonymous" value="true"/>
     <br/><br/><br/>
     <div class="panel-primary" ng-form="searchInputForm">
         <div class="panel-heading">Radar Subject</div>

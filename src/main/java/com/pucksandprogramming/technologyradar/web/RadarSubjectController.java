@@ -75,10 +75,6 @@ public class RadarSubjectController extends ControllerBase
         {
             model.addObject("userId", this.getCurrentUser().getId());
         }
-        else
-        {
-            model.addObject("userId", -1);
-        }
 
         return model;
     }

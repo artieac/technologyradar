@@ -37,7 +37,8 @@ public class RadarInstanceController extends ControllerBase
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId,
-                                                        @RequestParam(name="radarTypeId", required = false, defaultValue="-1") Long radarTypeId)
+                                                        @RequestParam(name="radarTypeId", required = false, defaultValue="-1") Long radarTypeId,
+                                                        @RequestParam(name="radarTypeVersion", required=false, defaultValue="-1") Long radarTypeVersion)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -52,7 +53,14 @@ public class RadarInstanceController extends ControllerBase
             }
             else
             {
-                retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserAndType(radarUserId, radarTypeId, false);
+                if (radarTypeVersion < 0)
+                {
+                    retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserAndType(radarUserId, radarTypeId, false);
+                }
+                else
+                {
+                    retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion, false);
+                }
             }
         }
         return retVal;

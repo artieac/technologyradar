@@ -35,7 +35,14 @@ public class MostRecentRadarTypesService extends RadarTypeServiceBase
 
     public List<RadarType> findTypesByPublishedRadars(RadarUser owningUser)
     {
-        return  this.radarTypeRepository.findMostRecentByUserAndIsPublished(owningUser.getId());
+        if(owningUser==null)
+        {
+            return this.radarTypeRepository.findAllForPublishedRadars();
+        }
+        else
+        {
+            return this.radarTypeRepository.findMostRecentByUserAndIsPublished(owningUser.getId());
+        }
     }
 
     public List<RadarType> findSharedRadarTypes(RadarUser currentUser, Long userToExclude)

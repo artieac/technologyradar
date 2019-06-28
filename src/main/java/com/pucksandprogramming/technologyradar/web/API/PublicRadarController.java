@@ -38,8 +38,8 @@ public class PublicRadarController extends ControllerBase
     @RequestMapping(value = "/public/RadarTypes", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<RadarType> getPublicRadarTypes()
     {
-        this.radarTypeServiceFactory.setUser(null, null);
-        return radarTypeServiceFactory.getRadarTypeServiceForSharing().findTypesByPublishedRadars();
+        this.radarTypeServiceFactory.setUser(this.getCurrentUser(), null);
+        return radarTypeServiceFactory.getRadarTypeServiceForViewing().findTypesByPublishedRadars(this.getCurrentUser());
     }
 
     @RequestMapping(value = "/public/User/{radarUserId}/RadarTypes", method = RequestMethod.GET, produces = "application/json")

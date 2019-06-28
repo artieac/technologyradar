@@ -11,6 +11,8 @@
 </head>
 <body ng-controller="RadarSubjectController">
     <div th:replace="fragments/header :: uiHeader"></div>
+    <input sec:authorize="isAuthenticated()" type="hiden" name="isAnonymous" value="false"/>
+    <input sec:authorize="isAnonymous()" type="hiden" name="isAnonymous" value="true"/>
     <input type="hidden" id="radarSubjectId" name="radarSubjectId" th:value="${targetTechnology.Id}"/>
     <br/><br/><br/>
     <h2><a th:href="${targetTechnology.url}" th:text="${targetTechnology.name}"></a></h2>
