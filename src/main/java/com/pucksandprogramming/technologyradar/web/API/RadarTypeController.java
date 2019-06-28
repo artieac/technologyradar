@@ -1,9 +1,10 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
-import com.pucksandprogramming.technologyradar.data.Entities.AssociatedRadarTypeEntity;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.services.*;
+import com.pucksandprogramming.technologyradar.services.RadarType.AssociatedRadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeServiceFactory;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
 import org.apache.log4j.Logger;
@@ -25,12 +26,6 @@ public class RadarTypeController extends ControllerBase
     private RadarUserService radarUserService;
 
     @Autowired
-    private RadarTypeService radarTypeService;
-
-    @Autowired
-    private RadarInstanceService radarInstanceService;
-
-    @Autowired
     RadarTypeServiceFactory radarTypeServiceFactory;
 
     @Autowired
@@ -49,13 +44,13 @@ public class RadarTypeController extends ControllerBase
 
         if(targetUser!=null)
         {
-            this.radarTypeServiceFactory.setCurrentUser(this.getCurrentUser());
+            this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
 
             if(includeOwned==true)
             {
                 if (allVersions == true)
                 {
-                    foundItems = radarTypeServiceFactory.getRadarTypeService().findAllByUserId(this.getCurrentUser(), radarUserId);
+                    foundItems = radarTypeServiceFactory.getRadarTypeServiceForViewing().findAllByUserId(this.getCurrentUser(), radarUserId);
                 }
                 else
                 {
@@ -78,6 +73,24 @@ public class RadarTypeController extends ControllerBase
         return retVal;
     }
 
+    @RequestMapping(value = "/RadarTypes/Shared", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@RequestParam(name="radarUserId", required = false, defaultValue = "-1") Long radarUserId)
+    {
+        List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
+
+        List<RadarType> foundItems = new ArrayList<RadarType>();
+
+        this.radarTypeServiceFactory.setUser(this.getCurrentUser(), null);
+        foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findSharedRadarTypes(this.getCurrentUser(), this.getCurrentUser().getId());
+
+        for (RadarType radarTypeItem : foundItems)
+        {
+            retVal.add(new RadarTypeViewModel(radarTypeItem));
+        }
+
+        return retVal;
+    }
+
     @RequestMapping(value = "/User/{radarUserId}/RadarType/{radarTypeId}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@PathVariable Long radarUserId,
                                                                         @PathVariable Long radarTypeId,
@@ -89,11 +102,11 @@ public class RadarTypeController extends ControllerBase
 
         if (targetUser != null)
         {
-            this.radarTypeServiceFactory.setCurrentUser(this.getCurrentUser());
+            this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
 
             if (allVersions == true)
             {
-                foundItems = radarTypeServiceFactory.getRadarTypeService().findAllByUserAndRadarType(this.getCurrentUser(), radarUserId, radarTypeId);
+                foundItems = radarTypeServiceFactory.getRadarTypeServiceForViewing().findAllByUserAndRadarType(this.getCurrentUser(), radarUserId, radarTypeId);
             }
             else
             {
@@ -117,8 +130,10 @@ public class RadarTypeController extends ControllerBase
 
         if(radarTypeViewModel != null)
         {
+            RadarUser targetUser = this.radarUserService.findOne(radarUserId);
+            this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
             RadarType radarType = radarTypeViewModel.ConvertToRadarType();
-            radarType = this.radarTypeService.update(radarType, this.getCurrentUser(), radarUserId);
+            radarType = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().update(radarType, this.getCurrentUser(), radarUserId);
             retVal = new RadarTypeViewModel(radarType);
         }
 
@@ -133,8 +148,10 @@ public class RadarTypeController extends ControllerBase
 
         if(radarTypeViewModel != null)
         {
+            RadarUser targetUser = this.radarUserService.findOne(radarUserId);
+            this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
             RadarType radarType = radarTypeViewModel.ConvertToRadarType();
-            radarType = this.radarTypeService.update(radarType, this.getCurrentUser(), radarUserId);
+            radarType = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().update(radarType, this.getCurrentUser(), radarUserId);
             retVal = new RadarTypeViewModel(radarType);
         }
 

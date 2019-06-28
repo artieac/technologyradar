@@ -1,7 +1,9 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
@@ -10,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,11 @@ public class RadarInstanceController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
 
+    @Autowired
+    RadarUserService userService;
 
     @Autowired
-    private RadarInstanceService radarInstanceService;
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
 
     @Autowired
     private DiagramConfigurationService radarSetupService;
@@ -40,13 +43,16 @@ public class RadarInstanceController extends ControllerBase
 
         if(this.getCurrentUser().getId()==radarUserId)
         {
+            RadarUser targetUser = this.userService.findOne(radarUserId);
+            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
+
             if (radarTypeId < 0)
             {
-                retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+                retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(radarUserId, false);
             }
             else
             {
-                retVal = this.radarInstanceService.findByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
+                retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserAndType(radarUserId, radarTypeId, false);
             }
         }
         return retVal;
@@ -55,32 +61,40 @@ public class RadarInstanceController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar", method = RequestMethod.POST)
     public @ResponseBody List<Radar> addRadar(@RequestBody Map modelMap, @PathVariable Long radarUserId)
     {
+        RadarUser targetUser = this.userService.findOne(radarUserId);
+        radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
+
         if(this.getCurrentUser().getId() == radarUserId)
         {
             String radarName = modelMap.get("name").toString();
             Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
             Long radarTypeVersion = Long.parseLong(modelMap.get("radarTypeVersion").toString());
-            this.radarInstanceService.addRadar(radarUserId, radarName, radarTypeId, radarTypeVersion);
+            this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().addRadar(radarUserId, radarName, radarTypeId, radarTypeVersion);
         }
 
-        return this.radarInstanceService.findByRadarUserId(this.getCurrentUser().getId());
+        return this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(this.getCurrentUser().getId(), false);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", produces = "application/json", method = RequestMethod.GET)
     public @ResponseBody DiagramPresentation getRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId)
     {
-        return this.radarSetupService.generateDiagramData(radarUserId, radarId);
+        RadarUser targetUser = this.userService.findOne(radarUserId);
+        Radar retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+        return this.radarSetupService.generateDiagramData(radarUserId, retVal);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}", method = RequestMethod.PUT)
     public @ResponseBody List<Radar> updateTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId)
     {
+        RadarUser targetUser = this.userService.findOne(radarUserId);
+        radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
+
         if(this.getCurrentUser().getId() == radarUserId)
         {
-            this.radarInstanceService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
+            this.radarInstanceServiceFactory.getFullHistory().updateRadar(radarUserId, radarId, modelMap.get("name").toString());
         }
 
-        return this.radarInstanceService.findByRadarUserId(this.getCurrentUser().getId());
+        return this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(this.getCurrentUser().getId(), false);
     }
 
     @RequestMapping(value = "/User/{userId}/Radar/{radarId}/Publish", method = RequestMethod.PUT)
@@ -91,7 +105,10 @@ public class RadarInstanceController extends ControllerBase
 
         if(this.getCurrentUser().getId() == userId)
         {
-            retVal = this.radarInstanceService.publishRadar(userId, radarId, isPublished);
+            RadarUser targetUser = this.userService.findOne(userId);
+            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
+
+            retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().publishRadar(userId, radarId, isPublished);
         }
 
         return retVal;
@@ -105,7 +122,9 @@ public class RadarInstanceController extends ControllerBase
 
         if(this.getCurrentUser().getId() == userId)
         {
-            retVal = this.radarInstanceService.lockRadar(userId, radarId, isLocked);
+            RadarUser targetUser = this.userService.findOne(userId);
+            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
+            retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().lockRadar(userId, radarId, isLocked);
         }
 
         return retVal;
@@ -116,9 +135,9 @@ public class RadarInstanceController extends ControllerBase
     {
         List<Radar> retVal = new ArrayList<>();
 
-        if(this.radarInstanceService.deleteRadar(radarUserId, radarId))
+        if(this.radarInstanceServiceFactory.getFullHistory().deleteRadar(radarUserId, radarId))
         {
-            retVal = this.radarInstanceService.findByRadarUserId(radarUserId);
+            retVal = this.radarInstanceServiceFactory.getFullHistory().findByRadarUserId(radarUserId, false);
         }
 
         return retVal;

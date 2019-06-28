@@ -50,12 +50,12 @@ class ManageAssociatedRadarTypesPage extends React.Component{
                     <div className="col-md-6">
                         <div className="row">
                             <div className="col-md-6">
-                                <RadarTypeList userId={this.state.userId} radarTypes={this.props.sharedRadarTypes}/>
+                                <RadarTypeList radarTypes={this.props.sharedRadarTypes}/>
                             </div>
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <RadarTypeEditor userId={this.state.userId} editMode={false} parentContainer={this} />
+                        <RadarTypeDetails parentContainer={this} />
                     </div>
                 </div>
             </div>

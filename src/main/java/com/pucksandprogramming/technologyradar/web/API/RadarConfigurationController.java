@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
@@ -27,14 +27,14 @@ public class RadarConfigurationController extends ControllerBase
     DiagramConfigurationService radarSetupService;
 
     @Autowired
-    RadarInstanceService radarInstanceService;
+    RadarInstanceServiceFactory radarInstanceServiceFactory;
 
     @RequestMapping(value = "/radar/{radarId}/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
     {
         List<RadarRing> retVal = new ArrayList<RadarRing>();
 
-        Radar targetRadar = this.radarInstanceService.findById(radarId);
+        Radar targetRadar = this.radarInstanceServiceFactory.getMostRecent().findById(radarId);
 
         if(targetRadar!=null){
             retVal = targetRadar.getRadarType().getRadarRings();
@@ -48,7 +48,7 @@ public class RadarConfigurationController extends ControllerBase
     {
         List<RadarCategory> retVal = new ArrayList<RadarCategory>();
 
-        Radar targetRadar = this.radarInstanceService.findById(radarId);
+        Radar targetRadar = this.radarInstanceServiceFactory.getMostRecent().findById(radarId);
 
         if(targetRadar!=null){
             retVal = targetRadar.getRadarType().getRadarCategories();

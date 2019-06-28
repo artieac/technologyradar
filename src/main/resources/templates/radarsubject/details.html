@@ -1,4 +1,6 @@
-<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org" ng-app="theApp">
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:ng="http://angularjs.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+       ng-app="theApp">
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <div th:replace="fragments/header :: scriptHeader"></div>
@@ -20,8 +22,11 @@
                     <div class="panelBody">
                         <div ng-repeat="radarSubjectAssessment in radarSubjectAssessments.userItems">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-3" sec:authorize="isAuthenticated()">
                                     <h4><a href="/home/secureradar/{{radarSubjectAssessment.assessmentId}}">{{radarSubjectAssessment.assessmentName}}</a> - {{ radarSubjectAssessment.assessmentDate | date:'MM/dd/yyyy'}}</h4>
+                                </div>
+                                <div class="col-lg-3" sec:authorize="isAnonymous()">
+                                    <h4><a href="/public/home/user/{{radarSubjectAssessment.radardUserId}}/radar/{{radarSubjectAssessment.assessmentId}}">{{radarSubjectAssessment.assessmentName}}</a> - {{ radarSubjectAssessment.assessmentDate | date:'MM/dd/yyyy'}}</h4>
                                 </div>
                                 <div class="col-lg-3">
                                     <h4>{{ radarSubjectAssessment.assessmentCategory.name}}</h4>
@@ -45,8 +50,11 @@
                     <div class="panelBody">
                         <div ng-repeat="radarSubjectAssessment in radarSubjectAssessments.otherUsersItems">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-3" sec:authorize="isAuthenticated()">
                                     <h4><a href="/home/secureradar/{{radarSubjectAssessment.assessmentId}}">{{radarSubjectAssessment.assessmentName}}</a> - {{ radarSubjectAssessment.assessmentDate | date:'MM/dd/yyyy'}}</h4>
+                                </div>
+                                <div class="col-lg-3" sec:authorize="isAnonymous()">
+                                    <h4><a href="/public/home/user/{{radarSubjectAssessment.assessmentUser.id}}/radar/{{radarSubjectAssessment.assessmentId}}">{{radarSubjectAssessment.assessmentName}}</a> - {{ radarSubjectAssessment.assessmentDate | date:'MM/dd/yyyy'}}</h4>
                                 </div>
                                 <div class="col-lg-3">
                                     <h4>{{ radarSubjectAssessment.assessmentRing.name}}</h4>

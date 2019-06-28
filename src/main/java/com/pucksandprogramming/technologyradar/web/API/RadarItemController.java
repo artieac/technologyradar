@@ -1,10 +1,11 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
+import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
-import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
@@ -27,16 +28,16 @@ public class RadarItemController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    private RadarInstanceService radarInstanceService;
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
     private DiagramConfigurationService diagramConfigurationService;
     private RadarUserService radarUserService;
 
     @Autowired
-    public RadarItemController(RadarInstanceService _radarInstanceService,
+    public RadarItemController(RadarInstanceServiceFactory _radarInstanceServiceFactory,
                                DiagramConfigurationService _diagramConfigurationService,
                                RadarUserService _radarUserService)
     {
-        this.radarInstanceService = _radarInstanceService;
+        this.radarInstanceServiceFactory = _radarInstanceServiceFactory;
         this.diagramConfigurationService = _diagramConfigurationService;
         this.radarUserService = _radarUserService;
     }
@@ -44,7 +45,7 @@ public class RadarItemController extends ControllerBase
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteRadarItem(@PathVariable Long radarId, @PathVariable Long radarItemId, @PathVariable Long radarUserId)
     {
-        return this.radarInstanceService.deleteRadarItem(radarId, radarItemId, radarUserId);
+        return this.radarInstanceServiceFactory.getFullHistory().deleteRadarItem(radarId, radarItemId, radarUserId);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Items/Delete", method = RequestMethod.POST)
@@ -61,7 +62,7 @@ public class RadarItemController extends ControllerBase
                 itemsToRemove.add(Long.parseLong(mapItems.get(i).toString()));
             }
 
-            this.radarInstanceService.deleteRadarItems(radarUserId, radarId, itemsToRemove);
+            this.radarInstanceServiceFactory.getFullHistory().deleteRadarItems(radarUserId, radarId, itemsToRemove);
         }
 
         return itemsToRemove;
@@ -94,18 +95,19 @@ public class RadarItemController extends ControllerBase
 
                 itemsToAdd.add(newItem);
 
-                this.radarInstanceService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                this.radarInstanceServiceFactory.getFullHistory().addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
             }
             else
             {
                 String technologyName = modelMap.get("technologyName").toString();
                 String technologyUrl = modelMap.get("url").toString();
 
-                this.radarInstanceService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
+                this.radarInstanceServiceFactory.getFullHistory().addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
             }
         }
 
-        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), radarId);
+        Radar retVal = this.radarInstanceServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), retVal);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Items", method = RequestMethod.POST)
@@ -131,11 +133,12 @@ public class RadarItemController extends ControllerBase
                     itemsToAdd.add(newItem);
                 }
 
-                this.radarInstanceService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                this.radarInstanceServiceFactory.getFullHistory().addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
             }
         }
 
-        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), radarId);
+        Radar retVal = this.radarInstanceServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), retVal);
     }
 
     @RequestMapping(value = "/User/{radarUserId}/Radar/{radarId}/Item/{radarItemId}", method = RequestMethod.POST)
@@ -148,9 +151,10 @@ public class RadarItemController extends ControllerBase
 
         if(radarId > 0 && radarItemId > 0 && this.getCurrentUser().getId() == radarUserId);
         {
-            this.radarInstanceService.updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+            this.radarInstanceServiceFactory.getFullHistory().updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
         }
 
-        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), radarId);
+        Radar retVal = this.radarInstanceServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+        return this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), retVal);
     }
 }

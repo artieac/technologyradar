@@ -89,6 +89,22 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return retVal;
     }
 
+    public List<RadarType> findMostRecentByUserAndIsPublished(Long radarUserId)
+    {
+        Query query =  this.entityManager.createNamedQuery("findMostRecentTypesByPublishedRadars");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
+    public List<RadarType> findAllTypesByUserAandPublishedRadars(Long userId)
+    {
+        Query query = entityManager.createNamedQuery("findAllTypesByPublishedRadars");
+        query.setParameter("radarUserId", userId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
     public List<RadarType> findMostRecentRadarTypesForUser(Long userId)
     {
         Query query = entityManager.createNamedQuery("findAllMostRecentByUser");
@@ -105,8 +121,6 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
-
-
 
     public List<RadarType> findAllAssociatedRadarTypes(Long radarUserId)
     {
@@ -146,9 +160,16 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.mapList(foundItems);
     }
 
-    public List<RadarType> findAllForPublishedRadars(Long radarUserId)
+    public List<RadarType> findAllForPublishedRadars()
     {
         Query query = entityManager.createNamedQuery("findAllForPublishedRadars");
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
+    public List<RadarType> findAllForPublishedRadars(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllForPublishedRadarsExcludeUser");
         query.setParameter("radarUserId", radarUserId);
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);

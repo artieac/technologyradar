@@ -42,7 +42,7 @@ theApp.service('RadarInstanceService', function ($resource, $http)
 
          if(radarType!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id;
+            url += "?radarTypeId=" + radarType.id + '&radarTypeVersion=' + radarType.version;
          }
 
         $http.get(url)

@@ -34,7 +34,7 @@
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div sec:authorize="isAuthenticated()" ng-init="getRadarTypes(currentUserId, false)"></div>
                     <div sec:authorize="isAnonymous()" ng-init="getRadarTypes(currentUserId, true)"></div>
                     <div class="dropdown pull-left">
@@ -45,11 +45,17 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
                             <li><a ng-click="radarTypeAllSelected(currentUserId)">All</a></li>
-                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}}</a></li>
+                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
+                    <label for="sharingLink">Public link:</label>
+                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -62,15 +68,14 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <label for="sharingLink">Public link:</label>
-                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                    <button type="button" class="btn btn-primary" ng-click="clickAddItemButton()" ng-Show="selectedRadarInstance.isLocked==false">Add Item</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-9">
                     <div id="radar"></div>
                 </div>
-                <div class="col-md-3" sec:authorize="isAuthenticated()" ng-show="selectedRadarInstance.isLocked==false">
+                <div class="col-md-3" id="addItemSection" sec:authorize="isAuthenticated()" ng-Show="showAddItemSection">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Radar Item</div>
                         <div id="technologyAssessmentDetailsPanel" class="panel-body">

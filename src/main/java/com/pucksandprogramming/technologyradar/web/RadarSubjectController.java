@@ -2,7 +2,9 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.Models.RadarSubjectBreakdown;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,10 @@ public class RadarSubjectController extends ControllerBase
     private static final Logger logger = Logger.getLogger(RadarSubjectController.class);
 
     @Autowired
-    private RadarInstanceService radarInstanceService;
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
+
+    @Autowired
+    private TechnologyService technologyService;
 
     @RequestMapping(value ={"/radarsubject/search", "/public/radarsubject/search"})
     public ModelAndView technologySearch(ModelAndView model)
@@ -41,13 +46,13 @@ public class RadarSubjectController extends ControllerBase
     @RequestMapping(value={"/radarsubject/{id}", "/public/radarsubject/{id}"})
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
     {
-        Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
+        Technology targetTechnology = this.technologyService.findById(id);
         RadarSubjectBreakdown viewModel = new RadarSubjectBreakdown(targetTechnology);
         List<Radar> ownedRadarList = new ArrayList<Radar>();
 
         if(this.getCurrentUser()!=null)
         {
-            ownedRadarList = radarInstanceService.getAllOwnedByTechnologyId(id, this.getCurrentUser());
+            ownedRadarList = radarInstanceServiceFactory.getFullHistory().getAllOwnedByTechnologyId(id, this.getCurrentUser());
         }
 
         for(int i = 0; i < ownedRadarList.size(); i++)
@@ -55,7 +60,7 @@ public class RadarSubjectController extends ControllerBase
             viewModel.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
         }
 
-        List<Radar> publishedRadarList = radarInstanceService.getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+        List<Radar> publishedRadarList = radarInstanceServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
 
         for(int i = 0; i < publishedRadarList.size(); i++)
         {
@@ -69,6 +74,10 @@ public class RadarSubjectController extends ControllerBase
         if(this.getCurrentUser()!=null)
         {
             model.addObject("userId", this.getCurrentUser().getId());
+        }
+        else
+        {
+            model.addObject("userId", -1);
         }
 
         return model;

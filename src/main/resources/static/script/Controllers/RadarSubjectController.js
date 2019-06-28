@@ -3,6 +3,18 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
     $scope.currentUserId = $('#userId').val();
     $scope.radarSubjectDetailsSelectionId = $('#radarSubjectId').val();
 
+    $scope.isUserLoggedIn = function()
+    {
+        var retVal = false;
+
+        if($scope.currentUserId > 0)
+        {
+            retVal = true;
+        }
+
+        return retVal;
+    }
+
     $scope.getRadarSubject = function (radarSubjectId)
     {
         var getRadarSubjectsRequest = $resource ('/api/RadarSubject/:radarSubjectId/assessments');
@@ -22,7 +34,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
     $scope.searchRadarSubjects = function()
     {
         var radarSubjectName = jQuery("#searchName").val();
-        $scope.radarSubjectSearchResults = RadarSubjectService.searchRequest(radarSubjectName, $scope.selectedRadarCategory, $scope.selectedRadarRing).query();
+        $scope.radarSubjectSearchResults = RadarSubjectService.searchRequest(radarSubjectName, $scope.selectedRadarType, $scope.selectedRadarCategory, $scope.selectedRadarRing).query();
     };
 
     $scope.searchForRadarSubjectByCategoryId = function(categoryId)

@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.HomeController;
@@ -26,7 +26,7 @@ public class RadarSubjectController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    private RadarInstanceService radarInstanceService;
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
 
     @Autowired
     private TechnologyService technologyService;
@@ -35,7 +35,7 @@ public class RadarSubjectController extends ControllerBase
     public @ResponseBody
     RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id)
     {
-        Technology targetTechnology = this.radarInstanceService.findTechnologyById(id);
+        Technology targetTechnology = this.technologyService.findById(id);
         RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology);
 
         if(targetTechnology != null)
@@ -46,7 +46,7 @@ public class RadarSubjectController extends ControllerBase
 
             if(this.getCurrentUser()!=null)
             {
-                ownedRadarList = radarInstanceService.getAllOwnedByTechnologyId(id, this.getCurrentUser());
+                ownedRadarList = radarInstanceServiceFactory.getMostRecent().getAllOwnedByTechnologyId(id, this.getCurrentUser());
             }
 
             for(int i = 0; i < ownedRadarList.size(); i++)
@@ -54,13 +54,12 @@ public class RadarSubjectController extends ControllerBase
                 retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
             }
 
-            List<Radar> publishedRadarList = radarInstanceService.getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+            List<Radar> publishedRadarList = radarInstanceServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
 
             for(int i = 0; i < publishedRadarList.size(); i++)
             {
                 retVal.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
             }
-
         }
 
         return retVal;
@@ -76,6 +75,12 @@ public class RadarSubjectController extends ControllerBase
             radarSubjectName = allRequestParams.get("name");
         }
 
+        Long radarTypeId = new Long(-1L);
+        if(allRequestParams.containsKey("radarTypeId"))
+        {
+            radarTypeId = Long.parseLong(allRequestParams.get("radarTypeId"));
+        }
+
         Long radarRingId = new Long(-1);
         if(allRequestParams.containsKey("radarRingId"))
         {
@@ -88,7 +93,7 @@ public class RadarSubjectController extends ControllerBase
             radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
         }
 
-        List<Technology> retVal = this.technologyService.searchTechnology(radarSubjectName, radarRingId, radarCategoryId);
+        List<Technology> retVal = this.technologyService.searchTechnology(radarSubjectName, radarTypeId, radarRingId, radarCategoryId);
 
         return retVal;
     }

@@ -78,18 +78,20 @@ class RadarTypeDetails extends React.Component{
                 <div>
                     <div className='row'>
                         <div className="col-md-3">Name</div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}/>
                         </div>
+                        <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
                         <div className={ this.props.editMode===true ? "col-md-3" : "hidden"}>
                            <input type="button" className='btn btn-primary' disabled={this.props.editMode!==true} value="Save" onClick={ this.handleSaveRadarType }/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-3">Share with others?</div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <input type="checkbox" ref="isPublished" checked={ this.props.selectedRadarType.isPublished } onChange = {(event) => this.handleSharedWithOthersChange(event) } readOnly={this.props.editMode ? '' : '"readonly"'}/>
                         </div>
+                        <div className="col-md-2"></div>
                         <div className={ this.props.editMode===true ?  "col-md-3" : "hidden"}>
                            <input type="button" className='btn btn-primary' disabled={!this.props.editMode} value="Delete" onClick={(event) => this.handleDeleteRadarType(event) }/>
                         </div>

@@ -3,6 +3,9 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
+import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
+import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
+import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +19,13 @@ public class DiagramPresentation
     public static final Integer DiagramDisplayHeight = 900;
     public static final Integer DiagramDisplayWidth = 1100;
     public static final Integer RingDiameter = 360;
+    public static final Integer MarginTop = 18;
+    public static final Integer MarginLeft = 170;
 
     private Integer height;
     private Integer width;
+    private Integer marginTop;
+    private Integer marginLeft;
     private Integer ringDiameter;
     private Integer radarArcWidth;
     private Long radarId;
@@ -29,10 +36,21 @@ public class DiagramPresentation
     private List<RadarRing> radarRings;
     private RadarTypeViewModel radarType;
 
-    public DiagramPresentation(Integer height, Integer width, Integer ringDiameter)
+    public DiagramPresentation()
+    {
+        this(DiagramPresentation.DiagramDisplayHeight,
+             DiagramPresentation.DiagramDisplayWidth,
+             DiagramPresentation.RingDiameter,
+             DiagramPresentation.MarginTop,
+             DiagramPresentation.MarginLeft);
+    }
+
+    public DiagramPresentation(Integer height, Integer width, Integer ringDiameter, Integer marginTop, Integer marginLeft)
     {
         this.height = height;
         this.width = width;
+        this.marginTop = marginTop;
+        this.marginLeft = marginLeft;
         this.ringDiameter = ringDiameter;
         this.radarArcWidth = 0;
         this.quadrantList = new ArrayList<Quadrant>();
@@ -47,6 +65,12 @@ public class DiagramPresentation
     public Integer getWidth() {
         return this.width;
     }
+
+    @JsonProperty
+    public Integer getMarginTop() { return this.marginTop;}
+
+    @JsonProperty
+    public Integer getMarginLeft() { return this.marginLeft;}
 
     @JsonProperty
     public Integer getRingDiameter() {

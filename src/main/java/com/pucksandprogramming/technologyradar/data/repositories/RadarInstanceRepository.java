@@ -102,55 +102,207 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public List<Radar> findAllByRadarUserAndIsPublished(Long radarUserId, boolean publishedOnly)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        List<RadarInstanceEntity> foundItems = null;
+
+        if(publishedOnly==true)
+        {
+            foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, true);
+        }
+        else
+        {
+            foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
+        }
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
+    public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
+    {
+        Radar retVal = null;
+
+        Query q = null;
+
+        if(publishedOnly==true)
+        {
+            q = this.entityManager.createNamedQuery("findMostRecentByUserAndIsPublished");
+            q.setParameter("radarUserId", userId);
+            q.setParameter("isPublished", true);
+        }
+        else
+        {
+            q = this.entityManager.createNamedQuery("findMostRecentByUser");
+            q.setParameter("radarUserId", userId);
+        }
+
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
+    public Radar findByIdAndRadarUserIdAndPublishedOnly(Long userId, Long radarId, boolean publishedOnly)
+    {
+        RadarInstanceEntity retVal = null;
+
+        if(publishedOnly==true)
+        {
+            retVal = this.entityRepository.findByIdAndRadarUserIdAndIsPublished(radarId, userId, true);
+        }
+        else
+        {
+            retVal = this.entityRepository.findByIdAndRadarUserId(radarId, userId);
+        }
+
+        return this.modelMapper.map(retVal, Radar.class);
+    }
+
+    public Radar findMostRecentByUserRadarIdAndPublishedOnly(Long userId, Long radarId, boolean publishedOnly)
+    {
+        Radar retVal = null;
+
+        Query query = null;
+
+        if(publishedOnly==true)
+        {
+            query = this.entityManager.createNamedQuery("findMostRecentByUserRadarIdAndIsPublished");
+            query.setParameter("radarUserId", userId);
+            query.setParameter("radarId", radarId);
+            query.setParameter("isPublished", true);
+        }
+        else
+        {
+            query = this.entityManager.createNamedQuery("findMostRecentByUserAndRadarId");
+            query.setParameter("radarUserId", userId);
+            query.setParameter("radarId", radarId);
+        }
+
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)query.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> findAllByUserTypeAndIsPublished(Long radarUserId, Long radarTypeId,  boolean isPublished)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Query query =  this.entityManager.createNamedQuery("findAllByUserTypeAndIsPublished");
+        query.setParameter("radarUserId", radarUserId);
+        query.setParameter("radarTypeId", radarTypeId);
+        query.setParameter("isPublished", true);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
+    public Radar findAMostRecentByUserTypeAndIsPublished(Long userId, Long radarTypeId, boolean publishedOnly)
+    {
+        Radar retVal = null;
+
+        Query q = null;
+
+        if(publishedOnly==true)
+        {
+            q = this.entityManager.createNamedQuery("findMostRecentByUserTypeAndIsPublished");
+            q.setParameter("radarUserId", userId);
+            q.setParameter("radarTypeId", radarTypeId);
+            q.setParameter("isPublished", true);
+        }
+        else
+        {
+            q = this.entityManager.createNamedQuery("findMostRecentByUserType");
+            q.setParameter("radarUserId", userId);
+            q.setParameter("radarTypeId", radarTypeId);
+        }
+
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> findAllByUserTypeVersionAndIsPublished(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly)
+    {
+        List<Radar> retVal = new ArrayList<Radar>();
+
+        Query query =  this.entityManager.createNamedQuery("findAllByUserTypeVersionAndIsPublished");
+        query.setParameter("radarUserId", radarUserId);
+        query.setParameter("radarTypeId", radarTypeId);
+        query.setParameter("radarTypeVersion", radarTypeVersion);
+        query.setParameter("isPublished", true);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
+    public Radar findAMostRecentByUserTypeVersionAndIsPublished(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly)
+    {
+        Radar retVal = null;
+
+        Query query = null;
+
+        if(publishedOnly==true)
+        {
+            query = this.entityManager.createNamedQuery("findMostRecentByUserTypeVersionAndIsPublished");
+            query.setParameter("radarUserId", radarUserId);
+            query.setParameter("radarTypeId", radarTypeId);
+            query.setParameter("radarTypeVersion", radarTypeVersion);
+            query.setParameter("isPublished", true);
+        }
+        else
+        {
+            query = this.entityManager.createNamedQuery("findMostRecentByUserTypeAndVersion");
+            query.setParameter("radarUserId", radarUserId);
+            query.setParameter("radarTypeId", radarTypeId);
+            query.setParameter("radarTypeVersion", radarTypeVersion);
+        }
+
+        RadarInstanceEntity foundItem = (RadarInstanceEntity)query.getSingleResult();
+
+        if (foundItem != null)
+        {
+            retVal = this.modelMapper.map(foundItem, Radar.class);
+        }
+
+        return retVal;
+    }
+
     public List<Radar> findAllByRadarUserAndRadarTypeId(Long radarUserId, Long radarTypeId)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
         Iterable<RadarInstanceEntity> foundItems = null; //this.entityRepository.findAllByRadarUserIdAndRadarTypeId(radarUserId, radarTypeId);
-
-        for (RadarInstanceEntity foundItem : foundItems)
-        {
-            retVal.add(this.modelMapper.map(foundItem, Radar.class));
-        }
-
-        return retVal;
-    }
-
-    public List<Radar> findAllByRadarUserRadarTypeIdAndIsPublished(Long radarUserId, Long radarTypeId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        Iterable<RadarInstanceEntity> foundItems = null; //this.entityRepository.findAllByRadarUserIdAndRadarTypeIdAndIsPublished(radarUserId, radarTypeId, isPublished);
-        for (RadarInstanceEntity foundItem : foundItems)
-        {
-            retVal.add(this.modelMapper.map(foundItem, Radar.class));
-        }
-
-        return retVal;
-    }
-
-    public List<Radar> findAllByRadarUserAndIsPublished(Long radarUserId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        Iterable<RadarInstanceEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, isPublished);
-
-        for (RadarInstanceEntity foundItem : foundItems)
-        {
-            retVal.add(this.modelMapper.map(foundItem, Radar.class));
-        }
-
-        return retVal;
-    }
-
-    public List<Radar> findAllByTechnologyIdAndIsPublished(Long technologyId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        Query query = entityManager.createNamedQuery("findByTechnologyIdAndIsPublished");
-        query.setParameter("technologyId", technologyId);
-        query.setParameter("isPublished", isPublished);
-        List<RadarInstanceEntity> foundItems = query.getResultList();
 
         for (RadarInstanceEntity foundItem : foundItems)
         {
@@ -194,6 +346,38 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
+    public List<Radar> findMostNotOwnedByTechnolgyIdAndRadarUserId(Long technologyId, Long radarUserId)
+    {
+        List<Radar> retVal = new ArrayList();
+
+        Query query = entityManager.createNamedQuery("findMostRecentNotOwnedByTechnologyIdAndIsPublished");
+        query.setParameter("technologyId", technologyId);
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> findMostRecentByTechnolgyId(Long technologyId)
+    {
+        List<Radar> retVal = new ArrayList();
+        Query query = entityManager.createNamedQuery("findMostRecentByTechnologyIdAndIsPublished");
+        query.setParameter("technologyId", technologyId);
+        List<RadarInstanceEntity> foundItems = query.getResultList();
+
+        for (RadarInstanceEntity foundItem : foundItems)
+        {
+            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+        }
+
+        return retVal;
+    }
+
     public Radar findByIdAndName(Long radarInstanceId, String assessmentName)
     {
         Radar retVal = null;
@@ -208,42 +392,12 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public Radar findMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
-    {
-        Radar retVal = null;
-        String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
-                maxQuery += " FROM TechnologyAssessments ta WHERE ta.id =";
-                maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = ?";
-
-        if(publishedOnly==true)
-        {
-            maxQuery += " AND ta2.IsPublished = ?";
-        }
-
-        maxQuery += ")";
-
-        Query q = this.entityManager.createNativeQuery(maxQuery, RadarInstanceEntity.class);
-        q.setParameter(1, userId);
-
-        if(publishedOnly==true)
-        {
-            q.setParameter(2, publishedOnly);
-        }
-
-        RadarInstanceEntity foundItem = (RadarInstanceEntity)q.getSingleResult();
-
-        if (foundItem != null)
-        {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
-        }
-
-        return retVal;
-    }
 
     public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, Long radarTypeId, boolean publishedOnly)
     {
         Radar retVal = null;
-        String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
+        String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,";
+        maxQuery += " ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
         maxQuery += " FROM TechnologyAssessments ta WHERE ta.id =";
         maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId";
         maxQuery += "  AND ta2.RadarTypeId = :radarTypeId";

@@ -47,7 +47,7 @@ theApp.service('RadarTypeService', function ($resource, $http)
         }
         else
         {
-            url = '/api/User/' + userId + '/RadarTypes';
+            url = '/api/User/' + userId + '/RadarTypes?allVersions=true';
         }
 
         $http.get(url)

@@ -3,6 +3,12 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
+    $scope.showAddItemSection = false;
+
+    $scope.clickAddItemButton = function()
+    {
+        $scope.showAddItemSection = !$scope.showAddItemSection;
+    }
 
     $scope.copyText = function()
     {

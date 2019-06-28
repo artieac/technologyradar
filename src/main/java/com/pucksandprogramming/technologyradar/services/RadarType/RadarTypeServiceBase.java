@@ -1,4 +1,4 @@
-package com.pucksandprogramming.technologyradar.services;
+package com.pucksandprogramming.technologyradar.services.RadarType;
 
 import com.pucksandprogramming.technologyradar.data.repositories.Auth0Repository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarInstanceRepository;
@@ -14,15 +14,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class RadarTypeService
+public abstract class RadarTypeServiceBase
 {
-    private RadarTypeRepository radarTypeRepository;
-    private RadarUserRepository radarUserRepository;
-    private RadarInstanceRepository radarInstanceRepository;
+    protected RadarTypeRepository radarTypeRepository;
+    protected RadarUserRepository radarUserRepository;
+    protected RadarInstanceRepository radarInstanceRepository;
 
-    @Autowired
-    public RadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository, RadarInstanceRepository radarInstanceRepository)
+    public RadarTypeServiceBase(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository, RadarInstanceRepository radarInstanceRepository)
     {
         this.radarTypeRepository = radarTypeRepository;
         this.radarUserRepository = radarUserRepository;
@@ -32,26 +30,6 @@ public class RadarTypeService
     public RadarType findOne(Long radarTypeId, Long version)
     {
         return this.radarTypeRepository.findOne(radarTypeId, version);
-    }
-
-    public List<RadarType> findAll(boolean publishedOnly)
-    {
-        return this.radarTypeRepository.findAllByIsPublished(publishedOnly);
-    }
-
-    public List<RadarType> findAllSharedRadarTypesExcludeOwned(Long userId)
-    {
-        return this.radarTypeRepository.findAllSharedRadarTypesExcludeOwned(userId);
-    }
-
-    public List<RadarType> findOthersRadarTypes(Long userId)
-    {
-        return this.radarTypeRepository.findOthersRadarTypes(userId);
-    }
-
-    public List<RadarType> findAllForPublishedRadars(Long userId)
-    {
-        return this.radarTypeRepository.findAllForPublishedRadars(userId);
     }
 
     public RadarType update(RadarType radarType, RadarUser currentUser, Long ownerId)
@@ -69,5 +47,13 @@ public class RadarTypeService
         return radarType;
     }
 
+    public abstract List<RadarType> findAllByUserId(RadarUser currentUser, Long userId);
+    public abstract List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, Long radarTypeId);
+    public abstract List<RadarType> findTypesByPublishedRadars(RadarUser owningUser);
+    public abstract List<RadarType> findSharedRadarTypes(RadarUser currentUser, Long userToExclude);
 
+    public List<RadarType> findTypesByPublishedRadars()
+    {
+        return this.radarTypeRepository.findAllForPublishedRadars();
+    }
 }

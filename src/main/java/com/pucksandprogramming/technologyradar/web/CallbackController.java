@@ -3,9 +3,9 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
-import com.pucksandprogramming.technologyradar.services.AssociatedRadarTypeService;
-import com.pucksandprogramming.technologyradar.services.DefaultRadarTypeManager;
-import com.pucksandprogramming.technologyradar.services.RadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarType.AssociatedRadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarType.DefaultRadarTypeManager;
+import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -33,7 +33,7 @@ public class CallbackController
     private RadarUserService userService;
 
     @Autowired
-    private RadarTypeService radarTypeService;
+    private RadarTypeServiceFactory radarTypeServiceFactory;
 
     @Autowired
     private AssociatedRadarTypeService associatedRadarTypeService;
@@ -79,7 +79,7 @@ public class CallbackController
 
                 if(targetUser.getId() > 0)
                 {
-                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeService);
+                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeServiceFactory.getMostRecent());
 
                     for(RadarType radarType : defaultRadars)
                     {

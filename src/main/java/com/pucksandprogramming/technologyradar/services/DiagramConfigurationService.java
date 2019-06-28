@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarCategoryRe
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
 import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
@@ -25,18 +26,18 @@ public class DiagramConfigurationService
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
-    private RadarInstanceService radarInstanceService;
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
                                        RadarUserRepository radarUserRepository,
-                                       RadarInstanceService radarInstanceService)
+                                       RadarInstanceServiceFactory radarInstanceServiceFactory)
     {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
-        this.radarInstanceService = radarInstanceService;
+        this.radarInstanceServiceFactory = radarInstanceServiceFactory;
     }
 
     public List<RadarRing> getRadarRings()
@@ -49,20 +50,16 @@ public class DiagramConfigurationService
         return this.radarCategoryRepository.findAll();
     }
 
-    public DiagramPresentation generateDiagramData(Long radarUserId, Long radarId)
+    public DiagramPresentation generateDiagramData(Long radarUserId, Radar radarInstance)
     {
         RadarUser targetUser = this.radarUserRepository.findOne(radarUserId);
 
-        return this.generateDiagramData(targetUser, radarId);
+        return this.generateDiagramData(targetUser, radarInstance);
     }
 
-    public DiagramPresentation generateDiagramData(RadarUser radarUser, Long radarId)
+    public DiagramPresentation generateDiagramData(RadarUser radarUser, Radar radarInstance)
     {
-        DiagramPresentation retVal = new DiagramPresentation(   DiagramPresentation.DiagramDisplayHeight,
-                                                                DiagramPresentation.DiagramDisplayWidth,
-                                                                DiagramPresentation.RingDiameter);
-
-        Radar radarInstance = this.radarInstanceService.findById(radarId);
+        DiagramPresentation retVal = new DiagramPresentation();
 
         retVal.addRadarArcs(radarInstance.getRadarType().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
@@ -80,7 +77,7 @@ public class DiagramConfigurationService
 
         for(RadarCategory radarCategory : radarInstance.getRadarType().getRadarCategories())
         {
-            Quadrant newQuadrant = new Quadrant(quadrantStart, quadrantSize, radarCategory, retVal.getWidth(), retVal.getHeight(), radarRingPresentations);
+            Quadrant newQuadrant = new Quadrant(quadrantStart, quadrantSize, radarCategory, retVal.getWidth(), retVal.getHeight(), retVal.getMarginTop(), retVal.getMarginLeft(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
             quadrantStart += quadrantSize;

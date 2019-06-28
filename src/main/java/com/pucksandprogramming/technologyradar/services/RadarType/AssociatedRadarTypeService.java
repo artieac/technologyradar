@@ -1,4 +1,4 @@
-package com.pucksandprogramming.technologyradar.services;
+package com.pucksandprogramming.technologyradar.services.RadarType;
 
 import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
