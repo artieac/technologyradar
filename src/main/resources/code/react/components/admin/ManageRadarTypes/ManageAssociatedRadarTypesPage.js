@@ -3,40 +3,66 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
+import { UserRepository } from '../../../Repositories/UserRepository';
 
 class ManageAssociatedRadarTypesPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val()
         };
 
         this.radarTypeRepository = new RadarTypeRepository();
+        this.userRepository = new UserRepository();
 
         this.handleGetOtherUsersSharedRadarTypesSuccess = this.handleGetOtherUsersSharedRadarTypesSuccess.bind(this);
         this.handleGetAssociatedRadarTypesSuccess = this.handleGetAssociatedRadarTypesSuccess.bind(this);
+        this.handleGetCurrentUserSuccess = this.handleGetCurrentUserSuccess.bind(this);
     }
 
     componentDidMount(){
-        this.radarTypeRepository.getOtherUsersSharedRadarTypes(this.state.userId, this.handleGetOtherUsersSharedRadarTypesSuccess);
-        this.radarTypeRepository.getAssociatedRadarTypes(this.state.userId, this.handleGetAssociatedRadarTypesSuccess);
+        this.userRepository.getUser(this.handleGetCurrentUserSuccess);
+    }
+
+    handleGetCurrentUserSuccess(currentUser){
+       this.props.storeCurrentUser(currentUser);
+       this.radarTypeRepository.getAssociatedRadarTypes(currentUser.id, this.handleGetAssociatedRadarTypesSuccess);
+    }
+
+    handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
+        this.props.storeAssociatedRadarTypes(associatedRadarTypes);
+        this.radarTypeRepository.getOtherUsersSharedRadarTypes(this.props.currentUser.id, this.handleGetOtherUsersSharedRadarTypesSuccess);
     }
 
     handleGetOtherUsersSharedRadarTypesSuccess(sharedRadarTypes){
+        for(var i = 0; i < this.props.associatedRadarTypes.length; i++)
+        {
+            var associatedRadarType = this.props.associatedRadarTypes[i];
+            var foundMatch = false;
+
+            for(var j = 0; j < sharedRadarTypes.length; j++)
+            {
+                if(associatedRadarType.id == sharedRadarTypes[j].id &&
+                   associatedRadarType.version == sharedRadarTypes[j].version)
+               {
+                    foundMatch = true;
+               }
+            }
+
+            if(foundMatch == false)
+            {
+                sharedRadarTypes.push(associatedRadarType);
+            }
+        }
+
         this.props.storeSharedRadarTypes(sharedRadarTypes);
 
         if(sharedRadarTypes.length > 0){
             this.props.storeSelectedRadarType(sharedRadarTypes[0]);
         }
-    }
-
-    handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
-        this.props.storeAssociatedRadarTypes(associatedRadarTypes);
-        this.forceUpdate();
     }
 
     render() {
@@ -55,7 +81,7 @@ class ManageAssociatedRadarTypesPage extends React.Component{
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <RadarTypeDetails parentContainer={this} />
+                        <RadarTypeDetails parentContainer={this} editMode={false}/>
                     </div>
                 </div>
             </div>
@@ -66,7 +92,8 @@ class ManageAssociatedRadarTypesPage extends React.Component{
 function mapStateToProps(state) {
   return {
     	sharedRadarTypes: state.radarTypeReducer.sharedRadarTypes,
-    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes
+    	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
+    	currentUser: state.radarTypeReducer.currentUser
     };
 }
 
@@ -74,7 +101,8 @@ const mapDispatchToProps = dispatch => {
   return {
         storeSharedRadarTypes : sharedRadarTypes => { dispatch(addSharedRadarTypesToState(sharedRadarTypes))},
         storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))},
-        storeAssociatedRadarTypes : associatedRadarTypes => { dispatch(addAssociatedRadarTypesToState(associatedRadarTypes))}
+        storeAssociatedRadarTypes : associatedRadarTypes => { dispatch(addAssociatedRadarTypesToState(associatedRadarTypes))},
+        storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))}
     }
 };
 

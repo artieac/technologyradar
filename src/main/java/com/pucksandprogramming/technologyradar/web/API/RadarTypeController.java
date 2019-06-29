@@ -74,14 +74,49 @@ public class RadarTypeController extends ControllerBase
     }
 
     @RequestMapping(value = "/RadarTypes/Shared", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@RequestParam(name="radarUserId", required = false, defaultValue = "-1") Long radarUserId)
+    public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@RequestParam(name="ownedBy", required = false, defaultValue = "-1") Long ownerUserId,
+                                                                        @RequestParam(name="excludeUser", required = false, defaultValue = "-1") Long excludeUserId)
     {
         List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
 
         List<RadarType> foundItems = new ArrayList<RadarType>();
 
-        this.radarTypeServiceFactory.setUser(this.getCurrentUser(), null);
-        foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findSharedRadarTypes(this.getCurrentUser(), this.getCurrentUser().getId());
+        if(excludeUserId != null && excludeUserId > 0)
+        {
+            RadarUser targetUser = radarUserService.findOne(excludeUserId);
+
+            if (targetUser != null)
+            {
+                radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
+                foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findSharedRadarTypes(this.getCurrentUser(), targetUser.getId());
+            }
+        }
+
+        for (RadarType radarTypeItem : foundItems)
+        {
+            retVal.add(new RadarTypeViewModel(radarTypeItem));
+        }
+
+        return retVal;
+    }
+
+    @RequestMapping(value = "/User/{radarUserId}/RadarTypes/Associated", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<RadarTypeViewModel> getAssociatedRadarTypes(@PathVariable Long radarUserId)
+    {
+        List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
+
+        List<RadarType> foundItems = new ArrayList<RadarType>();
+
+        if(radarUserId != null && radarUserId > 0)
+        {
+            RadarUser targetUser = radarUserService.findOne(radarUserId);
+
+            if (targetUser != null)
+            {
+                radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
+                foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findAssociatedRadarTypes(this.getCurrentUser());
+            }
+        }
 
         for (RadarType radarTypeItem : foundItems)
         {

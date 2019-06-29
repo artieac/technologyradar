@@ -55,7 +55,7 @@ class RadarTypeDetails extends React.Component{
     }
 
     handleEditChangeSuccess(radarType){
-        this.props.parentContainer.getByUserId(this.props.currentUser.id, this.handleGetByUserIdSuccess);
+        this.radarTypeRepository.getByUserId(this.props.currentUser.Id, false, this.handleGetByUserIdSuccess);
     }
 
     handleDeleteRadarType(){
@@ -83,7 +83,7 @@ class RadarTypeDetails extends React.Component{
                         </div>
                         <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
                         <div className={ this.props.editMode===true ? "col-md-3" : "hidden"}>
-                           <input type="button" className='btn btn-primary' disabled={this.props.editMode!==true} value="Save" onClick={ this.handleSaveRadarType }/>
+                           <input type="button" className='btn btn-primary' disabled={this.props.editMode!==true} value="Save" onClick={(event) => this.handleSaveRadarType(event) }/>
                         </div>
                     </div>
                     <div className="row">
@@ -102,7 +102,7 @@ class RadarTypeDetails extends React.Component{
                                 <div className="panel-heading">Rings</div>
                                 <div className="panel-body">
                                     {this.props.selectedRadarType.radarRings.map((currentRow) => {
-                                        return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} radarTypeId={this.props.selectedRadarType.id} />
+                                        return <RadarRingDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} radarTypeId={this.props.selectedRadarType.id} editMode={this.props.editMode}/>
                                         })}
                                      <div className={ this.props.editMode==true ?  "row" : "hidden"}>
                                         <div className="col-md-12">
@@ -144,7 +144,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
     }
 };
 

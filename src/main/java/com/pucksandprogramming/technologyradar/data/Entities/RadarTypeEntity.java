@@ -14,7 +14,8 @@ import java.util.UUID;
 @org.hibernate.annotations.NamedNativeQueries
 (
     {
-        @org.hibernate.annotations.NamedNativeQuery(name = "findAllMostRecentByUser", query = "SELECT * from RadarTypes rt1 WHERE rt1.RadarUserId = :radarUserId AND rt1.Version =  (SELECT max(rt2.Version) FROM RadarTypes rt2 WHERE rt2.id = rt1.id)", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findByMaxId", query = "SELECT * FROM RadarTypes where Id = (select max(Id) from RadarTypes);", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentRadarTypeByRadarUserId", query = "SELECT rt.Id, rt.Version, rt.Name, rt.IsPublished, rt.CreateDate, rt.RadarUserId FROM RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version WHERE rt.RadarUserId = :radarUserId", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserAndId", query = "SELECT * from RadarTypes rt1 WHERE rt1.RadarUserId = :radarUserId AND rt1.Id = :radarTypeId AND rt1.Version =  (SELECT max(rt2.Version) FROM RadarTypes rt2 WHERE rt2.id = rt1.id)", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findHistoryByRadarUserIdAndId", query = "SELECT * from RadarTypes rt WHERE rt.RadarUserId = :radarUserId AND rt.Id = :radarTypeId ORDER BY rt.Id, rt.Version", resultClass = RadarTypeEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentTypesByPublishedRadars", query = "SELECT * from RadarTypes rt WHERE rt.Version = (SELECT MAX(ta.RadarTypeVersion) FROM TechnologyAssessments ta WHERE ta.RadarTypeId = rt.Id AND ta.RadarUserId = :radarUserId AND ta.IsPublished = true)", resultClass = RadarTypeEntity.class),

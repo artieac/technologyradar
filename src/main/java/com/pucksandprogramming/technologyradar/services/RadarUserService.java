@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarUserReposi
 import com.pucksandprogramming.technologyradar.domainmodel.Auth0UserProfile;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.RoleType;
+import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,7 @@ public class RadarUserService
         retVal.setId(new Long(0));
         retVal.setAuthenticationId("");
         retVal.setRoleId(RoleType.User);
+        retVal.setUserType(UserType.Free);
         return retVal;
     }
 

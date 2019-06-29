@@ -76,8 +76,9 @@ export class RadarTypeRepository {
      }
 
     getOtherUsersSharedRadarTypes(userId, successHandler){
+        var url = '/api//RadarTypes/Shared?excludeUser=' + userId;
        jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeSharedByOthers=true',
+                url: url,
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -88,7 +89,7 @@ export class RadarTypeRepository {
 
     getAssociatedRadarTypes(userId, successHandler){
        jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeAssociated=true',
+                url: '/api/User/' + userId + '/RadarTypes/Associated',
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {

@@ -107,7 +107,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     public List<RadarType> findMostRecentRadarTypesForUser(Long userId)
     {
-        Query query = entityManager.createNamedQuery("findAllMostRecentByUser");
+        Query query = entityManager.createNamedQuery("findMostRecentRadarTypeByRadarUserId");
         query.setParameter("radarUserId", userId);
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
@@ -321,22 +321,30 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return retVal;
     }
 
-    private Long getNextVersionNumber(Long radarUserId, Long radarTypeId)
+    private RadarTypeEntity getNextVersionNumber(Long radarUserId, RadarTypeEntity instanceToId)
     {
-        Long retVal = 1L;
-
-        Query query = entityManager.createNamedQuery("findMostRecentByUserAndId");
-        query.setParameter("radarUserId", radarUserId);
-        query.setParameter("radarTypeId", radarTypeId);
-        List<RadarTypeEntity> foundItems = query.getResultList();
-
-        if(foundItems!=null && foundItems.size() > 0)
+        if(instanceToId.getVersionedId().getId() < 0)
         {
-            retVal = foundItems.get(0).getVersionedId().getVersion();
-            retVal += 1;
+            Query query = entityManager.createNamedQuery("findByMaxId");
+            RadarTypeEntity foundItem = (RadarTypeEntity)query.getSingleResult();
+
+            instanceToId.getVersionedId().setId(foundItem.getVersionedId().getId() + 1);
+            instanceToId.getVersionedId().setVersion(1L);
+        }
+        else
+        {
+            Query query = entityManager.createNamedQuery("findMostRecentByUserAndId");
+            query.setParameter("radarUserId", radarUserId);
+            query.setParameter("radarTypeId", instanceToId.getVersionedId().getId());
+            List<RadarTypeEntity> foundItems = query.getResultList();
+
+            if (foundItems != null && foundItems.size() > 0)
+            {
+                instanceToId.getVersionedId().setVersion(foundItems.get(0).getVersionedId().getVersion() + 1);
+            }
         }
 
-        return retVal;
+        return instanceToId;
     }
 
     @Override
@@ -346,17 +354,19 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
         if(itemToSave !=null && itemToSave.getId() != null)
         {
+            boolean shouldVersion = false;
+
             if (itemToSave.getId() > 0)
             {
                 VersionedIdEntity versionedIdEntity = new VersionedIdEntity(itemToSave.getId(), itemToSave.getVersion());
                 radarTypeEntity = this.entityRepository.findOne(versionedIdEntity);
+                shouldVersion = this.shouldVersion(itemToSave, radarTypeEntity);
             }
             else
             {
                 radarTypeEntity = new RadarTypeEntity();
+                shouldVersion = true;
             }
-
-            boolean shouldVersion = this.shouldVersion(itemToSave, radarTypeEntity);
 
             if(shouldVersion)
             {
@@ -369,7 +379,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
                 {
                     radarTypeEntity = this.modelMapper.map(itemToSave, RadarTypeEntity.class);
                     radarTypeEntity.getVersionedId().setId(itemToSave.getId());
-                    radarTypeEntity.getVersionedId().setVersion(this.getNextVersionNumber(itemToSave.getRadarUser().getId(), itemToSave.getId()));
+                    radarTypeEntity = this.getNextVersionNumber(itemToSave.getRadarUser().getId(), radarTypeEntity);
 
                     for(RadarRingEntity radarRingEntity : radarTypeEntity.getRadarRings())
                     {

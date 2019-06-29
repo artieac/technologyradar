@@ -69,5 +69,4 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
 
         return retVal;
     }
-
 }
