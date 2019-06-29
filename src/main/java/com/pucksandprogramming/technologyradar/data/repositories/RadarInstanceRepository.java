@@ -199,7 +199,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public List<Radar> findAllByUserTypeAndIsPublished(Long radarUserId, Long radarTypeId,  boolean isPublished)
+    public List<Radar> findAllByUserTypeAndIsPublished(Long radarUserId, String radarTypeId,  boolean isPublished)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -217,7 +217,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public Radar findAMostRecentByUserTypeAndIsPublished(Long userId, Long radarTypeId, boolean publishedOnly)
+    public Radar findAMostRecentByUserTypeAndIsPublished(Long userId, String radarTypeId, boolean publishedOnly)
     {
         Radar retVal = null;
 
@@ -247,7 +247,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public List<Radar> findAllByUserTypeVersionAndIsPublished(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly)
+    public List<Radar> findAllByUserTypeVersionAndIsPublished(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -279,7 +279,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public Radar findAMostRecentByUserTypeVersionAndIsPublished(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly)
+    public Radar findAMostRecentByUserTypeVersionAndIsPublished(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly)
     {
         Radar retVal = null;
 
@@ -311,7 +311,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
         return retVal;
     }
 
-    public List<Radar> findAllByRadarUserAndRadarTypeId(Long radarUserId, Long radarTypeId)
+    public List<Radar> findAllByRadarUserAndRadarTypeId(Long radarUserId, String radarTypeId)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -406,7 +406,7 @@ public class RadarInstanceRepository extends SimpleDomainRepository<Radar, Radar
     }
 
 
-    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, Long radarTypeId, boolean publishedOnly)
+    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, String radarTypeId, boolean publishedOnly)
     {
         Radar retVal = null;
         String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,";

@@ -1,7 +1,7 @@
 export class RadarTypeRepository {
     createDefaultRadarType(name){
             var retVal = {};
-            retVal.id = -1;
+            retVal.id = '';
             retVal.name= name;
 
             retVal.radarRings = [];

@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -57,8 +58,11 @@ public class RadarTypeEntity
 
     public RadarTypeEntity()
     {
-        VersionedIdEntity newVersionedIdEntity = new VersionedIdEntity(-1L,-1L);
+        VersionedIdEntity newVersionedIdEntity = new VersionedIdEntity(UUID.randomUUID().toString(),-1L);
         this.setVersionedId(newVersionedIdEntity);
+
+        this.radarRings = new ArrayList<>();
+        this.radarCategories = new ArrayList<>();
     }
 
     public VersionedIdEntity getVersionedId(){ return this.versionedId;}

@@ -18,7 +18,7 @@ public class AssociatedRadarTypeEntity
     private Long radarUserId;
 
     @Column(name = "RadarTypeId", nullable = false)
-    private Long radarTypeId;
+    private String radarTypeId;
 
     @Column(name="RadarTypeVersion", nullable = false)
     private Long radarTypeVersion;
@@ -34,8 +34,8 @@ public class AssociatedRadarTypeEntity
     public Long getRadarUserId() { return this.radarUserId;}
     public void setRadarUserId(Long value) { this.radarUserId = value;}
 
-    public Long getRadarTypeId() { return this.radarTypeId;}
-    public void setRadarTypeId(Long value) { this.radarTypeId = value;}
+    public String getRadarTypeId() { return this.radarTypeId;}
+    public void setRadarTypeId(String value) { this.radarTypeId = value;}
 
     public Long getRadarTypeVersion() { return this.radarTypeVersion;}
     public void setRadarTypeVersion(Long value) { this.radarTypeVersion = value;}

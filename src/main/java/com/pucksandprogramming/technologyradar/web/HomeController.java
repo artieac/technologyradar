@@ -115,7 +115,7 @@ public class HomeController extends ControllerBase
 
     @RequestMapping(value = { "/public/home/user/{userId}/radartype/{radarTypeId}/radars"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable Long radarTypeId,
+                                                @PathVariable String radarTypeId,
                                                 @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
 
     {

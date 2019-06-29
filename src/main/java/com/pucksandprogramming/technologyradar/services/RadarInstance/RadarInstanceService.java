@@ -54,8 +54,8 @@ public abstract class RadarInstanceService
 
     public abstract List<Radar> findByRadarUserId(Long radarUserId, boolean publishedOnly);
     public abstract Radar findByUserAndRadarId(Long radarUserId, Long radarId, boolean publishedOnly);
-    public abstract List<Radar> findByUserAndType(Long radarUserId, Long radarTypeId, boolean publishedOnly);
-    public abstract List<Radar> findByUserTypeAndVersion(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly);
+    public abstract List<Radar> findByUserAndType(Long radarUserId, String radarTypeId, boolean publishedOnly);
+    public abstract List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly);
     public abstract List<Radar> getAllNotOwnedByTechnologyId(Long technologyId, RadarUser currentUser);
 
     public List<Radar> getAllOwnedByTechnologyId(Long technologyId, RadarUser currentUser)
@@ -72,7 +72,7 @@ public abstract class RadarInstanceService
         return retVal;
     }
 
-    public Radar addRadar(Long radarUserId, String name, Long radarTypeId, Long radarVersion)
+    public Radar addRadar(Long radarUserId, String name, String radarTypeId, Long radarVersion)
     {
         Radar retVal = null;
 

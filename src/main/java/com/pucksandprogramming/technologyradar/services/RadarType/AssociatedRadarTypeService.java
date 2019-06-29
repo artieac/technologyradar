@@ -24,7 +24,7 @@ public class AssociatedRadarTypeService
         return this.radarTypeRepository.findAllAssociatedRadarTypes(userId);
     }
 
-    public boolean associatedRadarType(RadarUser currentUser, Long radarTypeId, Long radarTypeVersion, boolean shouldAssociate)
+    public boolean associatedRadarType(RadarUser currentUser, String radarTypeId, Long radarTypeVersion, boolean shouldAssociate)
     {
         boolean retVal = false;
 

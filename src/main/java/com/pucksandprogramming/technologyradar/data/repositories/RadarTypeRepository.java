@@ -3,6 +3,7 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
+import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -64,7 +65,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.entityRepository.findOne(idEntity);
     }
 
-    public RadarType findOne(Long radarTypeId, Long version)
+    public RadarType findOne(String radarTypeId, Long version)
     {
         VersionedIdEntity idEntity = new VersionedIdEntity(radarTypeId, version);
         RadarTypeEntity foundItem = this.entityRepository.findOne(idEntity);
@@ -113,7 +114,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.mapList(foundItems);
     }
 
-    public List<RadarType> findHistoryForRadarType(Long userId, Long radarTypeId)
+    public List<RadarType> findHistoryForRadarType(Long userId, String radarTypeId)
     {
         Query query = entityManager.createNamedQuery("findHistoryByRadarUserIdAndId");
         query.setParameter("radarUserId", userId);
@@ -323,12 +324,9 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     private RadarTypeEntity getNextVersionNumber(Long radarUserId, RadarTypeEntity instanceToId)
     {
-        if(instanceToId.getVersionedId().getId() < 0)
+        if(instanceToId.getVersionedId().getId()==null || instanceToId.getVersionedId().getId()=="")
         {
-            Query query = entityManager.createNamedQuery("findByMaxId");
-            RadarTypeEntity foundItem = (RadarTypeEntity)query.getSingleResult();
-
-            instanceToId.getVersionedId().setId(foundItem.getVersionedId().getId() + 1);
+            instanceToId.getVersionedId().setId(UUID.randomUUID().toString());
             instanceToId.getVersionedId().setVersion(1L);
         }
         else
@@ -356,7 +354,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         {
             boolean shouldVersion = false;
 
-            if (itemToSave.getId() > 0)
+            if (itemToSave.getId()!=null && itemToSave.getId()!="")
             {
                 VersionedIdEntity versionedIdEntity = new VersionedIdEntity(itemToSave.getId(), itemToSave.getVersion());
                 radarTypeEntity = this.entityRepository.findOne(versionedIdEntity);
@@ -365,6 +363,8 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
             else
             {
                 radarTypeEntity = new RadarTypeEntity();
+                radarTypeEntity.getVersionedId().setId(UUID.randomUUID().toString());
+                radarTypeEntity.getVersionedId().setVersion(1L);
                 shouldVersion = true;
             }
 

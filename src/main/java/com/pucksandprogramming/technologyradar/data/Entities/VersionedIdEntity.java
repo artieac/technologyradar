@@ -8,7 +8,7 @@ import java.util.Objects;
 public class VersionedIdEntity implements Serializable
 {
     @Column(name = "Id")
-    private Long id;
+    private String id;
 
     @Column(name = "Version")
     private Long version;
@@ -18,14 +18,14 @@ public class VersionedIdEntity implements Serializable
 
     }
 
-    public VersionedIdEntity(Long id, Long version)
+    public VersionedIdEntity(String id, Long version)
     {
         this.id = id;
         this.version = version;
     }
 
-    public Long getId() { return this.id;}
-    public void setId(Long value) { this.id = value;}
+    public String getId() { return this.id;}
+    public void setId(String value) { this.id = value;}
 
     public Long getVersion() { return this.version;}
     public void setVersion(Long value) { this.version = value;}

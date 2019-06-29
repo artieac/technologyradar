@@ -27,7 +27,7 @@ public abstract class RadarTypeServiceBase
         this.radarInstanceRepository = radarInstanceRepository;
     }
 
-    public RadarType findOne(Long radarTypeId, Long version)
+    public RadarType findOne(String radarTypeId, Long version)
     {
         return this.radarTypeRepository.findOne(radarTypeId, version);
     }
@@ -48,7 +48,7 @@ public abstract class RadarTypeServiceBase
     }
 
     public abstract List<RadarType> findAllByUserId(RadarUser currentUser, Long userId);
-    public abstract List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, Long radarTypeId);
+    public abstract List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, String radarTypeId);
     public abstract List<RadarType> findTypesByPublishedRadars(RadarUser owningUser);
     public abstract List<RadarType> findSharedRadarTypes(RadarUser currentUser, Long userToExclude);
 

@@ -55,14 +55,14 @@ public class PublicRadarAPIController extends ControllerBase
     @RequestMapping(value = "/public/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     List<Radar> getPublicRadarsByUser(@PathVariable Long radarUserId,
-                                      @RequestParam(name = "radarTypeId", required = false, defaultValue = "-1") Long radarTypeId,
+                                      @RequestParam(name = "radarTypeId", required = false, defaultValue = "") String radarTypeId,
                                       @RequestParam(name = "radarTypeVersion", required = false, defaultValue = "-1") Long radarTypeVersion) {
         List<Radar> retVal = new ArrayList<>();
 
         RadarUser targetUser = this.userService.findOne(radarUserId);
         radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
 
-        if (radarTypeId < 0)
+        if (radarTypeId == null || radarTypeId == "")
         {
             retVal = radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(radarUserId, true);
         }

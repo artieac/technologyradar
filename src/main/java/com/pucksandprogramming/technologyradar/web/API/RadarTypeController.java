@@ -128,7 +128,7 @@ public class RadarTypeController extends ControllerBase
 
     @RequestMapping(value = "/User/{radarUserId}/RadarType/{radarTypeId}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@PathVariable Long radarUserId,
-                                                                        @PathVariable Long radarTypeId,
+                                                                        @PathVariable String radarTypeId,
                                                                         @RequestParam(name="allVersions", required = false, defaultValue = "false") boolean allVersions) {
         List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RadarType {
 
-    private Long id;
+    private String id;
     private Long version;
     private String name;
     private List<RadarRing> radarRings;
@@ -25,8 +25,8 @@ public class RadarType {
         this.isPublished = false;
     }
 
-    public Long getId(){ return this.id;}
-    public void setId(Long value){ this.id = value;}
+    public String getId(){ return this.id;}
+    public void setId(String value){ this.id = value;}
 
     public Long getVersion() { return this.version;}
     public void setVersion(Long value) { this.version = value;}

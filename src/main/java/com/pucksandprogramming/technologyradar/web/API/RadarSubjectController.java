@@ -75,10 +75,10 @@ public class RadarSubjectController extends ControllerBase
             radarSubjectName = allRequestParams.get("name");
         }
 
-        Long radarTypeId = new Long(-1L);
+        String radarTypeId = "";
         if(allRequestParams.containsKey("radarTypeId"))
         {
-            radarTypeId = Long.parseLong(allRequestParams.get("radarTypeId"));
+            radarTypeId = allRequestParams.get("radarTypeId").toString();
         }
 
         Long radarRingId = new Long(-1);

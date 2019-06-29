@@ -37,7 +37,7 @@ public class RadarInstanceController extends ControllerBase
 
     @RequestMapping(value = "/User/{radarUserId}/Radars", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Radar> getAllRadarsByUser(@PathVariable Long radarUserId,
-                                                        @RequestParam(name="radarTypeId", required = false, defaultValue="-1") Long radarTypeId,
+                                                        @RequestParam(name="radarTypeId", required = false, defaultValue="") String radarTypeId,
                                                         @RequestParam(name="radarTypeVersion", required=false, defaultValue="-1") Long radarTypeVersion)
     {
         List<Radar> retVal = new ArrayList<Radar>();
@@ -47,7 +47,7 @@ public class RadarInstanceController extends ControllerBase
             RadarUser targetUser = this.userService.findOne(radarUserId);
             radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
 
-            if (radarTypeId < 0)
+            if (radarTypeId == null || radarTypeId == "")
             {
                 retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(radarUserId, false);
             }
@@ -75,7 +75,7 @@ public class RadarInstanceController extends ControllerBase
         if(this.getCurrentUser().getId() == radarUserId)
         {
             String radarName = modelMap.get("name").toString();
-            Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
+            String radarTypeId = modelMap.get("radarTypeId").toString();
             Long radarTypeVersion = Long.parseLong(modelMap.get("radarTypeVersion").toString());
             this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().addRadar(radarUserId, radarName, radarTypeId, radarTypeVersion);
         }

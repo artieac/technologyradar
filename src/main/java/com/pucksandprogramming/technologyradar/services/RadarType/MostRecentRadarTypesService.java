@@ -28,7 +28,7 @@ public class MostRecentRadarTypesService extends RadarTypeServiceBase
         return this.radarTypeRepository.findMostRecentRadarTypesForUser(userId);
     }
 
-    public List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, Long radarTypeId)
+    public List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, String radarTypeId)
     {
         return this.radarTypeRepository.findHistoryForRadarType(userId, radarTypeId);
     }

@@ -74,7 +74,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByFilters(String technologyName, Long radarTypeId, Long radarRingId, Long radarCategoryId)
+    public List<Technology> findByFilters(String technologyName, String radarTypeId, Long radarRingId, Long radarCategoryId)
     {
         boolean hasNonTechnologyFilter = false;
 
@@ -85,7 +85,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         }
 
         boolean hasRadarTypeId = false;
-        if(radarTypeId != null && radarTypeId > 0)
+        if(radarTypeId != null && radarTypeId != "")
         {
             hasNonTechnologyFilter = true;
             hasRadarTypeId = true;

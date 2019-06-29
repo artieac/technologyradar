@@ -52,7 +52,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
         return retVal;
     }
 
-    public List<Radar> findByUserAndType(Long radarUserId, Long radarTypeId, boolean publishedOnly)
+    public List<Radar> findByUserAndType(Long radarUserId, String radarTypeId, boolean publishedOnly)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -66,7 +66,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
         return retVal;
     }
 
-    public List<Radar> findByUserTypeAndVersion(Long radarUserId, Long radarTypeId, Long radarTypeVersion, boolean publishedOnly)
+    public List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 

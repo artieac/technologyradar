@@ -34,7 +34,7 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
         return retVal;
     }
 
-    public List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, Long radarTypeId)
+    public List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, String radarTypeId)
     {
         List<RadarType> retVal = new ArrayList<RadarType>();
 
