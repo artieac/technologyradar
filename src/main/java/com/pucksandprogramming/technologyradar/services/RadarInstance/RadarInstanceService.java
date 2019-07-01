@@ -58,6 +58,20 @@ public abstract class RadarInstanceService
     public abstract List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly);
     public abstract List<Radar> getAllNotOwnedByTechnologyId(Long technologyId, RadarUser currentUser);
 
+    public Integer getSharedRadarCount(Long radarUserId)
+    {
+        Integer retVal = 0;
+
+        List<Radar> publishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(radarUserId, true);
+
+        if(publishedRadars!=null)
+        {
+            retVal = publishedRadars.size();
+        }
+
+        return retVal;
+    }
+
     public List<Radar> getAllOwnedByTechnologyId(Long technologyId, RadarUser currentUser)
     {
         List<Radar> retVal = new ArrayList<Radar>();
@@ -276,15 +290,28 @@ public abstract class RadarInstanceService
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
+        RadarUser targetUser = this.radarUserRepository.findOne(userId);
 
-        if(radar!=null && radar.getIsLocked() == false)
+        if(targetUser!=null)
         {
-            radar.setIsPublished(shouldPublish);
-            this.radarInstanceRepository.save(radar);
-            retVal = true;
-        }
+            Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
 
+            if (radar != null && radar.getIsLocked() == false)
+            {
+                List<Radar> currentPublishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(userId, true);
+
+                if (currentPublishedRadars.size() >= targetUser.howManyRadarsCanShare())
+                {
+                    // unpublish the oldest and then publish the one they want.
+                    currentPublishedRadars.get(0).setIsPublished(false);
+                    this.radarInstanceRepository.save(currentPublishedRadars.get(0));
+                }
+
+                radar.setIsPublished(shouldPublish);
+                this.radarInstanceRepository.save(radar);
+                retVal = true;
+            }
+        }
         return retVal;
     }
 

@@ -6,8 +6,9 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
-import { addRadarsToState } from '../../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
+import { UserRepository } from '../../../Repositories/UserRepository';
 
 class RadarRow extends React.Component{
     constructor(props){
@@ -18,27 +19,48 @@ class RadarRow extends React.Component{
         };
 
         this.radarRepository = new RadarRepository();
+        this.userRepository = new UserRepository();
 
-        this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
-        this.handlePublishError = this.handlePublishError.bind(this);
-        this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
         this.handleLockSuccess = this.handleLockSuccess.bind(this);
         this.handleLockError = this.handleLockError.bind(this);
         this.handleIsLockedClick = this.handleIsLockedClick.bind(this);
         this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this);
         this.handleDeleteError = this.handleDeleteError.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
+        this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
+        this.handlePublishError = this.handlePublishError.bind(this);
     }
 
-    handlePublishSuccess() { }
+    handlePublishSuccess(publishResponse) {
+        this.props.storeRadars(publishResponse.radars);
+        this.props.storeCurrentUser(publishResponse.currentUser);
+    }
 
     handlePublishError() {
         this.setState( { isPublished: !this.state.isPublished })
     }
 
     handleIsPublishedClick() {
-        this.setState( { isPublished: this.refs.isPublished.checked })
-        this.radarRepository.publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess.bind(this), this.handlePublishError.bind(this));
+        var shouldProcess = true;
+
+        if(this.refs.isPublished.checked == true)
+        {
+            if(this.props.currentUser!==undefined && (this.props.currentUser.howManyRadarsCanShare <= this.props.currentUser.numberOfSharedRadars))
+            {
+                if(!confirm('You can only have ' + this.props.currentUser.numberOfSharedRadars + '.  This will overwrite that selection.  Do you want to proceed?'))
+                {
+                    shouldProcess = false;
+                    this.refs.isPublished.checked = !this.refs.isPublished.checked;
+                }
+            }
+        }
+
+        if(shouldProcess==true)
+        {
+            this.setState( { isPublished: this.refs.isPublished.checked })
+            this.radarRepository.publishRadar(this.props.currentUser.id, this.props.rowData.id, this.refs.isPublished.checked, () => this.handlePublishSuccess, this.handlePublishError);
+        }
     }
 
     handleLockSuccess() {}
@@ -49,7 +71,7 @@ class RadarRow extends React.Component{
 
     handleIsLockedClick(){
         this.setState( { isLocked: this.refs.isLocked.checked })
-        this.radarRepository.lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
+        this.radarRepository.lockRadar(this.props.currentUser.id, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess, this.handleLockError);
     }
 
     handleDeleteSuccess(radars)
@@ -62,7 +84,7 @@ class RadarRow extends React.Component{
     }
 
     handleDeleteClick() {
-        this.radarRepository.deleteRadar(this.props.userId, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
+        this.radarRepository.deleteRadar(this.props.currentUser.id, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
     }
 
     getAddFromPreviousLink(userId, radarId){
@@ -96,14 +118,14 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radars : state.radarReducer.radars,
-        currentUser : state.radarReducer.currentUser
+        currentUser: state.radarReducer.currentUser
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadars : radars => { dispatch(addRadarsToState(radars))}
+        storeRadars : userRadars => { dispatch(addRadarsToState(userRadars))},
+        storeCurrentUser: refreshedUser => { dispatch(addCurrentUserToState(refreshedUser))}
     }
 };
 

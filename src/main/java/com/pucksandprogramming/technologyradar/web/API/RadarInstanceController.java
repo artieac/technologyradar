@@ -7,6 +7,8 @@ import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
+import com.pucksandprogramming.technologyradar.web.Models.PublishRadarModel;
+import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +49,7 @@ public class RadarInstanceController extends ControllerBase
             RadarUser targetUser = this.userService.findOne(radarUserId);
             radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
 
-            if (radarTypeId == null || radarTypeId == "")
+            if (radarTypeId == null || radarTypeId.isEmpty())
             {
                 retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(radarUserId, false);
             }
@@ -106,17 +108,19 @@ public class RadarInstanceController extends ControllerBase
     }
 
     @RequestMapping(value = "/User/{userId}/Radar/{radarId}/Publish", method = RequestMethod.PUT)
-    public @ResponseBody boolean updateRadarIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
+    public @ResponseBody
+    PublishRadarModel updateRadarIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
     {
-        boolean retVal = false;
+        PublishRadarModel retVal = new PublishRadarModel();
+
         boolean isPublished = Boolean.parseBoolean(modelMap.get("isPublished").toString());
 
         if(this.getCurrentUser().getId() == userId)
         {
-            RadarUser targetUser = this.userService.findOne(userId);
-            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
-
-            retVal = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().publishRadar(userId, radarId, isPublished);
+            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
+            retVal.setPublishSucceeded(this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().publishRadar(userId, radarId, isPublished));
+            retVal.setRadars(this.radarInstanceServiceFactory.getFullHistory().findByRadarUserId(userId, false));
+            retVal.setCurrentUser(new UserViewModel(this.userService.findOne(userId)));
         }
 
         return retVal;

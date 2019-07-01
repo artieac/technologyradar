@@ -47,7 +47,7 @@ class NewRadarRow extends React.Component{
     }
 
     handleAddRadar() {
-        this.radarRepository.addRadar(this.props.userId, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+        this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
     }
 
     handleDropdownSelectionNotify(radarType){
@@ -59,7 +59,7 @@ class NewRadarRow extends React.Component{
             <tr>
                 <td><input type="text" ref="radarName" required="required" onChange={ this.handleRadarNameChange } /></td>
                 <td>
-                    <RadarTypeDropdown userId={this.props.userId} selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTypes}/>
+                    <RadarTypeDropdown selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTypes}/>
                 </td>
                 <td><input type="button" className="btn btn-primary" value="Add Radar" onClick={this.handleAddRadar} /></td>
             </tr>
@@ -69,13 +69,14 @@ class NewRadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radars : state.radarReducer.radars
+        radarTypes: state.radarReducer.radarTypes,
+        currentUser: state.radarReducer.currentUser
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadars : radars => { dispatch(addRadarsToState(radars))}
+        storeRadars : (userRadars) => { dispatch(addRadarsToState(userRadars))}
     }
 };
 

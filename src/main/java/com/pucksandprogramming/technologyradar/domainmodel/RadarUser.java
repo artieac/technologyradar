@@ -20,7 +20,7 @@ public class RadarUser {
     private String email;
     private String nickname;
     private String name;
-    private Long userType;
+    private Integer userType;
 
     public RadarUser()
     {
@@ -51,30 +51,44 @@ public class RadarUser {
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public Long getUserType(){ return this.userType;}
-    public void setUserType(Long value){ this.userType = value;}
+    public Integer getUserType(){ return this.userType;}
+    public void setUserType(Integer value){ this.userType = value;}
 
-    public boolean canSeeHistory()
+    private UserType getCurrentUserType()
     {
-        boolean retVal = false;
+        UserType retVal = null;
 
-        if(this.userType==UserType.Subscriber_Trial || this.userType==UserType.Subscriber)
+        switch(this.userType)
         {
-            retVal = true;
+            case 0:
+                retVal = UserType.GetFreeUser();
+                break;
+            case 1:
+                retVal = UserType.GetSubscribedUser();
+                break;
+            case 2:
+                retVal = UserType.GetSubscribedUser();
+                break;
+            case 3:
+                retVal = UserType.GetTeamUser();
+                break;
         }
 
         return retVal;
     }
 
-    public boolean canShareHistory()
+    public boolean canSeeHistory()
     {
-        boolean retVal = false;
+        return this.getCurrentUserType().isGrantEnabled(UserRights.CanViewHistory);
+    }
 
-        if(this.userType==UserType.Subscriber_Trial || this.userType==UserType.Subscriber)
-        {
-            retVal = true;
-        }
+    public boolean canShareRadarTypes()
+    {
+        return this.getCurrentUserType().isGrantEnabled(UserRights.CanShareRadarTypes);
+    }
 
-        return retVal;
+    public int howManyRadarsCanShare()
+    {
+        return this.getCurrentUserType().getGrantValue(UserRights.CanShareNRadars);
     }
 }

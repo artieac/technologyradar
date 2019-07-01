@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 

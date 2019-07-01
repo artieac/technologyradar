@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addRadarTypesToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
@@ -10,6 +9,9 @@ import RadarTypeHistory from './RadarTypeHistory';
 import NewRadarTypeRow from './NewRadarTypeRow';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 import { UserRepository } from '../../../Repositories/UserRepository';
+import ErrorSection from '../Errors/ErrorSection';
+import WarningManager from '../Errors/WarningManager';
+import { addWarningsToState } from '../../../../redux/reducers/admin/ErrorReducer';
 
 class ManageOwnedRadarTypesPage extends React.Component{
     constructor(props){
@@ -46,6 +48,7 @@ class ManageOwnedRadarTypesPage extends React.Component{
                     <label>Manage Your Radar Types</label>
                 </div>
                 <p>Add a new type to have rate different types of things</p>
+                <ErrorSection errors={this.props.errors} warnings={this.props.warnings}/>
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
@@ -76,7 +79,9 @@ function mapStateToProps(state) {
     	radarTypes: state.radarTypeReducer.radarTypes,
     	currentUser: state.radarTypeReducer.currentUser,
     	showHistory: state.radarTypeReducer.showHistory,
-    	showEdit: state.radarTypeReducer.showEdit
+    	showEdit: state.radarTypeReducer.showEdit,
+    	warnings: state.errorReducer.warnings,
+    	errors: state.errorReducer.errors
     };
 }
 

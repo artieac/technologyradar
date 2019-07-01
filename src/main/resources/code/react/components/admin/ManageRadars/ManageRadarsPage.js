@@ -8,14 +8,13 @@ import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
 import { addRadarsToState, addRadarTypesToState, addCurrentUserToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository'
-import { RadarTableBody }  from './RadarTableBody';
+import RadarTableBody   from './RadarTableBody';
 import { UserRepository } from '../../../Repositories/UserRepository'
 
 class ManageRadarsPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val()
         };
 
         this.radarRepository = new RadarRepository();
@@ -65,7 +64,7 @@ class ManageRadarsPage extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody tableBodyData={this.props.radars} userId={this.state.userId} parentContainer = { this}  radarTypes={this.props.radarTypes}/>
+                    <RadarTableBody />
                 </table>
             </div>
         );

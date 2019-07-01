@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
+import { connect } from "react-redux";
 import createReactClass from 'create-react-class';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 import { RadarTypeDropdownItem } from './RadarTypeDropdownItem';
@@ -40,7 +40,7 @@ export class RadarTypeDropdown extends React.Component{
                     </button>
                     <div className="dropdown-menu" aria-labelledby="radarTypeDropdown">
                         {this.props.data.map(function (currentRow, index) {
-                            return <RadarTypeDropdownItem key={ index } dropDownItem={ currentRow } userId={this.props.userId} setSelectedItem={this.setSelectedItem }/>
+                            return <RadarTypeDropdownItem key={ index } dropDownItem={ currentRow } setSelectedItem={this.setSelectedItem }/>
                         }.bind(this))}
                     </div>
                 </div>

@@ -35,7 +35,7 @@ public class RadarInstanceServiceFactory
         {
             if (this.targetDataOwner != null)
             {
-                if (targetDataOwner.canShareHistory() == true)
+                if (targetDataOwner.canShareRadarTypes() == true)
                 {
                     // public access, but the target owner can share their full history publicly.
                     retVal = this.fullHistoryRadarInstanceService;
@@ -51,7 +51,7 @@ public class RadarInstanceServiceFactory
             }
             else
             {
-                if (this.targetDataOwner.canShareHistory() == true)
+                if (this.targetDataOwner.canShareRadarTypes() == true)
                 {
                     // logged in user is different from data owner, but the data owner canshare their full history
                     retVal = this.fullHistoryRadarInstanceService;

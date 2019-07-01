@@ -49,7 +49,7 @@ public class RadarTypeServiceFactory
 
         if(this.targetDataOwner != null)
         {
-            if (this.targetDataOwner.canShareHistory() == true)
+            if (this.targetDataOwner.canShareRadarTypes() == true)
             {
                 retVal = this.historyRadarTypeService;
             }

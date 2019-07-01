@@ -50,7 +50,7 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
     {
         List<RadarType> retVal = new ArrayList<>();
 
-        if(owningUser != null && owningUser.canShareHistory())
+        if(owningUser != null && owningUser.canShareRadarTypes())
         {
             retVal = this.radarTypeRepository.findAllTypesByUserAandPublishedRadars(owningUser.getId());
         }

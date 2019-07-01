@@ -14,8 +14,9 @@ import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage'
 import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
 import radarReducer from '../../redux/reducers/admin/RadarReducer';
 import radarTypeReducer from '../../redux/reducers/admin/RadarTypeReducer';
+import errorReducer from '../../redux/reducers/admin/ErrorReducer';
 
-const adminAppStore = createStore(combineReducers({radarReducer,radarTypeReducer}));
+const adminAppStore = createStore(combineReducers({radarReducer,radarTypeReducer, errorReducer}));
 
 class AdminApp extends React.Component{
     constructor(props){

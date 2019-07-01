@@ -1,7 +1,10 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
+import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
@@ -23,6 +26,8 @@ public class UserController extends ControllerBase
     @Autowired
     private RadarUserService radarUserService;
 
+    @Autowired
+    private RadarInstanceServiceFactory radarInstanceServiceFactory;
 
     @RequestMapping(value = "/User", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody UserViewModel getUserDetails()
@@ -31,10 +36,8 @@ public class UserController extends ControllerBase
 
         if (this.getCurrentUser() != null)
         {
-            retVal.setId(this.getCurrentUser().getId());
-            retVal.setCanSeeHistory(this.getCurrentUser().canSeeHistory());
-            retVal.setEmail(this.getCurrentUser().getEmail());
-            retVal.setName(this.getCurrentUser().getName());
+            retVal = new UserViewModel(this.getCurrentUser());
+            retVal.setNumberOfSharedRadar(radarInstanceServiceFactory.getFullHistory().getSharedRadarCount(this.getCurrentUser().getId()));
         }
 
         return retVal;

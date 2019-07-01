@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Warning, Warning_NoRadarRings } from '../Errors/Warning';
+import { addWarningsToState } from '../../../../redux/reducers/admin/ErrorReducer';
+import WarningManager from '../Errors/WarningManager';
 
 class RadarRingDetails extends React.Component{
     constructor(props){
@@ -33,6 +36,16 @@ class RadarRingDetails extends React.Component{
                     if(this.props.selectedRadarType.radarRings[i].id==this.props.rowData.id){
                         this.props.selectedRadarType.radarRings.splice(i, 1);
                         this.setState({isDeleted : true});
+
+                        if(this.props.selectedRadarType.radarRings.length==0)
+                        {
+                            // removing this item will leave us with no rings.
+                            var warningManager = new WarningManager();
+                            warningManager.setWarnings(this.props.warnings);
+                            warningManager.addWarning(Warning_NoRadarRings);
+                            this.props.setWarnings(warningManager.warnings);
+                        }
+
                         break;
                     }
                 }
@@ -68,13 +81,15 @@ function mapStateToProps(state) {
   return {
     	selectedRadarType: state.radarTypeReducer.selectedRadarType,
         showHistory: state.radarTypeReducer.showHistory,
-        showEdit: state.radarTypeReducer.showEdit
+        showEdit: state.radarTypeReducer.showEdit,
+        errors: state.errorReducer.errors,
+        warnings: state.errorReducer.warnings
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-
+        setWarnings : warningManager => { dispatch(addWarningsToState(warningManager))},
     }
 };
 

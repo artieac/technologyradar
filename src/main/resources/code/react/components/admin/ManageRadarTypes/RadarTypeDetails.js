@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addErrorsToState, addWarningsToState } from '../../../../redux/reducers/admin/ErrorReducer';
 import RadarRingDetails from './RadarRingDetails';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
+import Warning from '../Errors/Warning';
+import { Error, Error_NoRadarRings } from '../Errors/Error';
+import ErrorManager from '../Errors/ErrorManager';
 
 class RadarTypeDetails extends React.Component{
     constructor(props){
@@ -46,11 +50,20 @@ class RadarTypeDetails extends React.Component{
     }
 
     handleSaveRadarType(){
-        if(this.props.selectedRadarType.id > 0){
-            this.radarTypeRepository.updateRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
+        if(this.props.selectedRadarType.radarRings===undefined || this.props.selectedRadarType.radarRings.length==0){
+            var errorManager = new ErrorManager();
+            errorManager.setErrors(this.props.errors);
+            errorManager.addError(Error_NoRadarRings);
+            this.props.setErrors(errorManager.errors);
+            this.forceUpdate();
         }
         else{
-            this.radarTypeRepository.addRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
+            if(this.props.selectedRadarType.id > 0){
+                this.radarTypeRepository.updateRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
+            }
+            else{
+                this.radarTypeRepository.addRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
+            }
         }
     }
 
@@ -69,6 +82,14 @@ class RadarTypeDetails extends React.Component{
         newRadarRing.displayOption = this.props.selectedRadarType.radarRings.length;
 
         this.props.selectedRadarType.radarRings.push(newRadarRing);
+
+        var warningManager = new WarmingManager();
+        warningManager.setWarnings(this.props.warnings);
+        warningManager.removeWarning(Warning_NoRadarRings);
+        this.props.setWarnings(warningManager.warnings);
+
+        alert(JSON.stringify(this.props.warnings));
+
         this.forceUpdate();
     }
 
@@ -138,13 +159,18 @@ function mapStateToProps(state) {
     	selectedRadarType: state.radarTypeReducer.selectedRadarType,
         showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit,
-        currentUser: state.radarTypeReducer.currentUser
+        currentUser: state.radarTypeReducer.currentUser,
+        errors: state.errorReducer.errors,
+        warnings: state.errorReducer.warnings
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
         storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
+        setErrors: errors => {dispatch(addErrorsToState(errors))},
+        setWarnings: warnings => {dispatch(addWarningsToState(warnings))}
     }
 };
 
