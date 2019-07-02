@@ -32,9 +32,12 @@ class RadarRow extends React.Component{
         this.handlePublishError = this.handlePublishError.bind(this);
     }
 
+    componentDidUpdate(){
+    }
+
     handlePublishSuccess(publishResponse) {
-        this.props.storeRadars(publishResponse.radars);
         this.props.storeCurrentUser(publishResponse.currentUser);
+        this.props.storeRadars(publishResponse.radars);
     }
 
     handlePublishError() {
@@ -59,7 +62,7 @@ class RadarRow extends React.Component{
         if(shouldProcess==true)
         {
             this.setState( { isPublished: this.refs.isPublished.checked })
-            this.radarRepository.publishRadar(this.props.currentUser.id, this.props.rowData.id, this.refs.isPublished.checked, () => this.handlePublishSuccess, this.handlePublishError);
+            this.radarRepository.publishRadar(this.props.currentUser.id, this.props.rowData.id, this.refs.isPublished.checked,  this.handlePublishSuccess, this.handlePublishError);
         }
     }
 
@@ -99,9 +102,9 @@ class RadarRow extends React.Component{
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td>{ this.props.rowData.assessmentDate}</td>
+                 <td>{ this.props.rowData.formattedAssessmentDate}</td>
                  <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
-                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = { this.handleIsPublishedClick }/></td>
+                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = {(event) => this.handleIsPublishedClick(event) }/></td>
                  <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick }/></td>
                  <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-primary" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
@@ -118,14 +121,15 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        currentUser: state.radarReducer.currentUser
+        currentUser: state.radarReducer.currentUser,
+        radars: state.radarReducer.radars
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadars : userRadars => { dispatch(addRadarsToState(userRadars))},
-        storeCurrentUser: refreshedUser => { dispatch(addCurrentUserToState(refreshedUser))}
+        storeRadars : (userRadars) => { dispatch(addRadarsToState(userRadars))},
+        storeCurrentUser: (refreshedUser) => { dispatch(addCurrentUserToState(refreshedUser))}
     }
 };
 

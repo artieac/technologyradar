@@ -24,7 +24,7 @@ export class RadarTypeDropdown extends React.Component{
     getTitle(){
         var retVal = "Select";
 
-        if(this.state.selectedRadarType !== undefined){
+        if(this.state.selectedRadarType !== undefined && this.state.selectedRadarType.name !==undefined){
             retVal = this.state.selectedRadarType.name + " v" + this.state.selectedRadarType.version;
         }
 

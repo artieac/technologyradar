@@ -21,12 +21,17 @@ class ManageRadarsPage extends React.Component{
         this.radarTypeRepository = new RadarTypeRepository();
         this.userRepository = new UserRepository();
 
+        this.getUserDetails = this.getUserDetails.bind(this);
         this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
         this.getUserRadarsResponse = this.getUserRadarsResponse.bind(this);
         this.getRadarTypeCollectionResponse = this.getRadarTypeCollectionResponse.bind(this);
     }
 
     componentDidMount(){
+        this.getUserDetails();
+    }
+
+    getUserDetails(){
         this.userRepository.getUser(this.handleGetUserSuccess);
     }
 
@@ -43,6 +48,7 @@ class ManageRadarsPage extends React.Component{
 
     getRadarTypeCollectionResponse(radarTypes){
         this.props.storeRadarTypes(radarTypes);
+        this.forceUpdate();
     }
 
     render() {
@@ -64,7 +70,7 @@ class ManageRadarsPage extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody />
+                    <RadarTableBody container={this}/>
                 </table>
             </div>
         );

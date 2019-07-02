@@ -12,9 +12,9 @@ class RadarTableBody extends React.Component{
             return (
                 <tbody>
                     {this.props.radars.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} />
+                        return <RadarRow key={currentRow.id} rowData={currentRow} container={this.props.container}/>
                         }.bind(this))}
-                    <NewRadarRow />
+                    <NewRadarRow container={this.props.container}/>
                 </tbody>
             );
         }

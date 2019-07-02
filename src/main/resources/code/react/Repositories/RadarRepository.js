@@ -29,8 +29,8 @@ export class RadarRepository{
               type: "PUT",
               url: '/api/User/' + userId + '/Radar/' + radarId + '/Publish',
               data: JSON.stringify(radarToUpdate),
-              success: function() {
-                    successHandler();
+              success: function(publishResponse) {
+                    successHandler(publishResponse);
                },
               error: function(xhr, status, err) {
                     errorHandler();
