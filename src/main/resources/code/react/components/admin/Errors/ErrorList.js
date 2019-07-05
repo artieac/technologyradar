@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 
 function mapStateToProps(state) {
   return {
-    	warnings: state.errorReducer.warnings
+    	errors: state.errorReducer.errors
     };
 }
 

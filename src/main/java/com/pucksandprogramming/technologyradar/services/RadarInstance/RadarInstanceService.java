@@ -296,7 +296,7 @@ public abstract class RadarInstanceService
         {
             Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
 
-            if (radar != null && radar.getIsLocked() == false)
+            if (radar != null && radar.getIsLocked() == false && radar.getIsPublished() != shouldPublish)
             {
                 List<Radar> currentPublishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(userId, true);
 

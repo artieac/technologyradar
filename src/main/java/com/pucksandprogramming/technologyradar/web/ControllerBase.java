@@ -39,7 +39,7 @@ public class ControllerBase
             else
             {
                 this.currentUser = new RadarUser();
-                this.currentUser = this.radarUserService.findOne(1L);
+                this.currentUser = this.radarUserService.findOne(8L);
             }
         }
 

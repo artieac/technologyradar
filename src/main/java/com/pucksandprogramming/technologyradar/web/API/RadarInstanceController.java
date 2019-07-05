@@ -120,7 +120,9 @@ public class RadarInstanceController extends ControllerBase
             radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
             retVal.setPublishSucceeded(this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().publishRadar(userId, radarId, isPublished));
             retVal.setRadars(this.radarInstanceServiceFactory.getFullHistory().findByRadarUserId(userId, false));
-            retVal.setCurrentUser(new UserViewModel(this.userService.findOne(userId)));
+            UserViewModel currentUser = new UserViewModel(this.userService.findOne(userId));
+            currentUser.setNumberOfSharedRadar(this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().getSharedRadarCount(userId));
+            retVal.setCurrentUser(currentUser);
         }
 
         return retVal;

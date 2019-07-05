@@ -11,7 +11,7 @@ import createReactClass from 'create-react-class';
 import ManageOwnedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage';
 import ManageAssociatedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
-import AddFromPreviousRadar from '../components/admin/AddFromPreviousRadar';
+import AddFromPreviousRadarPage from '../components/admin/AddFromPrevious/AddFromPreviousRadarPage';
 import radarReducer from '../../redux/reducers/admin/RadarReducer';
 import radarTypeReducer from '../../redux/reducers/admin/RadarTypeReducer';
 import errorReducer from '../../redux/reducers/admin/ErrorReducer';
@@ -87,7 +87,7 @@ ReactDOM.render(
                     <Route path="/admin/manageOwnedRadarTypes" component={ ManageOwnedRadarTypesPage } />
                     <Route path="/admin/manageAssociatedRadarTypes" component={ ManageAssociatedRadarTypesPage } />
                     <Route path="/admin/manageRadars" component={ ManageRadarsPage } />
-                    <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadar }/>
+                    <Route path="/admin/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadarPage }/>
                 </Switch>
             </Router>
         </div>

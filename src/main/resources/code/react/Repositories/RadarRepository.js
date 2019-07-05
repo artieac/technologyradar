@@ -17,6 +17,32 @@ export class RadarRepository{
             });
     }
 
+    getByUserIdAndRadarId(userId, radarId, successHandler) {
+        var url = '/api/User/' + userId + '/Radar/' + radarId;
+
+        jQuery.ajax({
+                url: url,
+                async: true,
+                dataType: 'json',
+                success: function (radar) {
+                    successHandler(radar);
+                }
+            });
+    }
+
+    getRadarsByUserIdAndRadarTypeId(userId, radarTypeId, successHandler){
+        var url = '/api/User/' + userId + '/Radars?radarTypeId=' + radarTypeId;
+
+        jQuery.ajax({
+            url: url,
+            async: true,
+            dataType: 'json',
+            success: function (radars) {
+                successHandler(radars);
+            }
+        });
+    }
+
     publishRadar(userId, radarId, isPublished, successHandler, errorHandler) {
          var radarToUpdate = {};
          radarToUpdate.isPublished = isPublished;

@@ -30,8 +30,6 @@ class RadarTableBody extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radars: state.radarReducer.radars,
-        currentUser: state.radarReducer.currentUser
     };
 };
 

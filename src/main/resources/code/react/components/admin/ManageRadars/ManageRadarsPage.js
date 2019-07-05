@@ -23,8 +23,6 @@ class ManageRadarsPage extends React.Component{
 
         this.getUserDetails = this.getUserDetails.bind(this);
         this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
-        this.getUserRadarsResponse = this.getUserRadarsResponse.bind(this);
-        this.getRadarTypeCollectionResponse = this.getRadarTypeCollectionResponse.bind(this);
     }
 
     componentDidMount(){
@@ -37,18 +35,8 @@ class ManageRadarsPage extends React.Component{
 
     handleGetUserSuccess(currentUser){
         this.props.storeCurrentUser(currentUser);
-        this.radarRepository.getByUserId(currentUser.id, currentUser.canSeeHistory, this.getUserRadarsResponse);
-        this.radarTypeRepository.getOwnedAndAssociatedByUserId(currentUser.id, currentUser.canSeeHistory, this.getRadarTypeCollectionResponse) ;
-    }
-
-    getUserRadarsResponse(radars){
-        this.props.storeRadars(radars);
-        this.forceUpdate();
-    }
-
-    getRadarTypeCollectionResponse(radarTypes){
-        this.props.storeRadarTypes(radarTypes);
-        this.forceUpdate();
+        this.radarTypeRepository.getOwnedAndAssociatedByUserId(currentUser.id, currentUser.canSeeHistory, this.props.storeRadarTypes) ;
+        this.radarRepository.getByUserId(currentUser.id, currentUser.canSeeHistory, this.props.storeRadars);
     }
 
     render() {
@@ -70,7 +58,7 @@ class ManageRadarsPage extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody container={this}/>
+                    <RadarTableBody radars={this.props.radars} container={this}/>
                 </table>
             </div>
         );
