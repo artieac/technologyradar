@@ -144,3 +144,10 @@ textarea
     margin-left:5%;
     width:90%;
 }
+
+.adminMenuPanel{
+    min-height:200;
+    max-height:200;
+    horizontal-align:center;
+    text-align:center;
+}
