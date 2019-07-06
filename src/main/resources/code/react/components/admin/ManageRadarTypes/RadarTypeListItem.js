@@ -4,7 +4,6 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarTypeReducer from  '../../../../redux/reducers/admin/RadarTypeReducer';
 import { addSelectedRadarTypeToState, addAssociatedRadarTypesToState, addRadarTypeHistoryToState, setShowEdit, setShowHistory } from  '../../../../redux/reducers/admin/RadarTypeReducer';
-import { RadarRingDetails } from './RadarRingDetails';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
 

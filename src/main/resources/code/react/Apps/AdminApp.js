@@ -41,7 +41,7 @@ class AdminApp extends React.Component{
                             <div className="panel panel-primary adminMenuPanel">
                                 <div className="panel-heading">Manage Your Radar Types</div>
                                 <div id="ManageRadarTypesPanel" className="panel-body">
-                                    <p>A Radar Type is used to define how you will classify and rate your topics.</p>
+                                    <p>A Radar Type defines how you will classify and rate your topics.</p>
                                     <p>Go here to manage your existing types or add new ones</p>
                                     <Link to='/admin/manageOwnedRadarTypes'>
                                         <button className="btn btn-primary">Radar Types</button>
@@ -55,6 +55,7 @@ class AdminApp extends React.Component{
                                 <div id="AssociateRadarTypesPanel" className="panel-body">
                                     <p>See other's radar types and mark the so you can also use them'.</p>
                                     <p></p>
+                                    <br/>
                                     <Link to='/admin/manageAssociatedRadarTypes'>
                                         <button className="btn btn-primary">Associated Radar Types</button>
                                     </Link>
@@ -67,6 +68,7 @@ class AdminApp extends React.Component{
                                 <div id="ManageRadarsPanels" className="panel-body">
                                     <p>Once you have Radar Types defined go here to create an instance of a Radar Type.</p>
                                     <p></p>
+                                    <br/>
                                     <Link to='/admin/manageRadars'>
                                         <button className="btn btn-primary">Your Radars</button>
                                     </Link>
