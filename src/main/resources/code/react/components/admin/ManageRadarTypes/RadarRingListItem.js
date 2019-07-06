@@ -2,14 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addRadarTypesToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
-import { Warning, Warning_NoRadarRings } from '../Errors/Warning';
-import { addWarningsToState } from '../../../../redux/reducers/admin/ErrorReducer';
-import WarningManager from '../Errors/WarningManager';
 
-class RadarRingDetails extends React.Component{
+class RadarRingListItem extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -37,7 +33,7 @@ class RadarRingDetails extends React.Component{
                         this.props.selectedRadarType.radarRings.splice(i, 1);
                         this.props.storeSelectedRadarType(this.props.selectedRadarType);
                         this.setState({isDeleted : true});
-
+                        this.props.listContainer.forceUpdate();
                         break;
                     }
                 }
@@ -72,19 +68,15 @@ class RadarRingDetails extends React.Component{
 function mapStateToProps(state) {
   return {
     	selectedRadarType: state.radarTypeReducer.selectedRadarType,
-        showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit,
-        errors: state.errorReducer.errors,
-        warnings: state.errorReducer.warnings
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        setWarnings : warningManager => { dispatch(addWarningsToState(warningManager))},
         storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))},
 
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RadarRingDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(RadarRingListItem);

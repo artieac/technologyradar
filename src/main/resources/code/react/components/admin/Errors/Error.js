@@ -1,4 +1,4 @@
-export const Error_NoRadarRings = 1;
+export const Error_NoRadarRings = "You must add a radar ring in before saving.";
 
 export class Error
 {

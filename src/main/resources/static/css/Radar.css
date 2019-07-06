@@ -151,3 +151,7 @@ textarea
     horizontal-align:center;
     text-align:center;
 }
+
+.errorText{
+    color: red;
+}

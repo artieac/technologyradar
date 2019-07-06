@@ -36,11 +36,14 @@ public abstract class RadarTypeServiceBase
     {
         if(radarType!=null)
         {
-            RadarUser targetUser = radarUserRepository.findOne(ownerId);
-            if (targetUser != null && targetUser.getId() == currentUser.getId())
+            if(radarType.getRadarRings() != null && radarType.getRadarRings().size() > 0)
             {
-                radarType.setRadarUser(targetUser);
-                radarType = this.radarTypeRepository.save(radarType);
+                RadarUser targetUser = radarUserRepository.findOne(ownerId);
+                if (targetUser != null && targetUser.getId() == currentUser.getId())
+                {
+                    radarType.setRadarUser(targetUser);
+                    radarType = this.radarTypeRepository.save(radarType);
+                }
             }
         }
 
