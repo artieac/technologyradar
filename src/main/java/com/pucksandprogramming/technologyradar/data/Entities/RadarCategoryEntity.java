@@ -20,8 +20,12 @@ public class RadarCategoryEntity
     @Column(name = "Color", nullable=false, length=512)
     private String color;
 
-    @JoinColumn(name = "RadarTypeId", referencedColumnName = "id")
     @ManyToOne(optional=false)
+    @JoinColumns
+    ({
+        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
+        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
+    })
     private RadarTypeEntity radarType;
 
     public RadarCategoryEntity()
@@ -30,19 +34,15 @@ public class RadarCategoryEntity
     }
 
     public Long getId(){ return this.id;}
-
     public void setId(Long value){ this.id = value;}
 
     public String getName() { return this.name;}
-
     public void setName(String value) { this.name = value;}
 
     public String getColor() { return this.color;}
-
     public void setColor(String value) { this.color = value;}
 
     public RadarTypeEntity getRadarType() { return this.radarType;}
-
     public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
 
 }

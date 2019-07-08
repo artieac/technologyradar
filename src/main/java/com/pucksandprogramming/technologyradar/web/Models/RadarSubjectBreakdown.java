@@ -73,7 +73,7 @@ public class RadarSubjectBreakdown
         newItem.setAssessmentId(assessment.getId());
         newItem.setAssessmentName(assessment.getName());
         newItem.setAssessmentDate(assessment.getAssessmentDate());
-        newItem.setAssessmentUser(assessment.getRadarUser());
+        newItem.setAssessmentUser(new UserViewModel(assessment.getRadarUser()));
         newItem.setAssessmentCategory(assessmentItem.getRadarCategory());
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());

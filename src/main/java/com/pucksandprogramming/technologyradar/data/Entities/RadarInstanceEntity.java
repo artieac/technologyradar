@@ -14,9 +14,23 @@ import java.util.List;
 @org.hibernate.annotations.NamedNativeQueries
 (
     {
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUser", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.IsPublished = :isPublished)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserRadarId", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.Id = :radarId)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserRadarIdAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.Id = :radarId AND ta2.IsPublished = :isPublished)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserType", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.RadarTypeId = :radarTypeId)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllByUserTypeAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.RadarUserId = :radarUserId AND ta.RadarTypeId = :radarTypeId AND ta.IsPublished = :isPublished", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserTypeAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.RadarTypeId = :radarTypeId AND ta2.IsPublished = :isPublished)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserTypeAndVersion", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.RadarTypeId = :radarTypeId AND ta2.RadarTypeVersion = :radarTypeVersion)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllByUserTypeVersion", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.RadarUserId = :radarUserId AND ta.RadarTypeId = :radarTypeId AND ta.RadarTypeVersion = :radarTypeVersion", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllByUserTypeVersionAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.RadarUserId = :radarUserId AND ta.RadarTypeId = :radarTypeId AND ta.RadarTypeVersion = :radarTypeVersion AND ta.IsPublished = :isPublished", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByUserTypeVersionAndIsPublished", query = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,  ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished ,ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.id = (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId AND ta2.RadarTypeId = :radarTypeId AND ta2.RadarTypeVersion = :radarTypeVersion AND ta2.IsPublished = :isPublished)", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findAllNotOwnedByTechnologyIdAndIsPublished", query = "SELECT ta.Id as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, MAX(ta.RadarTypeVersion) as RadarTypeVersion, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.RadarUserId <> :radarUserId AND ta.IsPublished = true AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId) GROUP BY Id, RadarTypeVersion", resultClass = RadarInstanceEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findMostRecentByTechnologyIdAndIsPublished", query = "SELECT ta.Id as Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId, ta.RadarTypeId as RadarTypeId, MAX(ta.RadarTypeVersion) as RadarTypeVersion, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked FROM TechnologyAssessments ta WHERE ta.IsPublished = true AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId) GROUP BY Id, RadarTypeVersion", resultClass = RadarInstanceEntity.class),
+
+
         @org.hibernate.annotations.NamedNativeQuery(name = "findByTechnologyIdAndIsPublished", query = "SELECT * FROM TechnologyAssessments ta WHERE ta.IsPublished = :isPublished AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId)", resultClass = RadarInstanceEntity.class),
         @org.hibernate.annotations.NamedNativeQuery(name = "findAllOwnedByTechnologyIdAndIsPublished", query = "SELECT * FROM TechnologyAssessments ta WHERE ta.RadarUserId = :radarUserId  AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId)", resultClass = RadarInstanceEntity.class),
-        @org.hibernate.annotations.NamedNativeQuery(name = "findAllNotOwnedByTechnologyIdAndIsPublished", query = "SELECT * FROM TechnologyAssessments ta WHERE ta.RadarUserId <> :radarUserId AND ta.IsPublished = true AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId)", resultClass = RadarInstanceEntity.class),
     }
 )
 public class RadarInstanceEntity
@@ -46,7 +60,11 @@ public class RadarInstanceEntity
     private boolean isLocked;
 
     @OneToOne
-    @JoinColumn(name = "RadarTypeId", nullable = false)
+    @JoinColumns
+    ({
+            @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
+            @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
+    })
     private RadarTypeEntity radarType;
 
     public RadarInstanceEntity()
@@ -77,13 +95,4 @@ public class RadarInstanceEntity
 
     public RadarTypeEntity getRadarType() { return this.radarType;}
     public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
-
-    public RadarInstanceEntity mapRow(ResultSet rs, int rowNum) throws SQLException
-    {
-        RadarInstanceEntity retVal = new RadarInstanceEntity();
-        retVal.setId(rs.getLong("Id"));
-        retVal.setName(rs.getString("Name"));
-        retVal.setAssessmentDate(rs.getDate("AssessmentDate"));
-        return retVal;
-    }
 }

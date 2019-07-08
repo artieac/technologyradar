@@ -1,33 +1,8 @@
 theApp.service('RadarTypeService', function ($resource, $http)
 {
-    this.getRadarInstanceRadarRingsRequest = function (radarId)
+    this.getUserRadarTypesRequest = function(userId, isAnonymous)
     {
-        return $resource('/api/radar/' + radarId + '/rings');
-    };
-
-    this.getRadarInstanceRadarCategoriesRequest = function (radarId)
-    {
-        return $resource('/api/radar/' + radarId + '/categories');
-    };
-
-    this.getRadarTypeRadarRingsRequest = function (radarTypeId)
-    {
-        return $resource('/api/radartype/' + radarTypeId + '/rings');
-    };
-
-    this.getRadarTypeRadarCategoriesRequest = function (radarTypeId)
-    {
-        return $resource('/api/radartype/' + radarTypeId + '/categories');
-    };
-
-    this.getRadarTypeRequest = function(radarTypeId)
-    {
-        return $resource('/api/radartype/' + radarTypeId);
-    }
-
-    this.getUserRadarTypesRequest = function(userId, publishedOnly)
-    {
-        if(publishedOnly==true)
+        if(isAnonymous==true)
         {
             return $resource('/api/public/User/' + userId + '/RadarTypes');
         }
@@ -37,17 +12,17 @@ theApp.service('RadarTypeService', function ($resource, $http)
         }
     }
 
-    this.getUserRadarTypes = function(userId, publishedOnly, successCallback)
+    this.getUserRadarTypes = function(userId, isAnonymous, successCallback)
     {
         var url =  '';
 
-        if(publishedOnly == true)
+        if(isAnonymous == true)
         {
             url = '/api/public/User/' + userId + '/RadarTypes';
         }
         else
         {
-            url = '/api/User/' + userId + '/RadarTypes';
+            url = '/api/User/' + userId + '/RadarTypes?allVersions=true';
         }
 
         $http.get(url)

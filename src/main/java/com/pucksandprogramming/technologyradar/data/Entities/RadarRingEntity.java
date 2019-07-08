@@ -7,6 +7,15 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "RadarRings")
+@org.hibernate.annotations.NamedNativeQueries
+(
+        {
+                @org.hibernate.annotations.NamedNativeQuery(name = "checkIfHasItems", query = "SELECT RadarRingId, MAX(Id) FROM TechnologyAssessmentItems WHERE RadarRingId IN :radarRingIdList GROUP BY RadarRingId", resultClass = RadarTypeEntity.class),
+        }
+)
+
+
+
 public class RadarRingEntity
 {
     @Id
@@ -22,8 +31,12 @@ public class RadarRingEntity
     @Column(name="DisplayOrder", nullable=false)
     private Long displayOrder;
 
-    @JoinColumn(name = "RadarTypeId", referencedColumnName = "id")
     @ManyToOne(optional=false)
+    @JoinColumns
+    ({
+        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
+        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
+    })
     private RadarTypeEntity radarType;
 
     public RadarRingEntity()
@@ -32,18 +45,14 @@ public class RadarRingEntity
     }
 
     public Long getId(){ return this.id;}
-
     public void setId(Long value){ this.id = value;}
 
     public String getName() { return this.name;}
-
     public void setName(String value) { this.name = value;}
 
     public Long getDisplayOrder(){ return this.displayOrder;}
-
     public void setDisplayOrder(Long value){ this.displayOrder = value;}
 
     public RadarTypeEntity getRadarType() { return this.radarType;}
-
     public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
 }

@@ -34,73 +34,13 @@ public class TechnologyService
         return retVal;
     }
 
-    public List<Technology> searchTechnology(String technologyName, Long radarRingId, Long radarCategoryId)
+    public Technology findById(Long technologyId)
     {
-        List<Technology> retVal = new ArrayList<>();
+        return this.technologyRepository.findOne(technologyId);
+    }
 
-        boolean hasTechnologyName = false;
-        boolean hasRadarRing = false;
-        boolean hasRadarCategory = false;
-
-        if(technologyName!=null && !technologyName.trim().isEmpty())
-        {
-            hasTechnologyName = true;
-        }
-
-        if(radarRingId != null && radarRingId > 0)
-        {
-            hasRadarRing = true;
-        }
-
-        if(radarCategoryId != null && radarCategoryId > 0)
-        {
-            hasRadarCategory = true;
-        }
-
-        if(hasTechnologyName && hasRadarRing && hasRadarCategory)
-        {
-            retVal = this.technologyRepository.findByNameRadarRingIdAndRadarCategoryId(technologyName, radarRingId, radarCategoryId);
-        }
-        else
-        {
-            if(hasTechnologyName)
-            {
-                if(hasRadarCategory)
-                {
-                    retVal = this.technologyRepository.findByNameAndRadarCategoryId(technologyName, radarCategoryId);
-                }
-                else
-                {
-                    if (hasRadarRing)
-                    {
-                        retVal = this.technologyRepository.findByNameAndRadarRingId(technologyName, radarRingId);
-                    }
-                    else
-                    {
-                        retVal = this.technologyRepository.searchByName(technologyName);
-                    }
-                }
-            }
-            else
-            {
-                if(hasRadarCategory && hasRadarRing)
-                {
-                    retVal = this.technologyRepository.findByRadarRingIdAndRadarCategoryId(radarRingId, radarCategoryId);
-                }
-                else
-                {
-                    if(hasRadarCategory)
-                    {
-                        retVal = this.technologyRepository.findByRadarCategoryId(radarCategoryId);
-                    }
-                    else
-                    {
-                        retVal = this.technologyRepository.findByRadarRingId(radarRingId);
-                    }
-                }
-            }
-        }
-
-        return retVal;
+    public List<Technology> searchTechnology(String technologyName, String radarTypeId, Long radarRingId, Long radarCategoryId)
+    {
+        return this.technologyRepository.findByFilters(technologyName, radarTypeId, radarRingId, radarCategoryId);
     }
 }

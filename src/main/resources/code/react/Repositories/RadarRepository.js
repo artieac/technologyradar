@@ -1,14 +1,46 @@
 export class RadarRepository{
 
-    getByUserId(userId, successHandler) {
+    getByUserId(userId, canSeeHistory, successHandler) {
+        var url = '/api/User/' + userId + '/Radars';
+
+        if(canSeeHistory==true){
+            url += "?getAllVersions=true";
+        }
+
         jQuery.ajax({
-                url: '/api/User/' + userId + '/Radars',
+                url: url,
                 async: true,
                 dataType: 'json',
                 success: function (radarCollection) {
                     successHandler(radarCollection);
                 }
             });
+    }
+
+    getByUserIdAndRadarId(userId, radarId, successHandler) {
+        var url = '/api/User/' + userId + '/Radar/' + radarId;
+
+        jQuery.ajax({
+                url: url,
+                async: true,
+                dataType: 'json',
+                success: function (radar) {
+                    successHandler(radar);
+                }
+            });
+    }
+
+    getRadarsByUserIdAndRadarTypeId(userId, radarTypeId, successHandler){
+        var url = '/api/User/' + userId + '/Radars?radarTypeId=' + radarTypeId;
+
+        jQuery.ajax({
+            url: url,
+            async: true,
+            dataType: 'json',
+            success: function (radars) {
+                successHandler(radars);
+            }
+        });
     }
 
     publishRadar(userId, radarId, isPublished, successHandler, errorHandler) {
@@ -23,8 +55,8 @@ export class RadarRepository{
               type: "PUT",
               url: '/api/User/' + userId + '/Radar/' + radarId + '/Publish',
               data: JSON.stringify(radarToUpdate),
-              success: function() {
-                    successHandler();
+              success: function(publishResponse) {
+                    successHandler(publishResponse);
                },
               error: function(xhr, status, err) {
                     errorHandler();
@@ -61,8 +93,8 @@ export class RadarRepository{
               },
               type: "DELETE",
               url: '/api/User/' + userId + '/Radar/' + radarId,
-              success: function() {
-                successHandler();
+              success: function(radars) {
+                successHandler(radars);
                },
                error: function(xhr, status, err){
                     errorHandler();
@@ -74,6 +106,7 @@ export class RadarRepository{
         var radarToAdd = {};
         radarToAdd.name = radarName;
         radarToAdd.radarTypeId = radarType.id;
+        radarToAdd.radarTypeVersion = radarType.version;
 
         $.post({
               headers: {
@@ -83,8 +116,8 @@ export class RadarRepository{
               type: "POST",
               url: '/api/User/' + userId + '/Radar',
               data: JSON.stringify(radarToAdd),
-              success: function() {
-                successHandler();
+              success: function(radarTypes) {
+                successHandler(radarTypes);
                },
                error: function(xhr, status, err){
                     errorHandler();

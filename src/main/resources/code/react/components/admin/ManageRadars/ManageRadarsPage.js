@@ -5,37 +5,38 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
-import { addRadarsToState, addRadarTypesToState} from '../../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState, addRadarTypesToState, addCurrentUserToState} from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository'
-import { RadarTableBody }  from './RadarTableBody';
+import RadarTableBody   from './RadarTableBody';
+import { UserRepository } from '../../../Repositories/UserRepository'
 
 class ManageRadarsPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val()
         };
 
         this.radarRepository = new RadarRepository();
         this.radarTypeRepository = new RadarTypeRepository();
+        this.userRepository = new UserRepository();
 
-        this.getUserRadarsResponse = this.getUserRadarsResponse.bind(this);
-        this.getRadarTypeCollectionResponse = this.getRadarTypeCollectionResponse.bind(this);
+        this.getUserDetails = this.getUserDetails.bind(this);
+        this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
     }
 
     componentDidMount(){
-        this.radarRepository.getByUserId(this.state.userId, this.getUserRadarsResponse);
-        this.radarTypeRepository.getOwnedAndAssociatedByUserId(this.state.userId, this.getRadarTypeCollectionResponse) ;
+        this.getUserDetails();
     }
 
-    getUserRadarsResponse(radars){
-        this.props.storeRadars(radars);
-        this.forceUpdate();
+    getUserDetails(){
+        this.userRepository.getUser(this.handleGetUserSuccess);
     }
 
-    getRadarTypeCollectionResponse(radarTypes){
-        this.props.storeRadarTypes(radarTypes);
+    handleGetUserSuccess(currentUser){
+        this.props.storeCurrentUser(currentUser);
+        this.radarTypeRepository.getOwnedAndAssociatedByUserId(currentUser.id, currentUser.canSeeHistory, this.props.storeRadarTypes) ;
+        this.radarRepository.getByUserId(currentUser.id, currentUser.canSeeHistory, this.props.storeRadars);
     }
 
     render() {
@@ -49,6 +50,7 @@ class ManageRadarsPage extends React.Component{
                     <thead>
                         <tr>
                             <th width="20%">Name</th>
+                            <th width="20%">Date</th>
                             <th width="20%">Type</th>
                             <th width="10%">Published?</th>
                             <th width="10%">Locked?</th>
@@ -56,7 +58,7 @@ class ManageRadarsPage extends React.Component{
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <RadarTableBody tableBodyData={this.props.radars} userId={this.state.userId} parentContainer = { this}  radarTypes={this.props.radarTypes}/>
+                    <RadarTableBody radars={this.props.radars} container={this}/>
                 </table>
             </div>
         );
@@ -67,7 +69,8 @@ class ManageRadarsPage extends React.Component{
 const mapDispatchToProps = dispatch => {
   return {
         storeRadars : radars => { dispatch(addRadarsToState(radars))},
-        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
+        storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))}
     }
 };
 
@@ -75,7 +78,8 @@ const mapDispatchToProps = dispatch => {
 function mapStateToProps(state) {
   return {
     	radars: state.radarReducer.radars,
-    	radarTypes: state.radarReducer.radarTypes
+    	radarTypes: state.radarReducer.radarTypes,
+    	currentUser: state.radarReducer.currentUser
     };
 }
 

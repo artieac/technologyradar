@@ -1,29 +1,41 @@
 'use strict'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
+import { connect } from "react-redux";
 import createReactClass from 'create-react-class';
 import RadarRow from './RadarRow';
 import NewRadarRow from './NewRadarRow';
 
-export class RadarTableBody extends React.Component{
+class RadarTableBody extends React.Component{
     render() {
-        if(typeof this.props.tableBodyData !== 'undefined'){
+        if(typeof this.props.radars !== 'undefined'){
             return (
                 <tbody>
-                    {this.props.tableBodyData.map(function (currentRow) {
-                        return <RadarRow key={currentRow.id} rowData={currentRow} userId={this.props.userId} />
+                    {this.props.radars.map(function (currentRow) {
+                        return <RadarRow key={currentRow.id} rowData={currentRow} container={this.props.container}/>
                         }.bind(this))}
-                    <NewRadarRow userId={this.props.userId} radarTypes={this.props.radarTypes}/>
+                    <NewRadarRow container={this.props.container}/>
                 </tbody>
             );
         }
         else{
             return(
                 <tbody>
-                    <NewRadarRow userId={this.props.userId}/>
+                    <NewRadarRow />
                 </tbody>
             );
         }
     }
 };
+
+function mapStateToProps(state) {
+  return {
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RadarTableBody);

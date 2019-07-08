@@ -11,26 +11,6 @@ public class RadarItem implements Serializable
     public static final int State_Changed = 1;
     public static final int State_Stable = 2;
 
-    public static Integer determineState(RadarItem previousRadarItem, RadarCategory radarCategory, RadarRing radarRing)
-    {
-        Integer retVal = State_Stable;
-
-        if(previousRadarItem==null)
-        {
-            retVal = State_New;
-        }
-        else
-        {
-            if((radarCategory.getId()!=previousRadarItem.getRadarCategory().getId()) ||
-                    radarRing.getId()!=previousRadarItem.getRadarRing().getId())
-            {
-                retVal = State_Changed;
-            }
-        }
-
-        return retVal;
-    }
-
     private Long id;
     private String details;
     private RadarRing radarRing;

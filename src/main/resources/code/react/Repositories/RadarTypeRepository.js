@@ -1,7 +1,7 @@
 export class RadarTypeRepository {
     createDefaultRadarType(name){
             var retVal = {};
-            retVal.id = -1;
+            retVal.id = '';
             retVal.name= name;
 
             retVal.radarRings = [];
@@ -27,9 +27,15 @@ export class RadarTypeRepository {
             return retVal;
     }
 
-    getByUserId(userId, successHandler) {
+    getByUserId(userId, getAllVersions, successHandler) {
+        var getUrl = '/api/User/' + userId + '/RadarTypes';
+
+        if(getAllVersions===false){
+            getUrl += '?getAllVersions=true';
+        }
+
         jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes',
+                url: getUrl,
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -38,9 +44,41 @@ export class RadarTypeRepository {
             });
     }
 
+    getHistory(userId, radarTypeId, successHandler){
+        var getUrl = '/api/User/' + userId + '/RadarType/' + radarTypeId + '?allVersions=true';
+
+        jQuery.ajax({
+                url: getUrl,
+                async: true,
+                dataType: 'json',
+                success: function (radarTypeHistory) {
+                    successHandler(radarTypeHistory);
+                }.bind(this)
+            });
+    }
+
+    getOwnedAndAssociatedByUserId(userId, getAllVersions, successHandler){
+        var url = '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true';
+
+        if(getAllVersions==true)
+        {
+            url += "&allVersions=true";
+        }
+
+        jQuery.ajax({
+                 url: url,
+                 async: true,
+                 dataType: 'json',
+                 success: function (radarTypeCollection) {
+                     successHandler(radarTypeCollection);
+                 }.bind(this)
+             });
+     }
+
     getOtherUsersSharedRadarTypes(userId, successHandler){
+        var url = '/api//RadarTypes/Shared?excludeUser=' + userId;
        jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeSharedByOthers=true',
+                url: url,
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -51,7 +89,7 @@ export class RadarTypeRepository {
 
     getAssociatedRadarTypes(userId, successHandler){
        jQuery.ajax({
-                url: '/api/User/' + userId + '/RadarTypes?includeOwned=false&includeAssociated=true',
+                url: '/api/User/' + userId + '/RadarTypes/Associated',
                 async: true,
                 dataType: 'json',
                 success: function (radarTypeCollection) {
@@ -59,17 +97,6 @@ export class RadarTypeRepository {
                 }.bind(this)
             });
     }
-
-    getOwnedAndAssociatedByUserId(userId, successHandler){
-        jQuery.ajax({
-                 url: '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true',
-                 async: true,
-                 dataType: 'json',
-                 success: function (radarTypeCollection) {
-                     successHandler(radarTypeCollection);
-                 }.bind(this)
-             });
-     }
 
     addRadarType(userId, radarType, successHandler) {
          $.ajax({
@@ -121,6 +148,19 @@ export class RadarTypeRepository {
             });
     }
 
+    deleteRadarRing(userId, radarTypeId, radarRingId, successHandler){
+         $.ajax({
+              headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+              },
+              type: "DELETE",
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/ring/' + radarRingId,
+             success: function() {
+                   successHandler();
+              }
+            });
+    }
 
     associateRadarType(userId, radarTypeId, shouldAssociate, successHandler, errorHandler) {
          var radarTypeAssociation = {};

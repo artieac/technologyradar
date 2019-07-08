@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
+import { connect } from "react-redux";
 import createReactClass from 'create-react-class';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 import { RadarTypeDropdownItem } from './RadarTypeDropdownItem';
@@ -24,8 +24,8 @@ export class RadarTypeDropdown extends React.Component{
     getTitle(){
         var retVal = "Select";
 
-        if(this.state.selectedRadarType !== undefined){
-            retVal = this.state.selectedRadarType.name;
+        if(this.state.selectedRadarType !== undefined && this.state.selectedRadarType.name !==undefined){
+            retVal = this.state.selectedRadarType.name + " v" + this.state.selectedRadarType.version;
         }
 
         return retVal;
@@ -39,8 +39,8 @@ export class RadarTypeDropdown extends React.Component{
                         { this.getTitle() }
                     </button>
                     <div className="dropdown-menu" aria-labelledby="radarTypeDropdown">
-                        {this.props.data.map(function (currentRow) {
-                            return <RadarTypeDropdownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSelectedItem={this.setSelectedItem }/>
+                        {this.props.data.map(function (currentRow, index) {
+                            return <RadarTypeDropdownItem key={ index } dropDownItem={ currentRow } setSelectedItem={this.setSelectedItem }/>
                         }.bind(this))}
                     </div>
                 </div>

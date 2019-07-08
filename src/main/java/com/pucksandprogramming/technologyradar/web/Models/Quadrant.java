@@ -22,12 +22,12 @@ public class Quadrant
     private Integer quandrantSize;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(Integer quadrantStart, Integer quandrantSize, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, List<RadarRingPresentation> radarRings)
+    public Quadrant(Integer quadrantStart, Integer quandrantSize, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, Integer marginTop, Integer marginLeft, List<RadarRingPresentation> radarRings)
     {
         this.radarCategory = radarCategory;
         this.quadrantStart = quadrantStart;
         this.quandrantSize = quandrantSize;
-        this.calculateLeftAndTop(diagramWidth, diagramHeight);
+        this.calculateLeftAndTop(diagramWidth, diagramHeight, marginLeft, marginTop);
         this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
 
         for(int i = 0; i < radarRings.size(); i++)
@@ -36,25 +36,25 @@ public class Quadrant
         }
     }
 
-    private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight)
+    private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight, Integer marginLeft, Integer marginTop)
     {
         switch(this.quadrantStart)
         {
             case 0:
-                topLocation = 18;
-                leftLocation = diagramWidth - 200 + 30;
+                topLocation = marginTop;
+                leftLocation = diagramWidth - marginLeft;
                 break;
             case 90:
-                topLocation = 18;
+                topLocation = marginTop;
                 leftLocation = 45;
                 break;
             case 180:
-                topLocation = diagramHeight / 2 + 18;
+                topLocation = diagramHeight / 2 + marginTop;
                 leftLocation = 45;
                 break;
             case 270:
-                topLocation = diagramHeight / 2 + 18;
-                leftLocation = diagramWidth - 200 + 30;
+                topLocation = diagramHeight / 2 + marginTop;
+                leftLocation = diagramWidth - marginLeft;
                 break;
         }
     }

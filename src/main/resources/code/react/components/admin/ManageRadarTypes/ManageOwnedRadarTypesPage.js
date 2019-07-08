@@ -1,32 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addRadarTypesToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
-import RadarTypeEditor from './RadarTypeEditor';
+import RadarTypeDetails from './RadarTypeDetails';
+import RadarTypeHistory from './RadarTypeHistory';
 import NewRadarTypeRow from './NewRadarTypeRow';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
+import { UserRepository } from '../../../Repositories/UserRepository';
+import ErrorSection from '../Errors/ErrorSection';
+import WarningManager from '../Errors/WarningManager';
+import { addWarningsToState } from '../../../../redux/reducers/admin/ErrorReducer';
 
 class ManageOwnedRadarTypesPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            userId: jQuery("#userId").val()
+            userId: jQuery("#userId").val(),
         };
 
         this.radarTypeRepository = new RadarTypeRepository();
+        this.userRepository = new UserRepository();
 
+        this.handleGetCurrentUserSuccess = this.handleGetCurrentUserSuccess.bind(this);
         this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
     }
 
     componentDidMount(){
-       this.getByUserId();
+        this.userRepository.getUser(this.handleGetCurrentUserSuccess);
     }
 
-    getByUserId(){
-       this.radarTypeRepository.getByUserId(this.state.userId, this.handleGetByUserIdSuccess);
+    handleGetCurrentUserSuccess(currentUser){
+       this.props.storeCurrentUser(currentUser);
+       this.radarTypeRepository.getByUserId(currentUser.id, false, this.handleGetByUserIdSuccess);
     }
 
     handleGetByUserIdSuccess(radarTypes){
@@ -41,21 +48,25 @@ class ManageOwnedRadarTypesPage extends React.Component{
                     <label>Manage Your Radar Types</label>
                 </div>
                 <p>Add a new type to have rate different types of things</p>
+                <ErrorSection errors={this.props.errors} warnings={this.props.warnings}/>
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
                             <div className="col-md-6">
-                               <NewRadarTypeRow userId={this.props.userId} />
+                               <NewRadarTypeRow />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
-                                <RadarTypeList userId={this.state.userId} radarTypes={this.props.radarTypes}/>
+                                <RadarTypeList radarTypes={this.props.radarTypes}/>
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-8">
-                        <RadarTypeEditor userId={this.state.userId} parentContainer={this}/>
+                    <div className={ this.props.showEdit==true ? "col-md-8" : "hidden"}>
+                        <RadarTypeDetails  parentContainer={this} editMode={true}/>
+                    </div>
+                    <div className={ this.props.currentUser.canSeeHistory==true && this.props.showHistory==true ? "col-md-8" : "hidden"}>
+                        <RadarTypeHistory parentContainer={this}/>
                     </div>
                 </div>
             </div>
@@ -65,13 +76,19 @@ class ManageOwnedRadarTypesPage extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	radarTypes: state.radarTypeReducer.radarTypes
+    	radarTypes: state.radarTypeReducer.radarTypes,
+    	currentUser: state.radarTypeReducer.currentUser,
+    	showHistory: state.radarTypeReducer.showHistory,
+    	showEdit: state.radarTypeReducer.showEdit,
+    	warnings: state.errorReducer.warnings,
+    	errors: state.errorReducer.errors
     };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
+        storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))}
     }
 };
 

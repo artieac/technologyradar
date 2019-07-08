@@ -11,7 +11,6 @@ public class RadarTypeDetailMessage
 
     public RadarTypeDetailMessage()
     {
-
     }
 
     public RadarTypeDetailMessage(RadarRing radarRing)

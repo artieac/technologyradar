@@ -11,7 +11,9 @@
 </head>
 <body ng-controller="RadarSubjectController">
     <div th:replace="fragments/header :: uiHeader"></div>
-    <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input sec:authorize="isAuthenticated()" type="text" id="isAnonymous" name="isAnonymous" value="false"/>
+    <input sec:authorize="isAnonymous()" type="text" id="isAnonymous" name="isAnonymous" value="true"/>
+    <input sec:authorize="isAuthenticated()" type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <br/><br/><br/>
     <div class="panel-primary" ng-form="searchInputForm">
         <div class="panel-heading">Radar Subject</div>
@@ -22,15 +24,15 @@
                     <input type="text" class="form-control" id="searchName" name="searchName" ng-model="searchParameters.radarSubjectName" />
                 </div>
                 <div class="col-md-3">
-                    <div class="row" ng-init="getAllPublishedRadarTypes()">
+                    <div class="row" ng-init="getPublishedRadarTypes()">
                         <div class="dropdown pull-left">
-                            <label for="pubishedRadarTypesDropdown">Shared Radar Types</label>
-                            <button class="btn btn-default dropdown-toggle" type="button" id="pubishedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <label for="publishedRadarTypesDropdown">Shared Radar Types</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="publishedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 {{selectedRadarType.name}}
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="pubishedRadarTypesDropdown">
-                                <li ng-repeat="radarType in allPublishedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="publishedRadarTypesDropdown">
+                                <li ng-repeat="radarType in publishedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
                             </ul>
                         </div>
                     </div>

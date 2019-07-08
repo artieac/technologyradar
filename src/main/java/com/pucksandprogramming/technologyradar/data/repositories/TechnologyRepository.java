@@ -1,5 +1,6 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
+import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
@@ -70,6 +71,116 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     public List<Technology> searchByName(String technologyName)
     {
         List<TechnologyEntity> foundItems = this.entityRepository.findByNameStartingWith(technologyName);
+        return this.mapList(foundItems);
+    }
+
+    public List<Technology> findByFilters(String technologyName, String radarTypeId, Long radarRingId, Long radarCategoryId)
+    {
+        boolean hasNonTechnologyFilter = false;
+
+        boolean hasTechnologyName = false;
+        if(technologyName!=null && !technologyName.trim().isEmpty())
+        {
+            hasTechnologyName = true;
+        }
+
+        boolean hasRadarTypeId = false;
+        if(radarTypeId != null && radarTypeId != "")
+        {
+            hasNonTechnologyFilter = true;
+            hasRadarTypeId = true;
+        }
+
+        boolean hasRadarRing = false;
+        if(radarRingId!=null && radarRingId > 0)
+        {
+            hasRadarRing = true;
+            hasNonTechnologyFilter = true;
+        }
+
+        boolean hasRadarCategory = false;
+        if(radarCategoryId != null && radarCategoryId > 0)
+        {
+            hasRadarCategory = true;
+            hasNonTechnologyFilter = true;
+        }
+
+        String searchQuery = "SELECT * FROM Technology t WHERE";
+
+        if(hasTechnologyName)
+        {
+            searchQuery += " t.Name LIKE :technologyName";
+
+            if(hasNonTechnologyFilter)
+            {
+                searchQuery += " AND";
+            }
+        }
+
+        if (hasNonTechnologyFilter) {
+            boolean appendAnd = false;
+            boolean whereAdded = false;
+
+            searchQuery += " t.ID IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai";
+
+            if (hasRadarTypeId) {
+                searchQuery += ", TechnologyAssessments ta WHERE ta.RadarTypeId=:radarTypeId AND tai.TechnologyAssessmentId = ta.Id";
+                whereAdded = true;
+                appendAnd = true;
+            }
+
+            if (hasRadarRing) {
+                if(whereAdded == false)
+                {
+                    searchQuery += " WHERE";
+                }
+                else {
+                    if (appendAnd) {
+                        searchQuery += " AND";
+                    }
+                }
+
+                searchQuery += " tai.RadarRingId=:radarRingId";
+                appendAnd = true;
+            }
+
+            if (hasRadarCategory) {
+                if(whereAdded == false)
+                {
+                    searchQuery += " WHERE";
+                }
+                else {
+                    if (appendAnd) {
+                        searchQuery += " AND";
+                    }
+                }
+
+                searchQuery += " tai.RadarCategoryId=:radarCategoryId";
+            }
+
+            searchQuery += ")";
+        }
+
+        Query query = this.entityManager.createNativeQuery(searchQuery, TechnologyEntity.class);
+
+        if (hasTechnologyName) {
+            query.setParameter("technologyName", technologyName);
+        }
+
+        if (hasRadarTypeId) {
+            query.setParameter("radarTypeId", radarTypeId);
+        }
+
+        if (hasRadarRing) {
+            query.setParameter("radarRingId", radarRingId);
+        }
+
+        if (hasRadarCategory) {
+            query.setParameter("radarCategoryId", radarCategoryId);
+        }
+
+        List<TechnologyEntity> foundItems = query.getResultList();
+
         return this.mapList(foundItems);
     }
 

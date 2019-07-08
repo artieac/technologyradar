@@ -3,8 +3,9 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
-import com.pucksandprogramming.technologyradar.services.DefaultRadarTypeManager;
-import com.pucksandprogramming.technologyradar.services.RadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarType.AssociatedRadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarType.DefaultRadarTypeManager;
+import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -31,10 +32,15 @@ public class CallbackController
     @Autowired
     private RadarUserService userService;
 
-    @Autowired RadarTypeService radarTypeService;
+    @Autowired
+    private RadarTypeServiceFactory radarTypeServiceFactory;
+
+    @Autowired
+    private AssociatedRadarTypeService associatedRadarTypeService;
 
     @Autowired
     private AuthenticationController controller;
+
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
@@ -73,11 +79,11 @@ public class CallbackController
 
                 if(targetUser.getId() > 0)
                 {
-                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeService);
+                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeServiceFactory.getMostRecent());
 
                     for(RadarType radarType : defaultRadars)
                     {
-                        this.radarTypeService.associatedRadarType(targetUser, radarType.getId(), true);
+                        this.associatedRadarTypeService.associatedRadarType(targetUser, radarType.getId(), radarType.getVersion(), true);
                     }
                 }
             }

@@ -1,7 +1,8 @@
-package com.pucksandprogramming.technologyradar.services;
+package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
 import com.pucksandprogramming.technologyradar.data.repositories.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
+import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +13,15 @@ import java.util.List;
 /**
  * Created by acorrea on 10/21/2016.
  */
-@Component
-public class RadarInstanceService
+public abstract class RadarInstanceService
 {
-    private TechnologyRepository technologyRepository;
-    private RadarInstanceRepository radarInstanceRepository;
-    private RadarRingRepository radarRingRepository;
-    private RadarCategoryRepository radarCategoryRepository;
-    private RadarUserRepository radarUserRepository;
-    private RadarTypeRepository radarTypeRepository;
+    protected TechnologyRepository technologyRepository;
+    protected RadarInstanceRepository radarInstanceRepository;
+    protected RadarRingRepository radarRingRepository;
+    protected RadarCategoryRepository radarCategoryRepository;
+    protected RadarUserRepository radarUserRepository;
+    protected RadarTypeRepository radarTypeRepository;
 
-    @Autowired
     public RadarInstanceService(RadarInstanceRepository radarInstanceRepository,
                                 TechnologyRepository technologyRepository,
                                 RadarRingRepository radarRingRepository,
@@ -53,76 +52,21 @@ public class RadarInstanceService
         return this.radarInstanceRepository.findOne(radar);
     }
 
-    public List<Radar> findByRadarUserId(Long radarUserId)
+    public abstract List<Radar> findByRadarUserId(Long radarUserId, boolean publishedOnly);
+    public abstract Radar findByUserAndRadarId(Long radarUserId, Long radarId, boolean publishedOnly);
+    public abstract List<Radar> findByUserAndType(Long radarUserId, String radarTypeId, boolean publishedOnly);
+    public abstract List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion, boolean publishedOnly);
+    public abstract List<Radar> getAllNotOwnedByTechnologyId(Long technologyId, RadarUser currentUser);
+
+    public Integer getSharedRadarCount(Long radarUserId)
     {
-        List<Radar> retVal = new ArrayList<Radar>();
+        Integer retVal = 0;
 
-        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
+        List<Radar> publishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(radarUserId, true);
 
-        if(foundUser!=null)
+        if(publishedRadars!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByRadarUser(foundUser.getId());
-        }
-
-        return retVal;
-    }
-
-    public List<Radar> findByRadarUserIdAndRadarTypeId(Long radarUserId, Long radarTypeId)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
-
-        if(foundUser!=null)
-        {
-            retVal = this.radarInstanceRepository.findAllByRadarUserAndRadarTypeId(foundUser.getId(), radarTypeId);
-        }
-
-        return retVal;
-    }
-    public List<Radar> findByRadarUserIdAndIsPublished(Long radarUserId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
-
-        if(foundUser!=null)
-        {
-            retVal = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(foundUser.getId(), isPublished);
-        }
-
-        return retVal;
-    }
-
-    public List<Radar> findByRadarUserIdRadarTypeIdAndIsPublished(Long radarUserId, Long radarTypeId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        RadarUser foundUser = this.radarUserRepository.findOne(radarUserId);
-        RadarType radarType = this.radarTypeRepository.findByRadarUaerIdAndId(radarUserId, radarTypeId);
-
-        if(foundUser!=null && radarType!=null)
-        {
-            retVal = this.radarInstanceRepository.findAllByRadarUserRadarTypeIdAndIsPublished(foundUser.getId(), radarType.getId(), isPublished);
-        }
-
-        return retVal;
-    }
-
-    public Technology findTechnologyById(Long technologyId)
-    {
-        return this.technologyRepository.findOne(technologyId);
-    }
-
-    public List<Radar> getAllByTechnologyId(Long technologyId, boolean isPublished)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        Technology foundItem = this.technologyRepository.findOne(technologyId);
-
-        if(foundItem!=null)
-        {
-            retVal = this.radarInstanceRepository.findAllByTechnologyIdAndIsPublished(foundItem.getId(), isPublished);
+            retVal = publishedRadars.size();
         }
 
         return retVal;
@@ -142,21 +86,7 @@ public class RadarInstanceService
         return retVal;
     }
 
-    public List<Radar> getAllNotOwnedByTechnologyId(Long technologyId, RadarUser currentUser)
-    {
-        List<Radar> retVal = new ArrayList<Radar>();
-
-        Technology foundItem = this.technologyRepository.findOne(technologyId);
-
-        if(foundItem!=null && currentUser != null)
-        {
-            retVal = this.radarInstanceRepository.findAllNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
-        }
-
-        return retVal;
-    }
-
-    public Radar addRadar(Long radarUserId, String name, Long radarTypeId)
+    public Radar addRadar(Long radarUserId, String name, String radarTypeId, Long radarVersion)
     {
         Radar retVal = null;
 
@@ -164,7 +94,7 @@ public class RadarInstanceService
         {
             Radar radarInstance = this.radarInstanceRepository.findByIdAndName(radarUserId, name);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
-            RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
+            RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarVersion);
 
             if(radarInstance == null && radarUser != null && radarType!=null)
             {
@@ -281,7 +211,7 @@ public class RadarInstanceService
                     RadarItemToBeAdded currentItemToAdd = radarItems.get(i);
                     RadarRing radarRing = this.radarRingRepository.findOne(currentItemToAdd.getRadarRingId());
                     RadarCategory radarCategory = this.radarCategoryRepository.findOne(currentItemToAdd.getRadarCategoryId());
-                    Technology targetTechnology = this.findTechnologyById(currentItemToAdd.getTechnologyId());
+                    Technology targetTechnology = this.technologyRepository.findOne(currentItemToAdd.getTechnologyId());
 
                     RadarItem newRadarItem = new RadarItem(-1L, targetTechnology, radarCategory, radarRing, currentItemToAdd.getConfidenceFactor(), currentItemToAdd.getDetails());
 
@@ -356,24 +286,32 @@ public class RadarInstanceService
         return retVal;
     }
 
-    public Radar findMostRecentByUserIdAndPublished(Long userId, boolean publishedOnly)
-    {
-        return this.radarInstanceRepository.findMostRecentByUserIdAndPublishedOnly(userId, publishedOnly);
-    }
-
     public boolean publishRadar(Long userId, Long radarId, boolean shouldPublish)
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
+        RadarUser targetUser = this.radarUserRepository.findOne(userId);
 
-        if(radar!=null && radar.getIsLocked() == false)
+        if(targetUser!=null)
         {
-            radar.setIsPublished(shouldPublish);
-            this.radarInstanceRepository.save(radar);
-            retVal = true;
-        }
+            Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
 
+            if (radar != null && radar.getIsLocked() == false && radar.getIsPublished() != shouldPublish)
+            {
+                List<Radar> currentPublishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(userId, true);
+
+                if (currentPublishedRadars.size() >= targetUser.howManyRadarsCanShare())
+                {
+                    // unpublish the oldest and then publish the one they want.
+                    currentPublishedRadars.get(0).setIsPublished(false);
+                    this.radarInstanceRepository.save(currentPublishedRadars.get(0));
+                }
+
+                radar.setIsPublished(shouldPublish);
+                this.radarInstanceRepository.save(radar);
+                retVal = true;
+            }
+        }
         return retVal;
     }
 

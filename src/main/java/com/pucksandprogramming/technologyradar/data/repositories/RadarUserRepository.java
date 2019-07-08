@@ -94,6 +94,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
                 radarUserEntity.setName(itemToSave.getName());
                 radarUserEntity.setNickname(itemToSave.getNickname());
                 radarUserEntity.setRoleId(itemToSave.getRoleId());
+                radarUserEntity.setUserType(itemToSave.getUserType());
             }
 
             if (radarUserEntity != null) {

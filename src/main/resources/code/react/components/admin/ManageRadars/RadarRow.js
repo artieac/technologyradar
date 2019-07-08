@@ -6,58 +6,72 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import radarReducer from '../../../../redux/reducers/admin/RadarReducer';
-import { addRadarsToState } from '../../../../redux/reducers/admin/RadarReducer';
+import { addRadarsToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarReducer';
 import { RadarRepository} from '../../../Repositories/RadarRepository';
+import { UserRepository } from '../../../Repositories/UserRepository';
 
 class RadarRow extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            isPublished: this.props.rowData.isPublished,
-            isLocked: this.props.rowData.isLocked
         };
 
         this.radarRepository = new RadarRepository();
+        this.userRepository = new UserRepository();
 
-        this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
-        this.handlePublishError = this.handlePublishError.bind(this);
-        this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
-        this.handleLockSuccess = this.handleLockSuccess.bind(this);
-        this.handleLockError = this.handleLockError.bind(this);
+        this.handleLockResponse = this.handleLockResponse.bind(this);
         this.handleIsLockedClick = this.handleIsLockedClick.bind(this);
         this.handleDeleteSuccess = this.handleDeleteSuccess.bind(this);
         this.handleDeleteError = this.handleDeleteError.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
-        this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
+        this.handleIsPublishedClick = this.handleIsPublishedClick.bind(this);
+        this.handlePublishSuccess = this.handlePublishSuccess.bind(this);
+        this.handlePublishError = this.handlePublishError.bind(this);
     }
 
-    handlePublishSuccess() { }
+    componentDidUpdate(){
+    }
+
+    handlePublishSuccess(publishResponse) {
+        this.props.storeCurrentUser(publishResponse.currentUser);
+        this.props.storeRadars(publishResponse.radars);
+        this.props.container.forceUpdate();
+    }
 
     handlePublishError() {
-        this.setState( { isPublished: !this.state.isPublished })
     }
 
-    handleIsPublishedClick() {
-        this.setState( { isPublished: this.refs.isPublished.checked })
-        this.radarRepository.publishRadar(this.props.userId, this.props.rowData.id, this.refs.isPublished.checked, this.handlePublishSuccess.bind(this), this.handlePublishError.bind(this));
+    handleIsPublishedClick(event) {
+        var shouldProcess = true;
+
+        if(event.target.checked == true)
+        {
+            if(this.props.currentUser!==undefined && (this.props.currentUser.howManyRadarsCanShare <= this.props.currentUser.numberOfSharedRadars))
+            {
+                if(!confirm('You can only have ' + this.props.currentUser.numberOfSharedRadars + '.  This will overwrite that selection.  Do you want to proceed?'))
+                {
+                    shouldProcess = false;
+                    this.refs.isPublished.checked = !event.target.checked;
+                }
+            }
+        }
+
+        if(shouldProcess==true)
+        {
+            this.radarRepository.publishRadar(this.props.currentUser.id, this.props.rowData.id, event.target.checked,  this.handlePublishSuccess, this.handlePublishError);
+        }
     }
 
-    handleLockSuccess() {}
-
-    handleLockError() {
-        this.setState( { isLocked: !this.state.isLocked })
+    handleLockResponse() {
+        this.radarRepository.getByUserId(this.props.currentUser.id, this.props.currentUser.canSeeHistory, this.props.storeRadars);
     }
 
-    handleIsLockedClick(){
-        this.setState( { isLocked: this.refs.isLocked.checked })
-        this.radarRepository.lockRadar(this.props.userId, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockSuccess.bind(this), this.handleLockError.bind(this));
+    handleIsLockedClick(event){
+        this.radarRepository.lockRadar(this.props.currentUser.id, this.props.rowData.id, this.refs.isLocked.checked, this.handleLockResponse, this.handleLockResponse);
     }
 
-    handleDeleteSuccess() {
-        this.radarRepository.getByUserId(this.props.userId,  this.handleGetByUserIdSuccess);
-    }
-
-    handleGetByUserIdSuccess(radars){
+    handleDeleteSuccess(radars)
+    {
         this.props.storeRadars(radars);
     }
 
@@ -66,26 +80,32 @@ class RadarRow extends React.Component{
     }
 
     handleDeleteClick() {
-        this.radarRepository.deleteRadar(this.props.userId, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
+        this.radarRepository.deleteRadar(this.props.currentUser.id, this.props.rowData.id, this.handleDeleteSuccess, this.handleDeleteError);
     }
 
     getAddFromPreviousLink(userId, radarId){
         return '/admin/user/' + userId + '/radar/' + radarId + '/addfromprevious';
     }
 
+    getAddItemsLink(radarId){
+        return "/home/secureradar/" + radarId;
+    }
+
     render() {
         return (
              <tr>
                  <td>{ this.props.rowData.name}</td>
-                 <td>{ this.props.rowData.radarType.name}</td>
-                 <td><input type="checkbox" ref="isPublished" defaultChecked={ this.state.isPublished } onClick = { this.handleIsPublishedClick }/></td>
-                 <td><input type="checkbox" ref="isLocked" defaultChecked={ this.state.isLocked } onClick = { this.handleIsLockedClick }/></td>
+                 <td>{ this.props.rowData.formattedAssessmentDate}</td>
+                 <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
+                 <td><input type="checkbox" ref="isPublished" checked={ this.props.rowData.isPublished } onChange = {(event) => this.handleIsPublishedClick(event) }/></td>
+                 <td><input type="checkbox" ref="isLocked" checked={ this.props.rowData.isLocked } onClick = {(event) => this.handleIsLockedClick(event) }/></td>
+                 <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-primary" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
-                        <button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)}>Add From Previous</button>
+                        <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
-                 <td><button type="button" className="btn btn-primary" disabled={(this.state.isPublished==true) || (this.state.isLocked==true)} onClick = { this.handleDeleteClick }>Delete</button></td>
+                 <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick = { this.handleDeleteClick }>Delete</button></td>
              </tr>
         );
     }
@@ -94,13 +114,14 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radars : state.radarReducer.radars
+        currentUser: state.radarReducer.currentUser
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadars : radars => { dispatch(addRadarsToState(radars))}
+        storeRadars : (userRadars) => { dispatch(addRadarsToState(userRadars))},
+        storeCurrentUser: (refreshedUser) => { dispatch(addCurrentUserToState(refreshedUser))}
     }
 };
 

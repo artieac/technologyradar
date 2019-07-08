@@ -27,16 +27,18 @@
 <body>
     <div th:replace="fragments/header :: uiHeader"></div>
     <br/><br/><br/>
+    <input sec:authorize="isAuthenticated()" type="hidden" id="isAnonymous" name="isAnonymous" value="false"/>
+    <input sec:authorize="isAnonymous()" type="hidden" id="isAnonymous" name="isAnonymous" value="true"/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
     <input type="hidden" id="radarTypeId" name="radarInstanceId" th:value="${radarTypeId}"/>
+    <input type="hidden" id="radarTypeVersion" name="radarTypeVersion" th:value="${radarTypeVersion}"/>
     <div class="panel-primary"  ng-controller="RadarController">
         <div class="panel-heading">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-3">
-                    <div sec:authorize="isAuthenticated()" ng-init="getRadarTypes(currentUserId, false)"></div>
-                    <div sec:authorize="isAnonymous()" ng-init="getRadarTypes(currentUserId, true)"></div>
+                <div class="col-sm-6">
+                    <div ng-init="getRadarTypes(currentUserId)"></div>
                     <div class="dropdown pull-left">
                         <label for="radarTypeDropdown">Select Radar Type:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -45,11 +47,17 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
                             <li><a ng-click="radarTypeAllSelected(currentUserId)">All</a></li>
-                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}}</a></li>
+                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
+                    <label for="sharingLink">Public link:</label>
+                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -61,16 +69,15 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <label for="sharingLink">Public link:</label>
-                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                <div class="col-sm-6" sec:authorize="isAuthenticated()">
+                    <button type="button" class="btn btn-primary" ng-click="clickAddItemButton()" ng-Show="selectedRadarInstance.isLocked==false">Add Item</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-9">
                     <div id="radar"></div>
                 </div>
-                <div class="col-md-3" sec:authorize="isAuthenticated()" ng-show="selectedRadarInstance.isLocked==false">
+                <div class="col-md-3" id="addItemSection" sec:authorize="isAuthenticated()" ng-Show="showAddItemSection">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Radar Item</div>
                         <div id="technologyAssessmentDetailsPanel" class="panel-body">
@@ -87,7 +94,7 @@
                                         <li class="list-group-item" ng-repeat="searchResult in technologySearchResults" ng-click="selectTechnology(searchResult)">{{searchResult.name}}</li>
                                     </ul>
                                 </div>
-                                <div class="row"  ng-init="getRadarCategories(selectedRadarInstance.id)">
+                                <div class="row">
                                     <div class="dropdown pull-left">
                                         <label for="radarCategoryDropdown">Category</label>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="radarCategoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -95,7 +102,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="radarCategoryDropdown">
-                                            <li ng-repeat="radarCategory in radarCategoryList"><a ng-click="selectRadarCategory(radarCategory)">{{radarCategory.name}}</a></li>
+                                            <li ng-repeat="radarCategory in radarCategories"><a ng-click="selectRadarCategory(radarCategory)">{{radarCategory.name}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -109,7 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row"  ng-init="getRadarRings(selectedRadarInstance.id)">
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="dropdown pull-left">
                                             <label for="radarRingDropdown">Radar Ring:</label>
@@ -118,7 +125,7 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="radarRingDropdown">
-                                                <li ng-repeat="radarRing in radarRingList"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
+                                                <li ng-repeat="radarRing in radarRings"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
                                             </ul>
                                         </div>
                                     </div>

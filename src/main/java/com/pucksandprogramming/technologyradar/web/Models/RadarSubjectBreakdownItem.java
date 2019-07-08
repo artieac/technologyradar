@@ -14,7 +14,7 @@ public class RadarSubjectBreakdownItem
     Long assessmentId;
     Date assessmentDate;
     String assessmentName;
-    RadarUser assessmentUser;
+    UserViewModel assessmentUser;
     RadarRing assessmentRing;
     RadarCategory assessmentCategory;
     String assessmentDetails;
@@ -28,8 +28,8 @@ public class RadarSubjectBreakdownItem
     public String getAssessmentName() { return this.assessmentName;}
     public void setAssessmentName(String value) { this.assessmentName = value;}
 
-    public RadarUser getAssessmentUser() { return this.assessmentUser;}
-    public void setAssessmentUser(RadarUser value) { this.assessmentUser = value;}
+    public UserViewModel getAssessmentUser() { return this.assessmentUser;}
+    public void setAssessmentUser(UserViewModel value) { this.assessmentUser = value;}
 
     public RadarRing getAssessmentRing() { return this.assessmentRing;}
     public void setAssessmentRing(RadarRing value) { this.assessmentRing = value;}

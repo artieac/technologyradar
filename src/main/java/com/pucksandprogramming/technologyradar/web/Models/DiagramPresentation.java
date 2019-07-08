@@ -3,9 +3,10 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
+import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
+import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
+import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,22 +16,43 @@ import java.util.List;
  */
 public class DiagramPresentation
 {
+    public static final Integer DiagramDisplayHeight = 900;
+    public static final Integer DiagramDisplayWidth = 1100;
+    public static final Integer RingDiameter = 360;
+    public static final Integer MarginTop = 18;
+    public static final Integer MarginLeft = 170;
+
     private Integer height;
     private Integer width;
-    private Integer rangeWidth;
+    private Integer marginTop;
+    private Integer marginLeft;
+    private Integer ringDiameter;
+    private Integer radarArcWidth;
     private Long radarId;
     private String radarName;
     private Date assessmentDate;
     private List<Quadrant> quadrantList;
     private List<RadarRingPresentation> radarArcs;
     private List<RadarRing> radarRings;
-    private RadarTypeMessage radarType;
+    private RadarTypeViewModel radarType;
 
-    public DiagramPresentation(Integer height, Integer width, Integer rangeWidth)
+    public DiagramPresentation()
+    {
+        this(DiagramPresentation.DiagramDisplayHeight,
+             DiagramPresentation.DiagramDisplayWidth,
+             DiagramPresentation.RingDiameter,
+             DiagramPresentation.MarginTop,
+             DiagramPresentation.MarginLeft);
+    }
+
+    public DiagramPresentation(Integer height, Integer width, Integer ringDiameter, Integer marginTop, Integer marginLeft)
     {
         this.height = height;
         this.width = width;
-        this.rangeWidth = rangeWidth;
+        this.marginTop = marginTop;
+        this.marginLeft = marginLeft;
+        this.ringDiameter = ringDiameter;
+        this.radarArcWidth = 0;
         this.quadrantList = new ArrayList<Quadrant>();
     }
 
@@ -45,9 +67,18 @@ public class DiagramPresentation
     }
 
     @JsonProperty
-    public Integer getRangeWidth() {
-        return this.rangeWidth;
+    public Integer getMarginTop() { return this.marginTop;}
+
+    @JsonProperty
+    public Integer getMarginLeft() { return this.marginLeft;}
+
+    @JsonProperty
+    public Integer getRingDiameter() {
+        return this.ringDiameter;
     }
+
+    @JsonProperty
+    public Integer getRangeWidth() { return this.radarArcWidth; }
 
     public Long getRadarId() {
         return this.radarId;
@@ -61,7 +92,7 @@ public class DiagramPresentation
         return this.assessmentDate;
     }
 
-    public RadarTypeMessage getRadarType() { return this.radarType;}
+    public RadarTypeViewModel getRadarType() { return this.radarType;}
 
     @JsonProperty
     public List<RadarRingPresentation> getRadarArcs() {
@@ -83,7 +114,7 @@ public class DiagramPresentation
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
         this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
-        this.radarType = new RadarTypeMessage(radarInstance.getRadarType());
+        this.radarType = new RadarTypeViewModel(radarInstance.getRadarType());
     }
 
     public void sddRadarArc(RadarRing radarRing)
@@ -98,19 +129,21 @@ public class DiagramPresentation
             this.radarRings = new ArrayList<RadarRing>();
         }
 
-        Integer arcStart = this.radarArcs.size() * this.rangeWidth;
+        Integer arcStart = this.radarArcs.size() * this.radarArcWidth;
         if(arcStart > 0)
         {
             arcStart++;
         }
 
-        RadarRingPresentation newItem = new RadarRingPresentation(radarRing, arcStart, this.rangeWidth);
+        RadarRingPresentation newItem = new RadarRingPresentation(radarRing, arcStart, this.radarArcWidth);
         this.radarArcs.add(newItem);
         this.radarRings.add(radarRing);
     }
 
-    public void addRadarArcs(Iterable<RadarRing> radarRings)
+    public void addRadarArcs(List<RadarRing> radarRings)
     {
+        this.radarArcWidth = this.ringDiameter / radarRings.size();
+
         for(RadarRing radarRing : radarRings)
         {
             this.sddRadarArc(radarRing);

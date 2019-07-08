@@ -42,7 +42,7 @@ theApp.service('RadarInstanceService', function ($resource, $http)
 
          if(radarType!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id;
+            url += "?radarTypeId=" + radarType.id + '&radarTypeVersion=' + radarType.version;
          }
 
         $http.get(url)
@@ -58,7 +58,7 @@ theApp.service('RadarInstanceService', function ($resource, $http)
 
          if(radarType!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id;
+            url += "?radarTypeId=" + radarType.id + "&radarTypeVersion=" + radarType.version;
          }
 
         $http.get(url)
@@ -68,19 +68,18 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.getRadarRingsRequest = function (radarId)
+    this.getRadarInstance = function(userId, radarId, isAnonymous, callbackFunction)
     {
-        return $resource('/api/radar/' + radarId + '/rings');
-    };
+        var getRequest = {};
 
-    this.getRadarCategoriesRequest = function (radarId)
-    {
-        return $resource('/api/radar/' + radarId + '/categories');
-    };
-
-    this.getRadarInstance = function(userId, radarId, callbackFunction)
-    {
-        var getRequest = $resource('/api/public/User/' + userId + '/Radar/' + radarId);
+        if(isAnonymous==true)
+        {
+            getRequest = $resource('/api/public/User/' + userId + '/Radar/' + radarId);
+        }
+        else
+        {
+            getRequest = $resource('/api/User/' + userId + '/Radar/' + radarId);
+        }
 
         getRequest.get(function(data)
         {
@@ -109,16 +108,6 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             .error(function (radarInstance)
             {
                 errorCallback();
-            });
-    };
-
-
-    this.deleteRadar =  function (userId, radarId, callbackFunction)
-    {
-        $http.delete('/api/User/' + userId + '/Radar/' + radarId)
-            .then(function (data)
-            {
-                callbackFunction(userId, radarId);
             });
     };
 });
