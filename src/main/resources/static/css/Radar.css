@@ -155,3 +155,9 @@ textarea
 .errorText{
     color: red;
 }
+
+.alternatingRow{
+    background-color: WhiteSmoke;
+    color: DimGray;
+}
+

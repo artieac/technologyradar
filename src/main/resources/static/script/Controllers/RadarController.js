@@ -31,7 +31,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
         {
             $scope.radarSharingLink += "/public/home/user/" + userId + "/radar/" + $scope.selectedRadarInstance.id;
-            ;
         }
         else
         {
@@ -75,7 +74,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     {
         $scope.radarInstanceList = radarInstances;
         $scope.selectedRadarInstance = {};
-        
+
         var radarInstanceId = $("#radarInstanceId").val();
 
         if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&

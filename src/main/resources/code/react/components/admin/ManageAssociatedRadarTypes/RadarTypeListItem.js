@@ -72,7 +72,7 @@ class RadarTypeListItem extends React.Component{
     render() {
         if(typeof this.props.radarType !== 'undefined'){
             return (
-                <div className="row">
+                <div className={ this.props.rowNum % 2 > 0 ? "row alternatingRow" : "row"}>
                     <div className="col-md-7">{this.props.radarType.name } </div>
                     <div className={this.props.currentUser.id == this.props.radarType.radarUserId ? 'hidden' : 'col-md-6'}>
                         <span>Use this?  <input type="checkbox" checked={this.isAssociatedToUser()} ref="shouldAssociate" onChange = {(event) => this.handleAssociateRadarTypeChange(event) }/></span>

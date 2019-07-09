@@ -24,7 +24,7 @@ class RadarTypeList extends React.Component{
                         </div>
                         {
                             this.props.radarTypes.map((currentRow, index) => {
-                                return <RadarTypeListItem key={index} radarType={currentRow} readonly={true} />
+                                return <RadarTypeListItem key={index} rowNum={index} radarType={currentRow} readonly={true} />
                             })
                         }
                     </div>
