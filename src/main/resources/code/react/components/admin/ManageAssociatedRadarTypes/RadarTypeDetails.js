@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addRadarTypesToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarRingList from './RadarRingList';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTypeRepository } from '../../../Repositories/RadarTypeRepository';
@@ -46,6 +46,10 @@ class RadarTypeDetails extends React.Component{
 
     handleSaveRadarType(){
         if(this.props.selectedRadarType.radarRings===undefined || this.props.selectedRadarType.radarRings.length==0){
+            var errorManager = new ErrorManager();
+            errorManager.setErrors(this.props.errors);
+            errorManager.addError(Error_NoRadarRings);
+            this.props.setErrors(errorManager.errors);
             this.forceUpdate();
         }
         else{
@@ -59,8 +63,7 @@ class RadarTypeDetails extends React.Component{
     }
 
     handleEditChangeSuccess(radarType){
-        this.props.storeSelectedRadarType(radarType);
-        this.radarTypeRepository.getByUserId(this.props.currentUser.id, false, this.props.storeRadarTypes);
+        this.radarTypeRepository.getByUserId(this.props.currentUser.Id, false, this.handleGetByUserIdSuccess);
     }
 
     handleDeleteRadarType(){
@@ -78,19 +81,6 @@ class RadarTypeDetails extends React.Component{
                                 <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}/>
                             </div>
                             <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
-                            <div className={this.props.editMode===true ? "col-md-3" : "hidden"}>
-                               <input type="button" className='btn btn-primary' disabled={this.props.editMode!==true} value="Save" onClick={(event) => this.handleSaveRadarType(event) }/>
-                            </div>
-                        </div>
-                        <div className={ this.props.editMode===true ? "row" : "hidden"}>
-                            <div className="col-md-3">Share with others?</div>
-                            <div className="col-md-4">
-                                <input type="checkbox" ref="isPublished" checked={ this.props.selectedRadarType.isPublished } onChange = {(event) => this.handleSharedWithOthersChange(event) } readOnly={this.props.editMode ? '' : '"readonly"'}/>
-                            </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-3">
-                               <input type="button" className='btn btn-primary' disabled={!this.props.editMode} value="Delete" onClick={(event) => this.handleDeleteRadarType(event) }/>
-                            </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
@@ -133,7 +123,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))},
         storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))}
     }
 };

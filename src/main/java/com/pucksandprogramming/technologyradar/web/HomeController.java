@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ public class HomeController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    RadarInstanceServiceFactory radarInstanceServiceFactory;
+    RadarServiceFactory radarServiceFactory;
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -46,8 +46,8 @@ public class HomeController extends ControllerBase
 
         if(radarInstanceId.isPresent())
         {
-            radarInstanceServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
-            Radar targetRadar = this.radarInstanceServiceFactory.getRadarTypeServiceForSharing().findById(radarInstanceId.get());
+            radarServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
+            Radar targetRadar = this.radarServiceFactory.getRadarTypeServiceForSharing().findById(radarInstanceId.get());
 
             if (targetRadar != null)
             {
@@ -74,7 +74,7 @@ public class HomeController extends ControllerBase
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
             // TBD if they can't share with others make sure this is the most recent.
-            Radar radarInstance = radarInstanceServiceFactory.getRadarTypeServiceForSharing().findByUserAndRadarId(userId, radarInstanceId.get(), true);
+            Radar radarInstance = radarServiceFactory.getRadarTypeServiceForSharing().findByUserAndRadarId(userId, radarInstanceId.get(), true);
 
             if(radarInstance!=null)
             {
@@ -94,7 +94,7 @@ public class HomeController extends ControllerBase
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        List<Radar> radarInstances = this.radarInstanceServiceFactory.getMostRecent().findByRadarUserId(userId, true);
+        List<Radar> radarInstances = this.radarServiceFactory.getMostRecent().findByRadarUserId(userId, true);
 
         if(radarInstances != null && radarInstances.size() > 0)
         {
@@ -125,7 +125,7 @@ public class HomeController extends ControllerBase
 
         if(mostRecent==true)
         {
-            List<Radar> radarInstances = this.radarInstanceServiceFactory.getMostRecent().findByUserAndType(userId, radarTypeId, true);
+            List<Radar> radarInstances = this.radarServiceFactory.getMostRecent().findByUserAndType(userId, radarTypeId, true);
 
             if (radarInstances != null && radarInstances.size() > 0)
             {

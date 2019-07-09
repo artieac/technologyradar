@@ -1,6 +1,5 @@
 package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
-import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
 import com.pucksandprogramming.technologyradar.data.repositories.*;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
@@ -12,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MostRecentRadarInstanceService extends RadarInstanceService
+public class MostRecentRadarService extends RadarServiceBase
 {
     @Autowired
-    public MostRecentRadarInstanceService(RadarInstanceRepository radarInstanceRepository,
-                                          TechnologyRepository technologyRepository,
-                                          RadarRingRepository radarRingRepository,
-                                          RadarCategoryRepository radarCategoryRepository,
-                                          RadarUserRepository radarUserRepository,
-                                          RadarTypeRepository radarTypeRepository)
+    public MostRecentRadarService(RadarRepository radarRepository,
+                                  TechnologyRepository technologyRepository,
+                                  RadarRingRepository radarRingRepository,
+                                  RadarCategoryRepository radarCategoryRepository,
+                                  RadarUserRepository radarUserRepository,
+                                  RadarTypeRepository radarTypeRepository)
     {
-        super(radarInstanceRepository, technologyRepository, radarRingRepository, radarCategoryRepository, radarUserRepository, radarTypeRepository);
+        super(radarRepository, technologyRepository, radarRingRepository, radarCategoryRepository, radarUserRepository, radarTypeRepository);
     }
 
     public List<Radar> findByRadarUserId(Long radarUserId, boolean publishedOnly)
@@ -33,7 +32,7 @@ public class MostRecentRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal.add(this.radarInstanceRepository.findMostRecentByUserIdAndPublishedOnly(foundUser.getId(), publishedOnly));
+            retVal.add(this.radarRepository.findMostRecentByUserIdAndPublishedOnly(foundUser.getId(), publishedOnly));
         }
 
         return retVal;
@@ -47,15 +46,15 @@ public class MostRecentRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findMostRecentByUserRadarIdAndPublishedOnly(foundUser.getId(), radarId, publishedOnly);
+            retVal = this.radarRepository.findMostRecentByUserRadarIdAndPublishedOnly(foundUser.getId(), radarId, publishedOnly);
 
             if(retVal == null)
             {
-                Radar unpublishedRadar = this.radarInstanceRepository.findMostRecentByUserRadarIdAndPublishedOnly(foundUser.getId(), radarId, false);
+                Radar unpublishedRadar = this.radarRepository.findMostRecentByUserRadarIdAndPublishedOnly(foundUser.getId(), radarId, false);
 
                 if(unpublishedRadar!=null)
                 {
-                    retVal = this.radarInstanceRepository.findMostRecentByUserIdRadarTypeAndPublished(foundUser.getId(), unpublishedRadar.getRadarType().getId(), true);
+                    retVal = this.radarRepository.findMostRecentByUserIdRadarTypeAndPublished(foundUser.getId(), unpublishedRadar.getRadarType().getId(), true);
                 }
             }
         }
@@ -71,7 +70,7 @@ public class MostRecentRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal.add(this.radarInstanceRepository.findAMostRecentByUserTypeAndIsPublished(foundUser.getId(), radarTypeId, publishedOnly));
+            retVal.add(this.radarRepository.findAMostRecentByUserTypeAndIsPublished(foundUser.getId(), radarTypeId, publishedOnly));
         }
 
         return retVal;
@@ -85,7 +84,7 @@ public class MostRecentRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal.add(this.radarInstanceRepository.findAMostRecentByUserTypeVersionAndIsPublished(foundUser.getId(), radarTypeId, radarTypeVersion, publishedOnly));
+            retVal.add(this.radarRepository.findAMostRecentByUserTypeVersionAndIsPublished(foundUser.getId(), radarTypeId, radarTypeVersion, publishedOnly));
         }
 
         return retVal;
@@ -101,11 +100,11 @@ public class MostRecentRadarInstanceService extends RadarInstanceService
         {
             if (currentUser != null)
             {
-                retVal = this.radarInstanceRepository.findMostNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
+                retVal = this.radarRepository.findMostNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
             }
             else
             {
-                retVal = this.radarInstanceRepository.findMostRecentByTechnolgyId(foundItem.getId());
+                retVal = this.radarRepository.findMostRecentByTechnolgyId(foundItem.getId());
             }
         }
 

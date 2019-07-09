@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.HomeController;
@@ -26,74 +26,90 @@ public class RadarSubjectController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    private RadarInstanceServiceFactory radarInstanceServiceFactory;
+    private RadarServiceFactory radarServiceFactory;
 
     @Autowired
     private TechnologyService technologyService;
 
-    @RequestMapping("/{id}/assessments")
+    @GetMapping("/{id}/assessments")
     public @ResponseBody
     RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id)
     {
         Technology targetTechnology = this.technologyService.findById(id);
         RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology);
 
-        if(targetTechnology != null)
+        try
         {
-            // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
-            // that would make the subsequent calls at lot easier to manage.
-            List<Radar> ownedRadarList = new ArrayList<Radar>();
-
-            if(this.getCurrentUser()!=null)
+            if (targetTechnology != null)
             {
-                ownedRadarList = radarInstanceServiceFactory.getMostRecent().getAllOwnedByTechnologyId(id, this.getCurrentUser());
-            }
+                // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
+                // that would make the subsequent calls at lot easier to manage.
+                List<Radar> ownedRadarList = new ArrayList<Radar>();
 
-            for(int i = 0; i < ownedRadarList.size(); i++)
-            {
-                retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
-            }
+                if (this.getCurrentUser() != null)
+                {
+                    ownedRadarList = radarServiceFactory.getMostRecent().getAllOwnedByTechnologyId(id, this.getCurrentUser());
+                }
 
-            List<Radar> publishedRadarList = radarInstanceServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+                for (int i = 0; i < ownedRadarList.size(); i++)
+                {
+                    retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
+                }
 
-            for(int i = 0; i < publishedRadarList.size(); i++)
-            {
-                retVal.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
+                List<Radar> publishedRadarList = radarServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
+
+                for (int i = 0; i < publishedRadarList.size(); i++)
+                {
+                    retVal.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
+                }
             }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
         }
 
         return retVal;
     }
 
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public @ResponseBody List<Technology> searchRadarSubjects(@RequestParam Map<String, String> allRequestParams)
     {
-        String radarSubjectName = "";
+        List<Technology> retVal = new ArrayList<>();
 
-        if(allRequestParams.containsKey("name"))
+        try
         {
-            radarSubjectName = allRequestParams.get("name");
-        }
+            String radarSubjectName = "";
 
-        String radarTypeId = "";
-        if(allRequestParams.containsKey("radarTypeId"))
+            if (allRequestParams.containsKey("name"))
+            {
+                radarSubjectName = allRequestParams.get("name");
+            }
+
+            String radarTypeId = "";
+            if (allRequestParams.containsKey("radarTypeId"))
+            {
+                radarTypeId = allRequestParams.get("radarTypeId").toString();
+            }
+
+            Long radarRingId = new Long(-1);
+            if (allRequestParams.containsKey("radarRingId"))
+            {
+                radarRingId = Long.parseLong(allRequestParams.get("radarRingId"));
+            }
+
+            Long radarCategoryId = new Long(-1);
+            if (allRequestParams.containsKey("radarCategoryId"))
+            {
+                radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
+            }
+
+            retVal = this.technologyService.searchTechnology(radarSubjectName, radarTypeId, radarRingId, radarCategoryId);
+        }
+        catch(Exception e)
         {
-            radarTypeId = allRequestParams.get("radarTypeId").toString();
+            logger.error(e);
         }
-
-        Long radarRingId = new Long(-1);
-        if(allRequestParams.containsKey("radarRingId"))
-        {
-            radarRingId = Long.parseLong(allRequestParams.get("radarRingId"));
-        }
-
-        Long radarCategoryId = new Long(-1);
-        if(allRequestParams.containsKey("radarCategoryId"))
-        {
-            radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
-        }
-
-        List<Technology> retVal = this.technologyService.searchTechnology(radarSubjectName, radarTypeId, radarRingId, radarCategoryId);
 
         return retVal;
     }

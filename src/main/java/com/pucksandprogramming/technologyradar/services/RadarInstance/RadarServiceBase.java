@@ -3,8 +3,6 @@ package com.pucksandprogramming.technologyradar.services.RadarInstance;
 import com.pucksandprogramming.technologyradar.data.repositories.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,23 +11,23 @@ import java.util.List;
 /**
  * Created by acorrea on 10/21/2016.
  */
-public abstract class RadarInstanceService
+public abstract class RadarServiceBase
 {
     protected TechnologyRepository technologyRepository;
-    protected RadarInstanceRepository radarInstanceRepository;
+    protected RadarRepository radarRepository;
     protected RadarRingRepository radarRingRepository;
     protected RadarCategoryRepository radarCategoryRepository;
     protected RadarUserRepository radarUserRepository;
     protected RadarTypeRepository radarTypeRepository;
 
-    public RadarInstanceService(RadarInstanceRepository radarInstanceRepository,
-                                TechnologyRepository technologyRepository,
-                                RadarRingRepository radarRingRepository,
-                                RadarCategoryRepository radarCategoryRepository,
-                                RadarUserRepository radarUserRepository,
-                                RadarTypeRepository radarTypeRepository)
+    public RadarServiceBase(RadarRepository radarRepository,
+                            TechnologyRepository technologyRepository,
+                            RadarRingRepository radarRingRepository,
+                            RadarCategoryRepository radarCategoryRepository,
+                            RadarUserRepository radarUserRepository,
+                            RadarTypeRepository radarTypeRepository)
     {
-        this.radarInstanceRepository = radarInstanceRepository;
+        this.radarRepository = radarRepository;
         this.technologyRepository = technologyRepository;
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
@@ -49,7 +47,7 @@ public abstract class RadarInstanceService
 
     public Radar findById(Long radar)
     {
-        return this.radarInstanceRepository.findOne(radar);
+        return this.radarRepository.findOne(radar);
     }
 
     public abstract List<Radar> findByRadarUserId(Long radarUserId, boolean publishedOnly);
@@ -62,7 +60,7 @@ public abstract class RadarInstanceService
     {
         Integer retVal = 0;
 
-        List<Radar> publishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(radarUserId, true);
+        List<Radar> publishedRadars = this.radarRepository.findAllByRadarUserAndIsPublished(radarUserId, true);
 
         if(publishedRadars!=null)
         {
@@ -80,7 +78,7 @@ public abstract class RadarInstanceService
 
         if(foundItem!=null && currentUser != null)
         {
-            retVal = this.radarInstanceRepository.findAllByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
+            retVal = this.radarRepository.findAllByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
         }
 
         return retVal;
@@ -92,7 +90,7 @@ public abstract class RadarInstanceService
 
         if(!name.isEmpty())
         {
-            Radar radarInstance = this.radarInstanceRepository.findByIdAndName(radarUserId, name);
+            Radar radarInstance = this.radarRepository.findByIdAndName(radarUserId, name);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
             RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarVersion);
 
@@ -101,7 +99,7 @@ public abstract class RadarInstanceService
                 retVal = this.createDefault(radarUser);
                 retVal.setName(name);
                 retVal.setRadarType(radarType);
-                this.radarInstanceRepository.save(retVal);
+                this.radarRepository.save(retVal);
             }
         }
 
@@ -112,11 +110,11 @@ public abstract class RadarInstanceService
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarInstanceId, radarUserId);
 
         if(radar!=null && radar.getIsPublished()==false && radar.getIsLocked()==false)
         {
-            this.radarInstanceRepository.delete(radar.getId());
+            this.radarRepository.delete(radar.getId());
             retVal = true;
         }
 
@@ -129,13 +127,13 @@ public abstract class RadarInstanceService
 
         if(!name.isEmpty())
         {
-            retVal = this.radarInstanceRepository.findOne(radarId);
+            retVal = this.radarRepository.findOne(radarId);
             RadarUser radarUser = this.radarUserRepository.findOne(radarUserId);
 
             if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUserId)
             {
                 retVal.setName(name);
-                this.radarInstanceRepository.save(retVal);
+                this.radarRepository.save(retVal);
             }
         }
 
@@ -171,7 +169,7 @@ public abstract class RadarInstanceService
 
         if(targetTechnology!=null)
         {
-            retVal = this.radarInstanceRepository.findOne(radarId);
+            retVal = this.radarRepository.findOne(radarId);
 
             if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
             {
@@ -183,12 +181,12 @@ public abstract class RadarInstanceService
                     Integer itemState = RadarItem.State_New;
 
                     RadarItem radarItemToAdd = new RadarItem(-1L, targetTechnology, radarCategory, radarRing, confidenceLevel, assessmentDetails);
-                    RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(retVal.getRadarUser().getId(), retVal.getId(), targetTechnology.getId());
+                    RadarItem previousRadarItem = this.radarRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(retVal.getRadarUser().getId(), retVal.getId(), targetTechnology.getId());
 
                     radarItemToAdd.determineState(previousRadarItem);
                     retVal.addRadarItem(radarItemToAdd);
 
-                    this.radarInstanceRepository.save(retVal);
+                    this.radarRepository.save(retVal);
                 }
             }
         }
@@ -202,7 +200,7 @@ public abstract class RadarInstanceService
 
         if(radarItems!=null)
         {
-            retVal = this.radarInstanceRepository.findOne(radarId);
+            retVal = this.radarRepository.findOne(radarId);
 
             if(retVal != null && retVal.getIsLocked() == false && radarUser != null && retVal.getRadarUser().getId() == radarUser.getId())
             {
@@ -218,7 +216,7 @@ public abstract class RadarInstanceService
                     retVal.addRadarItem(newRadarItem);
                 }
 
-                this.radarInstanceRepository.save(retVal);
+                this.radarRepository.save(retVal);
             }
         }
 
@@ -231,7 +229,7 @@ public abstract class RadarInstanceService
 
         if(radarId > 0 && radarItemId > 0 && radarRingId > 0)
         {
-            Radar radar = this.radarInstanceRepository.findOne(radarId);
+            Radar radar = this.radarRepository.findOne(radarId);
 
             if(radar != null && radar.getIsLocked() == false)
             {
@@ -242,11 +240,11 @@ public abstract class RadarInstanceService
                 radarItemToUpdate.setConfidenceFactor(confidenceLevel);
                 radarItemToUpdate.setDetails(assessmentDetails);
 
-                RadarItem previousRadarItem = this.radarInstanceRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(radar.getRadarUser().getId(), radar.getId(), radarItemToUpdate.getTechnology().getId());
+                RadarItem previousRadarItem = this.radarRepository.getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(radar.getRadarUser().getId(), radar.getId(), radarItemToUpdate.getTechnology().getId());
                 radarItemToUpdate.determineState(previousRadarItem);
 
                 radar.updateRadarItem(radarItemId, radarItemToUpdate);
-                this.radarInstanceRepository.save(radar);
+                this.radarRepository.save(radar);
             }
         }
         return retVal;
@@ -256,12 +254,12 @@ public abstract class RadarInstanceService
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, radarUserId);
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, radarUserId);
 
         if(radar!=null && radar.getIsLocked() == false)
         {
             radar.removeRadarItem(radarItemId);
-            this.radarInstanceRepository.save(radar);
+            this.radarRepository.save(radar);
             retVal = true;
         }
         return retVal;
@@ -271,7 +269,7 @@ public abstract class RadarInstanceService
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
 
         if(radar!=null && radar.getIsLocked() == false)
         {
@@ -280,7 +278,7 @@ public abstract class RadarInstanceService
                 radar.removeRadarItem(radarItemIds.get(i));
             }
 
-            this.radarInstanceRepository.save(radar);
+            this.radarRepository.save(radar);
             retVal = true;
         }
         return retVal;
@@ -294,21 +292,21 @@ public abstract class RadarInstanceService
 
         if(targetUser!=null)
         {
-            Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
+            Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
 
             if (radar != null && radar.getIsLocked() == false && radar.getIsPublished() != shouldPublish)
             {
-                List<Radar> currentPublishedRadars = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(userId, true);
+                List<Radar> currentPublishedRadars = this.radarRepository.findAllByRadarUserAndIsPublished(userId, true);
 
                 if (currentPublishedRadars.size() >= targetUser.howManyRadarsCanShare())
                 {
                     // unpublish the oldest and then publish the one they want.
                     currentPublishedRadars.get(0).setIsPublished(false);
-                    this.radarInstanceRepository.save(currentPublishedRadars.get(0));
+                    this.radarRepository.save(currentPublishedRadars.get(0));
                 }
 
                 radar.setIsPublished(shouldPublish);
-                this.radarInstanceRepository.save(radar);
+                this.radarRepository.save(radar);
                 retVal = true;
             }
         }
@@ -319,12 +317,12 @@ public abstract class RadarInstanceService
     {
         boolean retVal = false;
 
-        Radar radar = this.radarInstanceRepository.findByIdAndRadarUserId(radarId, userId);
+        Radar radar = this.radarRepository.findByIdAndRadarUserId(radarId, userId);
 
         if(radar!=null)
         {
             radar.setIsLocked(shouldLock);
-            this.radarInstanceRepository.save(radar);
+            this.radarRepository.save(radar);
             retVal = true;
         }
 

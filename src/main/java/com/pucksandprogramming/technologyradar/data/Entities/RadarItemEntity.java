@@ -27,7 +27,7 @@ public class RadarItemEntity
 
     @JoinColumn(name = "technologyAssessmentId", referencedColumnName = "id")
     @ManyToOne(optional=false)
-    private RadarInstanceEntity radarInstance;
+    private RadarEntity radarInstance;
 
     @ManyToOne
     @JoinColumn(name = "TechnologyId", nullable=false)
@@ -58,8 +58,8 @@ public class RadarItemEntity
     public Long getId(){ return id;}
     public void setId(Long value){ this.id = value;}
 
-    public RadarInstanceEntity getRadarInstance() { return this.radarInstance;}
-    public void setRadarInstance(RadarInstanceEntity value) { this.radarInstance = value;}
+    public RadarEntity getRadarInstance() { return this.radarInstance;}
+    public void setRadarInstance(RadarEntity value) { this.radarInstance = value;}
 
     public TechnologyEntity getTechnology() { return this.technology;}
     public void setTechnology(TechnologyEntity value) { this.technology = value;}

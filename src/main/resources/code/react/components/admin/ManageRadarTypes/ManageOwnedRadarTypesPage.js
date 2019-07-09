@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState, addCurrentUserToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
+import { addRadarTypesToState, addCurrentUserToState, addSelectedRadarTypeToState } from '../../../../redux/reducers/admin/RadarTypeReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
 import RadarTypeHistory from './RadarTypeHistory';
@@ -28,6 +28,9 @@ class ManageOwnedRadarTypesPage extends React.Component{
     }
 
     componentDidMount(){
+        var clearedRadarType = {};
+        this.props.storeSelectedRadarType(clearedRadarType);
+
         this.userRepository.getUser(this.handleGetCurrentUserSuccess);
     }
 
@@ -57,7 +60,7 @@ class ManageOwnedRadarTypesPage extends React.Component{
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-6">
+                            <div className="col-md-12">
                                 <RadarTypeList radarTypes={this.props.radarTypes}/>
                             </div>
                         </div>
@@ -87,6 +90,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
+        storeSelectedRadarType : radarType => { dispatch(addSelectedRadarTypeToState(radarType))},
         storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
         storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))}
     }

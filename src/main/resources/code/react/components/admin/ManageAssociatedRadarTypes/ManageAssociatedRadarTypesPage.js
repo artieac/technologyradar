@@ -24,6 +24,9 @@ class ManageAssociatedRadarTypesPage extends React.Component{
     }
 
     componentDidMount(){
+        var clearedRadarType = {};
+        this.props.storeSelectedRadarType(clearedRadarType);
+
         this.userRepository.getUser(this.handleGetCurrentUserSuccess);
     }
 
@@ -63,6 +66,8 @@ class ManageAssociatedRadarTypesPage extends React.Component{
         if(sharedRadarTypes.length > 0){
             this.props.storeSelectedRadarType(sharedRadarTypes[0]);
         }
+
+        this.forceUpdate();
     }
 
     render() {
@@ -76,7 +81,7 @@ class ManageAssociatedRadarTypesPage extends React.Component{
                     <div className="col-md-6">
                         <div className="row">
                             <div className="col-md-6">
-                                <RadarTypeList radarTypes={this.props.sharedRadarTypes}/>
+                                <RadarTypeList radarTypes={this.props.sharedRadarTypes} />
                             </div>
                         </div>
                     </div>

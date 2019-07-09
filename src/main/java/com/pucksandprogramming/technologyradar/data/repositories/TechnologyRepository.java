@@ -1,6 +1,5 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
-import com.pucksandprogramming.technologyradar.data.Entities.RadarInstanceEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;

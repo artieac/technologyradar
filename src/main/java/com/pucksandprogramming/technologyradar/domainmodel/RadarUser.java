@@ -91,4 +91,9 @@ public class RadarUser {
     {
         return this.getCurrentUserType().getGrantValue(UserRights.CanShareNRadars);
     }
+
+    public boolean canHaveVariableRadarRingCounts()
+    {
+        return this.getCurrentUserType().isGrantEnabled(UserRights.AllowVarableRadarRingCount);
+    }
 }

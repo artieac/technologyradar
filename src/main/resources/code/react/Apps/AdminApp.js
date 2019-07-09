@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageOwnedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage';
-import ManageAssociatedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage';
+import ManageAssociatedRadarTypesPage from '../components/admin/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadarPage from '../components/admin/AddFromPrevious/AddFromPreviousRadarPage';
 import radarReducer from '../../redux/reducers/admin/RadarReducer';

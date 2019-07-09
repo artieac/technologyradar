@@ -12,6 +12,7 @@ public class UserViewModel
     private String name;
     private boolean canSeeHistory;
     private boolean canShareRadarTypes;
+    private boolean canHaveVariableRadarRingCount;
     private Integer howManyRadarsCanShare;
     private Integer numberOfSharedRadars;
 
@@ -25,6 +26,7 @@ public class UserViewModel
         retVal.setCanSeeHistory(false);
         retVal.setHowManyRadarsCanShare(1);
         retVal.setNumberOfSharedRadar(0);
+        retVal.setCanHaveVariableRadarRingCount(true);
 
         return retVal;
     }
@@ -44,6 +46,7 @@ public class UserViewModel
             this.setCanSeeHistory(source.canSeeHistory());
             this.setCanShareRadarTypes(source.canShareRadarTypes());
             this.setHowManyRadarsCanShare(source.howManyRadarsCanShare());
+            this.setCanHaveVariableRadarRingCount(source.canHaveVariableRadarRingCounts());
         }
 
     }
@@ -67,4 +70,7 @@ public class UserViewModel
 
     public Integer getNumberOfSharedRadars() { return this.numberOfSharedRadars;}
     public void setNumberOfSharedRadar(Integer value) { this.numberOfSharedRadars = value;}
+
+    public boolean getCanHaveVariableRadarRingCount() { return this.canHaveVariableRadarRingCount;}
+    public void setCanHaveVariableRadarRingCount(boolean value) { this.canHaveVariableRadarRingCount = value;}
 }

@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class FullHistoryRadarInstanceService extends RadarInstanceService
+public class FullHistoryRadarService extends RadarServiceBase
 {
     @Autowired
-    public FullHistoryRadarInstanceService(RadarInstanceRepository radarInstanceRepository,
-                                           TechnologyRepository technologyRepository,
-                                           RadarRingRepository radarRingRepository,
-                                           RadarCategoryRepository radarCategoryRepository,
-                                           RadarUserRepository radarUserRepository,
-                                           RadarTypeRepository radarTypeRepository)
+    public FullHistoryRadarService(RadarRepository radarRepository,
+                                   TechnologyRepository technologyRepository,
+                                   RadarRingRepository radarRingRepository,
+                                   RadarCategoryRepository radarCategoryRepository,
+                                   RadarUserRepository radarUserRepository,
+                                   RadarTypeRepository radarTypeRepository)
     {
-        super(radarInstanceRepository, technologyRepository, radarRingRepository, radarCategoryRepository, radarUserRepository, radarTypeRepository);
+        super(radarRepository, technologyRepository, radarRingRepository, radarCategoryRepository, radarUserRepository, radarTypeRepository);
     }
 
     public List<Radar> findByRadarUserId(Long radarUserId, boolean publishedOnly)
@@ -32,7 +32,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByRadarUserAndIsPublished(foundUser.getId(), publishedOnly);
+            retVal = this.radarRepository.findAllByRadarUserAndIsPublished(foundUser.getId(), publishedOnly);
         }
 
         return retVal;
@@ -46,7 +46,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findByIdAndRadarUserIdAndPublishedOnly(foundUser.getId(), radarId, publishedOnly);
+            retVal = this.radarRepository.findByIdAndRadarUserIdAndPublishedOnly(foundUser.getId(), radarId, publishedOnly);
         }
 
         return retVal;
@@ -60,7 +60,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByUserTypeAndIsPublished(foundUser.getId(), radarTypeId, publishedOnly);
+            retVal = this.radarRepository.findAllByUserTypeAndIsPublished(foundUser.getId(), radarTypeId, publishedOnly);
         }
 
         return retVal;
@@ -74,7 +74,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
 
         if(foundUser!=null)
         {
-            retVal = this.radarInstanceRepository.findAllByUserTypeVersionAndIsPublished(foundUser.getId(), radarTypeId, radarTypeVersion, publishedOnly);
+            retVal = this.radarRepository.findAllByUserTypeVersionAndIsPublished(foundUser.getId(), radarTypeId, radarTypeVersion, publishedOnly);
         }
 
         return retVal;
@@ -88,7 +88,7 @@ public class FullHistoryRadarInstanceService extends RadarInstanceService
 
         if(foundItem!=null && currentUser != null && currentUser.canSeeHistory()==true)
         {
-            retVal = this.radarInstanceRepository.findAllNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
+            retVal = this.radarRepository.findAllNotOwnedByTechnolgyIdAndRadarUserId(foundItem.getId(), currentUser.getId());
         }
 
         return retVal;
