@@ -74,7 +74,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.setRadarInstances = function(radarInstances)
     {
         $scope.radarInstanceList = radarInstances;
-
+        $scope.selectedRadarInstance = {};
+        
         var radarInstanceId = $("#radarInstanceId").val();
 
         if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
