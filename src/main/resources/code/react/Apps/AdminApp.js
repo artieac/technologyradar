@@ -55,7 +55,7 @@ class AdminApp extends React.Component{
                                 <div id="AssociateRadarTypesPanel" className="panel-body">
                                     <p>See other's radar types and mark the so you can also use them'.</p>
                                     <p></p>
-                                    <br/>
+                                    <br/><br/>
                                     <Link to='/admin/manageAssociatedRadarTypes'>
                                         <button className="btn btn-techradar">Associated Radar Types</button>
                                     </Link>
