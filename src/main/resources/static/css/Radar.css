@@ -167,10 +167,12 @@ textarea
   border-radius: 0;
   display: inline-block;
   padding: 9px 15px;
-  border: 0;
+  border: 1px;
   line-height: inherit;
   text-decoration: none;
   cursor: pointer;
+  border-color: White;
+  margin-top:5px;
 }
 
 .panel-heading-techradar{
