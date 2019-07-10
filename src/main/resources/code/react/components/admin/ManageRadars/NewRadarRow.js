@@ -61,7 +61,7 @@ class NewRadarRow extends React.Component{
                 <td>
                     <RadarTypeDropdown selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTypes}/>
                 </td>
-                <td><input type="button" className="btn btn-primary" value="Add Radar" onClick={this.handleAddRadar} /></td>
+                <td><input type="button" className="btn btn-techradar" value="Add Radar" onClick={this.handleAddRadar} /></td>
             </tr>
         );
     }

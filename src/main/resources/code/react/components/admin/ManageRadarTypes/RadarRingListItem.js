@@ -54,7 +54,7 @@ class RadarRingListItem extends React.Component{
                         <input type="text" className={this.props.editMode ?  '' : 'readonly="readonly"'} ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>
                     </div>
                     <div className={this.props.editMode ?  "col-md-2" : "hidden"}>
-                        <input type="button" value="Delete" className="btn btn-primary" onClick = {(event) => { this.handleOnDeleteClick(event) }}/>
+                        <input type="button" value="Delete" className="btn btn-techradar" onClick = {(event) => { this.handleOnDeleteClick(event) }}/>
                     </div>
                 </div>
             );

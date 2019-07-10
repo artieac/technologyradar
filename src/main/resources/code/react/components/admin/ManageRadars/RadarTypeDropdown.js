@@ -35,7 +35,7 @@ export class RadarTypeDropdown extends React.Component{
         if(this.props.data!==undefined){
             return(
                 <div className="dropdown">
-                    <button className="btn btn-primary dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button className="btn btn-techradar dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         { this.getTitle() }
                     </button>
                     <div className="dropdown-menu" aria-labelledby="radarTypeDropdown">
@@ -49,7 +49,7 @@ export class RadarTypeDropdown extends React.Component{
         else{
             return(
                 <div class="dropdown">
-                  <button class="btn btn-primary dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-techradar dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     { this.getTitle() }
                   </button>
                 </div>

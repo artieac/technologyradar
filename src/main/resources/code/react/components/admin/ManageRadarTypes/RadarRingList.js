@@ -35,7 +35,7 @@ class RadarRingList extends React.Component{
                         })}
                      <div className={ this.props.editMode==true ?  "row" : "hidden"}>
                         <div className="col-md-12">
-                            <input type="button" className="btn btn-primary" value="Add New Ring" disabled={this.props.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
+                            <input type="button" className="btn btn-techradar" value="Add New Ring" disabled={this.props.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
                         </div>
                      </div>
                 </div>
@@ -47,7 +47,7 @@ class RadarRingList extends React.Component{
                     <div className="errorText">{ Error_NoRadarRings }</div>
                      <div className={ this.props.editMode==true ?  "row" : "hidden"}>
                         <div className="col-md-12">
-                            <input type="button" className="btn btn-primary" value="Add New Ring" disabled={this.props.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
+                            <input type="button" className="btn btn-techradar" value="Add New Ring" disabled={this.props.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
                         </div>
                      </div>
                 </div>);

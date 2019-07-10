@@ -25,7 +25,7 @@ class NewRadarTypeRow extends React.Component{
         return(
             <div className="row">
                 <div className="col-lg-1`">
-                    <input type="button" className="btn btn-primary" value="Add Radar Type" onClick= { this.handleAddRadarType } />
+                    <input type="button" className="btn btn-techradar" value="Add Radar Type" onClick= { this.handleAddRadarType } />
                 </div>
             </div>
         );

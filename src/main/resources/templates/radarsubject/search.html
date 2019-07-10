@@ -15,8 +15,8 @@
     <input sec:authorize="isAnonymous()" type="text" id="isAnonymous" name="isAnonymous" value="true"/>
     <input sec:authorize="isAuthenticated()" type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <br/><br/><br/>
-    <div class="panel-primary" ng-form="searchInputForm">
-        <div class="panel-heading">Radar Subject</div>
+    <div class="panel panel-techradar" ng-form="searchInputForm">
+        <div class="panel-heading-techradar">Radar Subject</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" ng-click="searchRadarSubjects();">Search</button>
+                    <button type="button" class="btn btn-techradar" ng-click="searchRadarSubjects();">Search</button>
                 </div>
             </div>
         </div>
