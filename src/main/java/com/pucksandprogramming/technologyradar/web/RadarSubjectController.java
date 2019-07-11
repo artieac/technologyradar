@@ -1,7 +1,7 @@
 package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class RadarSubjectController extends ControllerBase
     private static final Logger logger = Logger.getLogger(RadarSubjectController.class);
 
     @Autowired
-    private RadarInstanceServiceFactory radarInstanceServiceFactory;
+    private RadarServiceFactory radarServiceFactory;
 
     @Autowired
     private TechnologyService technologyService;

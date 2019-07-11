@@ -107,12 +107,12 @@ class AddFromPreviousRadarPage extends React.Component{
                 <div className="row">
                     <div className="col-lg-4">
                         <RadarsDropdown data={this.state.filteredRadarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.currentUser.id} setSourceRadarInstance={setSourceRadarInstance}/>
-                        <button type="button" className="btn btn-primary" onClick={ this.handleAddItemsToRadarClick }>Add</button>
+                        <button type="button" className="btn btn-techradar" onClick={ this.handleAddItemsToRadarClick }>Add</button>
                     </div>
                     <div className="col-lg-4">
                         <div className="contentPageTitle">
                             <label>Add Past Radar Items to { this.getDestinationRadarName() } </label>
-                            <button type="button" className="btn btn-primary" onClick={ this.handleRemoveItemsFromRadarClick }>Remove</button>
+                            <button type="button" className="btn btn-techradar" onClick={ this.handleRemoveItemsFromRadarClick }>Remove</button>
                         </div>
                     </div>
                 </div>

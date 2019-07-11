@@ -1,11 +1,9 @@
 package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarInstanceRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.TechnologyRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarType.PublicRadarTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PublicRadarInstanceService
+public class PublicRadarService
 {
     TechnologyRepository technologyRepository;
-    RadarInstanceRepository radarInstanceRepository;
+    RadarRepository radarRepository;
 
     @Autowired
-    public PublicRadarInstanceService(TechnologyRepository technologyRepository, RadarInstanceRepository radarInstanceRepository)
+    public PublicRadarService(TechnologyRepository technologyRepository, RadarRepository radarRepository)
     {
         this.technologyRepository = technologyRepository;
-        this.radarInstanceRepository = radarInstanceRepository;
+        this.radarRepository = radarRepository;
     }
 
     public List<Radar> getAllByTechnologyId(Long technologyId)
@@ -33,7 +31,7 @@ public class PublicRadarInstanceService
 
         if(foundItem!=null)
         {
-            retVal = this.radarInstanceRepository.findMostRecentByTechnolgyId(foundItem.getId());
+            retVal = this.radarRepository.findMostRecentByTechnolgyId(foundItem.getId());
         }
 
         return retVal;

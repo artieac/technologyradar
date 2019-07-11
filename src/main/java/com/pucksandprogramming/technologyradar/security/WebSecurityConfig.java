@@ -75,9 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(callbackLocation,
                             "/login",
                             "/accessDenied").permitAll()
-                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
+                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
                     .antMatchers("/**").authenticated()
-                    .and().exceptionHandling().accessDeniedHandler(this.accessDeniedHandler())
+                    .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
                     .and().logout().permitAll();
         }
         else

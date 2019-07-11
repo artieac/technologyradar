@@ -46,16 +46,14 @@ class RadarRingListItem extends React.Component{
     render(){
         if(this.props.rowData!==undefined){
             return(
-                <div className={this.state.isDeleted ? "hidden row" : "row"}>
+                <div className="row">
                     <div className="col-md-6">
-                        <input type="text" className={this.props.editMode ? '' : 'readonly="readonly"'} ref="typeDetailsName" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
+                        <input type="text" className='readonly="readonly"' ref="typeDetailsName" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
                     <div className="col-md-2">
-                        <input type="text" className={this.props.editMode ?  '' : 'readonly="readonly"'} ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>
+                        <input type="text" className='readonly="readonly"' ref="typeDetailsDisplayOption" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>
                     </div>
-                    <div className={this.props.editMode ?  "col-md-2" : "hidden"}>
-                        <input type="button" value="Delete" className="btn btn-techradar" onClick = {(event) => { this.handleOnDeleteClick(event) }}/>
-                    </div>
+                    <div className="col-md-2"></div>
                 </div>
             );
         }

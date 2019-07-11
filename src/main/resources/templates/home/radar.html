@@ -33,8 +33,8 @@
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
     <input type="hidden" id="radarTypeId" name="radarInstanceId" th:value="${radarTypeId}"/>
     <input type="hidden" id="radarTypeVersion" name="radarTypeVersion" th:value="${radarTypeVersion}"/>
-    <div class="panel-primary"  ng-controller="RadarController">
-        <div class="panel-heading">Which Radar?</div>
+    <div class="panel panel-techradar"  ng-controller="RadarController">
+        <div class="panel-heading-techradar">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6" sec:authorize="isAuthenticated()">
-                    <button type="button" class="btn btn-primary" ng-click="clickAddItemButton()" ng-Show="selectedRadarInstance.isLocked==false">Add Item</button>
+                    <button type="button" class="btn btn-techradar" ng-click="clickAddItemButton()" ng-Show="selectedRadarInstance.isLocked==false">Add Item</button>
                 </div>
             </div>
             <div class="row">
@@ -78,8 +78,8 @@
                     <div id="radar"></div>
                 </div>
                 <div class="col-md-3" id="addItemSection" sec:authorize="isAuthenticated()" ng-Show="showAddItemSection">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Radar Item</div>
+                    <div class="panel panel-techradar">
+                        <div class="panel-heading-techradar">Radar Item</div>
                         <div id="technologyAssessmentDetailsPanel" class="panel-body">
                             <form name="radarItemInputForm">
                                 <div class="row">
@@ -87,7 +87,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="newTechnologyName" name="newTechnologyName" ng-model="selectedRadarInstanceItem.technology.name" ng-keypress="clearTechnologySelection()"/>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-default" type="submit" ng-click="searchForTechnologyByName()"><i class="glyphicon glyphicon-search"></i></button>
+                                            <button class="btn btn-techradar" type="submit" ng-click="searchForTechnologyByName()"><i class="glyphicon glyphicon-search"></i></button>
                                         </div>
                                     </div>
                                     <ul id="searchResults" class="list-group">
@@ -112,7 +112,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="newTechnologyUrl" name="newTechnologyUrl" ng-model="selectedRadarInstanceItem.technology.url" ng-required="true"/>
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" ng-disabled="false"><a href="{{selectedRadarInstanceItem.technology.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a></button>
+                                            <button type="button" class="btn btn-techradar" ng-disabled="false"><a href="{{selectedRadarInstanceItem.technology.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a></button>
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
                                     <div class="col-md-6">
                                         <div class="dropdown pull-left">
                                             <label for="confidenceLevelDropdown">Confidence:</label>
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <button class="btn btn-techradar dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 {{selectedConfidence}}
                                                 <span class="caret"></span>
                                             </button>
@@ -153,13 +153,13 @@
                             </form>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-primary" ng-click="clearRadarItemSelection();">Clear</button>
+                                    <button type="button" class="btn btn-techradar" ng-click="clearRadarItemSelection();">Clear</button>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-primary" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
+                                    <button type="button" class="btn btn-techradar" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-primary" ng-click="deleteRadarItem(currentUserId, selectedRadarInstance.id, selectedRadarInstanceItem.id);" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
+                                    <button type="button" class="btn btn-techradar" ng-click="deleteRadarItem(currentUserId, selectedRadarInstance.id, selectedRadarInstanceItem.id);" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
                                 </div>
                             </div>
                         </div>

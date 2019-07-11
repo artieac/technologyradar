@@ -1,21 +1,13 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
-import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceService;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarInstanceServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
-import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -27,17 +19,24 @@ public class UserController extends ControllerBase
     private RadarUserService radarUserService;
 
     @Autowired
-    private RadarInstanceServiceFactory radarInstanceServiceFactory;
+    private RadarServiceFactory radarServiceFactory;
 
-    @RequestMapping(value = "/User", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value = "/User", produces = "application/json")
     public @ResponseBody UserViewModel getUserDetails()
     {
         UserViewModel retVal = UserViewModel.DefaultInstance();
 
-        if (this.getCurrentUser() != null)
+        try
         {
-            retVal = new UserViewModel(this.getCurrentUser());
-            retVal.setNumberOfSharedRadar(radarInstanceServiceFactory.getFullHistory().getSharedRadarCount(this.getCurrentUser().getId()));
+            if (this.getCurrentUser() != null)
+            {
+                retVal = new UserViewModel(this.getCurrentUser());
+                retVal.setNumberOfSharedRadar(radarServiceFactory.getFullHistory().getSharedRadarCount(this.getCurrentUser().getId()));
+            }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
         }
 
         return retVal;

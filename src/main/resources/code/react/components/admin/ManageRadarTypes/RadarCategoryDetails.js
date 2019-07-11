@@ -15,8 +15,8 @@ export class RadarCategoryDetails extends React.Component{
     }
 
 
-    handleColorOnSelect(event){
-        this.props.rowData.displayOption = event;
+    handleColorOnSelect(event, colorValue){
+        this.props.rowData.displayOption = colorValue;
         this.forceUpdate();
     }
 
@@ -36,12 +36,16 @@ export class RadarCategoryDetails extends React.Component{
                         <input type="text" className={this.props.editMode===true ? '' : 'readonly="readonly"'} ref="typeDetailsName" defaultValue={this.props.rowData.name} required="required"  onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
                     </div>
                     <div className={this.props.editMode===true ? 'col-md-2' : 'hidden col-lg-3'} >
-                        <DropdownButton id="categoryColorSelection" title={this.getColorName(this.props.rowData.displayOption)} onSelect={(event) => this.handleColorOnSelect(event)}>
-                          <Dropdown.Item as="button" eventKey={this.props.colorMap["Green"]}>Green</Dropdown.Item>
-                          <Dropdown.Item as="button" eventKey={this.props.colorMap["Blue"]}>Blue</Dropdown.Item>
-                          <Dropdown.Item as="button" eventKey={this.props.colorMap["Maroon"]}>Maroon</Dropdown.Item>
-                          <Dropdown.Item as="button" eventKey={this.props.colorMap["Orange"]}>Orange</Dropdown.Item>
-                        </DropdownButton>
+                        <button class="btn btn-techradar dropdown-toggle" type="button" id="categoryColorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            { this.getColorName(this.props.rowData.displayOption)}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="categoryColorDropdown">
+                            <li><a onClick={(event) => this.handleColorOnSelect(event, this.props.colorMap["Green"])}>Green</a></li>
+                            <li><a onClick={(event) => this.handleColorOnSelect(event, this.props.colorMap["Blue"])}>Blue</a></li>
+                            <li><a onClick={(event) => this.handleColorOnSelect(event, this.props.colorMap["Maroon"])}>Maroon</a></li>
+                            <li><a onClick={(event) => this.handleColorOnSelect(event, this.props.colorMap["Orange"])}>Orange</a></li>
+                        </ul>
                     </div>
                 </div>
             );

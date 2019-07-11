@@ -99,13 +99,13 @@ class RadarRow extends React.Component{
                  <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
                  <td><input type="checkbox" ref="isPublished" checked={ this.props.rowData.isPublished } onChange = {(event) => this.handleIsPublishedClick(event) }/></td>
                  <td><input type="checkbox" ref="isLocked" checked={ this.props.rowData.isLocked } onClick = {(event) => this.handleIsLockedClick(event) }/></td>
-                 <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-primary" role="button" aria-disabled="true">Add Items</a></td>
+                 <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-techradar" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
                     <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
-                        <button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
+                        <button type="button" className="btn btn-techradar" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
-                 <td><button type="button" className="btn btn-primary" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick = { this.handleDeleteClick }>Delete</button></td>
+                 <td><button type="button" className="btn btn-techradar" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)} onClick = { this.handleDeleteClick }>Delete</button></td>
              </tr>
         );
     }

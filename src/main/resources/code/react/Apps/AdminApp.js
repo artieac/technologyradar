@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import ManageOwnedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage';
-import ManageAssociatedRadarTypesPage from '../components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage';
+import ManageAssociatedRadarTypesPage from '../components/admin/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from '../components/admin/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadarPage from '../components/admin/AddFromPrevious/AddFromPreviousRadarPage';
 import radarReducer from '../../redux/reducers/admin/RadarReducer';
@@ -38,39 +38,39 @@ class AdminApp extends React.Component{
                     </div>
                     <div className="row">
                         <div className="col-md-4">
-                            <div className="panel panel-primary adminMenuPanel">
-                                <div className="panel-heading">Manage Your Radar Types</div>
+                            <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Manage Your Radar Types</div>
                                 <div id="ManageRadarTypesPanel" className="panel-body">
                                     <p>A Radar Type defines how you will classify and rate your topics.</p>
                                     <p>Go here to manage your existing types or add new ones</p>
                                     <Link to='/admin/manageOwnedRadarTypes'>
-                                        <button className="btn btn-primary">Radar Types</button>
+                                        <button className="btn btn-techradar">Radar Types</button>
                                     </Link>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <div className="panel panel-primary adminMenuPanel">
-                                <div className="panel-heading">Associate Radar Types</div>
+                            <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Associate Radar Types</div>
                                 <div id="AssociateRadarTypesPanel" className="panel-body">
                                     <p>See other's radar types and mark the so you can also use them'.</p>
                                     <p></p>
-                                    <br/>
+                                    <br/><br/>
                                     <Link to='/admin/manageAssociatedRadarTypes'>
-                                        <button className="btn btn-primary">Associated Radar Types</button>
+                                        <button className="btn btn-techradar">Associated Radar Types</button>
                                     </Link>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <div className="panel panel-primary adminMenuPanel">
-                                <div className="panel-heading">Manage your Radars</div>
+                            <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Manage your Radars</div>
                                 <div id="ManageRadarsPanels" className="panel-body">
                                     <p>Once you have Radar Types defined go here to create an instance of a Radar Type.</p>
                                     <p></p>
                                     <br/>
                                     <Link to='/admin/manageRadars'>
-                                        <button className="btn btn-primary">Your Radars</button>
+                                        <button className="btn btn-techradar">Your Radars</button>
                                     </Link>
                                 </div>
                             </div>

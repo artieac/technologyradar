@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.services.RadarType;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarInstanceRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
@@ -17,9 +17,9 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
     @Autowired
     public HistoryRadarTypeService(RadarTypeRepository radarTypeRepository,
                                    RadarUserRepository radarUserRepository,
-                                   RadarInstanceRepository radarInstanceRepository)
+                                   RadarRepository radarRepository)
     {
-        super(radarTypeRepository, radarUserRepository, radarInstanceRepository);
+        super(radarTypeRepository, radarUserRepository, radarRepository);
     }
 
     public List<RadarType> findAllByUserId(RadarUser currentUser, Long userId)

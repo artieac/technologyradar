@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
     private RadarUserService radarUserService;

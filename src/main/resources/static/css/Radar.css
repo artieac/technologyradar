@@ -155,3 +155,38 @@ textarea
 .errorText{
     color: red;
 }
+
+.alternatingRow{
+    background-color: WhiteSmoke;
+    color: DimGray;
+}
+
+.btn-techradar{
+  background-color: #3898EC;
+  color: white;
+  border-radius: 0;
+  display: inline-block;
+  padding: 9px 15px;
+  border: 1px;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border-color: White;
+  margin-top:5px;
+}
+
+.panel-heading-techradar{
+    color: #fff;
+    background-color: #3898EC;
+    border-color: #3898EC;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.panel-techradar{
+  color: #3898EC !important;
+  background-color: #fff !important;
+  border-color: #3898EC !important;
+}

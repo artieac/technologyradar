@@ -25,7 +25,7 @@ public class PublicRadarTypeAPIController extends ControllerBase
     @Autowired
     PublicRadarTypeService radarTypeService;
 
-    @RequestMapping(value = "/RadarTypes/Shared", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value = "/RadarTypes/Shared", produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getSharedRadarTypes(@RequestParam(name="ownedBy", required = false, defaultValue = "-1") Long ownerUserId,
                                                                       @RequestParam(name="excludeUser", required = false, defaultValue = "-1") Long excludeUserId)
     {

@@ -4,18 +4,18 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RadarInstanceServiceFactory
+public class RadarServiceFactory
 {
     private RadarUser targetDataOwner;
     private RadarUser currentUser;
 
-    private FullHistoryRadarInstanceService fullHistoryRadarInstanceService;
-    private MostRecentRadarInstanceService mostRecentRadarInstanceService;
+    private FullHistoryRadarService fullHistoryRadarService;
+    private MostRecentRadarService mostRecentRadarService;
 
-    public RadarInstanceServiceFactory(FullHistoryRadarInstanceService fullHistoryRadarInstanceService, MostRecentRadarInstanceService mostRecentRadarInstanceService)
+    public RadarServiceFactory(FullHistoryRadarService fullHistoryRadarService, MostRecentRadarService mostRecentRadarService)
     {
-        this.fullHistoryRadarInstanceService = fullHistoryRadarInstanceService;
-        this.mostRecentRadarInstanceService = mostRecentRadarInstanceService;
+        this.fullHistoryRadarService = fullHistoryRadarService;
+        this.mostRecentRadarService = mostRecentRadarService;
     }
 
     public void setUserDetails(RadarUser currentUser, RadarUser targetDataOwner)
@@ -24,12 +24,12 @@ public class RadarInstanceServiceFactory
         this.targetDataOwner = targetDataOwner;
     }
 
-    public MostRecentRadarInstanceService getMostRecent() { return this.mostRecentRadarInstanceService;}
+    public MostRecentRadarService getMostRecent() { return this.mostRecentRadarService;}
 
-    public FullHistoryRadarInstanceService getFullHistory() { return this.fullHistoryRadarInstanceService;}
+    public FullHistoryRadarService getFullHistory() { return this.fullHistoryRadarService;}
 
-    public RadarInstanceService getRadarTypeServiceForSharing() {
-        RadarInstanceService retVal = this.mostRecentRadarInstanceService;
+    public RadarServiceBase getRadarTypeServiceForSharing() {
+        RadarServiceBase retVal = this.mostRecentRadarService;
 
         if (this.currentUser == null)
         {
@@ -38,7 +38,7 @@ public class RadarInstanceServiceFactory
                 if (targetDataOwner.canShareRadarTypes() == true)
                 {
                     // public access, but the target owner can share their full history publicly.
-                    retVal = this.fullHistoryRadarInstanceService;
+                    retVal = this.fullHistoryRadarService;
                 }
             }
         }
@@ -47,14 +47,14 @@ public class RadarInstanceServiceFactory
             if (targetDataOwner != null && this.currentUser.getId() == targetDataOwner.getId())
             {
                 // the current user is the data owner, let them see all their data.
-                retVal = this.fullHistoryRadarInstanceService;
+                retVal = this.fullHistoryRadarService;
             }
             else
             {
                 if (this.targetDataOwner.canShareRadarTypes() == true)
                 {
                     // logged in user is different from data owner, but the data owner canshare their full history
-                    retVal = this.fullHistoryRadarInstanceService;
+                    retVal = this.fullHistoryRadarService;
                 }
             }
         }

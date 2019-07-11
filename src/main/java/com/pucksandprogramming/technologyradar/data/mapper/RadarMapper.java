@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import javax.annotation.PostConstruct;
-import javax.print.attribute.standard.Destination;
 
 /**
  * Created by acorrea on 10/18/2016.
@@ -102,8 +101,8 @@ public class RadarMapper
                 }
             };
 
-    private PropertyMap<RadarInstanceEntity, Radar> technologyAssessmentMap =
-            new PropertyMap<RadarInstanceEntity, Radar>()
+    private PropertyMap<RadarEntity, Radar> technologyAssessmentMap =
+            new PropertyMap<RadarEntity, Radar>()
             {
                 protected void configure()
                 {

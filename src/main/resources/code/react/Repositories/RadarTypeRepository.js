@@ -162,7 +162,7 @@ export class RadarTypeRepository {
             });
     }
 
-    associateRadarType(userId, radarTypeId, shouldAssociate, successHandler, errorHandler) {
+    associateRadarType(userId, radarTypeId, radarTypeVersion, shouldAssociate, successHandler, errorHandler) {
          var radarTypeAssociation = {};
          radarTypeAssociation.shouldAssociate = shouldAssociate;
 
@@ -172,7 +172,7 @@ export class RadarTypeRepository {
                       'Content-Type': 'application/json'
               },
               type: "PUT",
-              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Associate',
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Version/' + radarTypeVersion + '/Associate',
               data: JSON.stringify(radarTypeAssociation),
               success: function() {
                     successHandler();

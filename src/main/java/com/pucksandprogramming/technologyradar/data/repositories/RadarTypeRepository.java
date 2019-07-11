@@ -67,10 +67,17 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     public RadarType findOne(String radarTypeId, Long version)
     {
+        RadarType retVal = null;
+
         VersionedIdEntity idEntity = new VersionedIdEntity(radarTypeId, version);
         RadarTypeEntity foundItem = this.entityRepository.findOne(idEntity);
 
-        return this.modelMapper.map(foundItem, RadarType.class);
+        if(foundItem!=null)
+        {
+            retVal = this.modelMapper.map(foundItem, RadarType.class);
+        }
+
+        return retVal;
     }
 
     public List<RadarType> findAllRadarTypeVersionsForUser(Long userId)
