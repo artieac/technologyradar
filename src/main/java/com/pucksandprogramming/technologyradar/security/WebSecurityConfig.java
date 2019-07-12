@@ -81,7 +81,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/login",
                                 "/accessDenied").permitAll()
                         .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
-                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers("/**").authenticated()
                     .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
                     .and().logout().permitAll();

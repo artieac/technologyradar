@@ -8,6 +8,7 @@ import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,7 @@ public class UserController extends ControllerBase
         return retVal;
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/Users", produces = "application/json")
     public @ResponseBody List<UserViewModel> getAllUsers()
     {

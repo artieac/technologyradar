@@ -1,8 +1,11 @@
 package com.pucksandprogramming.technologyradar.web;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.web.AbstractErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
