@@ -2,7 +2,6 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
-import netscape.security.ForbiddenTargetException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
