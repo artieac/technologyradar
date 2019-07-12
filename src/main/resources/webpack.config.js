@@ -10,8 +10,9 @@ const extractLess = new ExtractTextPlugin({
 
 module.exports = {
 	entry: {
-		AdminApp: './code/react/apps/AdminApp.js',
-		MainApp: './code/react/apps/MainApp.js'
+		AdminApp: './code/react/apps/admin/AdminApp.js',
+		MainApp: './code/react/apps/MainApp.js',
+		ManageRadarsApp: './code/react/apps/ManageRadars/ManageRadarsApp.js'
 	},
 	output: {
 		filename: '[name].js',

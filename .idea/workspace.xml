@@ -2,10 +2,68 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/AdminApp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/default.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/default.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/internalservererror.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/internalservererror.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/SimpleDomainRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/SimpleDomainRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/RoleType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/Auth0TokenAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/Auth0TokenAuthentication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/CallbackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/CallbackController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Models/UserViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Models/UserViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Repositories/UserRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Repositories/UserRepository.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/AddFromPreviousRadarPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarQuadrant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarQuadrant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarQuadrantItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarQuadrantItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarsDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarsDropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/Error.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/Error.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/ErrorList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/ErrorListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/ErrorManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/ErrorSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/Warning.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/Warning.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/WarningList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/WarningList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/WarningListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/WarningListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors/WarningManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/WarningManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarCategoryDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarCategoryDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarRingList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarRingListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/ManageOwnedRadarTypesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/NewRadarTypeRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/NewRadarTypeRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarCategoryDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarCategoryDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarRingList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarRingListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeHistory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeHistoryItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeHistoryItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/ManageRadarsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/ManageRadarsPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/NewRadarRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/NewRadarRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTableBody.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTableBody.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/ErrorActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/ErrorActionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/ErrorReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/ErrorReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/RadarActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/RadarActionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/RadarReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/RadarReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/RadarTypeActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/RadarTypeActionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/RadarTypeReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/RadarTypeReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/adminIndex.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/adminHeader.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/manageHeader.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/webpack.config.js" afterDir="false" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,51 +84,97 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/radar.html">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/UserRow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="51" selection-start-line="43" selection-end-line="51" />
+            <state relative-caret-position="375">
+              <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingList.js">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="350">
+              <caret line="68" column="16" lean-forward="true" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdown.js">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="37" column="56" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
+            <state relative-caret-position="165">
+              <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdownItem.js">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/CallbackController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="334">
+              <caret line="99" selection-start-line="99" selection-end-line="99" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarCategoryDetails.js">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/Role.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            <state relative-caret-position="243">
+              <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/WebSecurityConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="106">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/Radar.css">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="182" column="27" lean-forward="true" selection-start-line="182" selection-start-column="27" selection-end-line="182" selection-end-column="27" />
+            <state relative-caret-position="78">
+              <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/Auth0TokenAuthentication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-260">
+              <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/AuthenticatedUser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-34">
+              <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -82,14 +186,13 @@
       <list>
         <option value="FxmlFile" />
         <option value="JavaScript File" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>findAllTypesByPublishedRadars</find>
       <find>isAnonymouse</find>
       <find>getRadarInstance</find>
       <find>getRadarData</find>
@@ -119,6 +222,7 @@
       <find>handleLockError</find>
       <find>event.ta</find>
       <find>Add Item</find>
+      <find>class</find>
     </findStrings>
     <replaceStrings>
       <replace>alwaysmoveforward</replace>
@@ -133,6 +237,7 @@
       <dir>C:\personal\sourcecode\technologyradar\src\test</dir>
       <dir>$PROJECT_DIR$/src/main</dir>
       <dir>$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar</dir>
+      <dir>$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -141,57 +246,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Public/API/PublicRadarAPIController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/UserRights.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/UserType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarConfigurationController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarInstanceController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarItemController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarSubjectController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/UserController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Models/UserViewModel.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Repositories/RadarTypeRepository.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ErrorController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AssociatedRadarTypes/RadarTypeDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AssociatedRadarTypes/RadarRingListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AssociatedRadarTypes/RadarRingList.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AssociatedRadarTypes/RadarCategoryDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/RadarUser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/RadarType.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/AssociatedRadarTypeActionTypes.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/package.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/redux/reducers/admin/RadarTypeReducer.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarTypeController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/RadarTypeRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarType/RadarTypeServiceBase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/EmbeddableController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorList.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/ErrorListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/Errors/WarningListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/ManageRadarsPage.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/NewRadarRow.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/ManageOwnedRadarTypesPage.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/NewRadarTypeRow.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarRingList.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarRingListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeDetails.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeHistory.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeHistoryItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarTypeListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarRingList.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarRingListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeDetails.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeListItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ManageController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ManageRadarsController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/manageradars/index.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/ManageRadarsApp.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarCategoryDetails.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/RadarAuthenticationProvider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/Permissions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/Auth0TokenAuthentication.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeList.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeList.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/AddFromPreviousRadarPage.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarRow.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/NewRadarRow.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdown.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/NewRadarTypeRow.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingList.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/radarsubject/search.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/radarsubject/details.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ErrorController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/CallbackController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/ManageUsers/redux/ManageUsersActionTypes.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/ManageUsers/redux/ManageUsersReducer.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/AdminApp.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Repositories/UserRepository.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/SimpleDomainRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/webpack.config.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/redux/ManageUsersReducer.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/UserTableBody.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/ManageUsersPage.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Models/UserViewModel.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/UserRow.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarCategoryDetails.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/error/accessdenied.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/error/default.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/error/internalservererror.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/static/css/Radar.css" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/AuthenticatedUser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/Role.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/WebSecurityConfig.java" />
       </list>
     </option>
   </component>
@@ -272,26 +377,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="Entities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="repositories" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -328,26 +413,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="RadarInstance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="RadarType" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -369,27 +434,6 @@
               <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
               <item name="Models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="Public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="Public" type="462c0819:PsiDirectoryNode" />
-              <item name="API" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -433,7 +477,8 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -443,8 +488,9 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="AddFromPrevious" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageUsers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -454,8 +500,9 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="ManageAssociatedRadarTypes" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
+              <item name="redux" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -465,7 +512,7 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
               <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -476,8 +523,48 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="code" type="462c0819:PsiDirectoryNode" />
               <item name="react" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="ManageRadarTypes" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="AddFromPrevious" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageAssociatedRadarTypes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -504,55 +591,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="Modules" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
-              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -561,6 +600,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -605,7 +645,51 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="manageradars" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="radarsubject" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
@@ -629,7 +713,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562786277913" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562945989939" />
     <property name="js-jscs-nodeInterpreter" value="E:\SWTools\nodejs\node.exe" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="options.lastSelected" value="preferences.pluginManager" />
@@ -656,11 +740,11 @@
       <recent name="com.alwaysmoveforward.technologyradar.domainmodel" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AssociatedRadarTypes" />
-      <recent name="$PROJECT_DIR$/src/main/resources/templates/error" />
-      <recent name="$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious" />
-      <recent name="$PROJECT_DIR$/src/main/resources/code/react/components/admin/Errors" />
-      <recent name="$PROJECT_DIR$/src/main/resources/templates/embeddable" />
+      <recent name="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components" />
+      <recent name="$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/manageradars" />
+      <recent name="$PROJECT_DIR$/src/main/resources/code/react/Apps/Manage/redux" />
+      <recent name="$PROJECT_DIR$/src/main/resources/code/react/Apps/Manage/components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1178,11 +1262,20 @@
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="480605000" />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="940" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2857143" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2857143" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -1191,15 +1284,15 @@
       <window_info id="Nl-Palette" order="6" />
       <window_info id="Palette&#9;" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3282532" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3278302" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.495625" weight="0.38559815" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49266666" visible="true" weight="0.3962264" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49266666" visible="true" weight="0.3962264" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32868758" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32900944" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3278302" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50733334" side_tool="true" weight="0.23556583" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.3200469" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.31957546" />
       <window_info anchor="bottom" id="Java Enterprise" order="10" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.329849" />
       <window_info anchor="bottom" id="Spring" order="12" />
@@ -1289,6 +1382,12 @@
           <properties />
           <option name="timeStamp" value="472" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java</url>
+          <line>37</line>
+          <properties />
+          <option name="timeStamp" value="492" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -1297,306 +1396,350 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/RadarTypeRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarTypeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="198" selection-start-line="198" selection-end-line="198" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/ManageAssociatedRadarTypesPage.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarDetails.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarType/RadarTypeServiceBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="41" column="66" selection-start-line="41" selection-start-column="66" selection-end-line="41" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="32" column="115" selection-start-line="32" selection-start-column="115" selection-end-line="32" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeListItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="80" column="58" selection-start-line="80" selection-start-column="58" selection-end-line="80" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingListItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="55" column="46" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="84" selection-start-line="84" selection-end-line="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="26" column="85" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/ManageRadarsPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-540" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-20">
-          <caret line="101" column="105" selection-start-line="101" selection-start-column="105" selection-end-line="101" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/NewRadarRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="63" column="69" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTableBody.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/ManageOwnedRadarTypesPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
-          <caret line="94" selection-start-line="93" selection-end-line="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/NewRadarTypeRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="27" column="69" selection-start-line="27" selection-start-column="69" selection-end-line="27" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="49" column="77" selection-start-line="49" selection-start-column="77" selection-end-line="49" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="91" column="80" selection-start-line="91" selection-start-column="80" selection-end-line="91" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeHistory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-152" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeHistoryItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-131" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarTypeList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="26" column="85" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/AddFromPreviousRadarPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="114" column="78" selection-start-line="114" selection-start-column="78" selection-end-line="114" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarDetails.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarQuadrant.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarQuadrant.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarQuadrantItem.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarQuadrantItem.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarsDropdown.js">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-279" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/AddFromPrevious/RadarsDropdownItem.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="107" column="30" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="30" />
+        <state>
+          <caret selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarTypeListItem.js">
+    <entry file="file://$PROJECT_DIR$/target/classes/static/script/dist/ManageRadarsApp.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/manageHeader.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/manageradars/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
+        <state relative-caret-position="225">
+          <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/embeddable/radar.html">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarRingList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-373" />
+        <state relative-caret-position="60">
+          <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/adminHeader.html">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadarTypes/RadarCategoryDetails.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-118" />
+        <state relative-caret-position="144">
+          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarCategoryDetails.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-27" />
+        <state relative-caret-position="250">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/RoleType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="6" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/RadarAuthenticationProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="37" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#349#350#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/RadarAccessDeniedHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/RadarUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-736">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/UserRights.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/Permissions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ErrorController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ManageRadarsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="18" selection-start-line="18" selection-end-line="31" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/admin/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/ErrorActionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/redux/ErrorReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="41" lean-forward="true" selection-start-column="1" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/ManageRadarsApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="50" column="30" lean-forward="true" selection-start-line="38" selection-start-column="19" selection-end-line="50" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="113" column="92" lean-forward="true" selection-end-line="113" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/AdminApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/ManageRadarsPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="85" column="78" lean-forward="true" selection-end-line="85" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/RadarUserRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-481">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/RepositoryBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/SimpleDomainRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="96" column="80" selection-start-line="96" selection-start-column="80" selection-end-line="96" selection-end-column="80" />
+          <folding>
+            <element signature="e#4388#4389#0" expanded="true" />
+            <element signature="e#4742#4743#0" expanded="true" />
+            <element signature="e#4843#4844#0" expanded="true" />
+            <element signature="e#4955#4956#0" expanded="true" />
+            <element signature="e#5047#5048#0" expanded="true" />
+            <element signature="e#5146#5147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="62" column="61" selection-start-line="62" selection-start-column="61" selection-end-line="62" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="66" column="13" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTableBody.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="40" column="76" selection-end-line="40" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="127" column="70" selection-end-line="127" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Repositories/UserRepository.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/redux/ManageUsersActionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/redux/ManageUsersReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/UserTableBody.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="13" column="55" selection-start-line="13" selection-start-column="55" selection-end-line="13" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/ManageUsersPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="35" column="54" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/Models/UserViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="88" column="58" selection-start-line="88" selection-start-column="58" selection-end-line="88" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/Admin/components/ManageUsers/UserRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/fragments/header.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/about.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-840" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/MainApp.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/radarsubject/search.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="79" column="14" selection-start-line="79" selection-start-column="14" selection-end-line="79" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/radarsubject/details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="77" column="7" selection-start-line="77" selection-start-column="7" selection-end-line="77" selection-end-column="7" />
+        <state relative-caret-position="350">
+          <caret line="68" column="16" lean-forward="true" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+        <state relative-caret-position="165">
+          <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarRingListItem.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/Auth0TokenAuthentication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="56" column="88" selection-start-line="56" selection-start-column="88" selection-end-line="56" selection-end-column="88" />
+        <state relative-caret-position="-260">
+          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/radar.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/AuthenticatedUser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="51" selection-start-line="43" selection-end-line="51" />
+        <state relative-caret-position="-34">
+          <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarRingList.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/Role.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="243">
+          <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdown.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/ControllerBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="37" column="56" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
+        <state relative-caret-position="106">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadars/RadarTypeDropdownItem.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/error/internalservererror.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/CallbackController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+        <state relative-caret-position="334">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/error/default.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/security/WebSecurityConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+        <state relative-caret-position="291">
+          <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/error/accessdenied.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/AdminController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/AdminApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageRadarTypes/RadarCategoryDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/components/admin/ManageAssociatedRadarTypes/RadarCategoryDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/Radar.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="182" column="27" lean-forward="true" selection-start-line="182" selection-start-column="27" selection-end-line="182" selection-end-column="27" />
+        <state relative-caret-position="78">
+          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
         </state>
       </provider>
     </entry>

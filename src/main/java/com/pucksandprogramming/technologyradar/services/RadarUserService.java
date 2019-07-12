@@ -2,15 +2,17 @@ package com.pucksandprogramming.technologyradar.services;
 
 import com.pucksandprogramming.technologyradar.data.repositories.Auth0Repository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
-import com.pucksandprogramming.technologyradar.domainmodel.Auth0UserProfile;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.domainmodel.RoleType;
-import com.pucksandprogramming.technologyradar.domainmodel.UserType;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * Created by acorrea on 12/23/2017.
@@ -33,7 +35,7 @@ public class RadarUserService
         RadarUser retVal = new RadarUser();
         retVal.setId(new Long(0));
         retVal.setAuthenticationId("");
-        retVal.setRoleId(RoleType.User);
+        retVal.setRoleId(Role.RoleType_User);
         retVal.setUserType(UserType.Free);
         return retVal;
     }
@@ -46,6 +48,23 @@ public class RadarUserService
     public RadarUser findByAuthenticationId(String authenticationId)
     {
         return this.radarUserRepository.findByAuthenticationId(authenticationId);
+    }
+
+    public List<RadarUser> getAllUsers(RadarUser currentUser)
+    {
+        List<RadarUser> retVal = new ArrayList<>();
+
+        if(currentUser != null)
+        {
+            Role userRole = Role.createRole(currentUser.getRoleId());
+
+            if(userRole.getId()==Role.RoleType_Admin)
+            {
+                retVal = this.radarUserRepository.findAllList();
+            }
+        }
+
+        return retVal;
     }
 
     public RadarUser addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name)

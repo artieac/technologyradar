@@ -84,6 +84,22 @@ public abstract class SimpleDomainRepository<
         return null;
     }
 
+    public List<DomainModel> findAllList()
+    {
+        List<DomainModel> domainModels = new ArrayList<>();
+
+        Iterable<Entity> entities = this.entityRepository.findAll();
+
+        if(entities != null)
+        {
+            for(Entity entity : entities)
+            {
+                domainModels.add(this.modelMapper.map(entity, domainModelClass));
+            }
+        }
+
+        return domainModels;
+    }
     /**
      * Calls {@link #findAll(Pageable)} to get {@link Page} and fetches content and returns as {@link List}
      *

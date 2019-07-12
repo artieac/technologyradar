@@ -32,7 +32,7 @@ public class ControllerBase
 
                     if (tokenAuth != null)
                     {
-                        this.currentUser = this.radarUserService.findByAuthenticationId(tokenAuth.getIdentifier());
+                        this.currentUser = this.radarUserService.findOne(tokenAuth.getAuthenticatedUser().getUserId());
                     }
                 }
             }
