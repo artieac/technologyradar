@@ -17,15 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by acorrea on 1/11/2018.
  */
-@Controller
-public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController
+//@Controller
+public class ErrorController //implements org.springframework.boot.autoconfigure.web.ErrorController
 {
     private static final Logger logger = Logger.getLogger(ErrorController.class);
 
-    @Override
+//    @Override
     public String getErrorPath() { return "/error";}
 
-    @RequestMapping(value = { "/error", "/error/default"})
+//    @RequestMapping(value = { "/error", "/error/default"})
     public String defaultErrorPage(final HttpServletRequest request)
     {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -48,7 +48,7 @@ public class ErrorController implements org.springframework.boot.autoconfigure.w
         return "error/default";
     }
 
-    @RequestMapping(value = "/error/accessdenied", method = RequestMethod.GET)
+//    @RequestMapping(value = "/error/accessdenied", method = RequestMethod.GET)
     public ModelAndView accessDenied(final HttpServletRequest req)
     {
         ModelAndView modelAndView = new ModelAndView();

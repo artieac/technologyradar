@@ -71,4 +71,28 @@ public class UserController extends ControllerBase
 
         return retVal;
     }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "/User/:userId", produces = "application/json")
+    public @ResponseBody UserViewModel getUserById(@PathVariable Long userId)
+    {
+        UserViewModel retVal = null;
+
+        if(this.getCurrentUser() != null)
+        {
+            Role userRole = Role.createRole(this.getCurrentUser().getRoleId());
+
+            if(userRole.getId()==Role.RoleType_Admin)
+            {
+                RadarUser radarUser = this.radarUserService.findOne(userId);
+
+                if(radarUser != null)
+                {
+                    retVal = new UserViewModel(radarUser);
+                }
+            }
+        }
+
+        return retVal;
+    }
 }

@@ -12,6 +12,19 @@ export class UserRepository {
             });
     }
 
+    getUserById(userId, successHandler) {
+        var getUrl = '/api/User/' + userId;
+
+        jQuery.ajax({
+                url: getUrl,
+                async: true,
+                dataType: 'json',
+                success: function (currentUser) {
+                    successHandler(currentUser);
+                }.bind(this)
+            });
+    }
+
      getAll(successHandler) {
         var getUrl = '/api/Users';
 

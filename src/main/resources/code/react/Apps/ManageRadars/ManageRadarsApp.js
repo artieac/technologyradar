@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
-import ManageOwnedRadarTypesPage from './components/ManageRadarTypes/ManageOwnedRadarTypesPage';
+import OwnedRadarTypesPage from './components/OwnedRadarTypes/OwnedRadarTypesPage';
 import ManageAssociatedRadarTypesPage from './components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from './components/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadarPage from './components/AddFromPrevious/AddFromPreviousRadarPage';
@@ -23,7 +23,7 @@ class ManageRadarsApp extends React.Component{
         super(props);
          this.state = {
             radarCollection: [],
-            userId: jQuery("#userId").val()
+            targetUserId: jQuery("#targetUserId").val()
         };
     }
 
@@ -43,7 +43,7 @@ class ManageRadarsApp extends React.Component{
                                 <div id="ManageRadarTypesPanel" className="panel-body">
                                     <p>A Radar Type defines how you will classify and rate your topics.</p>
                                     <p>Go here to manage your existing types or add new ones</p>
-                                    <Link to='/manageradars/ownedRadarTypes'>
+                                    <Link to='/manageradars/radarTypes'>
                                         <button className="btn btn-techradar">Radar Types</button>
                                     </Link>
                                 </div>
@@ -88,7 +88,7 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/manageradars/index" component={ ManageRadarsApp } />
-                    <Route path="/manageradars/ownedradartypes" component={ ManageOwnedRadarTypesPage } />
+                    <Route path="/manageradars/radartypes" component={ OwnedRadarTypesPage } />
                     <Route path="/manageradars/associatedradartypes" component={ ManageAssociatedRadarTypesPage } />
                     <Route path="/manageradars/radars" component={ ManageRadarsPage } />
                     <Route path="/manageradars/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadarPage }/>

@@ -5,9 +5,10 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import manageUsersReducer from '../../redux/ManageUsersReducer';
-import { addUsersToState} from '../../redux/ManageUsersReducer';
+import { addUsersToState, addRolesToState} from '../../redux/ManageUsersReducer';
 import { UserRepository } from '../../../../Repositories/UserRepository'
 import UserTableBody from './UserTablebody';
+import { RoleRepository } from '../../../../Repositories/RoleRepository'
 
 class ManageUsersPage extends React.Component{
     constructor(props){
@@ -16,9 +17,17 @@ class ManageUsersPage extends React.Component{
         };
 
         this.userRepository = new UserRepository();
+        this.roleRepository = new RoleRepository();
+
+        this.handleGetAllRolesResponse = this.handleGetAllRolesResponse.bind(this);
     }
 
     componentDidMount(){
+        this.roleRepository.getAll(this.handleGetAllRolesResponse);
+    }
+
+    handleGetAllRolesResponse(roles){
+        this.props.storeRoles(roles);
         this.userRepository.getAll(this.props.storeUsers);
     }
 
@@ -36,9 +45,10 @@ class ManageUsersPage extends React.Component{
                             <th width="20%">Email</th>
                             <th width="20%">Role</th>
                             <th width="20%">Enrollment</th>
+                            <th width="10%"></th>
                         </tr>
                     </thead>
-                    <UserTableBody users={this.props.users} container={this}/>
+                    <UserTableBody users={this.props.users} container={this} roles={this.props.roles}/>
                 </table>
             </div>
         );
@@ -48,14 +58,16 @@ class ManageUsersPage extends React.Component{
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeUsers : users => { dispatch(addUsersToState(users))}
+        storeUsers : users => { dispatch(addUsersToState(users))},
+        storeRoles : roles => { dispatch(addRolesToState(roles))}
     }
 };
 
 
 function mapStateToProps(state) {
   return {
-    	users: state.manageUsersReducer.users
+    	users: state.manageUsersReducer.users,
+    	roles: state.manageUsersReducer.roles
     };
 }
 

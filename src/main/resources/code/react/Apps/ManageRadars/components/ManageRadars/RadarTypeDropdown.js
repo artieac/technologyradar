@@ -39,9 +39,11 @@ export class RadarTypeDropdown extends React.Component{
                         { this.getTitle() }
                     </button>
                     <div className="dropdown-menu" aria-labelledby="radarTypeDropdown">
-                        {this.props.data.map(function (currentRow, index) {
-                            return <RadarTypeDropdownItem key={ index } dropDownItem={ currentRow } setSelectedItem={this.setSelectedItem }/>
-                        }.bind(this))}
+                        <ul>
+                            {this.props.data.map(function (currentRow, index) {
+                                return <RadarTypeDropdownItem key={ index } dropDownItem={ currentRow } setSelectedItem={this.setSelectedItem }/>
+                            }.bind(this))}
+                        </ul>
                     </div>
                 </div>
             );

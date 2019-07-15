@@ -62,14 +62,14 @@
                 <a href="#" th:href="@{/public/home/about}">About</a>
             </li>
             <li sec:authorize="isAuthenticated()">
-                <a href="#" th:href="@{/manageradars/index}">Manage Radars</a>
+                <a href="#" th:href="@{'/manageradars/user/index'}">Manage Radars</a>
             </li>
             <li sec:authorize="hasRole('ADMIN')">
                 <a href="#" th:href="@{/admin/index}">Admin</a>
             </li>
             <li>
                 <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">Sign in</a>
-                <a sec:authorize="isAuthenticated()" href="https://pucksandprogramming.auth0.com/v2/logout?returnTo=http%3A%2F%2Ftechnologyradarloadbalancer-468011247.us-east-2.elb.amazonaws.com">Logout</a>
+                <a sec:authorize="isAuthenticated()" href="https://pucksandprogramming.auth0.com/v2/logout?returnTo=http%3A%2F%2Ftechnologyradar.pucksandprogramming.com">Logout</a>
             </li>
         </ul>
     </div>

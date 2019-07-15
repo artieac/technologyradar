@@ -39,7 +39,6 @@ class RadarTypeList extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    	currentUser : state.radarTypeReducer.currentUser
     };
 }
 

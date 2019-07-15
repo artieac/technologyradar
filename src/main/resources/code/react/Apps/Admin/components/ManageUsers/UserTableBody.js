@@ -10,8 +10,8 @@ class UserTableBody extends React.Component{
         if(typeof this.props.users !== 'undefined'){
             return (
                 <tbody>
-                    {this.props.users.map(function (currentRow) {
-                        return <UserRow key={currentRow.id} rowData={currentRow} container={this.props.container}/>
+                    {this.props.users.map(function (currentRow, index) {
+                        return <UserRow key={currentRow.id} userIndex={index} rowData={currentRow} container={this.props.container} roles={this.props.roles}/>
                         }.bind(this))}
                 </tbody>
             );
