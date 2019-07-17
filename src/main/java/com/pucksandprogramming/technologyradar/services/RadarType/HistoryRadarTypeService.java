@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeReposi
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,21 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class HistoryRadarTypeService extends RadarTypeServiceBase
+public class HistoryRadarTypeService extends RadarTypeService
 {
+    RadarTypeAccessManager radarTypeAccessManager;
+
     @Autowired
     public HistoryRadarTypeService(RadarTypeRepository radarTypeRepository,
                                    RadarUserRepository radarUserRepository,
-                                   RadarRepository radarRepository)
+                                   RadarRepository radarRepository,
+                                   RadarTypeAccessManager radarTypeAccessManager)
     {
         super(radarTypeRepository, radarUserRepository, radarRepository);
+
+        this.radarTypeAccessManager = radarTypeAccessManager;
     }
 
-    public List<RadarType> findAllByUserId(RadarUser currentUser, Long userId)
+    @Override
+    public List<RadarType> findAllByUserId(Long userId)
     {
         List<RadarType> retVal = new ArrayList<>();
 
-        if(currentUser!=null && currentUser.canSeeHistory()==true)
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+
+        if(this.radarTypeAccessManager.canViewAllRadarTypes(dataOwner))
         {
             retVal = this.radarTypeRepository.findAllRadarTypeVersionsForUser(userId);
         }
@@ -34,11 +43,14 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
         return retVal;
     }
 
-    public List<RadarType> findAllByUserAndRadarType(RadarUser currentUser, Long userId, String radarTypeId)
+    @Override
+    public List<RadarType> findAllByUserAndRadarType(Long userId, String radarTypeId)
     {
         List<RadarType> retVal = new ArrayList<RadarType>();
 
-        if(currentUser!=null && currentUser.canSeeHistory()==true)
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+
+        if(this.radarTypeAccessManager.canViewAllRadarTypes(dataOwner))
         {
             retVal = this.radarTypeRepository.findHistoryForRadarType(userId, radarTypeId);
         }
@@ -46,6 +58,7 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
         return retVal;
     }
 
+    @Override
     public List<RadarType> findTypesByPublishedRadars(RadarUser owningUser)
     {
         List<RadarType> retVal = new ArrayList<>();
@@ -58,11 +71,12 @@ public class HistoryRadarTypeService extends RadarTypeServiceBase
         return retVal;
     }
 
-    public List<RadarType> findSharedRadarTypes(RadarUser currentUser, Long userToExclude)
+    @Override
+    public List<RadarType> findSharedRadarTypes(Long userToExclude)
     {
         List<RadarType> retVal = new ArrayList<>();
 
-        if(currentUser != null && currentUser.canSeeHistory())
+        if(this.getAuthenticatedUser()!=null && this.getAuthenticatedUser().hasPrivilege(UserRights.CanViewHistory))
         {
             retVal = this.radarTypeRepository.findAllSharedRadarTypesExcludeOwned(userToExclude);
         }

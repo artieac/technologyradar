@@ -38,10 +38,10 @@ public class CallbackController
     private RadarTypeServiceFactory radarTypeServiceFactory;
 
     @Autowired
-    private AssociatedRadarTypeService associatedRadarTypeService;
+    private AuthenticationController controller;
 
     @Autowired
-    private AuthenticationController controller;
+    AssociatedRadarTypeService associatedRadarTypeService;
 
     private final String redirectOnFail;
     private final String redirectOnSuccess;
@@ -90,7 +90,7 @@ public class CallbackController
 
                     for(RadarType radarType : defaultRadars)
                     {
-                        this.associatedRadarTypeService.associatedRadarType(targetUser, radarType.getId(), radarType.getVersion(), true);
+                        this.associatedRadarTypeService.associateRadarType(targetUser, radarType.getId(), radarType.getVersion(), true);
                     }
                 }
             }

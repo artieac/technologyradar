@@ -117,9 +117,43 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             foundItems = this.entityRepository.findAllByRadarUserId(radarUserId);
         }
 
-        for (RadarEntity foundItem : foundItems)
+        if (foundItems != null)
         {
-            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+            for (RadarEntity foundItem : foundItems)
+            {
+                retVal.add(this.modelMapper.map(foundItem, Radar.class));
+            }
+        }
+
+        return retVal;
+    }
+
+    public List<Radar> findAllMostRecentByUserIdAndPublishedOnly(Long userId, boolean publishedOnly)
+    {
+        List<Radar> retVal = new ArrayList<>();
+
+        Query query = null;
+
+        if(publishedOnly==true)
+        {
+            query = this.entityManager.createNamedQuery("findAllMostRecentByUserAndIsPublished");
+            query.setParameter("radarUserId", userId);
+            query.setParameter("isPublished", true);
+        }
+        else
+        {
+            query = this.entityManager.createNamedQuery("findMostRecentByUser");
+            query.setParameter("radarUserId", userId);
+        }
+
+        List<RadarEntity> foundItems = query.getResultList();
+
+        if (foundItems != null)
+        {
+            for (RadarEntity foundItem : foundItems)
+            {
+                retVal.add(this.modelMapper.map(foundItem, Radar.class));
+            }
         }
 
         return retVal;
@@ -237,11 +271,11 @@ public class RadarRepository extends SimpleDomainRepository<Radar, RadarEntity, 
             q.setParameter("radarTypeId", radarTypeId);
         }
 
-        RadarEntity foundItem = (RadarEntity)q.getSingleResult();
+        List<RadarEntity> foundItems = q.getResultList();
 
-        if (foundItem != null)
+        if (foundItems != null && foundItems.size() > 0)
         {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
+            retVal = this.modelMapper.map(foundItems.get(0), Radar.class);
         }
 
         return retVal;

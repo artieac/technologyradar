@@ -5,10 +5,30 @@ import java.util.Map;
 
 public class UserType
 {
-    public static Integer Free = 0;
-    public static Integer Subscriber_Trial = 1;
-    public static Integer Subscriber = 2;
-    public static Integer Team = 3;
+    public static final int Free = 0;
+    public static final int Subscriber_Trial = 1;
+    public static final int Subscriber = 2;
+    public static final int Team = 3;
+
+    public static UserType createUser(Integer userType)
+    {
+        UserType retVal = UserType.GetFreeUser();
+
+        switch(userType)
+        {
+            case UserType.Subscriber_Trial:
+            case UserType.Subscriber:
+                retVal = UserType.GetSubscribedUser();
+                break;
+            case UserType.Team:
+                retVal = UserType.GetTeamUser();
+                break;
+            default:
+                retVal = UserType.GetFreeUser();
+        }
+
+        return retVal;
+    }
 
     public static UserType GetFreeUser()
     {

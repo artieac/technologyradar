@@ -29,7 +29,7 @@ public class RadarTypeController extends ControllerBase
     RadarTypeServiceFactory radarTypeServiceFactory;
 
     @Autowired
-    private AssociatedRadarTypeService associatedRadarTypeService;
+    AssociatedRadarTypeService associatedRadarTypeService;
 
     @GetMapping(value = "/User/{radarUserId}/RadarTypes", produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@PathVariable Long radarUserId,
@@ -46,22 +46,21 @@ public class RadarTypeController extends ControllerBase
 
             if (targetUser != null)
             {
-                this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
-
                 if (includeOwned == true)
                 {
                     if (allVersions == true)
                     {
-                        foundItems = radarTypeServiceFactory.getRadarTypeServiceForViewing().findAllByUserId(this.getCurrentUser(), radarUserId);
-                    } else
+                        foundItems = radarTypeServiceFactory.getRadarTypeService(targetUser).findAllByUserId(radarUserId);
+                    }
+                    else
                     {
-                        foundItems = radarTypeServiceFactory.getMostRecent().findAllByUserId(this.getCurrentUser(), radarUserId);
+                        foundItems = radarTypeServiceFactory.getMostRecent().findAllByUserId(radarUserId);
                     }
                 }
 
                 if (includeAssociated == true)
                 {
-                    List<RadarType> associatedRadarTypes = this.associatedRadarTypeService.findAllAssociatedRadarTypes(radarUserId);
+                    List<RadarType> associatedRadarTypes = this.associatedRadarTypeService.findAssociatedRadarTypes(targetUser);
                     foundItems.addAll(associatedRadarTypes);
                 }
             }
@@ -95,8 +94,7 @@ public class RadarTypeController extends ControllerBase
 
                 if (targetUser != null)
                 {
-                    radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
-                    foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findSharedRadarTypes(this.getCurrentUser(), targetUser.getId());
+                    foundItems = this.radarTypeServiceFactory.getRadarTypeService(targetUser).findSharedRadarTypes(targetUser.getId());
                 }
             }
 
@@ -128,8 +126,7 @@ public class RadarTypeController extends ControllerBase
 
                 if (targetUser != null)
                 {
-                    radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
-                    foundItems = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().findAssociatedRadarTypes(this.getCurrentUser());
+                    foundItems = this.associatedRadarTypeService.findAssociatedRadarTypes(targetUser);
                 }
             }
 
@@ -159,14 +156,13 @@ public class RadarTypeController extends ControllerBase
 
             if (targetUser != null)
             {
-                this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
-
                 if (allVersions == true)
                 {
-                    foundItems = radarTypeServiceFactory.getRadarTypeServiceForViewing().findAllByUserAndRadarType(this.getCurrentUser(), radarUserId, radarTypeId);
-                } else
+                    foundItems = radarTypeServiceFactory.getRadarTypeService(targetUser).findAllByUserAndRadarType(radarUserId, radarTypeId);
+                }
+                else
                 {
-                    foundItems = radarTypeServiceFactory.getMostRecent().findAllByUserAndRadarType(this.getCurrentUser(), radarUserId, radarTypeId);
+                    foundItems = radarTypeServiceFactory.getMostRecent().findAllByUserAndRadarType(radarUserId, radarTypeId);
                 }
             }
 
@@ -194,9 +190,8 @@ public class RadarTypeController extends ControllerBase
             if (radarTypeViewModel != null)
             {
                 RadarUser targetUser = this.radarUserService.findOne(radarUserId);
-                this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
                 RadarType radarType = radarTypeViewModel.ConvertToRadarType();
-                radarType = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().update(radarType, this.getCurrentUser(), radarUserId);
+                radarType = this.radarTypeServiceFactory.getRadarTypeService(targetUser).update(radarType, radarUserId);
                 retVal = new RadarTypeViewModel(radarType);
             }
         }
@@ -219,9 +214,8 @@ public class RadarTypeController extends ControllerBase
             if (radarTypeViewModel != null)
             {
                 RadarUser targetUser = this.radarUserService.findOne(radarUserId);
-                this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
                 RadarType radarType = radarTypeViewModel.ConvertToRadarType();
-                radarType = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().update(radarType, this.getCurrentUser(), radarUserId);
+                radarType = this.radarTypeServiceFactory.getRadarTypeService(targetUser).update(radarType, radarUserId);
                 retVal = new RadarTypeViewModel(radarType);
             }
         }
@@ -244,7 +238,7 @@ public class RadarTypeController extends ControllerBase
 
             if (this.getCurrentUser().getId() == userId)
             {
-                retVal = this.radarTypeServiceFactory.getRadarTypeServiceForSharing().associateRadarType(this.getCurrentUser(), userId, radarTypeId, radarTypeVersion, shouldAssociate);
+                retVal = this.associatedRadarTypeService.associateRadarType(this.getCurrentUser(), radarTypeId, radarTypeVersion, shouldAssociate);
             }
         }
         catch(Exception e)

@@ -279,7 +279,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     }
 
     $scope.getRadarTypes = function(currentUserId){
-        RadarTypeService.getUserRadarTypes(currentUserId, $scope.isAnonymous, $scope.setRadarTypes);
+        RadarTypeService.getUserRadarTypesWithAssociated(currentUserId, $scope.isAnonymous, true, $scope.setRadarTypes);
     }
 
     $scope.setRadarTypes = function(radarTypes){
@@ -312,8 +312,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.radarTypeAllSelected = function(currentUserId){
         $scope.selectedRadarType = {};
-        $scope.selectedRadarType.id = -1;
+        $scope.selectedRadarType.id = "";
         $scope.selectedRadarType.name = "All";
+        $scope.selectedRadarType.version = -1;
         $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
     }
 });

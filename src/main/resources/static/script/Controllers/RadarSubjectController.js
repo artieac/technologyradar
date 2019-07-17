@@ -2,6 +2,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 {
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
     $scope.radarSubjectDetailsSelectionId = $('#radarSubjectId').val();
+    $scope.currentUserId = $("#currentUserId").val();
 
     $scope.getRadarSubject = function (radarSubjectId)
     {

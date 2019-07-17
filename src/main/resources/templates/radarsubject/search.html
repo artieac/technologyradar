@@ -14,6 +14,7 @@
     <input sec:authorize="isAuthenticated()" type="text" id="isAnonymous" name="isAnonymous" value="false"/>
     <input sec:authorize="isAnonymous()" type="text" id="isAnonymous" name="isAnonymous" value="true"/>
     <input sec:authorize="isAuthenticated()" type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input sec:authorize="isAuthenticated()" type="hidden" id="currentUserId" name="currentUserId" th:value="${currentUserId}"/>
     <br/><br/><br/>
     <div class="panel panel-techradar" ng-form="searchInputForm">
         <div class="panel-heading-techradar">Radar Subject</div>

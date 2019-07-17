@@ -32,7 +32,7 @@ public class MostRecentRadarService extends RadarServiceBase
 
         if(foundUser!=null)
         {
-            retVal.add(this.radarRepository.findMostRecentByUserIdAndPublishedOnly(foundUser.getId(), publishedOnly));
+            retVal = this.radarRepository.findAllMostRecentByUserIdAndPublishedOnly(foundUser.getId(), publishedOnly);
         }
 
         return retVal;

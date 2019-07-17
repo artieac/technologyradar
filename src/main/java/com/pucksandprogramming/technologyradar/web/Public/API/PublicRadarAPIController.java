@@ -38,8 +38,7 @@ public class PublicRadarAPIController extends ControllerBase
     @GetMapping(value = "/public/RadarTypes", produces = "application/json")
     public @ResponseBody List<RadarType> getPublicRadarTypes()
     {
-        this.radarTypeServiceFactory.setUser(this.getCurrentUser(), null);
-        return radarTypeServiceFactory.getRadarTypeServiceForViewing().findTypesByPublishedRadars(this.getCurrentUser());
+        return radarTypeServiceFactory.getRadarTypeService(this.getCurrentUser()).findTypesByPublishedRadars(this.getCurrentUser());
     }
 
     @GetMapping(value = "/public/User/{radarUserId}/RadarTypes", produces = "application/json")
@@ -47,8 +46,7 @@ public class PublicRadarAPIController extends ControllerBase
     List<RadarType> getPublicRadarTypes(@PathVariable Long radarUserId)
     {
         RadarUser targetUser = this.userService.findOne(radarUserId);
-        this.radarTypeServiceFactory.setUser(this.getCurrentUser(), targetUser);
-        return radarTypeServiceFactory.getRadarTypeServiceForSharing().findTypesByPublishedRadars(targetUser);
+        return radarTypeServiceFactory.getRadarTypeService(targetUser).findTypesByPublishedRadars(targetUser);
     }
 
     @GetMapping(value = "/public/User/{radarUserId}/Radars", produces = "application/json")
@@ -59,9 +57,8 @@ public class PublicRadarAPIController extends ControllerBase
         List<Radar> retVal = new ArrayList<>();
 
         RadarUser targetUser = this.userService.findOne(radarUserId);
-        radarServiceFactory.setUserDetails(this.getCurrentUser(), targetUser);
 
-        if (radarTypeId == null || radarTypeId == "")
+        if (radarTypeId == null || radarTypeId.isEmpty())
         {
             retVal = radarServiceFactory.getRadarTypeServiceForSharing().findByRadarUserId(radarUserId, true);
         }
@@ -102,7 +99,6 @@ public class PublicRadarAPIController extends ControllerBase
         DiagramPresentation retVal = null;
 
         RadarUser owningUser = this.userService.findOne(radarUserId);
-        radarServiceFactory.setUserDetails(this.getCurrentUser(), owningUser);
 
         Radar targetRadar = this.radarServiceFactory.getRadarTypeServiceForSharing().findByUserAndRadarId(radarUserId, radarId, true);
         retVal = this.radarSetupService.generateDiagramData(radarUserId, targetRadar);

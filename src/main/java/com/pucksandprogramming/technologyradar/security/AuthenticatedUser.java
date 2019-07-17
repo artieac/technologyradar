@@ -113,4 +113,18 @@ public class AuthenticatedUser
         this.setName(nameClaim.asString());
     }
 
+    public boolean hasPrivilege(String userPrivilege)
+    {
+        boolean retVal = false;
+
+        if(!userPrivilege.isEmpty() && this.grantedAuthorities != null)
+        {
+            if(this.grantedAuthorities.contains(userPrivilege))
+            {
+                retVal = true;
+            }
+        }
+
+        return retVal;
+    }
 }
