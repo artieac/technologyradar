@@ -44,16 +44,8 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getPublishedRadarTypes = function()
     {
-        if($scope.isAnonymous==true)
-        {
-            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
-            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
-        }
-        else
-        {
-            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
-            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
-        }
+        var getPublishedRadarTypes = $resource('/api/public/search/RadarTypes/Published');
+        $scope.publishedRadarTypes = getPublishedRadarTypes.query();
     }
 
     $scope.getAssociatedRadarTypes = function()

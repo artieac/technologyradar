@@ -2,7 +2,8 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
+import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,10 @@ public class HomeController extends ControllerBase
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    RadarServiceFactory radarServiceFactory;
+    RadarService radarService;
+
+    @Autowired
+    RadarUserService radarUserService;
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -46,8 +50,7 @@ public class HomeController extends ControllerBase
 
         if(radarInstanceId.isPresent())
         {
-            radarServiceFactory.setUserDetails(this.getCurrentUser(), this.getCurrentUser());
-            Radar targetRadar = this.radarServiceFactory.getRadarTypeServiceForSharing().findById(radarInstanceId.get());
+            Radar targetRadar = this.radarService.findById(radarInstanceId.get());
 
             if (targetRadar != null)
             {
@@ -58,6 +61,31 @@ public class HomeController extends ControllerBase
         }
 
         modelAndView.setViewName("home/radar");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = { "/home/user/{userId}/radars"})
+    public ModelAndView viewUserRadars(@PathVariable Long userId)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userId", userId);
+
+        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
+
+        if(targetDataOwner!=null)
+        {
+            List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
+
+            if (radarInstances != null && radarInstances.size() > 0)
+            {
+                modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
+                modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
+                modelAndView.addObject("radarTypeVersion", radarInstances.get(0).getRadarType().getVersion());
+            }
+        }
+
+        modelAndView.setViewName("home/radar");
+
         return modelAndView;
     }
 
@@ -73,8 +101,10 @@ public class HomeController extends ControllerBase
         {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
+            RadarUser dataOwner = this.radarUserService.findOne(userId);
+
             // TBD if they can't share with others make sure this is the most recent.
-            Radar radarInstance = radarServiceFactory.getRadarTypeServiceForSharing().findByUserAndRadarId(userId, radarInstanceId.get(), true);
+            Radar radarInstance = this.radarService.findByUserAndRadarId(userId, radarInstanceId.get());
 
             if(radarInstance!=null)
             {
@@ -94,7 +124,7 @@ public class HomeController extends ControllerBase
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        List<Radar> radarInstances = this.radarServiceFactory.getMostRecent().findByRadarUserId(userId, true);
+        List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
         if(radarInstances != null && radarInstances.size() > 0)
         {
@@ -125,7 +155,7 @@ public class HomeController extends ControllerBase
 
         if(mostRecent==true)
         {
-            List<Radar> radarInstances = this.radarServiceFactory.getMostRecent().findByUserAndType(userId, radarTypeId, true);
+            List<Radar> radarInstances = this.radarService.findByUserAndType(userId, radarTypeId);
 
             if (radarInstances != null && radarInstances.size() > 0)
             {

@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import sun.java2d.pipe.SpanShapeRenderer;
@@ -18,6 +19,7 @@ public class AuthenticatedUser
     private String authSubject;
     private Date authExpiration;
     private String authTokenIssuer;
+    private UserType userType;
 
     List<GrantedAuthority> grantedAuthorities;
 
@@ -53,6 +55,9 @@ public class AuthenticatedUser
     public void setAuthTokenIssuer(String value) { this.authTokenIssuer = value;}
 
     public List<GrantedAuthority> getGrantedAuthorities() { return this.grantedAuthorities;};
+
+    public UserType getUserType() { return this.userType;}
+    public void setUserType(UserType value) { this.userType = value;}
 
     public String getAuthSubjectIdentifier()
     {
@@ -119,9 +124,13 @@ public class AuthenticatedUser
 
         if(!userPrivilege.isEmpty() && this.grantedAuthorities != null)
         {
-            if(this.grantedAuthorities.contains(userPrivilege))
+            for(GrantedAuthority grantedAuthority : this.getGrantedAuthorities())
             {
-                retVal = true;
+                if(grantedAuthority.toString()==userPrivilege)
+                {
+                    retVal = true;
+                    break;
+                }
             }
         }
 

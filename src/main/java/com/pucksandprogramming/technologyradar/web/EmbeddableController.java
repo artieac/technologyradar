@@ -1,7 +1,7 @@
 package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class EmbeddableController
     private static final Logger logger = Logger.getLogger(EmbeddableController.class);
 
     @Autowired
-    RadarServiceFactory radarServiceFactory;
+    RadarService radarService;
 
     @RequestMapping(value = { "/user/{userId}/radartype/{radarTypeId}/radars"})
     public ModelAndView mostRecentRadarByType(@PathVariable Long userId,
@@ -35,7 +35,7 @@ public class EmbeddableController
 
         if(mostRecent==true)
         {
-            List<Radar> radarInstance = this.radarServiceFactory.getMostRecent().findByUserAndType(userId, radarTypeId, true);
+            List<Radar> radarInstance = this.radarService.findByUserAndType(userId, radarTypeId);
 
             if (radarInstance != null && radarInstance.size() > 0)
             {
@@ -54,7 +54,7 @@ public class EmbeddableController
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        List<Radar> radarInstance = this.radarServiceFactory.getMostRecent().findByRadarUserId(userId, true);
+        List<Radar> radarInstance = this.radarService.findByRadarUserId(userId);
 
         if(radarInstance != null && radarInstance.size() > 0)
         {

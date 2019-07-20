@@ -1,37 +1,114 @@
 package com.pucksandprogramming.technologyradar.services.RadarType;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarRepository;
-import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.FullRadarRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepositoryBase;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public abstract class RadarTypeService extends ServiceBase
+@Component
+public class RadarTypeService extends ServiceBase
 {
-    protected RadarTypeRepository radarTypeRepository;
-    protected RadarRepository radarRepository;
+    protected RadarTypeRepositoryFactory radarTypeRepositoryFactory;
+    protected FullRadarRepository fullRadarRepository;
 
-    public RadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository, RadarRepository radarRepository)
+    @Autowired
+    public RadarTypeService(RadarUserRepository radarUserRepository, RadarTypeRepositoryFactory radarTyperepositoryFactory, FullRadarRepository fullRadarRepository)
     {
         super(radarUserRepository);
 
-        this.radarTypeRepository = radarTypeRepository;
-        this.radarRepository = radarRepository;
+        this.radarTypeRepositoryFactory = radarTyperepositoryFactory;
+        this.fullRadarRepository = fullRadarRepository;
     }
 
-    public  RadarType findOne(String radarTypeId, Long version)
+    public RadarType findOne(String radarTypeId, Long version)
     {
-        return this.radarTypeRepository.findOne(radarTypeId, version);
+        RadarType retVal = null;
+
+        if(this.getAuthenticatedUser()!=null)
+        {
+            RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
+            retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(currentUser).findOne(radarTypeId, version);
+        }
+
+        return retVal;
+    }
+
+    public List<RadarType> findByUserId(Long userId)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+        retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(dataOwner).findByUser(userId);
+
+        return retVal;
+    }
+
+    public List<RadarType> findMostRecentByUserId(Long userId)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+
+        if(dataOwner != null)
+        {
+            retVal = this.radarTypeRepositoryFactory.getMostRecentRepository().findByUser(userId);
+        }
+
+        return retVal;
+    }
+
+    public List<RadarType> findByUserAndRadarType(Long userId, String radarTypeId)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+        retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(dataOwner).findByUserAndRadarType(userId, radarTypeId);
+
+        return retVal;
+    }
+
+    public List<RadarType> findSharedRadarTypes(Long userToExclude)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userToExclude);
+        RadarTypeRepositoryBase radarRepository = this.radarTypeRepositoryFactory.getRadarTypeRepository(dataOwner);
+
+        if(dataOwner==null)
+        {
+            retVal = radarRepository.findSharedRadarTypes();
+        }
+        else
+        {
+            retVal = radarRepository.findSharedRadarTypesExcludeOwned(userToExclude);
+        }
+
+        return retVal;
+    }
+
+    public List<RadarType> findByPublishedRadars(Long excludeUserId)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser excludeUser = this.getRadarUserRepository().findOne(excludeUserId);
+
+        if(excludeUser==null)
+        {
+            retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(null).findByPublishedRadars();
+        }
+        else
+        {
+            retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(null).findByPublishedRadarsExcludeUser(excludeUserId);
+        }
+
+        return retVal;
     }
 
     public RadarType update(RadarType radarTypeUpdates, Long ownerId)
@@ -43,9 +120,10 @@ public abstract class RadarTypeService extends ServiceBase
         {
             boolean canSave = false;
 
-            RadarUser targetUser = this.getRadarUserRepository().findOne(ownerId);
+            RadarUser dataOwner = this.getRadarUserRepository().findOne(ownerId);
+            RadarTypeRepositoryBase radarRepository = this.radarTypeRepositoryFactory.getRadarTypeRepository(dataOwner);
 
-            retVal = this.radarTypeRepository.findOne(radarTypeUpdates.getId(), radarTypeUpdates.getVersion());
+            retVal = radarRepository.findOne(radarTypeUpdates.getId(), radarTypeUpdates.getVersion());
 
             if(retVal==null)
             {
@@ -53,8 +131,8 @@ public abstract class RadarTypeService extends ServiceBase
             }
             else
             {
-                if (targetUser != null &&
-                    targetUser.getId() == this.getAuthenticatedUser().getUserId())
+                if (dataOwner != null &&
+                        dataOwner.getId() == this.getAuthenticatedUser().getUserId())
                 {
                     canSave = true;
                 }
@@ -62,43 +140,12 @@ public abstract class RadarTypeService extends ServiceBase
 
             if(canSave==true)
             {
-                radarTypeUpdates.setRadarUser(targetUser);
-                retVal = this.radarTypeRepository.save(radarTypeUpdates);
+                radarTypeUpdates.setRadarUser(dataOwner);
+                retVal = radarRepository.save(radarTypeUpdates);
             }
         }
 
         return retVal;
     }
 
-    public List<RadarType> findAllByUserId(Long userId)
-    {
-        return this.radarTypeRepository.findMostRecentRadarTypesForUser(userId);
-    }
-
-    public List<RadarType> findAllByUserAndRadarType(Long userId, String radarTypeId)
-    {
-        return this.radarTypeRepository.findHistoryForRadarType(userId, radarTypeId);
-    }
-
-    public List<RadarType> findTypesByPublishedRadars(RadarUser owningUser)
-    {
-        if(owningUser==null)
-        {
-            return this.radarTypeRepository.findAllForPublishedRadars();
-        }
-        else
-        {
-            return this.radarTypeRepository.findMostRecentByUserAndIsPublished(owningUser.getId());
-        }
-    }
-
-    public List<RadarType> findSharedRadarTypes(Long userToExclude)
-    {
-        List<RadarType> retVal = new ArrayList<>();
-
-        // need to change this to just most recent shared and exclude the owner
-        retVal = this.radarTypeRepository.findAllSharedRadarTypesExcludeOwned(userToExclude);
-
-        return retVal;
-    }
 }

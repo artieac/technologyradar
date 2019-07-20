@@ -4,7 +4,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarCategoryRe
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
 import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
@@ -26,18 +26,15 @@ public class DiagramConfigurationService
     private RadarRingRepository radarRingRepository;
     private RadarCategoryRepository radarCategoryRepository;
     private RadarUserRepository radarUserRepository;
-    private RadarServiceFactory radarServiceFactory;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
-                                       RadarUserRepository radarUserRepository,
-                                       RadarServiceFactory radarServiceFactory)
+                                       RadarUserRepository radarUserRepository)
     {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
-        this.radarServiceFactory = radarServiceFactory;
     }
 
     public List<RadarRing> getRadarRings()

@@ -15,8 +15,8 @@ public interface RadarDAO extends PagingAndSortingRepository<RadarEntity, Long>
     List<RadarEntity> findAllByRadarUserIdAndIsPublished(Long radarUserId, boolean isPublished);
 
     RadarEntity findByIdAndRadarUserId(Long radarInstanceId, Long radarUserId);
+
     RadarEntity findByIdAndRadarUserIdAndIsPublished(Long id, Long radarUserId, boolean isPublished);
 
-    RadarEntity findByRadarUserAndAssessmentDate(Long radarUserId, Date assessmentDate);
     RadarEntity findByIdAndName(Long radarInstanceId, String name);
 }

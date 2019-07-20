@@ -16,7 +16,7 @@ public abstract class ServiceBase
         this.radarUserRepository = radarUserRepository;
     }
 
-    protected RadarUserRepository getRadarUserRepository() { return this.radarUserRepository; }
+    public RadarUserRepository getRadarUserRepository() { return this.radarUserRepository; }
 
     public AuthenticatedUser getAuthenticatedUser()
     {

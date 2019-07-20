@@ -3,11 +3,12 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
+import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.services.RadarType.AssociatedRadarTypeService;
 import com.pucksandprogramming.technologyradar.services.RadarType.DefaultRadarTypeManager;
-import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -35,7 +36,7 @@ public class CallbackController
     private RadarUserService userService;
 
     @Autowired
-    private RadarTypeServiceFactory radarTypeServiceFactory;
+    private RadarTypeService radarTypeService;
 
     @Autowired
     private AuthenticationController controller;
@@ -86,7 +87,7 @@ public class CallbackController
 
                 if(targetUser.getId() > 0)
                 {
-                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(this.radarTypeServiceFactory.getMostRecent());
+                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(radarTypeService);
 
                     for(RadarType radarType : defaultRadars)
                     {
@@ -106,6 +107,7 @@ public class CallbackController
                 }
 
                 authenticatedUser.setUserId(targetUser.getId());
+                authenticatedUser.setUserType(UserType.createUser(targetUser.getUserType()));
 
                 // TBD< switch this to an interface rather than a specific instance type
                 Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(authenticatedUser);

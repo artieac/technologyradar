@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
@@ -25,7 +25,7 @@ public class UserController extends ControllerBase
     private RadarUserService radarUserService;
 
     @Autowired
-    private RadarServiceFactory radarServiceFactory;
+    private RadarService radarService;
 
     @GetMapping(value = "/User", produces = "application/json")
     public @ResponseBody UserViewModel getUserDetails()
@@ -37,7 +37,7 @@ public class UserController extends ControllerBase
             if (this.getCurrentUser() != null)
             {
                 retVal = new UserViewModel(this.getCurrentUser());
-                retVal.setNumberOfSharedRadar(radarServiceFactory.getFullHistory().getSharedRadarCount(this.getCurrentUser().getId()));
+                retVal.setNumberOfSharedRadar(this.radarService.getSharedRadarCount(this.getCurrentUser().getId()));
             }
         }
         catch(Exception e)

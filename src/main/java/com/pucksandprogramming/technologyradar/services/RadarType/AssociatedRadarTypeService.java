@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.services.RadarType;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeHistoryRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
@@ -15,10 +15,10 @@ import java.util.List;
 @Component
 public class AssociatedRadarTypeService extends ServiceBase
 {
-    RadarTypeRepository radarTypeRepository;
+    RadarTypeHistoryRepository radarTypeRepository;
 
     @Autowired
-    public AssociatedRadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository)
+    public AssociatedRadarTypeService(RadarTypeHistoryRepository radarTypeRepository, RadarUserRepository radarUserRepository)
     {
         super(radarUserRepository);
 
@@ -36,7 +36,7 @@ public class AssociatedRadarTypeService extends ServiceBase
                 if (targetUser.getId() == this.getAuthenticatedUser().getUserId() ||
                         this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
                 {
-                    retVal = this.radarTypeRepository.findAllAssociatedRadarTypes(targetUser.getId());
+                    retVal = this.radarTypeRepository.findAssociatedRadarTypes(targetUser.getId());
                 }
             }
         }
@@ -71,10 +71,7 @@ public class AssociatedRadarTypeService extends ServiceBase
 
     public boolean associateRadarType(String radarTypeId, Long radarTypeVersion, boolean shouldAssociate)
     {
-        boolean retVal = false;
-
         RadarUser targetUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-
         return this.associateRadarType(targetUser, radarTypeId, radarTypeVersion, shouldAssociate);
     }
 }
