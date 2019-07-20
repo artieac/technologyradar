@@ -44,7 +44,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getPublishedRadarTypes = function()
     {
-        var getPublishedRadarTypes = $resource('/api/public/search/RadarTypes/Published');
+        var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Published');
         $scope.publishedRadarTypes = getPublishedRadarTypes.query();
     }
 
@@ -56,7 +56,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getUserRadarTypes = function()
     {
-        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=true&includeAssociated=true');
+        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes/Radared');
         $scope.userOwnedRadarTypes = getOwnedRadarTypes.query({userId: $scope.currentUserId});
     }
 

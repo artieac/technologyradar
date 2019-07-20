@@ -110,6 +110,14 @@ public abstract class RadarTypeRepositoryBase extends SimpleDomainRepository<Rad
         return this.mapList(foundItems);
     }
 
+    public List<RadarType> findOwnedWithRadars(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllOwnedWithRadars");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
     private boolean shouldVersion(RadarType source, RadarTypeEntity destination)
     {
         boolean retVal = false;

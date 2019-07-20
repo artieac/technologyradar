@@ -88,7 +88,7 @@ public class RadarTypeController extends ControllerBase
         return retVal;
     }
 
-    @GetMapping(value = {"/search/RadarTypes/Published", "/public/search/RadarTypes/Published"}, produces = "application/json")
+    @GetMapping(value = {"/RadarTypes/Published", "/public/RadarTypes/Published"}, produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getRadarTypesForPublishedRadars()
     {
         List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
@@ -96,6 +96,31 @@ public class RadarTypeController extends ControllerBase
         try
         {
             List<RadarType> foundItems = radarTypeService.findByPublishedRadars(this.getCurrentUserId());
+
+            if(foundItems!=null)
+            {
+                for(RadarType radarType : foundItems)
+                {
+                    retVal.add(new RadarTypeViewModel(radarType));
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
+        }
+
+        return retVal;
+    }
+
+    @GetMapping(value = {"/User/{userId}/RadarTypes/Radared", "/public/User/{userId}/RadarTypes/Radared"}, produces = "application/json")
+    public @ResponseBody List<RadarTypeViewModel> getRadarTypesForPublishedRadars(@PathVariable Long userId)
+    {
+        List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
+
+        try
+        {
+            List<RadarType> foundItems = radarTypeService.findOwnedWithRadars(userId);
 
             if(foundItems!=null)
             {

@@ -111,6 +111,23 @@ public class RadarTypeService extends ServiceBase
         return retVal;
     }
 
+    public List<RadarType> findOwnedWithRadars(Long dataOwnerId)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(dataOwnerId);
+
+        if(dataOwner==null)
+        {
+            retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(null).findByPublishedRadars();
+        }
+        else
+        {
+            retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(null).findOwnedWithRadars(dataOwner.getId());
+        }
+
+        return retVal;
+    }
     public RadarType update(RadarType radarTypeUpdates, Long ownerId)
     {
         RadarType retVal = null;

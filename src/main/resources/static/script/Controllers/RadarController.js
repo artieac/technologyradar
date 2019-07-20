@@ -5,6 +5,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.selectedRadarInstanceItem = {};
     $scope.showAddItemSection = false;
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
+    $scope.canEditRadar = false;
 
     $scope.clickAddItemButton = function()
     {
@@ -54,6 +55,14 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.getRadarData = function (userId, radarId, isAnonymous)
     {
         RadarInstanceService.getRadarInstance(userId, radarId, isAnonymous, $scope.renderRadar);
+
+        if($scope.isAnonymous==false){
+            RadarInstanceService.canEditRadar(radarId, $scope.canEditRadarResponse);
+        }
+    }
+
+    $scope.canEditRadarResponse = function(canEditRadar){
+        $scope.canEditRadar = canEditRadar;
     }
 
     $scope.getUserRadars = function (userId, selectedRadarType, isAnonymous)

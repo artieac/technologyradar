@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
@@ -127,6 +128,37 @@ public class RadarInstanceController extends ControllerBase {
             {
                 Radar targetRadar = this.radarService.findByUserAndRadarId(targetUser.getId(), radarId);
                 retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
+            }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
+        }
+
+        return retVal;
+    }
+
+    @GetMapping(value ="/User/Radar/{radarId}/CanEdit", produces = "application/json")
+    public @ResponseBody boolean canEditRadar(@PathVariable Long radarId)
+    {
+        boolean retVal = false;
+
+        try
+        {
+            if (this.getCurrentUser() != null)
+            {
+                Radar targetRadar = this.radarService.findById(radarId);
+
+                if (targetRadar != null)
+                {
+                    if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId())
+                    {
+                        if (targetRadar.getIsLocked() == false)
+                        {
+                            retVal = true;
+                        }
+                    }
+                }
             }
         }
         catch(Exception e)
