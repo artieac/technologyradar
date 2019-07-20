@@ -57,7 +57,6 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/admin/index" component={ AdminApp } />
                     <Route path="/admin/manageusers" component={ ManageUsersPage } />
-                    <Route path="/manageradars/user/:userId/radartypes" component = {ManageRadarTypesPage}/>
                 </Switch>
             </Router>
         </div>
