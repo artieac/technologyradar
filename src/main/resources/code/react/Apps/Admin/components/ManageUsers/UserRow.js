@@ -14,6 +14,7 @@ class UserRow extends React.Component{
         };
 
         this.changeRowSelection = this.changeRowSelection.bind(this);
+        this.getRadarUrl = this.getRadarUrl.bind(this);
     }
 
     componentDidUpdate(){
@@ -22,6 +23,10 @@ class UserRow extends React.Component{
     changeRowSelection(newRole){
         this.props.rowData.role = newRole;
         this.forceUpdate();
+    }
+
+    getRadarUrl(){
+        return "/home/user/" + this.props.rowData.id + "/radars";
     }
 
     render() {
@@ -44,9 +49,7 @@ class UserRow extends React.Component{
                 </td>
                 <td>{ this.props.rowData.userType}</td>
                 <td>
-                    <Link to={ "/manageradars/user/" + this.props.rowData.id + "/radartypes/"}>
-                        <button type="button" className="btn btn-techradar">Radar Types</button>
-                    </Link>
+                    <a className="btn btn-techradar" href={ this.getRadarUrl()}>Radars</a>
                  </td>
              </tr>
         );
