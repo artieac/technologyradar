@@ -79,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/favicon.ico").permitAll()
                         .antMatchers(callbackLocation,
                                 "/login",
+                                "/logout",
                                 "/accessDenied").permitAll()
                         .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
                         .antMatchers("/**").authenticated()
