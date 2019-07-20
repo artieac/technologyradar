@@ -19,6 +19,12 @@ public class LoginController
     @Value("${com.auth0.callbackUrl}")
     private String callbackLocation;
 
+    @Value("${com.auth0.domain}")
+    private String authDomain;
+
+    @Value("${com.auth0.clientId}")
+    private String authClientId;
+
     @Autowired
     private AuthenticationController controller;
     @Autowired
@@ -45,6 +51,21 @@ public class LoginController
                 .withAudience(String.format("https://%s/userinfo", appConfig.getDomain()))
                 .build();
         return "redirect:" + authorizeUrl;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    protected String logout(final HttpServletRequest req) {
+        logger.debug("Performing logout");
+        invalidateSession(req);
+        String returnTo = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+        String logoutUrl = String.format("https://%s/v2/logout?client_id=%s&returnTo=%s", authDomain, authClientId, returnTo);
+        return "redirect:" + logoutUrl;
+    }
+
+    private void invalidateSession(HttpServletRequest request) {
+        if (request.getSession() != null) {
+            request.getSession().invalidate();
+        }
     }
 
 }

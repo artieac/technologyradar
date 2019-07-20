@@ -5,6 +5,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.selectedRadarInstanceItem = {};
     $scope.showAddItemSection = false;
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
+    $scope.canEditRadar = false;
 
     $scope.clickAddItemButton = function()
     {
@@ -54,6 +55,14 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.getRadarData = function (userId, radarId, isAnonymous)
     {
         RadarInstanceService.getRadarInstance(userId, radarId, isAnonymous, $scope.renderRadar);
+
+        if($scope.isAnonymous==false){
+            RadarInstanceService.canEditRadar(radarId, $scope.canEditRadarResponse);
+        }
+    }
+
+    $scope.canEditRadarResponse = function(canEditRadar){
+        $scope.canEditRadar = canEditRadar;
     }
 
     $scope.getUserRadars = function (userId, selectedRadarType, isAnonymous)
@@ -279,7 +288,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     }
 
     $scope.getRadarTypes = function(currentUserId){
-        RadarTypeService.getUserRadarTypes(currentUserId, $scope.isAnonymous, $scope.setRadarTypes);
+        RadarTypeService.getUserRadarTypesWithAssociated(currentUserId, true, $scope.isAnonymous, $scope.setRadarTypes);
     }
 
     $scope.setRadarTypes = function(radarTypes){
@@ -312,8 +321,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.radarTypeAllSelected = function(currentUserId){
         $scope.selectedRadarType = {};
-        $scope.selectedRadarType.id = -1;
+        $scope.selectedRadarType.id = "";
         $scope.selectedRadarType.name = "All";
+        $scope.selectedRadarType.version = -1;
         $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
     }
 });

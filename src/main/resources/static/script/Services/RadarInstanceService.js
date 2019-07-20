@@ -110,4 +110,16 @@ theApp.service('RadarInstanceService', function ($resource, $http)
                 errorCallback();
             });
     };
+
+    this.canEditRadar = function(radarId, callbackFunction)
+    {
+        var url = '/api/User/Radar/' + radarId + '/CanEdit';
+
+
+        $http.get(url)
+            .success(function (data)
+            {
+                callbackFunction(data);
+            });
+    };
 });

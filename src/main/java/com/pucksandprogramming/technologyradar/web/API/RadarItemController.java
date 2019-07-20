@@ -4,7 +4,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
@@ -28,16 +28,16 @@ public class RadarItemController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    private RadarServiceFactory radarServiceFactory;
+    private RadarService radarService;
     private DiagramConfigurationService diagramConfigurationService;
     private RadarUserService radarUserService;
 
     @Autowired
-    public RadarItemController(RadarServiceFactory _radarServiceFactory,
+    public RadarItemController(RadarService radarService,
                                DiagramConfigurationService _diagramConfigurationService,
                                RadarUserService _radarUserService)
     {
-        this.radarServiceFactory = _radarServiceFactory;
+        this.radarService = radarService;
         this.diagramConfigurationService = _diagramConfigurationService;
         this.radarUserService = _radarUserService;
     }
@@ -49,7 +49,7 @@ public class RadarItemController extends ControllerBase
 
         try
         {
-            retVal = this.radarServiceFactory.getFullHistory().deleteRadarItem(radarId, radarItemId, radarUserId);
+            retVal = this.radarService.deleteRadarItem(radarId, radarItemId, radarUserId);
         }
         catch (Exception e)
         {
@@ -75,7 +75,7 @@ public class RadarItemController extends ControllerBase
                     retVal.add(Long.parseLong(mapItems.get(i).toString()));
                 }
 
-                this.radarServiceFactory.getFullHistory().deleteRadarItems(radarUserId, radarId, retVal);
+                this.radarService.deleteRadarItems(radarUserId, radarId, retVal);
             }
         }
         catch(Exception e)
@@ -117,18 +117,18 @@ public class RadarItemController extends ControllerBase
 
                     itemsToAdd.add(newItem);
 
-                    this.radarServiceFactory.getFullHistory().addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                    this.radarService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
                 }
                 else
                 {
                     String technologyName = modelMap.get("technologyName").toString();
                     String technologyUrl = modelMap.get("url").toString();
 
-                    this.radarServiceFactory.getFullHistory().addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
+                    this.radarService.addRadarItem(this.getCurrentUser(), radarId, technologyName, technologyUrl, radarCategoryId, radarRingId, confidenceLevel, assessmentDetails);
                 }
             }
 
-            Radar targetRadar = this.radarServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
             retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch (Exception e)
@@ -166,11 +166,11 @@ public class RadarItemController extends ControllerBase
                         itemsToAdd.add(newItem);
                     }
 
-                    this.radarServiceFactory.getFullHistory().addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
+                    this.radarService.addRadarItems(this.getCurrentUser(), radarId, itemsToAdd);
                 }
             }
 
-            Radar targetRadar = this.radarServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
             retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch(Exception e)
@@ -195,10 +195,10 @@ public class RadarItemController extends ControllerBase
 
             if (radarId > 0 && radarItemId > 0 && this.getCurrentUser().getId() == radarUserId) ;
             {
-                this.radarServiceFactory.getFullHistory().updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
+                this.radarService.updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
             }
 
-            Radar targetRadar = this.radarServiceFactory.getFullHistory().findByUserAndRadarId(this.getCurrentUser().getId(), radarId, false);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
             retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch (Exception e)

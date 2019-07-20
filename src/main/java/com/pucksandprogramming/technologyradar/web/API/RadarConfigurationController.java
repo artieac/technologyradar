@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
@@ -27,7 +27,7 @@ public class RadarConfigurationController extends ControllerBase
     DiagramConfigurationService radarSetupService;
 
     @Autowired
-    RadarServiceFactory radarServiceFactory;
+    RadarService radarService;
 
     @GetMapping(value = "/radar/{radarId}/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
@@ -36,7 +36,7 @@ public class RadarConfigurationController extends ControllerBase
 
         try
         {
-            Radar targetRadar = this.radarServiceFactory.getMostRecent().findById(radarId);
+            Radar targetRadar = this.radarService.findById(radarId);
 
             if (targetRadar != null)
             {
@@ -58,7 +58,7 @@ public class RadarConfigurationController extends ControllerBase
 
         try
         {
-            Radar targetRadar = this.radarServiceFactory.getMostRecent().findById(radarId);
+            Radar targetRadar = this.radarService.findById(radarId);
 
             if (targetRadar != null)
             {

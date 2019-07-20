@@ -2,6 +2,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 {
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
     $scope.radarSubjectDetailsSelectionId = $('#radarSubjectId').val();
+    $scope.currentUserId = $("#currentUserId").val();
 
     $scope.getRadarSubject = function (radarSubjectId)
     {
@@ -43,16 +44,8 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getPublishedRadarTypes = function()
     {
-        if($scope.isAnonymous==true)
-        {
-            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
-            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
-        }
-        else
-        {
-            var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Shared');
-            $scope.publishedRadarTypes = getPublishedRadarTypes.query();
-        }
+        var getPublishedRadarTypes = $resource('/api/public/RadarTypes/Published');
+        $scope.publishedRadarTypes = getPublishedRadarTypes.query();
     }
 
     $scope.getAssociatedRadarTypes = function()
@@ -63,7 +56,7 @@ theApp.controller('RadarSubjectController', function ($scope, $resource, $http, 
 
     $scope.getUserRadarTypes = function()
     {
-        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes?includeOwned=true&includeAssociated=true');
+        var getOwnedRadarTypes = $resource('/api/User/:userId/RadarTypes/Radared');
         $scope.userOwnedRadarTypes = getOwnedRadarTypes.query({userId: $scope.currentUserId});
     }
 

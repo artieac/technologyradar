@@ -1,9 +1,14 @@
 package com.pucksandprogramming.technologyradar.web;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.web.AbstractErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +23,26 @@ import javax.servlet.http.HttpServletRequest;
 public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController
 {
     private static final Logger logger = Logger.getLogger(ErrorController.class);
+
+    private AuthenticatedUser authenticatedUser = null;
+
+    public AuthenticatedUser getAuthenticatedUser()
+    {
+        if(this.authenticatedUser == null)
+        {
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication)
+            {
+                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+
+                if (tokenAuth != null)
+                {
+                    authenticatedUser = tokenAuth.getAuthenticatedUser();
+                }
+            }
+        }
+
+        return this.authenticatedUser;
+    }
 
     @Override
     public String getErrorPath() { return "/error";}

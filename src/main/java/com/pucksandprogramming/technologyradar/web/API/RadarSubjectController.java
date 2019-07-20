@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
-import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarServiceFactory;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.TechnologyService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.HomeController;
@@ -19,14 +19,14 @@ import java.util.Map;
 /**
  * Created by acorrea on 10/27/2016.
  */
-@Controller("RadarSubjectAPI")
-@RequestMapping("/api/RadarSubject")
+@Controller("APIRadarSubjectController")
+@RequestMapping(value={"/api/RadarSubject", "/api/public/RadarSubject"})
 public class RadarSubjectController extends ControllerBase
 {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
-    private RadarServiceFactory radarServiceFactory;
+    private RadarService radarService;
 
     @Autowired
     private TechnologyService technologyService;
@@ -45,10 +45,16 @@ public class RadarSubjectController extends ControllerBase
                 // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
                 // that would make the subsequent calls at lot easier to manage.
                 List<Radar> ownedRadarList = new ArrayList<Radar>();
+                List<Radar> publishedRadarList = new ArrayList<>();
 
                 if (this.getCurrentUser() != null)
                 {
-                    ownedRadarList = radarServiceFactory.getMostRecent().getAllOwnedByTechnologyId(id, this.getCurrentUser());
+                    ownedRadarList = this.radarService.getAllOwnedByTechnologyId(this.getCurrentUserId(), id);
+                    publishedRadarList = this.radarService.getAllNotOwnedByTechnologyId(this.getCurrentUserId(), id);
+                }
+                else
+                {
+                    publishedRadarList = this.radarService.getAllByRadarSubjectId(id);
                 }
 
                 for (int i = 0; i < ownedRadarList.size(); i++)
@@ -56,7 +62,6 @@ public class RadarSubjectController extends ControllerBase
                     retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
                 }
 
-                List<Radar> publishedRadarList = radarServiceFactory.getMostRecent().getAllNotOwnedByTechnologyId(id, this.getCurrentUser());
 
                 for (int i = 0; i < publishedRadarList.size(); i++)
                 {

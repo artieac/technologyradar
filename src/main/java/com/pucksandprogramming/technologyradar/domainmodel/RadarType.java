@@ -129,16 +129,4 @@ public class RadarType {
             }
         }
     }
-
-    public boolean canUserUpdate(RadarUser radarUser)
-    {
-        boolean retVal = false;
-
-        if (this.getRadarUser().getId() == radarUser.getId())
-        {
-            retVal = true;
-        }
-
-        return retVal;
-    }
 }

@@ -1,0 +1,3 @@
+export const ADDUSERS = "ADDUSERS";
+export const ADDROLES = "ADDROLES";
+export const SETSELECTEDUSER = "SETSELECTEDUSER";

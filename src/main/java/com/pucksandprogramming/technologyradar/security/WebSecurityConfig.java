@@ -3,10 +3,13 @@ package com.pucksandprogramming.technologyradar.security;
 import com.auth0.AuthenticationController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,6 +22,8 @@ import java.io.UnsupportedEncodingException;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     Environment env;
@@ -67,16 +72,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         {
             http
                     .authorizeRequests()
-                    .antMatchers("/script/**",
-                            "/css/**",
-                            "/webjars/**",
-                            "/Images/**", "/images/**",
-                            "/favicon.ico").permitAll()
-                    .antMatchers(callbackLocation,
-                            "/login",
-                            "/accessDenied").permitAll()
-                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
-                    .antMatchers("/**").authenticated()
+                        .antMatchers("/script/**",
+                                "/css/**",
+                                "/webjars/**",
+                                "/Images/**", "/images/**",
+                                "/favicon.ico").permitAll()
+                        .antMatchers(callbackLocation,
+                                "/login",
+                                "/logout",
+                                "/accessDenied").permitAll()
+                        .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
+                        .antMatchers("/**").authenticated()
                     .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
                     .and().logout().permitAll();
         }

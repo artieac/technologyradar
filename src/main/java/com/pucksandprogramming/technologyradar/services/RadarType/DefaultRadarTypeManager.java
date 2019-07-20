@@ -11,7 +11,7 @@ public class DefaultRadarTypeManager
 {
     private static List<RadarType> defaultRadars;
 
-    public static List<RadarType> getDefaultRadarTypes(RadarTypeServiceBase radarTypeService)
+    public static List<RadarType> getDefaultRadarTypes(RadarTypeService radarTypeService)
     {
         if (DefaultRadarTypeManager.defaultRadars == null)
         {
@@ -32,9 +32,9 @@ public class DefaultRadarTypeManager
 //    @Value("${com.pucksandprogramming.defaultRadarIds}")
     private  String defaultRadarIds;
 
-    RadarTypeServiceBase radarTypeService;
+    RadarTypeService radarTypeService;
 
-    public DefaultRadarTypeManager(RadarTypeServiceBase radarTypeService)
+    public DefaultRadarTypeManager(RadarTypeService radarTypeService)
     {
         this.radarTypeService = radarTypeService;
     }
