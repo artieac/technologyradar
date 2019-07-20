@@ -72,11 +72,11 @@ public class PublicRadarRepository extends RadarRepositoryBase
         query.setParameter("radarTypeId", radarTypeId);
         query.setParameter("radarTypeVersion", radarTypeVersion);
         query.setParameter("isPublished", true);
-        RadarEntity foundItem = (RadarEntity)query.getSingleResult();
+        List<RadarEntity> foundItems = query.getResultList();
 
-        if (foundItem != null)
+        if (foundItems != null)
         {
-            retVal.add(this.modelMapper.map(foundItem, Radar.class));
+            retVal = this.mapList(foundItems);
         }
 
         return retVal;

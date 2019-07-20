@@ -32,22 +32,24 @@ theApp.service('RadarTypeService', function ($resource, $http)
             });
     }
 
-        this.getUserRadarTypesWithAssociated = function(userId, isAnonymous, includeAssociated, successCallback)
+        this.getUserRadarTypesWithAssociated = function(userId, includeAssociated, isAnonymous, successCallback)
         {
             var url =  '';
 
             if(isAnonymous == true)
             {
-                url = '/api/public/User/' + userId + '/RadarTypes';
+                url = '/api/public/User/' + userId;
             }
             else
             {
-                url = '/api/User/' + userId + '/RadarTypes?allVersions=true';
+                url = '/api/User/' + userId;
+            }
 
-                if(includeAssociated===true)
-                {
-                    url += "&includeAssociated=true";
-                }
+             url += '/RadarTypes?allVersions=true';
+
+            if(includeAssociated===true)
+            {
+                url += "&includeAssociated=true";
             }
 
             $http.get(url)

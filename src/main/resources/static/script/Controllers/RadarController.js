@@ -279,7 +279,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     }
 
     $scope.getRadarTypes = function(currentUserId){
-        RadarTypeService.getUserRadarTypesWithAssociated(currentUserId, $scope.isAnonymous, true, $scope.setRadarTypes);
+        RadarTypeService.getUserRadarTypesWithAssociated(currentUserId, true, $scope.isAnonymous, $scope.setRadarTypes);
     }
 
     $scope.setRadarTypes = function(radarTypes){
