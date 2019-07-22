@@ -1,11 +1,13 @@
 theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTypeService)
 {
+    $scope.allOptionName = "All";
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
     $scope.showAddItemSection = false;
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
     $scope.canEditRadar = false;
+    $scope.showFullViewOption = false;
 
     $scope.clickAddItemButton = function()
     {
@@ -81,21 +83,28 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.setRadarInstances = function(radarInstances)
     {
+        $scope.showFullViewOption = false;
         $scope.radarInstanceList = radarInstances;
         $scope.selectedRadarInstance = {};
 
         var radarInstanceId = $("#radarInstanceId").val();
 
-        if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
-            !$scope.isNullOrUndefined(radarInstanceId) &&
-            radarInstanceId !== '')
+        if (!$scope.isNullOrUndefined($scope.radarInstanceList))
         {
-            for (var i = 0; i < $scope.radarInstanceList.length; i++)
+            if($scope.radarInstanceList.length > 1 && $scope.selectedRadarType.name!=$scope.allOptionName)
             {
-                if ($scope.radarInstanceList[i].id == radarInstanceId)
+                $scope.showFullViewOption = true;
+            }
+
+            if(!$scope.isNullOrUndefined(radarInstanceId) && radarInstanceId !== '')
+            {
+                for (var i = 0; i < $scope.radarInstanceList.length; i++)
                 {
-                    $scope.radarInstanceDropdownSelected($scope.currentUserId, $scope.radarInstanceList[i]);
-                    break;
+                    if ($scope.radarInstanceList[i].id == radarInstanceId)
+                    {
+                        $scope.radarInstanceDropdownSelected($scope.currentUserId, $scope.radarInstanceList[i]);
+                        break;
+                    }
                 }
             }
         }
@@ -322,8 +331,19 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.radarTypeAllSelected = function(currentUserId){
         $scope.selectedRadarType = {};
         $scope.selectedRadarType.id = "";
-        $scope.selectedRadarType.name = "All";
+        $scope.selectedRadarType.name = $scope.allOptionName;
         $scope.selectedRadarType.version = -1;
+        $scope.showFullViewOption = false;
         $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
+    }
+
+    $scope.showCurrentRadarSelected = function(currentUserId)
+    {
+        $scope.canEditRadar = false;
+        $scope.selectedRadarInstance = {};
+        $scope.selectedRadarInstance.name = "Full View";
+        $scope.selectedRadarInstance.formattedAssessmentDate = "";
+
+        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.selectedRadarType.version, $scope.renderRadar);
     }
 });

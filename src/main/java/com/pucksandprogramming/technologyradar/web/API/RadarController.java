@@ -1,7 +1,6 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
@@ -24,8 +23,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api")
-public class RadarInstanceController extends ControllerBase {
-    private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
+public class RadarController extends ControllerBase {
+    private static final Logger logger = Logger.getLogger(RadarController.class);
 
     @Autowired
     RadarUserService userService;
@@ -77,6 +76,29 @@ public class RadarInstanceController extends ControllerBase {
                     retVal = this.radarService.findByUserTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
                 }
             }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
+        }
+
+
+        return retVal;
+    }
+
+    @GetMapping(value = {"/User/{radarUserId}/RadarType/{RadarType}/Version/{radarTypeVersion}/Radar/FullView", "/public/User/{radarUserId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"}, produces = "application/json")
+    public @ResponseBody
+    DiagramPresentation getMostRecentRadar(@PathVariable Long radarUserId,
+                           @PathVariable String radarTypeId,
+                           @PathVariable Long radarTypeVersion)
+    {
+        DiagramPresentation retVal = new DiagramPresentation();
+
+        try
+        {
+            RadarUser targetUser = this.userService.findOne(radarUserId);
+            Radar targetRadar = this.radarService.findCurrentByTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
+            retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
         }
         catch(Exception e)
         {

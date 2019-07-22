@@ -46,7 +46,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
-                            <li><a ng-click="radarTypeAllSelected(currentUserId)">All</a></li>
+                            <li><a ng-click="radarTypeAllSelected(currentUserId)">{{ allOptionName }}</a></li>
                             <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
@@ -65,6 +65,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
+                            <li><a ng-click="showCurrentRadarSelected(currentUserId)" ng-show="showFullViewOption==true">Full View</a></li>
                             <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
@@ -117,29 +118,29 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="dropdown pull-left">
-                                            <label for="radarRingDropdown">Radar Ring:</label>
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="radarRingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                {{selectedRadarRing.name}}
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="radarRingDropdown">
-                                                <li ng-repeat="radarRing in radarRings"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
-                                            </ul>
-                                        </div>
+                                    <div class="dropdown pull-left">
+                                        <label for="radarRingDropdown">Radar Ring:</label>
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="radarRingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{selectedRadarRing.name}}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="radarRingDropdown">
+                                            <li ng-repeat="radarRing in radarRings"><a ng-click="selectRadarRing(radarRing)">{{radarRing.name}}</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="dropdown pull-left">
-                                            <label for="confidenceLevelDropdown">Confidence:</label>
-                                            <button class="btn btn-techradar dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                {{selectedConfidence}}
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="confidenceLevelDropdown">
-                                                <li ng-repeat="confidenceLevel in confidenceLevels"><a ng-click="selectConfidence(confidenceLevel)">{{confidenceLevel}}</a></li>
-                                            </ul>
-                                        </div>
+                                </div>
+                                <div class="row" ng-show="false">
+                                    <div class="dropdown pull-left">
+                                        <label for="confidenceLevelDropdown">How well is it going so far?</label>
+                                        <button class="btn btn-techradar dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{selectedConfidence}}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="confidenceLevelDropdown">
+                                            <li><a ng-click="selectConfidence(2)">Not very well</a></li>
+                                            <li><a ng-click="selectConfidence(5)">As expected</a></li>
+                                            <li><a ng-click="selectConfidence(7)">Very well</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="row">
