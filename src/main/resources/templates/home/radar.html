@@ -37,8 +37,7 @@
         <div class="panel-heading-techradar">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-6">
-                    <div ng-init="getRadarTypes(currentUserId)"></div>
+                <div class="col-md-6" ng-init="getRadarTypes(currentUserId)">
                     <div class="dropdown pull-left">
                         <label for="radarTypeDropdown">Select Radar Type:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -50,14 +49,11 @@
                             <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <label for="sharingLink">Public link:</label>
-                    <input type="text" id="sharingLink" name="sharingLink" ng-model="radarSharingLink"/><a href="#" ng-click="copyText()"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                    <a href="{{ mostRecentRadarsLink }}"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -69,8 +65,9 @@
                             <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
+                    <a href="{{ publicRadarLink }}"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
                 </div>
-                <div class="col-sm-6" sec:authorize="isAuthenticated()">
+                <div class="col-md-6" sec:authorize="isAuthenticated()">
                     <button type="button" class="btn btn-techradar" ng-click="clickAddItemButton()" ng-Show="canEditRadar==true">Add Item</button>
                 </div>
             </div>
@@ -153,13 +150,13 @@
                                 </div>
                             </form>
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-techradar" ng-click="clearRadarItemSelection();">Clear</button>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-techradar" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-techradar" ng-click="deleteRadarItem(currentUserId, selectedRadarInstance.id, selectedRadarInstanceItem.id);" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
                                 </div>
                             </div>
