@@ -297,19 +297,23 @@ public class RadarController extends ControllerBase {
 
         try
         {
-            List<Radar> foundItems = null;
-
             RadarUser targetDataOwner = this.userService.findOne(radarUserId);
-            if(this.radarService.deleteRadar(radarUserId, radarId))
-            {
-                foundItems = this.radarService.findByRadarUserId(radarUserId);
-            }
 
-            if(foundItems != null)
+            if(targetDataOwner != null)
             {
-                for(Radar foundItem : foundItems)
+                List<Radar> foundItems = null;
+
+                if (this.radarService.deleteRadar(radarUserId, radarId))
                 {
-                    retVal.add(new RadarViewModel(foundItem));
+                    foundItems = this.radarService.findByRadarUserId(radarUserId);
+                }
+
+                if (foundItems != null)
+                {
+                    for (Radar foundItem : foundItems)
+                    {
+                        retVal.add(new RadarViewModel(foundItem));
+                    }
                 }
             }
         }

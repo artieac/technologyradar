@@ -38,6 +38,7 @@ public class UserType
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 0);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 0);
         return retVal;
     }
 
@@ -49,6 +50,7 @@ public class UserType
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
         return retVal;
     }
 
@@ -60,6 +62,7 @@ public class UserType
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 1);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
         return retVal;
     }
 

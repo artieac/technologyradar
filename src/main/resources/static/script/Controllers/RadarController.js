@@ -91,9 +91,13 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
         if (!$scope.isNullOrUndefined($scope.radarInstanceList))
         {
-            if($scope.radarInstanceList.length > 1 && $scope.selectedRadarType.name!=$scope.allOptionName)
+            if($scope.radarInstanceList.length > 1
+               && $scope.selectedRadarType.name!=$scope.allOptionName)
             {
-                $scope.showFullViewOption = true;
+                if($scope.radarInstanceList[0].radarUser.canSeeFullView)
+                {
+                    $scope.showFullViewOption = true;
+                }
             }
 
             if(!$scope.isNullOrUndefined(radarInstanceId) && radarInstanceId !== '')
