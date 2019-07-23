@@ -1,41 +1,64 @@
 theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTypeService)
 {
+    $scope.allOptionName = "All";
+    $scope.fullViewOptionName = "Full View";
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
     $scope.showAddItemSection = false;
     $scope.isAnonymous = ($('#isAnonymous').val() == 'true');
     $scope.canEditRadar = false;
+    $scope.showFullViewOption = false;
+    $scope.publicRadarLink = "";
+    $scope.mostRecentRadarsLink = "";
 
     $scope.clickAddItemButton = function()
     {
         $scope.showAddItemSection = !$scope.showAddItemSection;
     }
 
-    $scope.copyText = function()
-    {
+    $scope.copyLink = function(linkType){
         var copySource = document.getElementById("sharingLink");
-        copySource.select();
+
+        if(linkType==0)
+        {
+            copySource.value = $scope.publicRadarLink;
+        }
+        else
+        {
+            copySource.value = $scope.mostRecentRadarLink;
+        }
+
         document.execCommand("Copy");
     }
 
     $scope.getRadarSharingLink = function(userId)
     {
-        $scope.radarSharingLink = "http://" + window.location.hostname;
+        var sharingRootUrl = "http://" + window.location.hostname;
 
         if(window.location.port !== "80" && window.location.port !== "443")
         {
-            $scope.radarSharingLink += ":" +  window.location.port;
+            sharingRootUrl += ":" +  window.location.port;
         }
 
         if($scope.selectedRadarInstance !== null && $scope.selectedRadarInstance !== undefined &&
             $scope.selectedRadarInstance.id !== null && $scope.selectedRadarInstance.id !== undefined)
         {
-            $scope.radarSharingLink += "/public/home/user/" + userId + "/radar/" + $scope.selectedRadarInstance.id;
+            $scope.publicRadarLink = sharingRootUrl + "/public/home/user/" + userId + "/radar/" + $scope.selectedRadarInstance.id;
         }
         else
         {
-            $scope.radarSharingLink += "/public/home/radars/" + userId;
+            $scope.publicRadarLink = sharingRootUrl +  "/public/home/radars/" + userId;
+        }
+
+        if($scope.selectedRadarType !== null && $scope.selectedRadarType !== undefined &&
+            $scope.selectedRadarType.id !== null && $scope.selectedRadarType.id !== undefined)
+        {
+            $scope.mostRecentRadarsLink = sharingRootUrl +  "/public/home/user/" + userId + "/radartype/" + $scope.selectedRadarType.id + "/radars?mostrecent=true";
+        }
+        else
+        {
+            $scope.mostRecentRadarsLink = sharingRootUrl +  "/public/home/radars/" + userId;
         }
     }
 
@@ -81,21 +104,32 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
     $scope.setRadarInstances = function(radarInstances)
     {
+        $scope.showFullViewOption = false;
         $scope.radarInstanceList = radarInstances;
         $scope.selectedRadarInstance = {};
 
         var radarInstanceId = $("#radarInstanceId").val();
 
-        if (!$scope.isNullOrUndefined($scope.radarInstanceList) &&
-            !$scope.isNullOrUndefined(radarInstanceId) &&
-            radarInstanceId !== '')
+        if (!$scope.isNullOrUndefined($scope.radarInstanceList))
         {
-            for (var i = 0; i < $scope.radarInstanceList.length; i++)
+            if($scope.radarInstanceList.length > 1
+               && $scope.selectedRadarType.name!=$scope.allOptionName)
             {
-                if ($scope.radarInstanceList[i].id == radarInstanceId)
+                if($scope.radarInstanceList[0].radarUser.canSeeFullView)
                 {
-                    $scope.radarInstanceDropdownSelected($scope.currentUserId, $scope.radarInstanceList[i]);
-                    break;
+                    $scope.showFullViewOption = true;
+                }
+            }
+
+            if(!$scope.isNullOrUndefined(radarInstanceId) && radarInstanceId !== '')
+            {
+                for (var i = 0; i < $scope.radarInstanceList.length; i++)
+                {
+                    if ($scope.radarInstanceList[i].id == radarInstanceId)
+                    {
+                        $scope.radarInstanceDropdownSelected($scope.currentUserId, $scope.radarInstanceList[i]);
+                        break;
+                    }
                 }
             }
         }
@@ -322,8 +356,20 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.radarTypeAllSelected = function(currentUserId){
         $scope.selectedRadarType = {};
         $scope.selectedRadarType.id = "";
-        $scope.selectedRadarType.name = "All";
+        $scope.selectedRadarType.name = $scope.allOptionName;
         $scope.selectedRadarType.version = -1;
+        $scope.showFullViewOption = false;
         $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
+    }
+
+    $scope.showCurrentRadarSelected = function(currentUserId)
+    {
+        $scope.canEditRadar = false;
+        $scope.selectedRadarInstance = {};
+        $scope.selectedRadarInstance.id = -1;
+        $scope.selectedRadarInstance.name = $scope.fullViewOptionName;
+        $scope.selectedRadarInstance.formattedAssessmentDate = "";
+
+        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.selectedRadarType.version, $scope.renderRadar);
     }
 });

@@ -33,36 +33,47 @@ public class UserType
     public static UserType GetFreeUser()
     {
         UserType retVal = new UserType();
+        retVal.id = UserType.Team;
+        retVal.name = "Free";
         retVal.getGrantedRights().put(UserRights.CanShareNRadars, 1);
         retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 0);
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 0);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 0);
         return retVal;
     }
 
     public static UserType GetSubscribedUser()
     {
         UserType retVal = new UserType();
+        retVal.id = UserType.Team;
+        retVal.name = "Subscribed";
         retVal.getGrantedRights().put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 1);
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
         return retVal;
     }
 
     public static UserType GetTeamUser()
     {
         UserType retVal = new UserType();
+        retVal.id = UserType.Team;
+        retVal.name = "Team";
         retVal.getGrantedRights().put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 1);
         retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
         retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 1);
         retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
         return retVal;
     }
 
+    public Integer id;
+    public String name;
     public HashMap<String, Integer> grantedRights;
 
     public UserType()

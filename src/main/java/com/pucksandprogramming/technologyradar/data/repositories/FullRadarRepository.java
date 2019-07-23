@@ -131,34 +131,23 @@ public class FullRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
+    public List<RadarItem> findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
     {
-        RadarItem retVal = null;
+        List<RadarItem> retVal = new ArrayList<RadarItem>();
 
-        Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
-        query.setParameter("technologyId", radarSubjectId);
+        Query query = entityManager.createNamedQuery("history_PublicFindCurrentRadarItemsByRadarTypeAndVersion");
         query.setParameter("radarUserId", radarUserId);
-        query.setParameter("previousRadarInstanceId", previousRadarInstanceId);
+        query.setParameter("radarTypeId", radarTypeId);
+        query.setParameter("radarTypeVersion", radarTypeVersion);
+
         List<RadarItemEntity> foundItems = query.getResultList();
 
-        if (foundItems != null && foundItems.isEmpty()==false)
+        if(foundItems!=null)
         {
-            retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
-        }
-
-        return retVal;
-
-    }
-
-    public Radar findByIdAndName(Long radarInstanceId, String assessmentName)
-    {
-        Radar retVal = null;
-
-        RadarEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
-
-        if (foundItem != null)
-        {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
+            for(RadarItemEntity foundItem : foundItems)
+            {
+                retVal.add(this.modelMapper.map(foundItem, RadarItem.class));
+            }
         }
 
         return retVal;

@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class RadarTypeController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(RadarInstanceController.class);
+    private static final Logger logger = Logger.getLogger(RadarController.class);
 
     @Autowired
     private RadarUserService radarUserService;

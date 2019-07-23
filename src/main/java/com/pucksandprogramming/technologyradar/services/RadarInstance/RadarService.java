@@ -170,6 +170,31 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
+    public Radar findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    {
+        Radar retVal = null;
+
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(radarUserId);
+        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarTypeVersion);
+
+        if(dataOwner != null)
+        {
+            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
+
+            retVal = new Radar();
+            retVal.setAssessmentDate(new Date());
+            retVal.setRadarType(radarType);
+            retVal.setIsLocked(true);
+            retVal.setIsPublished(true);
+            retVal.setName("Current");
+            retVal.setRadarItems(foundItems);
+            retVal.setRadarUser(dataOwner);
+            retVal.setId(-1L);
+        }
+
+        return retVal;
+    }
+
     public Radar addRadar(Long radarUserId, String name, String radarTypeId, Long radarVersion)
     {
         Radar retVal = null;

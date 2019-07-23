@@ -1,5 +1,6 @@
 package com.pucksandprogramming.technologyradar.web;
 
+import com.pucksandprogramming.technologyradar.domainmodel.MostRecentRadarComparator;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -159,7 +162,13 @@ public class HomeController extends ControllerBase
 
             if (radarInstances != null && radarInstances.size() > 0)
             {
-                modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
+                Radar mostRecentRadar = Collections.max(radarInstances, new MostRecentRadarComparator());
+
+                if (mostRecentRadar != null)
+                {
+                    modelAndView.addObject("radarTypeVersion", mostRecentRadar.getRadarType().getVersion());
+                    modelAndView.addObject("radarInstanceId", mostRecentRadar.getId());
+                }
             }
         }
 
