@@ -159,6 +159,7 @@ public class HomeController extends ControllerBase
 
             if (radarInstances != null && radarInstances.size() > 0)
             {
+                modelAndView.addObject("radarTypeVersion", radarInstances.get(0).getRadarType().getVersion());
                 modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
             }
         }
