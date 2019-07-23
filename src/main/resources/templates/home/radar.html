@@ -49,7 +49,7 @@
                             <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
-                    <a href="{{ mostRecentRadarsLink }}"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                    <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
             </div>
             <div class="row">
@@ -65,7 +65,7 @@
                             <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
-                    <a href="{{ publicRadarLink }}"><img src="/images/icons8-copy-to-clipboard-16.png" alt=""/></a>
+                    <a href="{{ publicRadarLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
                 <div class="col-md-6" sec:authorize="isAuthenticated()">
                     <button type="button" class="btn btn-techradar" ng-click="clickAddItemButton()" ng-Show="canEditRadar==true">Add Item</button>
