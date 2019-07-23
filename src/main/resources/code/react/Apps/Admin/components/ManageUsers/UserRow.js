@@ -47,7 +47,7 @@ class UserRow extends React.Component{
                          </ul>
                      </div>
                 </td>
-                <td>{ this.props.rowData.userType}</td>
+                <td>{ this.props.rowData.userType.name}</td>
                 <td>
                     <a className="btn btn-techradar" href={ this.getRadarUrl()}>Radars</a>
                  </td>

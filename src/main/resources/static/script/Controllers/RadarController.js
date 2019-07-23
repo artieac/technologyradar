@@ -1,6 +1,7 @@
 theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTypeService)
 {
     $scope.allOptionName = "All";
+    $scope.fullViewOptionName = "Full View";
     $scope.currentUserId = $('#userId').val();
     $scope.selectedRadarInstance = {};
     $scope.selectedRadarInstanceItem = {};
@@ -365,7 +366,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     {
         $scope.canEditRadar = false;
         $scope.selectedRadarInstance = {};
-        $scope.selectedRadarInstance.name = "Full View";
+        $scope.selectedRadarInstance.id = -1;
+        $scope.selectedRadarInstance.name = $scope.fullViewOptionName;
         $scope.selectedRadarInstance.formattedAssessmentDate = "";
 
         RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.selectedRadarType.version, $scope.renderRadar);
