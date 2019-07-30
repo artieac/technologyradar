@@ -97,7 +97,7 @@ function mapStateToProps(state) {
   return {
         associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
         selectedRadarType : state.radarTypeReducer.selectedRadarType,
-        currentUser : state.radarTypeReducer.currentUser,
+        currentUser : state.userReducer.currentUser,
         showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit
 

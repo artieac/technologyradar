@@ -29,7 +29,7 @@ public class UserViewModel
         retVal.setNumberOfSharedRadar(0);
         retVal.setCanHaveVariableRadarRingCount(true);
         retVal.setRole(Role.createUserRole());
-        retVal.setUserType(UserType.createUser(UserType.Free));
+        retVal.setUserType(UserType.DefaultInstance());
 
         return retVal;
     }
@@ -47,7 +47,7 @@ public class UserViewModel
             this.setEmail(source.getEmail());
             this.setName(source.getName());
             this.setRole(Role.createRole(source.getRoleId()));
-            this.setUserType(UserType.createUser(source.getUserType()));
+            this.setUserType(source.getUserType());
             this.setCanSeeHistory(source.canSeeHistory());
             this.setCanShareRadarTypes(source.canShareRadarTypes());
             this.setHowManyRadarsCanShare(source.howManyRadarsCanShare());
@@ -96,6 +96,9 @@ public class UserViewModel
         return this.userType.isGrantEnabled(UserRights.CanSeeFullView);
     }
     public void setCanSeeFullView(boolean value) { }
+
+    public boolean getAllowTeamMembersToManageRadars() { return this.userType.isGrantEnabled(UserRights.AllowTeamMembersToManageRadars); }
+    public void setAllowTeamMembersToManageRadars(boolean value) { }
 
     public Role getRole() { return this.role;}
     public void setRole(Role value) { this.role = value;}

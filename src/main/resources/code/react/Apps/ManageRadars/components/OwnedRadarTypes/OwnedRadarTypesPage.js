@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState, addCurrentUserToState, addSelectedRadarTypeToState, addTargetUserToState } from '../../redux/RadarTypeReducer';
+import { addRadarTypesToState, addSelectedRadarTypeToState, addTargetUserToState } from '../../redux/RadarTypeReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
 import RadarTypeHistory from './RadarTypeHistory';
@@ -69,7 +70,7 @@ class OwnedRadarTypesPage extends React.Component{
 function mapStateToProps(state) {
   return {
     	radarTypes: state.radarTypeReducer.radarTypes,
-    	currentUser: state.radarTypeReducer.currentUser,
+    	currentUser: state.userReducer.currentUser,
     	showHistory: state.radarTypeReducer.showHistory,
     	showEdit: state.radarTypeReducer.showEdit
     };

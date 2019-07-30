@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState, addCurrentUserToState } from '../../redux/RadarTypeReducer';
+import { addAssociatedRadarTypesToState, addSharedRadarTypesToState, addSelectedRadarTypeToState } from '../../redux/RadarTypeReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
 import { RadarTypeRepository } from '../../../../Repositories/RadarTypeRepository';
@@ -98,7 +99,7 @@ function mapStateToProps(state) {
   return {
     	sharedRadarTypes: state.radarTypeReducer.sharedRadarTypes,
     	associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
-    	currentUser: state.radarTypeReducer.currentUser
+    	currentUser: state.userReducer.currentUser
     };
 }
 

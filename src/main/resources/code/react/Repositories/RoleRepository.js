@@ -11,4 +11,5 @@ export class RoleRepository {
                 }.bind(this)
             });
         }
+
 }

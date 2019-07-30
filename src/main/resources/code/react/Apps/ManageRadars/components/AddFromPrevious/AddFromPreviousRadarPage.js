@@ -6,6 +6,7 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
 import { addRadarsToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../redux/RadarReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import RadarsDropdown from './RadarsDropdown';
 import RadarDetails from './RadarDetails';
 import { UserRepository } from '../../../../Repositories/UserRepository';
@@ -133,7 +134,7 @@ function mapStateToProps(state) {
     	currentRadar: state.radarReducer.currentRadar,
     	radarItemsToAdd: state.radarReducer.radarItemsToAdd,
     	radarItemsToRemove: state.radarReducer.radarItemsToRemove,
-    	currentUser: state.radarReducer.currentUser
+    	currentUser: state.userReducer.currentUser
     };
 }
 

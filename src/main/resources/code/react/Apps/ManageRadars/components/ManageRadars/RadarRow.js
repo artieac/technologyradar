@@ -6,7 +6,8 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState, addCurrentUserToState } from '../../redux/RadarReducer';
+import { addRadarsToState } from '../../redux/RadarReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import { RadarRepository} from '../../../../Repositories/RadarRepository';
 import { UserRepository } from '../../../../Repositories/UserRepository';
 
@@ -114,7 +115,7 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        currentUser: state.radarReducer.currentUser
+        currentUser: state.userReducer.currentUser
     };
 };
 

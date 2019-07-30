@@ -47,7 +47,12 @@ class NewRadarRow extends React.Component{
     }
 
     handleAddRadar() {
-        this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+        if(this.state.radarNameInput!=""){
+            this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+        }
+        else{
+            alert("You must enter a name for the radar.");
+        }
     }
 
     handleDropdownSelectionNotify(radarType){
@@ -70,7 +75,7 @@ class NewRadarRow extends React.Component{
 function mapStateToProps(state) {
   return {
         radarTypes: state.radarReducer.radarTypes,
-        currentUser: state.radarReducer.currentUser
+        currentUser: state.userReducer.currentUser
     };
 };
 

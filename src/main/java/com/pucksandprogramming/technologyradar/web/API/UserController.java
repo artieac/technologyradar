@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
+import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(RadarController.class);
+    private static final Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
     private RadarUserService radarUserService;

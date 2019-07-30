@@ -107,7 +107,7 @@ public class CallbackController
                 }
 
                 authenticatedUser.setUserId(targetUser.getId());
-                authenticatedUser.setUserType(UserType.createUser(targetUser.getUserType()));
+                authenticatedUser.setUserType(targetUser.getUserType());
 
                 // TBD< switch this to an interface rather than a specific instance type
                 Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(authenticatedUser);

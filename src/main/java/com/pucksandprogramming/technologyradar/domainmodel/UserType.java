@@ -5,94 +5,96 @@ import java.util.Map;
 
 public class UserType
 {
-    public static final int Free = 0;
-    public static final int Subscriber_Trial = 1;
-    public static final int Subscriber = 2;
-    public static final int Team = 3;
+    public static final Integer Free = 1;
+    public static final Integer Subscriber_Trial = 2;
+    public static final Integer Subscriber = 3;
+    public static final Integer Team = 4;
 
-    public static UserType createUser(Integer userType)
-    {
-        UserType retVal = UserType.GetFreeUser();
-
-        switch(userType)
-        {
-            case UserType.Subscriber_Trial:
-            case UserType.Subscriber:
-                retVal = UserType.GetSubscribedUser();
-                break;
-            case UserType.Team:
-                retVal = UserType.GetTeamUser();
-                break;
-            default:
-                retVal = UserType.GetFreeUser();
-        }
-
-        return retVal;
-    }
-
-    public static UserType GetFreeUser()
+    public static UserType DefaultInstance()
     {
         UserType retVal = new UserType();
-        retVal.id = UserType.Team;
-        retVal.name = "Free";
-        retVal.getGrantedRights().put(UserRights.CanShareNRadars, 1);
-        retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 0);
-        retVal.getGrantedRights().put(UserRights.CanViewHistory, 0);
-        retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
-        retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
-        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 0);
+        retVal.setId(UserType.Free);
+        retVal.setName("Free");
         return retVal;
     }
 
-    public static UserType GetSubscribedUser()
+    public static HashMap<String, Integer> GetFreeUserRights()
     {
-        UserType retVal = new UserType();
-        retVal.id = UserType.Team;
-        retVal.name = "Subscribed";
-        retVal.getGrantedRights().put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
-        retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 1);
-        retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
-        retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 0);
-        retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
-        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
+        HashMap<String, Integer> retVal = new HashMap<String, Integer>();
+        retVal.put(UserRights.CanShareNRadars, 1);
+        retVal.put(UserRights.CanShareRadarTypes, 0);
+        retVal.put(UserRights.CanViewHistory, 0);
+        retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
+        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.CanSeeFullView, 0);
         return retVal;
     }
 
-    public static UserType GetTeamUser()
+    public static HashMap<String, Integer> GetSubscribedUserRights()
     {
-        UserType retVal = new UserType();
-        retVal.id = UserType.Team;
-        retVal.name = "Team";
-        retVal.getGrantedRights().put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
-        retVal.getGrantedRights().put(UserRights.CanShareRadarTypes, 1);
-        retVal.getGrantedRights().put(UserRights.CanViewHistory, 1);
-        retVal.getGrantedRights().put(UserRights.AllowTeamMembersToManageRadar, 1);
-        retVal.getGrantedRights().put(UserRights.AllowVarableRadarRingCount, 1);
-        retVal.getGrantedRights().put(UserRights.CanSeeFullView, 1);
+        HashMap<String, Integer> retVal = new HashMap<>();
+        retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
+        retVal.put(UserRights.CanShareRadarTypes, 1);
+        retVal.put(UserRights.CanViewHistory, 1);
+        retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
+        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.CanSeeFullView, 1);
         return retVal;
     }
 
-    public Integer id;
-    public String name;
+    public static HashMap<String, Integer> GetTeamUserRights()
+    {
+        HashMap<String, Integer> retVal = new HashMap<String, Integer>();
+        retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
+        retVal.put(UserRights.CanShareRadarTypes, 1);
+        retVal.put(UserRights.CanViewHistory, 1);
+        retVal.put(UserRights.AllowTeamMembersToManageRadars, 1);
+        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.CanSeeFullView, 1);
+        return retVal;
+    }
+
+    private Integer id;
+    private String name;
     public HashMap<String, Integer> grantedRights;
+
+    public Integer getId() { return this.id;}
+    public void setId(Integer value)
+    {
+        this.id = value;
+
+        if (this.id == UserType.Subscriber_Trial ||
+            this.id == UserType.Subscriber)
+        {
+            this.grantedRights = UserType.GetSubscribedUserRights();
+        }
+        else if (this.id == UserType.Team)
+        {
+            this.grantedRights = UserType.GetTeamUserRights();
+        }
+        else
+        {
+            this.grantedRights = UserType.GetFreeUserRights();
+        }
+    }
+
+    public String getName() { return this.name;}
+    public void setName(String value) { this.name = value;}
 
     public UserType()
     {
         grantedRights = new HashMap<String, Integer>();
     }
 
-    public HashMap<String, Integer> getGrantedRights()
-    {
-        return this.grantedRights;
-    }
+    public HashMap<String, Integer> getGrantedRights() { return this.grantedRights; }
 
     public int getGrantValue(String grantType)
     {
         int retVal = 0;
 
-        if(this.grantedRights.containsKey(grantType))
+        if(this.getGrantedRights().containsKey(grantType))
         {
-            retVal = this.grantedRights.get(grantType);
+            retVal = this.getGrantedRights().get(grantType);
         }
 
         return retVal;
@@ -102,9 +104,9 @@ public class UserType
     {
         boolean retVal = false;
 
-        if(this.grantedRights.containsKey(grantType))
+        if(this.getGrantedRights().containsKey(grantType))
         {
-            if(this.grantedRights.get(grantType)==1)
+            if(this.getGrantedRights().get(grantType)==1)
             {
                 retVal = true;
             }

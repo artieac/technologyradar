@@ -40,6 +40,7 @@ public class RadarMapper
         modelMapper.addMappings(technologyConfigModelMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
+        modelMapper.addMappings(userTypeModelMap);
         modelMapper.addMappings(radarUserModelMap);
     }
 
@@ -148,5 +149,13 @@ public class RadarMapper
                 }
             };
 
+    private PropertyMap<UserTypeEntity, UserType> userTypeModelMap =
+            new PropertyMap<UserTypeEntity, UserType>()
+            {
+                protected void configure()
+                {
+                    map().setId(source.getId());
+                }
+            };
 }
 

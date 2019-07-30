@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
+import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarAccessManager;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
@@ -35,6 +36,9 @@ public class RadarController extends ControllerBase {
 
     @Autowired
     private DiagramConfigurationService radarSetupService;
+
+    @Autowired
+    private RadarAccessManager radarAccessManager;
 
     @GetMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", produces = "application/json")
     public @ResponseBody
@@ -193,11 +197,14 @@ public class RadarController extends ControllerBase {
 
                 if (targetRadar != null)
                 {
-                    if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId())
+                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser()))
                     {
-                        if (targetRadar.getIsLocked() == false)
+                        if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId())
                         {
-                            retVal = true;
+                            if (targetRadar.getIsLocked() == false)
+                            {
+                                retVal = true;
+                            }
                         }
                     }
                 }

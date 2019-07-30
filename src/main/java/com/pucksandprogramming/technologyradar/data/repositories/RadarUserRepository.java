@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
+import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
 import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarTypeDAO;
@@ -94,7 +95,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
                 radarUserEntity.setName(itemToSave.getName());
                 radarUserEntity.setNickname(itemToSave.getNickname());
                 radarUserEntity.setRoleId(itemToSave.getRoleId());
-                radarUserEntity.setUserType(itemToSave.getUserType());
+                radarUserEntity.setUserType(this.modelMapper.map(itemToSave.getUserType(), UserTypeEntity.class));
             }
 
             if (radarUserEntity != null) {

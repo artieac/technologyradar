@@ -5,7 +5,8 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState, addRadarTypesToState, addCurrentUserToState} from '../../redux/RadarReducer';
+import { addRadarsToState, addRadarTypesToState} from '../../redux/RadarReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import { RadarRepository} from '../../../../Repositories/RadarRepository';
 import { RadarTypeRepository } from '../../../../Repositories/RadarTypeRepository'
 import RadarTableBody   from './RadarTableBody';
@@ -79,7 +80,7 @@ function mapStateToProps(state) {
   return {
     	radars: state.radarReducer.radars,
     	radarTypes: state.radarReducer.radarTypes,
-    	currentUser: state.radarReducer.currentUser
+    	currentUser: state.userReducer.currentUser
     };
 }
 
