@@ -1,1 +1,2 @@
 export const SETTEAMS = "SETTEAMS";
+export const SETCURRENTTEAM = "SETCURRENTTEAM";

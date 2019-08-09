@@ -5,7 +5,7 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import { UserRepository } from '../../../../Repositories/UserRepository';
-import { addTeamsToState } from '../../redux/TeamReducer';
+import { addTeamsToState, addCurrentTeamToState } from '../../redux/TeamReducer';
 import { TeamRepository } from '../../../../Repositories/TeamRepository';
 
 class ManageTeamMembersPage extends React.Component{
@@ -25,7 +25,7 @@ class ManageTeamMembersPage extends React.Component{
 
     componentDidMount(){
         this.userRepository.getUser(this.handleGetUserSuccess);
-        this.teamRepository.getTeam(userId, teamId, this.handleGetTeamResponse);
+        this.teamRepository.getTeam(this.state.userId, this.state.teamId, this.handleGetTeamResponse);
     }
 
     handleGetUserResponse(currentUser){
@@ -52,13 +52,15 @@ class ManageTeamMembersPage extends React.Component{
 const mapDispatchToProps = dispatch => {
   return {
         storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))},
+        storeCurrentTeam: currentTeam => { dispatch(addCurrentTeamToState(currentTeam))}
     }
 };
 
 
 function mapStateToProps(state) {
   return {
-        currentUser: state.userReducer.currentUser
+        currentUser: state.userReducer.currentUser,
+        currentTeam: state.teamReducer.currentTeam
     };
 }
 

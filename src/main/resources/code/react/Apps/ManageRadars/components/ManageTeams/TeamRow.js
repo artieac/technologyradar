@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { addCurrentTeamToState } from '../../redux/TeamReducer';
 
 class TeamRow extends React.Component{
     constructor(props){
@@ -48,6 +49,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
+        storeCurrentTeam: currentTeam => { dispatch(addCurrentTeamToState(currentTeam))}
     }
 };
 

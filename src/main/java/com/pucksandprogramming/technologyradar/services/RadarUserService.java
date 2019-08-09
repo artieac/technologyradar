@@ -26,7 +26,7 @@ public class RadarUserService
     private Auth0Repository auth0Repository;
     private UserTypeRepository userTypeRepository;
 
-    static HashMap<Integer, UserType> userTypes;
+    static HashMap<Integer, UserType> userTypes = null;
 
     @Autowired
     public RadarUserService(RadarUserRepository radarUserRepository, Auth0Repository auth0Repository, UserTypeRepository userTypeRepository)
@@ -58,8 +58,10 @@ public class RadarUserService
         RadarUser retVal = new RadarUser();
         retVal.setId(new Long(0));
         retVal.setAuthenticationId("");
+        retVal.setName("");
+        retVal.setNickname("");
         retVal.setRoleId(Role.RoleType_User);
-        retVal.setUserType(RadarUserService.userTypes.get(UserType.Free));
+        retVal.setUserType(this.getUserTypes().get(UserType.Free));
         return retVal;
     }
 
@@ -105,7 +107,16 @@ public class RadarUserService
                 retVal.setAuthority(authority);
                 retVal.setIssuer(issuer);
                 retVal.setEmail(email);
-                retVal.setNickname(nickname);
+
+                if(nickname==null)
+                {
+                    retVal.setNickname(name);
+                }
+                else
+                {
+                    retVal.setNickname(nickname);
+                }
+
                 retVal.setName(name);
                 retVal = this.radarUserRepository.save(retVal);
             }

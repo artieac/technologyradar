@@ -37,7 +37,7 @@ class ManageUsersPage extends React.Component{
                 <div className="contentPageTitle">
                     <label>Manage Radar Users</label>
                 </div>
-                <p>Add an instance of your technology radar to track any changes since the last time you did this</p>
+                <p>Work with the users of this site.</p>
                 <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
