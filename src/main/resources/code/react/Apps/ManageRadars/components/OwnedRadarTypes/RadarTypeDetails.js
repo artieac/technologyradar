@@ -26,16 +26,23 @@ class RadarTypeDetails extends React.Component{
 
         this.radarTypeRepository = new RadarTypeRepository();
         this.nameInput = React.createRef();
+        this.descriptionInput = React.createRef();
 
         this.handleRadarTypeNameChangeEvent = this.handleRadarTypeNameChangeEvent.bind(this);
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
         this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
         this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
+        this.handleRadarTypeDescriptionChangeEvent = this.handleRadarTypeDescriptionChangeEvent.bind(this);
     }
 
     handleRadarTypeNameChangeEvent(event){
          this.props.selectedRadarType.name = event.target.value;
+        this.forceUpdate();
+    }
+
+    handleRadarTypeDescriptionChangeEvent(event){
+         this.props.selectedRadarType.description = event.target.value;
         this.forceUpdate();
     }
 
@@ -82,15 +89,23 @@ class RadarTypeDetails extends React.Component{
                                <input type="button" className='btn btn-techradar' disabled={this.props.editMode!==true} value="Save" onClick={(event) => this.handleSaveRadarType(event) }/>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-md-3">Description</div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                      <textarea className="form-control rounded-0" rows="3" value={this.props.selectedRadarType.description } ref={this.descriptionInput} onChange= {(event) => { this.handleRadarTypeDescriptionChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}></textarea>
+                                  </div>
+                            </div>
+                            <div className={this.props.editMode===true ? "col-md-3" : "hidden"}>
+                               <input type="button" className='btn btn-techradar' disabled={!this.props.editMode} value="Delete" onClick={(event) => this.handleDeleteRadarType(event) }/>
+                            </div>
+                        </div>
                         <div className={ this.props.editMode===true ? "row" : "hidden"}>
                             <div className="col-md-3">Share with others?</div>
                             <div className="col-md-4">
                                 <input type="checkbox" ref="isPublished" checked={ this.props.selectedRadarType.isPublished } onChange = {(event) => this.handleSharedWithOthersChange(event) } readOnly={this.props.editMode ? '' : '"readonly"'}/>
                             </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-3">
-                               <input type="button" className='btn btn-techradar' disabled={!this.props.editMode} value="Delete" onClick={(event) => this.handleDeleteRadarType(event) }/>
-                            </div>
+                            <div className="col-md-5"></div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">

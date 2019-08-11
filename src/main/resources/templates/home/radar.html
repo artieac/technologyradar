@@ -37,7 +37,7 @@
         <div class="panel-heading-techradar">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6" ng-init="getRadarTypes(currentUserId)">
+                <div class="col-md-4" ng-init="getRadarTypes(currentUserId)">
                     <div class="dropdown pull-left">
                         <label for="radarTypeDropdown">Select Radar Type:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -51,9 +51,12 @@
                     </div>
                     <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
+                <div class="col-md-8">
+                    <div>{{selectedRadarType.description}}</div>
+                </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="dropdown pull-left">
                         <label for="radarInstanceDropdown">Select Radar:</label>
                         <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -62,12 +65,12 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
                             <li><a ng-click="showCurrentRadarSelected(currentUserId)" ng-show="showFullViewOption==true">Full View</a></li>
-                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)">{{getDropdownLabel(radarInstance)}}</a></li>
+                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)" title="{{ radarInstance.description }}">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
                     <a href="{{ publicRadarLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
-                <div class="col-md-6" sec:authorize="isAuthenticated()">
+                <div class="col-md-3" sec:authorize="isAuthenticated()">
                     <button type="button" class="btn btn-techradar" ng-click="clickAddItemButton()" ng-Show="canEditRadar==true">Add Item</button>
                 </div>
             </div>

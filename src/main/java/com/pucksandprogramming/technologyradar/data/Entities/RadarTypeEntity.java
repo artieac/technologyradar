@@ -22,8 +22,8 @@ import java.util.UUID;
         @org.hibernate.annotations.NamedNativeQuery(name = "public_findMostRecentSharedRadarTypes", query = "select * from RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version where rt.IsPublished = true", resultClass = RadarTypeEntity.class),
 
 // Owned Most Recent
-        @org.hibernate.annotations.NamedNativeQuery(name = "owned_FindMostRecentRadarTypeByRadarUserId", query = "SELECT rt.Id, rt.Version, rt.Name, rt.IsPublished, rt.CreateDate, rt.RadarUserId FROM RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version WHERE rt.RadarUserId = :radarUserId", resultClass = RadarTypeEntity.class),
-        @org.hibernate.annotations.NamedNativeQuery(name = "owned_findMostRecentByRadarUserIdAndId", query = "SELECT rt.Id, MAX(rt.Version), rt.Name, rt.IsPublished, rt.CreateDate, rt.RadarUserId from RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version WHERE rt.RadarUserId = :radarUserId AND rt.Id=:radarTypeId", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "owned_FindMostRecentRadarTypeByRadarUserId", query = "SELECT rt.Id, rt.Version, rt.Name, rt.Description, rt.IsPublished, rt.CreateDate, rt.RadarUserId FROM RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version WHERE rt.RadarUserId = :radarUserId", resultClass = RadarTypeEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "owned_findMostRecentByRadarUserIdAndId", query = "SELECT rt.Id, MAX(rt.Version), rt.Name, rt.Description, rt.IsPublished, rt.CreateDate, rt.RadarUserId from RadarTypes rt INNER JOIN (SELECT Id, MAX(Version) Version FROM RadarTypes GROUP BY Id) rt2 ON rt.Id = rt2.id AND rt.Version = rt2.Version WHERE rt.RadarUserId = :radarUserId AND rt.Id=:radarTypeId", resultClass = RadarTypeEntity.class),
 
 // Owned Full History
         @org.hibernate.annotations.NamedNativeQuery(name = "owned_FindHistoryByRadarUserIdAndId", query = "SELECT * from RadarTypes rt WHERE rt.RadarUserId = :radarUserId AND rt.Id = :radarTypeId ORDER BY rt.Id, rt.Version", resultClass = RadarTypeEntity.class),
@@ -71,6 +71,8 @@ public class RadarTypeEntity
     @Column(name= "CreateDate", nullable=false)
     private Calendar createDate;
 
+    @Column(name="Description", nullable=true)
+    private String description;
 
     public RadarTypeEntity()
     {
@@ -101,6 +103,9 @@ public class RadarTypeEntity
 
     public Calendar getCreateDate() { return this.createDate;}
     public void setCreateDate(Calendar value){ this.createDate = value;}
+
+    public String getDescription() { return this.description;}
+    public void setDescription(String value) { this.description = value;}
 
 }
 

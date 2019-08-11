@@ -341,6 +341,7 @@ public abstract class RadarTypeRepositoryBase extends SimpleDomainRepository<Rad
             else
             {
                 radarTypeEntity.setName(itemToSave.getName());
+                radarTypeEntity.setDescription(itemToSave.getDescription());
                 radarTypeEntity.setIsPublished((itemToSave.getIsPublished()));
 
                 for(RadarRing radarRing : itemToSave.getRadarRings())
@@ -382,7 +383,7 @@ public abstract class RadarTypeRepositoryBase extends SimpleDomainRepository<Rad
 
         if (radarType != null && radarUser != null)
         {
-            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
+            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
 
             if(associatedRadarTypeEntityadarTypeEntity==null)
             {

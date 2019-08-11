@@ -27,6 +27,21 @@ public class RadarTypeService extends ServiceBase
         this.fullRadarRepository = fullRadarRepository;
     }
 
+    public RadarType findOneShared(String radarTypeId, Long version)
+    {
+        RadarType retVal = null;
+
+        RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
+        retVal = this.radarTypeRepositoryFactory.getRadarTypeRepository(currentUser).findOne(radarTypeId, version);
+
+        if(retVal.getIsPublished()==false)
+        {
+            return retVal;
+        }
+
+        return retVal;
+    }
+
     public RadarType findOne(String radarTypeId, Long version)
     {
         RadarType retVal = null;

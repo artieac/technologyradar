@@ -11,6 +11,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.showFullViewOption = false;
     $scope.publicRadarLink = "";
     $scope.mostRecentRadarsLink = "";
+    $scope.selectedRadarType = {};
 
     $scope.clickAddItemButton = function()
     {

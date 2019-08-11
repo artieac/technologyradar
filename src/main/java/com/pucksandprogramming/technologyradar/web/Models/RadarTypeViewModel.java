@@ -14,6 +14,7 @@ public class RadarTypeViewModel
     private Long radarUserId;
     private List<RadarTypeDetailMessage> radarRings;
     private List<RadarTypeDetailMessage> radarCategories;
+    private String description;
 
     public RadarTypeViewModel()
     {
@@ -49,6 +50,8 @@ public class RadarTypeViewModel
                 RadarTypeDetailMessage newItem = new RadarTypeDetailMessage(radarType.getRadarCategories().get(i));
                 this.radarCategories.add(newItem);
             }
+
+            this.description = radarType.getDescription();
         }
     }
 
@@ -70,6 +73,8 @@ public class RadarTypeViewModel
         {
             retVal.addRadarCategory(detailMessage.ConvertToRadarCategory());
         }
+
+        retVal.setDescription(this.description);
 
         return retVal;
     }
@@ -94,4 +99,7 @@ public class RadarTypeViewModel
 
     public List<RadarTypeDetailMessage> getRadarCategories() { return this.radarCategories;}
     public void setRadarCategories(List<RadarTypeDetailMessage> value) { this.radarCategories = value;}
+
+    public String getDescription() { return this.description;}
+    public void setDescription(String value) { this.description = value;}
 }

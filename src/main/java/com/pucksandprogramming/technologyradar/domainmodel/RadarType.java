@@ -19,6 +19,7 @@ public class RadarType {
     private RadarUser radarUser;
     private boolean isPublished;
     private Calendar createDate;
+    private String description;
 
     public RadarType()
     {
@@ -53,6 +54,9 @@ public class RadarType {
 
     public Calendar getCreateDate() { return this.createDate;}
     public void setCreateDate(Calendar value){ this.createDate = value;}
+
+    public String getDescription() { return this.description;}
+    public void setDescription(String value) { this.description = value;}
 
     public void addRadarRing(RadarRing radarRing)
     {

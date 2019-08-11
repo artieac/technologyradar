@@ -37,4 +37,7 @@ CREATE TABLE `TeamMembers`(
 	UNIQUE INDEX `IX_Teams_TeamId` (`TeamId` ASC),
 	UNIQUE INDEX `IX_Teams_MemberId` (`MemberId` ASC));
 
+ALTER TABLE `RadarUser` CHANGE COLUMN `UserType` `UserTypeId` INT NOT NULL;
+
+ALTER TABLE `RadarTypes` ADD COLUMN `Description` NVARCHAR(1024);
 
