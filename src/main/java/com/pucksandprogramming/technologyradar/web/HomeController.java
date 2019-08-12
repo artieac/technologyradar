@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -171,6 +172,23 @@ public class HomeController extends ControllerBase
                 }
             }
         }
+
+        modelAndView.setViewName("home/radar");
+
+        return modelAndView;
+    }
+
+    @GetMapping(value = { "/public/home/user/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"})
+    public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
+                                                @PathVariable String radarTypeId,
+                                                @PathVariable Long radarTypeVersion)
+
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userId", userId);
+        modelAndView.addObject("radarTypeId", radarTypeId);
+        modelAndView.addObject( "radarTypeVersion", radarTypeVersion);
+        modelAndView.addObject("radarInstanceId", -1);
 
         modelAndView.setViewName("home/radar");
 
