@@ -1,8 +1,6 @@
 package com.pucksandprogramming.technologyradar.web;
 
-import com.pucksandprogramming.technologyradar.domainmodel.MostRecentRadarComparator;
-import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.apache.log4j.Logger;
@@ -188,7 +186,13 @@ public class HomeController extends ControllerBase
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTypeId", radarTypeId);
         modelAndView.addObject( "radarTypeVersion", radarTypeVersion);
-        modelAndView.addObject("radarInstanceId", -1);
+
+        RadarUser dataOwner = this.radarUserService.findOne(userId);
+
+        if(dataOwner!=null && dataOwner.getUserType().getId()!= UserType.Free)
+        {
+            modelAndView.addObject("radarInstanceId", -1);
+        }
 
         modelAndView.setViewName("home/radar");
 
