@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { DropdownButton, Dropdown} from 'react-bootstrap';
 import RadarsDropdownItem from './RadarsDropdownItem';
 
 export default class RadarsDropdown extends React.Component{
@@ -13,13 +12,15 @@ export default class RadarsDropdown extends React.Component{
         super(props);
          this.state = {
          };
+
+         this.getTitle = this.getTitle.bind(this);
     }
 
     getTitle(){
         var retVal = "Select Radar";
 
         if(this.props.itemSelection !== undefined){
-            retVal = this.props.itemSelection.radarName;
+            retVal = this.props.itemSelection.radarName + " - " + this.props.itemSelection.formattedAssessmentDate;
         }
 
         return retVal;
@@ -30,17 +31,24 @@ export default class RadarsDropdown extends React.Component{
 
         if(this.props.data!==undefined){
             return(
-                <DropdownButton title={this.getTitle()} id="radarCollection">
-                    {this.props.data.map(function (currentRow) {
-                        return <RadarsDropdownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSourceRadarInstance={setSourceRadarInstance}/>
-                    }.bind(this))}
-                </DropdownButton>
+                <div className="dropdown">
+                    <button className="btn btn-techradar dropdown-toggle" type="button" id="previousRadarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        { this.getTitle() }
+                        <span className="caret"></span>
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="previousRadarDropdown">
+                        <ul>
+                            {this.props.data.map(function (currentRow) {
+                                return <RadarsDropdownItem key={ currentRow.id } dropDownItem={ currentRow } userId={this.props.userId} setSourceRadarInstance={setSourceRadarInstance}/>
+                            }.bind(this))}
+                        </ul>
+                    </div>
+                </div>
             );
         }
         else{
             return(
-                <SplitButton title="Select" id="radarCollection">
-                </SplitButton>
+                <div></div>
             );
         }
     }

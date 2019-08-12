@@ -4,9 +4,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { DropdownButton, Dropdown} from 'react-bootstrap';
 
 export default class RadarsDropdownItem extends React.Component{
+    constructor(props){
+        super(props);
+         this.state = {
+         };
+
+         this.handleOnClick = this.handleOnClick.bind(this);
+    }
+
     handleOnClick(){
         this.getSourceRadarInstance(this.props.userId, this.props.dropDownItem.id);
     }
@@ -18,6 +25,10 @@ export default class RadarsDropdownItem extends React.Component{
     }
 
     render(){
-        return (<Dropdown.Item eventKey={this.props.dropDownItem.id} onClick={this.handleOnClick.bind(this)}>{ this.props.dropDownItem.name }</Dropdown.Item>);
+        return (
+            <li>
+                <a className="dropdown-item" onClick={this.handleOnClick}>{ this.props.dropDownItem.name } - { this.props.dropDownItem.formattedAssessmentDate }</a>
+            </li>
+        );
     }
 }

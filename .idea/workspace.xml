@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarInstance/RadarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarInstance/RadarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js" afterDir="false" />
     </list>
     <ignored path="technologyrader.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,15 +31,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" selection-start-line="2" selection-end-line="4" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/API/RadarController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-410">
@@ -47,7 +39,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarInstance/RadarService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="226">
@@ -57,19 +49,62 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application-development.properties">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" selection-start-line="2" selection-end-line="4" selection-end-column="31" />
+            <state relative-caret-position="203">
+              <caret line="98" column="65" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application-production.properties">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarCategoryDetails.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="2" selection-end-column="49" />
+            <state relative-caret-position="302">
+              <caret line="41" selection-start-line="40" selection-end-line="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/ManageRadarsApp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1559" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="111" column="139" selection-start-line="111" selection-start-column="139" selection-end-line="111" selection-end-column="139" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="22" column="114" selection-start-line="22" selection-start-column="114" selection-end-line="22" selection-end-column="114" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdownItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="27" selection-start-line="24" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="29" column="160" selection-start-line="29" selection-start-column="160" selection-end-line="29" selection-end-column="160" />
             </state>
           </provider>
         </entry>
@@ -77,42 +112,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdown.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-346" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/home/radar.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="48">
+              <caret line="23" selection-start-line="23" selection-end-line="31" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -187,15 +188,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/OwnedRadarTypesPage.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarTypeHistory.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarTypeHistoryItem.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarTypeListItem.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeDetails.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeList.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageAssociatedRadarTypes/RadarTypeListItem.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" />
         <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/Entities/TeamEntity.java" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Repositories/RoleRepository.js" />
         <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/redux/CommonUserReducer.js" />
@@ -238,6 +235,10 @@
         <option value="$PROJECT_DIR$/src/main/resources/application-development.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/services/RadarInstance/RadarService.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" />
       </list>
     </option>
   </component>
@@ -430,6 +431,95 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="AddFromPrevious" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="react" type="462c0819:PsiDirectoryNode" />
+              <item name="Apps" type="462c0819:PsiDirectoryNode" />
+              <item name="ManageRadars" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="OwnedRadarTypes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="technologyrader" type="b2602c69:ProjectViewProjectNode" />
+              <item name="technologyradar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -489,7 +579,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565621016900" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565623938077" />
     <property name="js-jscs-nodeInterpreter" value="E:\SWTools\nodejs\node.exe" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="options.lastSelected" value="preferences.pluginManager" />
@@ -1052,7 +1142,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="940" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3003663" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1225,41 +1314,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/domainmodel/UserType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/4.1.3.RELEASE/spring-security-web-4.1.3.RELEASE.jar!/org/springframework/security/web/access/intercept/FilterSecurityInterceptor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="27" column="137" selection-start-line="27" selection-start-column="137" selection-end-line="27" selection-end-column="137" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/4.1.3.RELEASE/spring-security-web-4.1.3.RELEASE.jar!/org/springframework/security/web/access/ExceptionTranslationFilter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="187" selection-start-line="19" selection-start-column="187" selection-end-line="19" selection-end-column="187" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.5.6/tomcat-embed-core-8.5.6.jar!/org/apache/catalina/core/ApplicationFilterChain.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="23" column="172" selection-start-line="23" selection-start-column="172" selection-end-line="23" selection-end-column="172" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.4.RELEASE/spring-webmvc-4.3.4.RELEASE.jar!/org/springframework/web/servlet/FrameworkServlet.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="114" column="196" selection-start-line="114" selection-start-column="196" selection-end-line="114" selection-end-column="196" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/data/repositories/SimpleDomainRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
@@ -1505,27 +1559,10 @@
         <state relative-caret-position="-2084" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdownItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="25" column="123" selection-start-line="25" selection-start-column="123" selection-end-line="25" selection-end-column="123" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarCategoryDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-409" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdown.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-346" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
@@ -1539,14 +1576,14 @@
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
-          <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+          <caret line="122" column="32" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
@@ -1582,6 +1619,60 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
           <caret line="211" column="20" selection-start-line="211" selection-start-column="20" selection-end-line="211" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/ManageRadarsApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1559" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdown.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="23" selection-start-line="23" selection-end-line="31" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTypeDropdownItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="27" selection-start-line="24" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTypes/RadarCategoryDetails.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="41" selection-start-line="40" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="98" column="65" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdownItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="29" column="160" selection-start-line="29" selection-start-column="160" selection-end-line="29" selection-end-column="160" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/RadarsDropdown.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="22" column="114" selection-start-line="22" selection-start-column="114" selection-end-line="22" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="111" column="139" selection-start-line="111" selection-start-column="139" selection-end-line="111" selection-end-column="139" />
         </state>
       </provider>
     </entry>

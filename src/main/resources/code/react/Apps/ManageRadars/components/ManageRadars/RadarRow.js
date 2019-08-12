@@ -85,7 +85,7 @@ class RadarRow extends React.Component{
     }
 
     getAddFromPreviousLink(userId, radarId){
-        return '/admin/user/' + userId + '/radar/' + radarId + '/addfromprevious';
+        return '/manageradars/user/' + userId + '/radar/' + radarId + '/addfromprevious';
     }
 
     getAddItemsLink(radarId){
@@ -102,7 +102,7 @@ class RadarRow extends React.Component{
                  <td><input type="checkbox" ref="isLocked" checked={ this.props.rowData.isLocked } onClick = {(event) => this.handleIsLockedClick(event) }/></td>
                  <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-techradar" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
-                    <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
+                    <Link to={ this.getAddFromPreviousLink(this.props.currentUser.id, this.props.rowData.id)}>
                         <button type="button" className="btn btn-techradar" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
