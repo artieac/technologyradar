@@ -251,7 +251,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.searchForTechnologyByName = function ()
     {
         var technologyName = jQuery("#newTechnologyName").val();
-        $scope.technologySearchResults = TechnologyService.searchTechnologyRequest(technologyName, null, null).query();
+        $scope.technologySearchResults = RadarSubjectService.searchRequest(technologyName, null, null, null, $scope.isAnonymous).query();
     };
 
     $scope.selectTechnology = function (technology)
