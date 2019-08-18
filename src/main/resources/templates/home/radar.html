@@ -45,8 +45,8 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
-                            <li><a ng-click="radarTypeAllSelected(currentUserId)">{{ allOptionName }}</a></li>
-                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)">{{radarType.name}} v{{radarType.version}}</a></li>
+                            <li><a ng-click="radarTypeAllSelected(currentUserId)" title="See a combined view of all radars of this type">{{ allOptionName }}</a></li>
+                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)" title="{{ radarType.description }}">{{radarType.name}} v{{radarType.version}}</a></li>
                         </ul>
                     </div>
                     <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
