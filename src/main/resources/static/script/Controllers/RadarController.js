@@ -300,16 +300,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.getRadarData(userId, radarId, $scope.isAnonymous);
     }
 
-    $scope.publishRadar = function(userId, radarId)
-    {
-        RadarInstanceService.publishRadar(userId, radarId);
-    }
-
-    $scope.lockRadar = function(userId, radarId)
-    {
-        RadarInstanceService.lockRadar(userId, radarId);
-    }
-
     $scope.getDropdownLabel = function(radarInstance)
     {
         var retVal = "";
