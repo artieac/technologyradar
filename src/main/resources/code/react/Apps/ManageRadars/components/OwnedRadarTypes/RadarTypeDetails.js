@@ -111,7 +111,7 @@ class RadarTypeDetails extends React.Component{
                             <div className="col-md-12">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">Rings</div>
-                                    <RadarRingList radarRings={this.props.selectedRadarType.radarRings} editMode={this.props.editMode}/>
+                                    <RadarRingList radarRings={this.props.selectedRadarType.radarRings} editMode={this.props.editMode} canAddOrDelete={ this.props.selectedRadarType.id === '' || this.props.canVersionRadarTypes }/>
                                 </div>
                             </div>
                             <div className="col-md-12">

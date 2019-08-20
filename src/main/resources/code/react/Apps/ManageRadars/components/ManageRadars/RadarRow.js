@@ -64,7 +64,7 @@ class RadarRow extends React.Component{
     }
 
     handleLockResponse() {
-        this.radarRepository.getByUserId(this.props.currentUser.id, this.props.currentUser.canSeeHistory, this.props.storeRadars);
+        this.radarRepository.getByUserId(this.props.currentUser.id, true, this.props.storeRadars);
     }
 
     handleIsLockedClick(event){

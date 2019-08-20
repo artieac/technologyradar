@@ -35,6 +35,22 @@ class OwnedRadarTypesPage extends React.Component{
        this.radarTypeRepository.getByUserId(currentUser.id, false, this.props.storeRadarTypes);
     }
 
+    canAddRadarTypes() {
+        var retVal = false;
+
+        if(this.props.currentUser !== undefined)
+        {
+            if(this.props.radarTypes !== undefined)
+            {
+                if(this.props.radarTypes.length < this.props.currentUser.canHaveNRadarTypes)
+                {
+                    retVal = true;
+                }
+            }
+        }
+        return retVal;
+    }
+
     render() {
         return (
             <div className="bodyContent">
@@ -45,7 +61,7 @@ class OwnedRadarTypesPage extends React.Component{
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
-                            <div className="col-md-6">
+                            <div className={ this.canAddRadarTypes()==true ? "col-md-6" : "col-md-6 hidden"}>
                                <NewRadarTypeRow />
                             </div>
                         </div>
@@ -56,9 +72,9 @@ class OwnedRadarTypesPage extends React.Component{
                         </div>
                     </div>
                     <div className={ this.props.showEdit==true ? "col-md-8" : "hidden"}>
-                        <RadarTypeDetails  parentContainer={this} editMode={true}/>
+                        <RadarTypeDetails  parentContainer={this} editMode={ true } canVersionRadarTypes={this.props.currentUser.canVersionRadarTypes }/>
                     </div>
-                    <div className={ this.props.currentUser.canSeeHistory==true && this.props.showHistory==true ? "col-md-8" : "hidden"}>
+                    <div className={ this.props.canVersionRadarTypes ? "col-md-8" : "hidden" }>
                         <RadarTypeHistory parentContainer={this}/>
                     </div>
                 </div>

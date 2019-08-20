@@ -22,10 +22,10 @@ public class RadarService extends ServiceBase
     protected RadarRingRepository radarRingRepository;
     protected RadarCategoryRepository radarCategoryRepository;
     protected RadarAccessManager radarAccessManager;
-    protected RadarTypeHistoryRepository radarTypeRepository;
+    protected RadarTypeRepository radarTypeRepository;
 
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
-                        RadarTypeHistoryRepository radarTypeRepository,
+                        RadarTypeRepository radarTypeRepository,
                         TechnologyRepository technologyRepository,
                         RadarRingRepository radarRingRepository,
                         RadarCategoryRepository radarCategoryRepository,

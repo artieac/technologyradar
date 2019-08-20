@@ -295,4 +295,25 @@ public class RadarTypeController extends ControllerBase
 
         return retVal;
     }
+
+    @DeleteMapping(value = "/User/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}")
+    public @ResponseBody boolean associateRadarType(@PathVariable Long userId, @PathVariable String radarTypeId, @PathVariable Long radarTypeVersion)
+    {
+        boolean retVal = false;
+
+        try
+        {
+            if (this.getCurrentUser().getId() == userId)
+            {
+                retVal = this.radarTypeService.deleteRadarType(userId, radarTypeId, radarTypeVersion);
+            }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
+        }
+
+        return retVal;
+    }
+
 }

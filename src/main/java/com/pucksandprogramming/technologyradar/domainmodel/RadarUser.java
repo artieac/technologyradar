@@ -1,12 +1,5 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by acorrea on 12/23/2017.
  */
@@ -54,10 +47,7 @@ public class RadarUser {
     public UserType getUserType(){ return this.userType;}
     public void setUserType(UserType value){ this.userType = value;}
 
-    public boolean canSeeHistory()
-    {
-        return this.userType.isGrantEnabled(UserRights.CanViewHistory);
-    }
+    public boolean canVersionRadarTypes() { return this.userType.isGrantEnabled(UserRights.CanVersionRadarTypes);}
 
     public boolean canShareRadarTypes()
     {
@@ -71,6 +61,6 @@ public class RadarUser {
 
     public boolean canHaveVariableRadarRingCounts()
     {
-        return this.userType.isGrantEnabled(UserRights.AllowVarableRadarRingCount);
+        return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount);
     }
 }

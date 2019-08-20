@@ -2,11 +2,9 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.data.dao.*;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,42 +14,97 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class RecentRadarTypeRepository extends RadarTypeRepositoryBase
+public class RadarTypeRepository extends SimpleDomainRepository<RadarType, RadarTypeEntity, RadarTypeDAO, VersionedIdEntity>
 {
-    public RecentRadarTypeRepository()
-    {
+    @Autowired
+    EntityManager entityManager;
 
+    @Autowired
+    RadarRingDAO radarRingDAO;
+
+    @Autowired
+    RadarCategoryDAO radarCategoryDAO;
+
+    @Autowired
+    RadarUserDAO radarUserDAO;
+
+    @Autowired
+    AssociatedRadarTypeDAO associatedRadarTypeDAO;
+
+    @Autowired
+    public void setEntityRepository(RadarTypeDAO entityRepository) {
+        super.setEntityRepository(entityRepository);
+    }
+
+    public RadarTypeRepository() {
+        super(RadarType.class);
+    }
+
+    public List<RadarType> mapList(List<RadarTypeEntity> source)
+    {
+        List<RadarType> retVal = new ArrayList<>();
+
+        if(source!=null)
+        {
+            for(int i = 0; i < source.size(); i++)
+            {
+                RadarType newItem = this.modelMapper.map(source.get(i), RadarType.class);
+                retVal.add(newItem);
+            }
+        }
+
+        return retVal;
     }
 
     @Override
+    protected RadarTypeEntity findOne(RadarType domainModel)
+    {
+        VersionedIdEntity idEntity = new VersionedIdEntity(domainModel.getId(), domainModel.getVersion());
+        return this.entityRepository.findOne(idEntity);
+    }
+
+    public RadarType findOne(String radarTypeId, Long version)
+    {
+        RadarType retVal = null;
+
+        VersionedIdEntity idEntity = new VersionedIdEntity(radarTypeId, version);
+        RadarTypeEntity foundItem = this.entityRepository.findOne(idEntity);
+
+        if(foundItem!=null)
+        {
+            retVal = this.modelMapper.map(foundItem, RadarType.class);
+        }
+
+        return retVal;
+    }
+
     public List<RadarType> findByUser(Long userId)
     {
-        Query query = entityManager.createNamedQuery("owned_FindMostRecentRadarTypeByRadarUserId");
-        query.setParameter("radarUserId", userId);
-        List<RadarTypeEntity> foundItems = query.getResultList();
-        return this.mapList(foundItems);
+        List<RadarType> retVal = new ArrayList<>();
+
+        List<RadarTypeEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndStateOrderByVersionedId(userId, 1);
+
+        if(foundItems != null)
+        {
+            for (RadarTypeEntity foundItem : foundItems)
+            {
+                retVal.add(this.modelMapper.map(foundItem, RadarType.class));
+            }
+        }
+
+        return retVal;
     }
 
-    @Override
     public List<RadarType> findByUserAndRadarType(Long userId, String radarTypeId)
     {
-        Query query = entityManager.createNamedQuery("owned_findMostRecentByRadarUserIdAndId");
+        Query query = entityManager.createNamedQuery("owned_FindHistoryByRadarUserIdAndId");
         query.setParameter("radarUserId", userId);
         query.setParameter("radarTypeId", radarTypeId);
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    @Override
     public List<RadarType> findSharedRadarTypesExcludeOwned(Long radarUserId)
-    {
-        Query query =  this.entityManager.createNamedQuery("public_FindMostRecentTypesByPublishedRadarsUserIdAndRadarTypeId");
-        query.setParameter("radarUserId", radarUserId);
-        List<RadarTypeEntity> foundItems = query.getResultList();
-        return this.mapList(foundItems);
-    }
-
-    public List<RadarType> findRadarTypesExcludeOwned(Long radarUserId)
     {
         Query query = entityManager.createNamedQuery("owned_FindHistorySharedRadarTypesExcludeOwned");
         query.setParameter("radarUserId", radarUserId);
@@ -59,8 +112,14 @@ public class RecentRadarTypeRepository extends RadarTypeRepositoryBase
         return this.mapList(foundItems);
     }
 
+    public List<RadarType> findSharedRadarTypes()
+    {
+        Query query =  this.entityManager.createNamedQuery("public_findMostRecentSharedRadarTypes");
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
 
-    public List<RadarType> findAllAssociatedRadarTypes(Long radarUserId)
+    public List<RadarType> findAssociatedRadarTypes(Long radarUserId)
     {
         Query query = entityManager.createNamedQuery("findAllAssociated");
         query.setParameter("radarUserId", radarUserId);
@@ -69,28 +128,28 @@ public class RecentRadarTypeRepository extends RadarTypeRepositoryBase
     }
 
 
-//    public List<RadarType> findOthersRadarTypes(Long radarUserId)
-//    {
-//        Query query = entityManager.createNamedQuery("findOthersRadarTypes");
-//        query.setParameter("radarUserId", radarUserId);
-//        List<RadarTypeEntity> foundItems = query.getResultList();
-//        return this.mapList(foundItems);
-//    }
+    public List<RadarType> findByPublishedRadars()
+    {
+        Query query = entityManager.createNamedQuery("findAllForPublishedRadars");
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
 
-//    public List<RadarType> findAllForPublishedRadars()
-//    {
-//        Query query = entityManager.createNamedQuery("findAllForPublishedRadars");
-//        List<RadarTypeEntity> foundItems = query.getResultList();
-//        return this.mapList(foundItems);
-//    }
+    public List<RadarType> findByPublishedRadarsExcludeUser(Long excludeUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllForPublishedRadarsExcludeUser");
+        query.setParameter("radarUserId", excludeUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
 
-//    public List<RadarType> findAllForPublishedRadars(Long radarUserId)
-//    {
-//        Query query = entityManager.createNamedQuery("findAllForPublishedRadarsExcludeUser");
-//        query.setParameter("radarUserId", radarUserId);
-//        List<RadarTypeEntity> foundItems = query.getResultList();
-//        return this.mapList(foundItems);
-//    }
+    public List<RadarType> findOwnedWithRadars(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("findAllOwnedWithRadars");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
 
     private boolean shouldVersion(RadarType source, RadarTypeEntity destination)
     {
@@ -315,6 +374,7 @@ public class RecentRadarTypeRepository extends RadarTypeRepositoryBase
             else
             {
                 radarTypeEntity.setName(itemToSave.getName());
+                radarTypeEntity.setDescription(itemToSave.getDescription());
                 radarTypeEntity.setIsPublished((itemToSave.getIsPublished()));
 
                 for(RadarRing radarRing : itemToSave.getRadarRings())
@@ -356,7 +416,7 @@ public class RecentRadarTypeRepository extends RadarTypeRepositoryBase
 
         if (radarType != null && radarUser != null)
         {
-            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
+            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
 
             if(associatedRadarTypeEntityadarTypeEntity==null)
             {

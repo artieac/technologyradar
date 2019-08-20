@@ -1,7 +1,6 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class UserType
 {
@@ -23,10 +22,12 @@ public class UserType
         HashMap<String, Integer> retVal = new HashMap<String, Integer>();
         retVal.put(UserRights.CanShareNRadars, 1);
         retVal.put(UserRights.CanShareRadarTypes, 0);
-        retVal.put(UserRights.CanViewHistory, 0);
+        retVal.put(UserRights.AllowNRadarTypes, 2);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, 2);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
-        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 0);
+        retVal.put(UserRights.CanVersionRadarTypes, 0);
         return retVal;
     }
 
@@ -35,10 +36,13 @@ public class UserType
         HashMap<String, Integer> retVal = new HashMap<>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.CanViewHistory, 1);
+        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
-        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
+        retVal.put(UserRights.CanVersionRadarTypes, 1);
+
         return retVal;
     }
 
@@ -47,10 +51,12 @@ public class UserType
         HashMap<String, Integer> retVal = new HashMap<String, Integer>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.CanViewHistory, 1);
+        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 1);
-        retVal.put(UserRights.AllowVarableRadarRingCount, 1);
+        retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
+        retVal.put(UserRights.CanVersionRadarTypes, 1);
         return retVal;
     }
 

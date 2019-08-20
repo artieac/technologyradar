@@ -80,7 +80,7 @@ class RadarTypeListItem extends React.Component{
                     <div className="col-md-2">
                        <input type="button" className="btn btn-techradar" value="View" onClick= {(event) => this.handleShowEditClick(event) } />
                     </div>
-                    <div className={ this.props.currentUser.canSeeHistory==true ? "col-md-2" : "col-md-2 hidden"}>
+                    <div className="col-md-2">
                        <input type="button" className="btn btn-techradar" value="History" onClick= {(event) => this.handleShowHistoryClick(event) } />
                     </div>
                 </div>

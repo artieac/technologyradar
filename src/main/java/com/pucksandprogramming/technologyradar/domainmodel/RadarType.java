@@ -9,7 +9,10 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
-public class RadarType {
+public class RadarType
+{
+    public static final Integer State_Active = 1;
+    public static final Integer State_InActive = 2;
 
     private String id;
     private Long version;
@@ -20,10 +23,12 @@ public class RadarType {
     private boolean isPublished;
     private Calendar createDate;
     private String description;
+    private Integer state;
 
     public RadarType()
     {
         this.isPublished = false;
+        this.state = RadarType.State_Active;
     }
 
     public String getId(){ return this.id;}
@@ -57,6 +62,9 @@ public class RadarType {
 
     public String getDescription() { return this.description;}
     public void setDescription(String value) { this.description = value;}
+
+    public Integer getState() { return this.state;}
+    public void setState(Integer value) { this.state = value;}
 
     public void addRadarRing(RadarRing radarRing)
     {

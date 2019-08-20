@@ -31,9 +31,9 @@ class RadarRingList extends React.Component{
             return(
                 <div className="panel-body">
                     {this.props.radarRings.map((currentRow) => {
-                        return <RadarRingListItem key={currentRow.id} rowData={currentRow} editMode={this.props.editMode} listContainer={this}/>
+                        return <RadarRingListItem key={currentRow.id} rowData={currentRow} editMode={this.props.editMode} listContainer={this} canAddOrDelete={this.props.canAddOrDelete}/>
                         })}
-                     <div className={ this.props.editMode==true ?  "row" : "hidden"}>
+                     <div className={ this.props.editMode==true && this.props.canAddOrDelete ?  "row" : "hidden"}>
                         <div className="col-md-12">
                             <input type="button" className="btn btn-techradar" value="Add New Ring" disabled={this.props.radarRings.length > 7} onClick={(event) => this.handleAddNewRing(event)}/>
                         </div>

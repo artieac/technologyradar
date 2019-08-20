@@ -134,16 +134,19 @@ export class RadarTypeRepository {
             });
     }
 
-    deleteRadarType(userId, radarType, successHandler){
+    deleteRadarType(userId, radarTypeId, radarTypeVersion, successHandler){
          $.ajax({
               headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
               },
               type: "DELETE",
-              url: '/api/User/' + userId + '/RadarType/' + radarType.id,
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + "/Version/" + radarTypeVersion,
              success: function() {
-                   successHandler();
+                   responseHandler();
+              },
+              error: function(xhr, status, err) {
+                    responseHandler();
               }
             });
     }

@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.services.RadarType;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeHistoryRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
@@ -15,10 +15,10 @@ import java.util.List;
 @Component
 public class AssociatedRadarTypeService extends ServiceBase
 {
-    RadarTypeHistoryRepository radarTypeRepository;
+    RadarTypeRepository radarTypeRepository;
 
     @Autowired
-    public AssociatedRadarTypeService(RadarTypeHistoryRepository radarTypeRepository, RadarUserRepository radarUserRepository)
+    public AssociatedRadarTypeService(RadarTypeRepository radarTypeRepository, RadarUserRepository radarUserRepository)
     {
         super(radarUserRepository);
 

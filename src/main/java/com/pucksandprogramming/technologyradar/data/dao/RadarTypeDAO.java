@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface RadarTypeDAO extends JpaRepository<RadarTypeEntity, VersionedIdEntity>
 {
-    List<RadarTypeEntity> findAllByRadarUserIdOrderByVersionedId(Long radarUserId);
+    List<RadarTypeEntity> findAllByRadarUserIdAndStateOrderByVersionedId(Long radarUserId, Integer state);
 }
