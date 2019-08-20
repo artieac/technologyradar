@@ -3,10 +3,7 @@ package com.pucksandprogramming.technologyradar.services.RadarType;
 import com.pucksandprogramming.technologyradar.data.repositories.FullRadarRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarTypeRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
-import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.domainmodel.Role;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -144,6 +141,7 @@ public class RadarTypeService extends ServiceBase
 
         return retVal;
     }
+
     public RadarType update(RadarType radarTypeUpdates, Long ownerId)
     {
         RadarType retVal = null;
@@ -159,10 +157,17 @@ public class RadarTypeService extends ServiceBase
 
             if(retVal==null)
             {
-                canSave = true;
+                // trying to add one, make sure they have room in their max amount
+                List<RadarType> userRadarTypes = this.radarTypeRepository.findByUser(ownerId);
+
+                if(userRadarTypes!=null && userRadarTypes.size() < dataOwner.getUserType().getGrantValue(UserRights.AllowNRadarTypes))
+                {
+                    canSave = true;
+                }
             }
             else
             {
+                // trying to update an existing, make sure they can version
                 if (dataOwner != null &&
                         dataOwner.getId() == this.getAuthenticatedUser().getUserId())
                 {
@@ -173,7 +178,7 @@ public class RadarTypeService extends ServiceBase
             if(canSave==true)
             {
                 radarTypeUpdates.setRadarUser(dataOwner);
-                retVal = this.radarTypeRepository.save(radarTypeUpdates);
+                retVal = this.radarTypeRepository.save(radarTypeUpdates, dataOwner.getUserType().isGrantEnabled(UserRights.CanVersionRadarTypes));
             }
         }
 

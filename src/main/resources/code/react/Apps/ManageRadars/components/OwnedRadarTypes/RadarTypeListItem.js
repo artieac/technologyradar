@@ -39,10 +39,6 @@ class RadarTypeListItem extends React.Component{
         this.forceUpdate();
     }
 
-    handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
-        this.props.storeAssociatedRadarTypes(associatedRadarTypes);
-    }
-
     handleOnDeleteClick() {
         if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?"))
         {
@@ -52,6 +48,7 @@ class RadarTypeListItem extends React.Component{
 
     handleDeleteResponse() {
         this.radarTypeRepository.getByUserId(this.props.currentUser.id, false, this.props.storeRadarTypes);
+        this.forceUpdate();
     }
 
     render() {

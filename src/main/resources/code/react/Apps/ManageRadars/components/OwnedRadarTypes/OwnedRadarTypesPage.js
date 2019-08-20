@@ -57,12 +57,15 @@ class OwnedRadarTypesPage extends React.Component{
                 <div className="contentPageTitle">
                     <label>Manage Your Radar Types</label>
                 </div>
-                <p>Add a new type to have rate different types of things</p>
+                <p>Add a new Type to have rate different types of things</p>
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
                             <div className={ this.canAddRadarTypes()==true ? "col-md-6" : "col-md-6 hidden"}>
                                <NewRadarTypeRow />
+                            </div>
+                           <div className={ this.canAddRadarTypes()==false ? "col-md-6" : "col-md-6 hidden"}>
+                               <div className="errorText">You are only allowed { this.props.currentUser.canHaveNRadarTypes } Radar Types.  If you want a new one you need to delete one of your existing Radar Types.</div>
                             </div>
                         </div>
                         <div className="row">

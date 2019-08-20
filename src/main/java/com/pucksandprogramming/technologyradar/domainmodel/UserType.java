@@ -36,8 +36,8 @@ public class UserType
         HashMap<String, Integer> retVal = new HashMap<>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNRadarTypes, 10);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, 10);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);

@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarUserReposi
 import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
+import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,7 +58,12 @@ public class AssociatedRadarTypeService extends ServiceBase
                 // don't allow a user to associate their own radar
                 if (radarType.getRadarUser().getId() != targetUser.getId())
                 {
-                    retVal = this.radarTypeRepository.saveAssociatedRadarType(targetUser, radarType);
+                    List<RadarType> associatedRadarTypes = this.findAssociatedRadarTypes(targetUser);
+
+                    if(associatedRadarTypes != null && associatedRadarTypes.size() < targetUser.getUserType().getGrantValue(UserRights.AllowNAssociatedRadarTypes))
+                    {
+                        retVal = this.radarTypeRepository.saveAssociatedRadarType(targetUser, radarType);
+                    }
                 }
             }
             else
