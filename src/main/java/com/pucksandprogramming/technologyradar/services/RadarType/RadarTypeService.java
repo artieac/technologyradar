@@ -72,7 +72,7 @@ public class RadarTypeService extends ServiceBase
 
         if(dataOwner != null)
         {
-            retVal = this.radarTypeRepository.findByUser(userId);
+            retVal = this.radarTypeRepository.findMostRecentByUserId(userId);
         }
 
         return retVal;

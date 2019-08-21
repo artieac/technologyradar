@@ -32,7 +32,7 @@ class OwnedRadarTypesPage extends React.Component{
 
     handleGetCurrentUserSuccess(currentUser){
        this.props.storeCurrentUser(currentUser);
-       this.radarTypeRepository.getByUserId(currentUser.id, false, this.props.storeRadarTypes);
+       this.radarTypeRepository.getMostRecentByUserId(currentUser.id, this.props.storeRadarTypes);
     }
 
     canAddRadarTypes() {
@@ -77,7 +77,7 @@ class OwnedRadarTypesPage extends React.Component{
                     <div className={ this.props.showEdit==true ? "col-md-8" : "hidden"}>
                         <RadarTypeDetails  parentContainer={this} editMode={ true } canVersionRadarTypes={this.props.currentUser.canVersionRadarTypes }/>
                     </div>
-                    <div className={ this.props.canVersionRadarTypes ? "col-md-8" : "hidden" }>
+                    <div className={ this.props.currentUser.canVersionRadarTypes && this.props.showHistory==true ? "col-md-8" : "hidden" }>
                         <RadarTypeHistory parentContainer={this}/>
                     </div>
                 </div>

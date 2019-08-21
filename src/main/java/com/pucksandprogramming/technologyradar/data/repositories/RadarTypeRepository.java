@@ -95,6 +95,14 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return retVal;
     }
 
+    public List<RadarType> findMostRecentByUserId(Long radarUserId)
+    {
+        Query query = entityManager.createNamedQuery("owned_FindMostRecentRadarTypeByRadarUserId");
+        query.setParameter("radarUserId", radarUserId);
+        List<RadarTypeEntity> foundItems = query.getResultList();
+        return this.mapList(foundItems);
+    }
+
     public List<RadarType> findByUserAndRadarType(Long userId, String radarTypeId)
     {
         Query query = entityManager.createNamedQuery("owned_FindHistoryByRadarUserIdAndId");

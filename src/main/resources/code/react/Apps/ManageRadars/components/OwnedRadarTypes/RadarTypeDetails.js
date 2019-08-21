@@ -67,7 +67,7 @@ class RadarTypeDetails extends React.Component{
 
     handleEditChangeSuccess(radarType){
         this.props.storeSelectedRadarType(radarType);
-        this.radarTypeRepository.getByUserId(this.props.currentUser.id, false, this.props.storeRadarTypes);
+        this.radarTypeRepository.getMostRecentByUserId(this.props.currentUser.id, this.props.storeRadarTypes);
     }
 
     handleDeleteRadarType(){
