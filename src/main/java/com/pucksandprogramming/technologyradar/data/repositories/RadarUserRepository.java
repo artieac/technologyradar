@@ -1,10 +1,8 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
-import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarTypeDAO;
-import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
+import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
+import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,6 +27,9 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
 
     @Autowired
     RadarCategoryDAO radarCategoryDAO;
+
+    @Autowired
+    UserTypeDAO userTypeDAO;
 
     @Autowired
     public void setEntityRepository(RadarUserDAO entityRepository) {
@@ -94,7 +95,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
                 radarUserEntity.setName(itemToSave.getName());
                 radarUserEntity.setNickname(itemToSave.getNickname());
                 radarUserEntity.setRoleId(itemToSave.getRoleId());
-                radarUserEntity.setUserType(itemToSave.getUserType());
+                radarUserEntity.setUserType(this.userTypeDAO.findOne(itemToSave.getUserType().getId()));
             }
 
             if (radarUserEntity != null) {

@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.services;
 
 import com.pucksandprogramming.technologyradar.data.repositories.Auth0Repository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.UserTypeRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.awt.print.Printable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,21 +24,44 @@ public class RadarUserService
 {
     private RadarUserRepository radarUserRepository;
     private Auth0Repository auth0Repository;
+    private UserTypeRepository userTypeRepository;
+
+    static HashMap<Integer, UserType> userTypes = null;
 
     @Autowired
-    public RadarUserService(RadarUserRepository radarUserRepository, Auth0Repository auth0Repository)
+    public RadarUserService(RadarUserRepository radarUserRepository, Auth0Repository auth0Repository, UserTypeRepository userTypeRepository)
     {
         this.radarUserRepository = radarUserRepository;
         this.auth0Repository = auth0Repository;
+        this.userTypeRepository = userTypeRepository;
     }
 
-    public static RadarUser createDefaultRadarUser()
+    public  HashMap<Integer, UserType> getUserTypes()
+    {
+        if(RadarUserService.userTypes==null)
+        {
+            RadarUserService.userTypes = new HashMap<>();
+
+            Iterable<UserType> foundItems = this.userTypeRepository.findAll();
+
+            for(UserType userType : foundItems)
+            {
+                RadarUserService.userTypes.put(userType.getId(), userType);
+            }
+        }
+
+        return RadarUserService.userTypes;
+    }
+
+    public RadarUser createDefaultRadarUser()
     {
         RadarUser retVal = new RadarUser();
         retVal.setId(new Long(0));
         retVal.setAuthenticationId("");
+        retVal.setName("");
+        retVal.setNickname("");
         retVal.setRoleId(Role.RoleType_User);
-        retVal.setUserType(UserType.Free);
+        retVal.setUserType(this.getUserTypes().get(UserType.Free));
         return retVal;
     }
 
@@ -77,12 +102,21 @@ public class RadarUserService
 
             if(retVal == null)
             {
-                retVal = RadarUserService.createDefaultRadarUser();
+                retVal = this.createDefaultRadarUser();
                 retVal.setAuthenticationId(authenticationId);
                 retVal.setAuthority(authority);
                 retVal.setIssuer(issuer);
                 retVal.setEmail(email);
-                retVal.setNickname(nickname);
+
+                if(nickname==null)
+                {
+                    retVal.setNickname(name);
+                }
+                else
+                {
+                    retVal.setNickname(nickname);
+                }
+
                 retVal.setName(name);
                 retVal = this.radarUserRepository.save(retVal);
             }

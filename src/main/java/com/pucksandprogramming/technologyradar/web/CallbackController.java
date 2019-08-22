@@ -14,6 +14,8 @@ import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
 import com.auth0.Tokens;
 import com.auth0.jwt.JWT;
+import com.pucksandprogramming.technologyradar.web.API.RoleController;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -32,6 +34,8 @@ import java.util.List;
 @Controller
 public class CallbackController
 {
+    private static final Logger logger = Logger.getLogger(CallbackController.class);
+
     @Autowired
     private RadarUserService userService;
 
@@ -107,7 +111,7 @@ public class CallbackController
                 }
 
                 authenticatedUser.setUserId(targetUser.getId());
-                authenticatedUser.setUserType(UserType.createUser(targetUser.getUserType()));
+                authenticatedUser.setUserType(targetUser.getUserType());
 
                 // TBD< switch this to an interface rather than a specific instance type
                 Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(authenticatedUser);
@@ -119,6 +123,16 @@ public class CallbackController
 
         catch (AuthenticationException | IdentityVerificationException e)
         {
+            logger.error(e);
+
+            e.printStackTrace();
+            SecurityContextHolder.clearContext();
+            res.sendRedirect(redirectOnFail);
+        }
+        catch (Exception e)
+        {
+            logger.error(e);
+
             e.printStackTrace();
             SecurityContextHolder.clearContext();
             res.sendRedirect(redirectOnFail);

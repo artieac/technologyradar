@@ -8,23 +8,43 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
+import { connect } from "react-redux";
 import OwnedRadarTypesPage from './components/OwnedRadarTypes/OwnedRadarTypesPage';
 import ManageAssociatedRadarTypesPage from './components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage';
 import ManageRadarsPage from './components/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadarPage from './components/AddFromPrevious/AddFromPreviousRadarPage';
 import radarReducer from './redux/RadarReducer';
 import radarTypeReducer from './redux/RadarTypeReducer';
-import errorReducer from './redux/ErrorReducer';
+import userReducer from '../redux/CommonUserReducer';
+import ManageTeamsPage from './components/ManageTeams/ManageTeamsPage';
+import ManageTeamMembersPage from './components/TeamMembers/ManageTeamMembersPage';
+import ManageTeamRadarsPage from './components/TeamRadars/ManageTeamRadarsPage';
+import { addCurrentUserToState } from '../redux/CommonUserReducer';
+import { UserRepository } from '../../Repositories/UserRepository';
+import teamReducer from './redux/TeamReducer';
 
-const manageRadarsAppStore = createStore(combineReducers({radarReducer,radarTypeReducer, errorReducer}));
+const manageRadarsAppStore = createStore(combineReducers({radarReducer,radarTypeReducer, userReducer, teamReducer}), applyMiddleware(thunk));
 
 class ManageRadarsApp extends React.Component{
     constructor(props){
         super(props);
          this.state = {
             radarCollection: [],
-            targetUserId: jQuery("#targetUserId").val()
+            targetUserId: jQuery("#targetUserId").val(),
+            currentUser: {}
         };
+
+        this.userRepository = new UserRepository();
+        this.handleGetUserResponse = this.handleGetUserResponse.bind(this);
+    }
+
+    componentDidMount(){
+        this.userRepository.getUser(this.handleGetUserResponse);
+     }
+
+    handleGetUserResponse(currentUser){
+        this.setState({ currentUser: currentUser});
+        this.forceUpdate();
     }
 
     render(){
@@ -76,6 +96,21 @@ class ManageRadarsApp extends React.Component{
                             </div>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className={ this.state.currentUser.allowTeamMembersToManageRadars==true ? "col-md-4" : "col-md-4 hidden"}>
+                            <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Manage your Teams</div>
+                                <div id="ManageTeamsPanel" className="panel-body">
+                                    <p>Create teams to allow others to manage some of your radars.</p>
+                                    <p></p>
+                                    <br/>
+                                    <Link to='/manageradars/teams'>
+                                        <button className="btn btn-techradar">Your Teams</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -92,11 +127,12 @@ ReactDOM.render(
                     <Route path="/manageradars/associatedradartypes" component={ ManageAssociatedRadarTypesPage } />
                     <Route path="/manageradars/radars" component={ ManageRadarsPage } />
                     <Route path="/manageradars/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadarPage }/>
+                    <Route path="/manageradars/teams" component={ ManageTeamsPage }/>
+                    <Route path="/manageradars/user/:userId/team/:teamId/members" component={ ManageTeamMembersPage }/>
+                    <Route path="/manageradars/user/:userId/team/:teamId/radars" component={ ManageTeamRadarsPage }/>
                 </Switch>
             </Router>
         </div>
     </Provider>,
     document.getElementById("manageRadarsAppContent")
 );
-
-module.exports = ManageRadarsApp;

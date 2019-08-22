@@ -35,8 +35,9 @@ public class RadarUserEntity {
     @Column(name="Name", nullable=false, length=512)
     private String name;
 
-    @Column(name="UserType", nullable=false)
-    private Integer userType;
+    @OneToOne
+    @JoinColumn(name = "UserTypeId", nullable = false)
+    private UserTypeEntity userType;
 
     public RadarUserEntity()
     {
@@ -67,6 +68,6 @@ public class RadarUserEntity {
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public Integer getUserType(){ return this.userType;}
-    public void setUserType(Integer value){ this.userType = value;}
+    public UserTypeEntity getUserType(){ return this.userType;}
+    public void setUserType(UserTypeEntity value){ this.userType = value;}
 }

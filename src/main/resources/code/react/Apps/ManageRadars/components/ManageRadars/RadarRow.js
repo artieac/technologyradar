@@ -6,7 +6,8 @@ import createReactClass from 'create-react-class';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState, addCurrentUserToState } from '../../redux/RadarReducer';
+import { addRadarsToState } from '../../redux/RadarReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import { RadarRepository} from '../../../../Repositories/RadarRepository';
 import { UserRepository } from '../../../../Repositories/UserRepository';
 
@@ -63,7 +64,7 @@ class RadarRow extends React.Component{
     }
 
     handleLockResponse() {
-        this.radarRepository.getByUserId(this.props.currentUser.id, this.props.currentUser.canSeeHistory, this.props.storeRadars);
+        this.radarRepository.getByUserId(this.props.currentUser.id, this.props.storeRadars);
     }
 
     handleIsLockedClick(event){
@@ -84,7 +85,7 @@ class RadarRow extends React.Component{
     }
 
     getAddFromPreviousLink(userId, radarId){
-        return '/admin/user/' + userId + '/radar/' + radarId + '/addfromprevious';
+        return '/manageradars/user/' + userId + '/radar/' + radarId + '/addfromprevious';
     }
 
     getAddItemsLink(radarId){
@@ -101,7 +102,7 @@ class RadarRow extends React.Component{
                  <td><input type="checkbox" ref="isLocked" checked={ this.props.rowData.isLocked } onClick = {(event) => this.handleIsLockedClick(event) }/></td>
                  <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-techradar" role="button" aria-disabled="true">Add Items</a></td>
                  <td>
-                    <Link to={ this.getAddFromPreviousLink(this.props.userId, this.props.rowData.id)}>
+                    <Link to={ this.getAddFromPreviousLink(this.props.currentUser.id, this.props.rowData.id)}>
                         <button type="button" className="btn btn-techradar" disabled={(this.props.rowData.isPublished==true) || (this.props.rowData.isLocked==true)}>Add From Previous</button>
                     </Link>
                 </td>
@@ -114,7 +115,7 @@ class RadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        currentUser: state.radarReducer.currentUser
+        currentUser: state.userReducer.currentUser
     };
 };
 

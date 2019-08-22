@@ -18,9 +18,8 @@ class RadarTypeListItem extends React.Component{
         this.handleShowEditClick = this.handleShowEditClick.bind(this);
         this.handleShowHistoryClick = this.handleShowHistoryClick.bind(this);
         this.handleGetHistorySuccess = this.handleGetHistorySuccess.bind(this);
-        this.handleAssociateRadarTypeChange = this.handleAssociateRadarTypeChange.bind(this);
-        this.handleAssociatedRadarTypeSuccess = this.handleAssociatedRadarTypeSuccess.bind(this);
-        this.handleGetAssociatedRadarTypesSuccess = this.handleGetAssociatedRadarTypesSuccess.bind(this);
+        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
+        this.handleDeleteResponse = this.handleDeleteResponse.bind(this);
     }
 
     handleShowEditClick(event){
@@ -40,48 +39,31 @@ class RadarTypeListItem extends React.Component{
         this.forceUpdate();
     }
 
-    handleAssociateRadarTypeChange(event){
-        var shouldAssociate = this.refs.shouldAssociate.checked;
-        this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
-        this.forceUpdate();
-    }
-
-    handleAssociatedRadarTypeSuccess(){
-       this.radarTypeRepository.getAssociatedRadarTypes(this.props.currentUser.id, this.handleGetAssociatedRadarTypesSuccess);
-    }
-
-    handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
-        this.props.storeAssociatedRadarTypes(associatedRadarTypes);
-    }
-
-    isAssociatedToUser(){
-        var retVal = false;
-
-        if(this.props.associatedRadarTypes.length > 0){
-            for(var i = 0; i < this.props.associatedRadarTypes.length; i++){
-                if(this.props.associatedRadarTypes[i].id==this.props.radarType.id && this.props.associatedRadarTypes[i].version == this.props.radarType.version){
-                    retVal = true;
-                    break;
-                }
-            }
+    handleOnDeleteClick() {
+        if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?"))
+        {
+            this.radarTypeRepository.deleteRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, this.handleDeleteResponse);
         }
+    }
 
-        return retVal;
+    handleDeleteResponse() {
+        this.radarTypeRepository.getByUserId(this.props.currentUser.id, false, this.props.storeRadarTypes);
+        this.forceUpdate();
     }
 
     render() {
         if(typeof this.props.radarType !== 'undefined'){
             return (
                 <div className={ this.props.rowNum % 2 > 0 ? "row alternatingRow" : "row"}>
-                    <div className="col-md-7">{this.props.radarType.name } </div>
-                    <div className={this.props.currentUser.id == this.props.radarType.radarUserId ? 'hidden' : 'col-md-6'}>
-                        <span>Use this?  <input type="checkbox" checked={this.isAssociatedToUser()} ref="shouldAssociate" onChange = {(event) => this.handleAssociateRadarTypeChange(event) }/></span>
+                    <div className="col-md-6">{this.props.radarType.name } </div>
+                    <div className="col-md-2">
+                       <input type="button" className="btn btn-techradar" value="View" onClick= {(event) => this.handleShowEditClick(event) } />
+                    </div>
+                    <div className={ this.props.currentUser.canVersionRadarTypes ? "col-md-2" : "hidden"}>
+                       <input type="button" className="btn btn-techradar" value="History" onClick= {(event) => this.handleShowHistoryClick(event) } />
                     </div>
                     <div className="col-md-2">
-                       <input type="button" className="btn btn-techradar" value="Edit" onClick= {(event) => this.handleShowEditClick(event) } />
-                    </div>
-                    <div className={ this.props.currentUser.canSeeHistory==true ? "col-md-2" : "col-md-2 hidden"}>
-                       <input type="button" className="btn btn-techradar" value="History" onClick= {(event) => this.handleShowHistoryClick(event) } />
+                        <input type="button" className="btn btn-techradar" value="Delete" onClick = {(event) => this.handleOnDeleteClick(event) }/>
                     </div>
                 </div>
             );
@@ -97,7 +79,7 @@ function mapStateToProps(state) {
   return {
         associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
         selectedRadarType : state.radarTypeReducer.selectedRadarType,
-        currentUser : state.radarTypeReducer.currentUser,
+        currentUser : state.userReducer.currentUser,
         showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit
 
@@ -110,7 +92,9 @@ const mapDispatchToProps = dispatch => {
         storeAssociatedRadarTypes : radarType => { dispatch(addAssociatedRadarTypesToState(radarType))},
         setShowHistory: showHistory => { dispatch(setShowHistory(showHistory))},
         setShowEdit: showEdit => { dispatch(setShowEdit(showEdit))},
-        storeRadarTypeHistory: radarTypeHistory => { dispatch(addRadarTypeHistoryToState(radarTypeHistory))}
+        storeRadarTypeHistory: radarTypeHistory => { dispatch(addRadarTypeHistoryToState(radarTypeHistory))},
+        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
+
     }
 };
 

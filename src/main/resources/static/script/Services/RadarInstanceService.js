@@ -87,11 +87,16 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         });
     }
 
+    this.getFulLViewUrl = function(userId, radarTypeId, radarTypeVersion)
+    {
+        return '/api/public/User/' + userId + '/RadarType/' + radarTypeId + '/Version/' + radarTypeVersion + '/Radar/FullView';
+    }
+
     this.getRadarFullView = function(userId, radarTypeId, radarTypeVersion, callbackFunction)
     {
         var getRequest = {};
 
-        getRequest = $resource('/api/public/User/' + userId + '/RadarType/' + radarTypeId + '/Version/' + radarTypeVersion + '/Radar/FullView');
+        getRequest = $resource(this.getFulLViewUrl(userId, radarTypeId, radarTypeVersion));
 
         getRequest.get(function(data)
         {

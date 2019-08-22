@@ -1,9 +1,9 @@
 export class RadarRepository{
 
-    getByUserId(userId, canSeeHistory, successHandler) {
+    getByUserId(userId, getAllVersions, successHandler) {
         var url = '/api/User/' + userId + '/Radars';
 
-        if(canSeeHistory==true){
+        if(getAllVersions==true){
             url += "?getAllVersions=true";
         }
 

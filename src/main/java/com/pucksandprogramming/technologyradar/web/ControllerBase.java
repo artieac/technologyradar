@@ -35,6 +35,26 @@ public class ControllerBase
                 {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
                 }
+                else
+                {
+                    if(this.securityEnabled==false)
+                    {
+                        RadarUser radarUser = this.radarUserService.findOne(1L);
+                        this.authenticatedUser= new AuthenticatedUser(radarUser);
+                        Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
+                        SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
+                    }
+                }
+            }
+            else
+            {
+                if(this.securityEnabled==false)
+                {
+                    RadarUser radarUser = this.radarUserService.findOne(1L);
+                    this.authenticatedUser= new AuthenticatedUser(radarUser);
+                    Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
+                    SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
+                }
             }
         }
 
@@ -45,18 +65,10 @@ public class ControllerBase
     {
         if(this.currentUser == null)
         {
-            if(this.securityEnabled==true)
-            {
-                if(this.getAuthenticatedUser()!=null)
-                {
-                    this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId());
-                }
-            }
-            else
-            {
-                this.currentUser = new RadarUser();
-                this.currentUser = this.radarUserService.findOne(1L);
-            }
+             if(this.getAuthenticatedUser()!=null)
+             {
+                 this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId());
+             }
         }
 
         return this.currentUser;

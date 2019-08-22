@@ -48,6 +48,30 @@ public abstract class SimpleDomainRepository<
     protected abstract Entity findOne(DomainModel domainModel);
 
     @Override
+    public Iterable<DomainModel> findAll()
+    {
+        List<DomainModel> retVal = new ArrayList<>();
+
+        Iterable<Entity> foundItems = this.entityRepository.findAll();
+
+        if (foundItems != null)
+        {
+            for (Entity entity : foundItems)
+            {
+                retVal.add(modelMapper.map(entity, domainModelClass));
+            }
+        }
+
+        return retVal;
+    }
+
+    @Override
+    public Iterable<DomainModel> findAll(Iterable<ID> iterable)
+    {
+        return null;
+    }
+
+    @Override
     public Iterable<DomainModel> findAll(Sort sort)
     {
         Iterable<Entity> sortedEntities = entityRepository.findAll(sort);
@@ -167,18 +191,6 @@ public abstract class SimpleDomainRepository<
     public boolean exists(ID id)
     {
         return entityRepository.exists(id);
-    }
-
-    @Override
-    public Iterable<DomainModel> findAll()
-    {
-        return this.findAll();
-    }
-
-    @Override
-    public Iterable<DomainModel> findAll(Iterable<ID> iterable)
-    {
-        return null;
     }
 
     @Override

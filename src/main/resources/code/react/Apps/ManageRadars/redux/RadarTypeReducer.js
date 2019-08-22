@@ -6,7 +6,6 @@ const radarTypeManagementState = {
   associatedRadarTypes: [],
   sharedRadarType: [],
   selectedRadarType: {},
-  currentUser: {},
   showHistory: false,
   showEdit: true,
   radarTypeHistory: []
@@ -30,13 +29,6 @@ export function setShowEdit(showEdit){
     return {
         type: actionTypes.SETSHOWEDIT,
         payload: showEdit
-    };
-}
-
-export function addCurrentUserToState(currentUser){
-    return {
-        type: actionTypes.SETCURRENTUSER,
-        payload: currentUser
     };
 }
 
@@ -87,11 +79,6 @@ export default function(state = radarTypeManagementState, action) {
         return Object.assign({}, state, {
             showEdit: action.payload,
             showHistory: !action.payload
-        })
-        break;
-    case actionTypes.SETCURRENTUSER:
-        return Object.assign({}, state, {
-            currentUser: action.payload
         })
         break;
     case actionTypes.SETSELECTEDRADARTYPE:

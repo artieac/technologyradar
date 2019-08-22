@@ -27,12 +27,21 @@ export class RadarTypeRepository {
             return retVal;
     }
 
-    getByUserId(userId, getAllVersions, successHandler) {
+    getByUserId(userId, successHandler) {
         var getUrl = '/api/User/' + userId + '/RadarTypes';
 
-        if(getAllVersions===false){
-            getUrl += '?getAllVersions=true';
-        }
+        jQuery.ajax({
+                url: getUrl,
+                async: true,
+                dataType: 'json',
+                success: function (radarTypeCollection) {
+                    successHandler(radarTypeCollection);
+                }.bind(this)
+            });
+    }
+
+    getMostRecentByUserId(userId, successHandler) {
+        var getUrl = '/api/User/' + userId + '/RadarTypes?mostRecent=true';
 
         jQuery.ajax({
                 url: getUrl,
@@ -45,7 +54,7 @@ export class RadarTypeRepository {
     }
 
     getHistory(userId, radarTypeId, successHandler){
-        var getUrl = '/api/User/' + userId + '/RadarType/' + radarTypeId + '?allVersions=true';
+        var getUrl = '/api/User/' + userId + '/RadarType/' + radarTypeId;
 
         jQuery.ajax({
                 url: getUrl,
@@ -57,13 +66,8 @@ export class RadarTypeRepository {
             });
     }
 
-    getOwnedAndAssociatedByUserId(userId, getAllVersions, successHandler){
+    getOwnedAndAssociatedByUserId(userId, successHandler){
         var url = '/api/User/' + userId + '/RadarTypes?includeOwned=true&includeAssociated=true';
-
-        if(getAllVersions==true)
-        {
-            url += "&allVersions=true";
-        }
 
         jQuery.ajax({
                  url: url,
@@ -134,16 +138,19 @@ export class RadarTypeRepository {
             });
     }
 
-    deleteRadarType(userId, radarType, successHandler){
+    deleteRadarType(userId, radarTypeId, radarTypeVersion, successHandler){
          $.ajax({
               headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
               },
               type: "DELETE",
-              url: '/api/User/' + userId + '/RadarType/' + radarType.id,
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + "/Version/" + radarTypeVersion,
              success: function() {
-                   successHandler();
+                   responseHandler();
+              },
+              error: function(xhr, status, err) {
+                    responseHandler();
               }
             });
     }

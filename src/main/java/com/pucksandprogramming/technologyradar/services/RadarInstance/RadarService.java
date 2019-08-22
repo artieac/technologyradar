@@ -22,10 +22,10 @@ public class RadarService extends ServiceBase
     protected RadarRingRepository radarRingRepository;
     protected RadarCategoryRepository radarCategoryRepository;
     protected RadarAccessManager radarAccessManager;
-    protected RadarTypeHistoryRepository radarTypeRepository;
+    protected RadarTypeRepository radarTypeRepository;
 
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
-                        RadarTypeHistoryRepository radarTypeRepository,
+                        RadarTypeRepository radarTypeRepository,
                         TechnologyRepository technologyRepository,
                         RadarRingRepository radarRingRepository,
                         RadarCategoryRepository radarCategoryRepository,
@@ -207,10 +207,9 @@ public class RadarService extends ServiceBase
             {
                 RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(dataOwner);
 
-                Radar radarInstance = radarRepository.findByIdAndName(radarUserId, name);
                 RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarVersion);
 
-                if (radarInstance == null && dataOwner != null && radarType != null)
+                if (dataOwner != null && radarType != null)
                 {
                     retVal = this.createDefault(dataOwner);
                     retVal.setName(name);

@@ -163,7 +163,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         Query query = this.entityManager.createNativeQuery(searchQuery, TechnologyEntity.class);
 
         if (hasTechnologyName) {
-            query.setParameter("technologyName", technologyName);
+            query.setParameter("technologyName", "%" + technologyName + "%");
         }
 
         if (hasRadarTypeId) {

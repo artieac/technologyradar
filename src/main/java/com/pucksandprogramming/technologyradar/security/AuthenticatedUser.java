@@ -2,6 +2,8 @@ package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +28,26 @@ public class AuthenticatedUser
     public AuthenticatedUser()
     {
 
+    }
+
+    public AuthenticatedUser(RadarUser radaruser)
+    {
+        this.setUserType(radaruser.getUserType());
+        this.setUserId(radaruser.getId());
+        this.setAuthTokenIssuer("Test");
+        this.setAuthToken("AAA");
+        this.setAuthExpiration(new Date("1/1/2021"));
+        this.setName(radaruser.getName());
+        this.setNickname(radaruser.getNickname());
+        this.setUserEmail(radaruser.getEmail());
+
+        Role userRole = Role.createRole(radaruser.getRoleId());
+        this.addGrantedAuthority(userRole.getName());
+
+        for(String permission : userRole.getPermissions())
+        {
+            this.addGrantedAuthority(permission);
+        }
     }
 
     public String getAuthority() { return "auth0";}

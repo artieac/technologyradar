@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTypesToState, addCurrentUserToState, addSelectedRadarTypeToState, addTargetUserToState } from '../../redux/RadarTypeReducer';
+import { addRadarTypesToState, addSelectedRadarTypeToState, addTargetUserToState } from '../../redux/RadarTypeReducer';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
 import RadarTypeHistory from './RadarTypeHistory';
@@ -31,7 +32,23 @@ class OwnedRadarTypesPage extends React.Component{
 
     handleGetCurrentUserSuccess(currentUser){
        this.props.storeCurrentUser(currentUser);
-       this.radarTypeRepository.getByUserId(currentUser.id, false, this.props.storeRadarTypes);
+       this.radarTypeRepository.getMostRecentByUserId(currentUser.id, this.props.storeRadarTypes);
+    }
+
+    canAddRadarTypes() {
+        var retVal = false;
+
+        if(this.props.currentUser !== undefined)
+        {
+            if(this.props.radarTypes !== undefined)
+            {
+                if(this.props.radarTypes.length < this.props.currentUser.canHaveNRadarTypes)
+                {
+                    retVal = true;
+                }
+            }
+        }
+        return retVal;
     }
 
     render() {
@@ -40,12 +57,15 @@ class OwnedRadarTypesPage extends React.Component{
                 <div className="contentPageTitle">
                     <label>Manage Your Radar Types</label>
                 </div>
-                <p>Add a new type to have rate different types of things</p>
+                <p>Add a new Type to have rate different types of things</p>
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
-                            <div className="col-md-6">
+                            <div className={ this.canAddRadarTypes()==true ? "col-md-6" : "col-md-6 hidden"}>
                                <NewRadarTypeRow />
+                            </div>
+                           <div className={ this.canAddRadarTypes()==false ? "col-md-6" : "col-md-6 hidden"}>
+                               <div className="errorText">You are only allowed { this.props.currentUser.canHaveNRadarTypes } Radar Types.  If you want a new one you need to delete one of your existing Radar Types.</div>
                             </div>
                         </div>
                         <div className="row">
@@ -55,9 +75,9 @@ class OwnedRadarTypesPage extends React.Component{
                         </div>
                     </div>
                     <div className={ this.props.showEdit==true ? "col-md-8" : "hidden"}>
-                        <RadarTypeDetails  parentContainer={this} editMode={true}/>
+                        <RadarTypeDetails  parentContainer={this} editMode={ true } canVersionRadarTypes={this.props.currentUser.canVersionRadarTypes }/>
                     </div>
-                    <div className={ this.props.currentUser.canSeeHistory==true && this.props.showHistory==true ? "col-md-8" : "hidden"}>
+                    <div className={ this.props.currentUser.canVersionRadarTypes && this.props.showHistory==true ? "col-md-8" : "hidden" }>
                         <RadarTypeHistory parentContainer={this}/>
                     </div>
                 </div>
@@ -69,7 +89,7 @@ class OwnedRadarTypesPage extends React.Component{
 function mapStateToProps(state) {
   return {
     	radarTypes: state.radarTypeReducer.radarTypes,
-    	currentUser: state.radarTypeReducer.currentUser,
+    	currentUser: state.userReducer.currentUser,
     	showHistory: state.radarTypeReducer.showHistory,
     	showEdit: state.radarTypeReducer.showEdit
     };

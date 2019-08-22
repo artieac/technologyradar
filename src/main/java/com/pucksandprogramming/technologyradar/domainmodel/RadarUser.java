@@ -1,12 +1,5 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by acorrea on 12/23/2017.
  */
@@ -20,7 +13,7 @@ public class RadarUser {
     private String email;
     private String nickname;
     private String name;
-    private Integer userType;
+    private UserType userType;
 
     public RadarUser()
     {
@@ -51,49 +44,23 @@ public class RadarUser {
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public Integer getUserType(){ return this.userType;}
-    public void setUserType(Integer value){ this.userType = value;}
+    public UserType getUserType(){ return this.userType;}
+    public void setUserType(UserType value){ this.userType = value;}
 
-    private UserType getCurrentUserType()
-    {
-        UserType retVal = null;
-
-        switch(this.userType)
-        {
-            case 0:
-                retVal = UserType.GetFreeUser();
-                break;
-            case 1:
-                retVal = UserType.GetSubscribedUser();
-                break;
-            case 2:
-                retVal = UserType.GetSubscribedUser();
-                break;
-            case 3:
-                retVal = UserType.GetTeamUser();
-                break;
-        }
-
-        return retVal;
-    }
-
-    public boolean canSeeHistory()
-    {
-        return this.getCurrentUserType().isGrantEnabled(UserRights.CanViewHistory);
-    }
+    public boolean canVersionRadarTypes() { return this.userType.isGrantEnabled(UserRights.CanVersionRadarTypes);}
 
     public boolean canShareRadarTypes()
     {
-        return this.getCurrentUserType().isGrantEnabled(UserRights.CanShareRadarTypes);
+        return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes);
     }
 
     public int howManyRadarsCanShare()
     {
-        return this.getCurrentUserType().getGrantValue(UserRights.CanShareNRadars);
+        return this.userType.getGrantValue(UserRights.CanShareNRadars);
     }
 
     public boolean canHaveVariableRadarRingCounts()
     {
-        return this.getCurrentUserType().isGrantEnabled(UserRights.AllowVarableRadarRingCount);
+        return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount);
     }
 }

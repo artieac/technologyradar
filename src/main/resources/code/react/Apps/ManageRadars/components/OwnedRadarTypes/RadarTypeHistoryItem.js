@@ -44,7 +44,7 @@ class RadarTypeHistoryItem extends React.Component{
 function mapStateToProps(state) {
   return {
         selectedRadarType : state.radarTypeReducer.selectedRadarType,
-        currentUser : state.radarTypeReducer.currentUser,
+        currentUser : state.userReducer.currentUser,
     };
 };
 

@@ -116,7 +116,7 @@ function mapStateToProps(state) {
     	selectedRadarType: state.radarTypeReducer.selectedRadarType,
         showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit,
-        currentUser: state.radarTypeReducer.currentUser
+        currentUser: state.userReducer.currentUser
 
     };
 };

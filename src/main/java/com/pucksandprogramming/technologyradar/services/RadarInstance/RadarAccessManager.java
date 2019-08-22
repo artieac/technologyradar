@@ -2,14 +2,10 @@ package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
-import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeAccessManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import javax.swing.text.View;
 
 @Component
 public class RadarAccessManager

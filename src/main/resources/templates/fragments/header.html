@@ -9,7 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta content="Arthur, Correa, Arthur Correa, Computer, Java, Technology, Radar,  Technology Radar, MicroService, Service, SOA" name="keywords" />
     <meta name="description" content="A Technology Radar application built by Arthur Correa" />
-    <head th:fragment="scriptHeader">
+<head th:fragment="scriptHeader">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-145834336-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-145834336-2');
+    </script>
     <script type="text/javascript" src="/script/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/webjars/angularjs/1.4.1/angular.js"></script>
     <script type="text/javascript" src="/webjars/angularjs/1.4.1/angular-resource.js"></script>
@@ -29,17 +38,6 @@
     <link rel="stylesheet" href="/css/common.css" type="text/css"/>
     <link rel="stylesheet" href="/css/Navbar.css" type="text/css"/>
     <link rel="stylesheet" href="/css/Radar.css" type="text/css"/>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=UA-114077550-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-114077550-1');
-    </script>
-
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top" th:fragment="uiHeader">

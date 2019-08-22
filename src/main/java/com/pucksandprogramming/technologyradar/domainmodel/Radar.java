@@ -68,7 +68,7 @@ public class Radar implements Serializable
 
         for (int i = 0; i < this.radarItems.size(); i++)
         {
-            if (this.radarItems.get(i).getId() == radarItemId)
+            if (this.radarItems.get(i).getId().compareTo(radarItemId)==0)
             {
                 retVal = this.radarItems.get(i);
                 break;

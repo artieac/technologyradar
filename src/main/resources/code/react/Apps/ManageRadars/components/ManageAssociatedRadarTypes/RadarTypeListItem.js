@@ -21,6 +21,7 @@ class RadarTypeListItem extends React.Component{
         this.handleAssociateRadarTypeChange = this.handleAssociateRadarTypeChange.bind(this);
         this.handleAssociatedRadarTypeSuccess = this.handleAssociatedRadarTypeSuccess.bind(this);
         this.handleGetAssociatedRadarTypesSuccess = this.handleGetAssociatedRadarTypesSuccess.bind(this);
+        this.canAssociateRadarTypes = this.canAssociateRadarTypes.bind(this);
     }
 
     handleShowEditClick(event){
@@ -42,12 +43,28 @@ class RadarTypeListItem extends React.Component{
 
     handleAssociateRadarTypeChange(event){
         var shouldAssociate = this.refs.shouldAssociate.checked;
-        this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
-        this.forceUpdate();
+
+        if(shouldAssociate==true)
+        {
+            if(this.canAssociateRadarTypes(this.props.currentUser, this.props.associatedRadarTypes)==true)
+            {
+                this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
+                this.forceUpdate();
+            }
+            else
+            {
+                alert("You are only allowed to use " + this.props.currentUser.canHaveNAssociatedRadarTypes + " types from other users.  Please uncheck another before trying to add this one.");
+            }
+        }
+        else
+        {
+            this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
+            this.forceUpdate();
+        }
     }
 
     handleAssociatedRadarTypeSuccess(){
-       this.radarTypeRepository.getAssociatedRadarTypes(this.props.currentUser.id, this.handleGetAssociatedRadarTypesSuccess);
+       this.radarTypeRepository.getAssociatedRadarTypes(this.props.currentUser.id, this.props.storeAssociatedRadarTypes);
     }
 
     handleGetAssociatedRadarTypesSuccess(associatedRadarTypes){
@@ -69,6 +86,18 @@ class RadarTypeListItem extends React.Component{
         return retVal;
     }
 
+    canAssociateRadarTypes(currentUser, associatedRadarTypes) {
+        var retVal = false;
+
+        if(currentUser !== undefined && associatedRadarTypes !== undefined){
+            if(associatedRadarTypes.length < currentUser.canHaveNAssociatedRadarTypes){
+                retVal = true;
+            }
+        }
+
+        return retVal;
+    }
+
     render() {
         if(typeof this.props.radarType !== 'undefined'){
             return (
@@ -80,7 +109,7 @@ class RadarTypeListItem extends React.Component{
                     <div className="col-md-2">
                        <input type="button" className="btn btn-techradar" value="View" onClick= {(event) => this.handleShowEditClick(event) } />
                     </div>
-                    <div className={ this.props.currentUser.canSeeHistory==true ? "col-md-2" : "col-md-2 hidden"}>
+                    <div className="col-md-2">
                        <input type="button" className="btn btn-techradar" value="History" onClick= {(event) => this.handleShowHistoryClick(event) } />
                     </div>
                 </div>
@@ -97,7 +126,7 @@ function mapStateToProps(state) {
   return {
         associatedRadarTypes: state.radarTypeReducer.associatedRadarTypes,
         selectedRadarType : state.radarTypeReducer.selectedRadarType,
-        currentUser : state.radarTypeReducer.currentUser,
+        currentUser : state.userReducer.currentUser,
         showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit
 

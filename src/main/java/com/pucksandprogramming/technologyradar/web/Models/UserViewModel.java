@@ -4,9 +4,6 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
-import org.apache.catalina.User;
-
-import javax.persistence.Column;
 
 public class UserViewModel
 {
@@ -23,13 +20,11 @@ public class UserViewModel
         retVal.setId(-1L);
         retVal.setEmail("");
         retVal.setName("");
-        retVal.setCanSeeHistory(false);
-        retVal.setCanSeeHistory(false);
-        retVal.setHowManyRadarsCanShare(1);
         retVal.setNumberOfSharedRadar(0);
         retVal.setCanHaveVariableRadarRingCount(true);
         retVal.setRole(Role.createUserRole());
-        retVal.setUserType(UserType.createUser(UserType.Free));
+        retVal.setCanVersionRadarTypes(false);
+        retVal.setUserType(UserType.DefaultInstance());
 
         return retVal;
     }
@@ -47,8 +42,7 @@ public class UserViewModel
             this.setEmail(source.getEmail());
             this.setName(source.getName());
             this.setRole(Role.createRole(source.getRoleId()));
-            this.setUserType(UserType.createUser(source.getUserType()));
-            this.setCanSeeHistory(source.canSeeHistory());
+            this.setUserType(source.getUserType());
             this.setCanShareRadarTypes(source.canShareRadarTypes());
             this.setHowManyRadarsCanShare(source.howManyRadarsCanShare());
             this.setCanHaveVariableRadarRingCount(source.canHaveVariableRadarRingCounts());
@@ -64,16 +58,19 @@ public class UserViewModel
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public boolean getCanSeeHistory()
+    public Integer getCanHaveNRadarTypes()
     {
-        return this.userType.isGrantEnabled(UserRights.CanViewHistory);
+        return this.userType.getGrantValue(UserRights.AllowNRadarTypes);
     }
-    public void setCanSeeHistory(boolean value) { }
+    public void setCanHaveNRadarTypes(Integer value) { }
 
-    public boolean getCanShareRadarTypes()
-    {
-        return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes);
-    }
+    public Integer getCanHaveNAssociatedRadarTypes() { return this.userType.getGrantValue(UserRights.AllowNAssociatedRadarTypes); }
+    public void setCanHaveNAssociatedRadarTypes(Integer value) { }
+
+    public boolean getCanVersionRadarTypes() { return this.userType.isGrantEnabled(UserRights.CanVersionRadarTypes);}
+    public void setCanVersionRadarTypes(boolean value) { }
+
+    public boolean getCanShareRadarTypes(){ return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes); }
     public void setCanShareRadarTypes(boolean value) { }
 
     public Integer getHowManyRadarsCanShare()
@@ -85,10 +82,7 @@ public class UserViewModel
     public Integer getNumberOfSharedRadars() { return this.numberOfSharedRadars;}
     public void setNumberOfSharedRadar(Integer value) { this.numberOfSharedRadars = value;}
 
-    public boolean getCanHaveVariableRadarRingCount()
-    {
-        return this.userType.isGrantEnabled(UserRights.AllowVarableRadarRingCount);
-    }
+    public boolean getCanHaveVariableRadarRingCount() { return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount); }
     public void setCanHaveVariableRadarRingCount(boolean value) { }
 
     public boolean getCanSeeFullView()
@@ -96,6 +90,9 @@ public class UserViewModel
         return this.userType.isGrantEnabled(UserRights.CanSeeFullView);
     }
     public void setCanSeeFullView(boolean value) { }
+
+    public boolean getAllowTeamMembersToManageRadars() { return this.userType.isGrantEnabled(UserRights.AllowTeamMembersToManageRadars); }
+    public void setAllowTeamMembersToManageRadars(boolean value) { }
 
     public Role getRole() { return this.role;}
     public void setRole(Role value) { this.role = value;}
