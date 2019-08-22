@@ -12,9 +12,9 @@ public class RadarTypeViewModel
     private String name;
     private boolean isPublished;
     private Long radarUserId;
+    private String description;
     private List<RadarTypeDetailMessage> radarRings;
     private List<RadarTypeDetailMessage> radarCategories;
-    private String description;
 
     public RadarTypeViewModel()
     {

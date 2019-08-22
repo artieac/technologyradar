@@ -8,6 +8,7 @@ public class UserType
     public static final Integer Subscriber_Trial = 2;
     public static final Integer Subscriber = 3;
     public static final Integer Team = 4;
+    public static final Integer VIPSubscriber = 5;
 
     public static UserType DefaultInstance()
     {
@@ -34,10 +35,25 @@ public class UserType
     public static HashMap<String, Integer> GetSubscribedUserRights()
     {
         HashMap<String, Integer> retVal = new HashMap<>();
-        retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
+        retVal.put(UserRights.CanShareNRadars, 10);
         retVal.put(UserRights.CanShareRadarTypes, 1);
         retVal.put(UserRights.AllowNRadarTypes, 10);
         retVal.put(UserRights.AllowNAssociatedRadarTypes, 10);
+        retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
+        retVal.put(UserRights.AllowVariableRadarRingCount, 1);
+        retVal.put(UserRights.CanSeeFullView, 1);
+        retVal.put(UserRights.CanVersionRadarTypes, 0);
+
+        return retVal;
+    }
+
+    public static HashMap<String, Integer> GetVIPSubscriberRights()
+    {
+        HashMap<String, Integer> retVal = new HashMap<>();
+        retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
+        retVal.put(UserRights.CanShareRadarTypes, 1);
+        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
@@ -51,8 +67,8 @@ public class UserType
         HashMap<String, Integer> retVal = new HashMap<String, Integer>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
         retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNRadarTypes, 10);
+        retVal.put(UserRights.AllowNAssociatedRadarTypes, 10);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 1);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
@@ -77,6 +93,10 @@ public class UserType
         else if (this.id == UserType.Team)
         {
             this.grantedRights = UserType.GetTeamUserRights();
+        }
+        else if(this.id == UserType.VIPSubscriber)
+        {
+            this.grantedRights = UserType.GetVIPSubscriberRights();
         }
         else
         {
