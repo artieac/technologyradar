@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class RadarTypeRepository extends SimpleDomainRepository<RadarType, RadarTypeEntity, RadarTypeDAO, VersionedIdEntity>
@@ -348,6 +346,9 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         retVal = this.modelMapper.map(itemToSave, RadarTypeEntity.class);
         retVal.getVersionedId().setId(itemToSave.getId());
         retVal.setVersionedId(this.getNextVersionNumber(itemToSave.getRadarUser().getId(), retVal));
+        retVal.setIsPublished(false);
+        retVal.setCreateDate(Calendar.getInstance());
+        retVal.setState(RadarType.State_Active);
 
         for(RadarRingEntity radarRingEntity : retVal.getRadarRings())
         {
@@ -445,17 +446,17 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
         if (radarType != null && radarUser != null)
         {
-            AssociatedRadarTypeEntity associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
+            AssociatedRadarTypeEntity associatedRadarTypeEntityRadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
 
-            if(associatedRadarTypeEntityadarTypeEntity==null)
+            if(associatedRadarTypeEntityRadarTypeEntity==null)
             {
-                associatedRadarTypeEntityadarTypeEntity = new AssociatedRadarTypeEntity();
-                associatedRadarTypeEntityadarTypeEntity.setRadarUserId(radarUser.getId());
-                associatedRadarTypeEntityadarTypeEntity.setRadarTypeId(radarType.getId());
-                associatedRadarTypeEntityadarTypeEntity.setRadarTypeVersion(radarType.getVersion());
-                associatedRadarTypeEntityadarTypeEntity = this.associatedRadarTypeDAO.save(associatedRadarTypeEntityadarTypeEntity);
+                associatedRadarTypeEntityRadarTypeEntity = new AssociatedRadarTypeEntity();
+                associatedRadarTypeEntityRadarTypeEntity.setRadarUserId(radarUser.getId());
+                associatedRadarTypeEntityRadarTypeEntity.setRadarTypeId(radarType.getId());
+                associatedRadarTypeEntityRadarTypeEntity.setRadarTypeVersion(radarType.getVersion());
+                associatedRadarTypeEntityRadarTypeEntity = this.associatedRadarTypeDAO.save(associatedRadarTypeEntityRadarTypeEntity);
 
-                if(associatedRadarTypeEntityadarTypeEntity.getId() > 0)
+                if(associatedRadarTypeEntityRadarTypeEntity.getId() > 0)
                 {
                     retVal = true;
                 }
