@@ -72,3 +72,19 @@ UPDATE `TechnologyAssessments` SET `RadarRingSetId` = 3 WHERE ID IN (9);
 UPDATE `TechnologyAssessments` SET `RadarCategorySetId` = 1 WHERE ID IN (1,3,4,9);
 UPDATE `TechnologyAssessments` SET `RadarCategorySetId` = 2 WHERE ID IN (8, 9);
 
+CREATE TABLE `RadarTemplates`(
+	`Id` BIGINT NOT NULL AUTO_INCREMENT,
+    `RadarUserId` BIGINT NOT NULL,
+	`Name` NVARCHAR(50) NOT NULL,
+	`Description` NVARCHAR(100) NOT NULL,
+	`RadarCategorySetId` BIGINT NOT NULL,
+	`RadarRingSetId` BIGINT NOT NULL,
+	`State` INT NOT NULL,
+	PRIMARY KEY (`Id`),
+	UNIQUE INDEX `IX_RadarTemplate_Id` (`Id` ASC));
+
+INSERT INTO `RadarTemplates` (Name, RadarUserId, Description, RadarCategorySetId, RadarRingSetId, State) VALUES ('Technology Radar',1, "TechnologyRadar", 1, 1, 1);
+INSERT INTO `RadarTemplates` (Name, RadarUserId, Description, RadarCategorySetId, RadarRingSetId, State) VALUES ('Walt Disney World Must Dos',1, "TechnologyRadar", 2, 2, 1);
+INSERT INTO `RadarTemplates` (Name, RadarUserId, Description, RadarCategorySetId, RadarRingSetId, State) VALUES ('Walt Disney World Wait Times',1, "TechnologyRadar", 2, 3, 1);
+
+
