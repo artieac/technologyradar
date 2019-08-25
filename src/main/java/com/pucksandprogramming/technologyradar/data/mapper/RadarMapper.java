@@ -35,8 +35,6 @@ public class RadarMapper
         // Product Config
         modelMapper.addMappings(radarConfigModelMap);
         modelMapper.addMappings(radarCategoryModelMap);
-        modelMapper.addMappings(radarTypeModelMap);
-        modelMapper.addMappings(radarTypeEntityModelMap);
         modelMapper.addMappings(technologyConfigModelMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
@@ -121,24 +119,24 @@ public class RadarMapper
                 }
             };
 
-    private PropertyMap<RadarTypeEntity, RadarType> radarTypeModelMap =
-            new PropertyMap<RadarTypeEntity, RadarType>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getVersionedId().getId());
-                    map().setVersion(source.getVersionedId().getVersion());
-                }
-            };
+//    private PropertyMap<RadarTypeEntity, RadarType> radarTypeModelMap =
+//            new PropertyMap<RadarTypeEntity, RadarType>()
+//            {
+//                protected void configure()
+//                {
+//                    map().setId(source.getVersionedId().getId());
+//                    map().setVersion(source.getVersionedId().getVersion());
+//                }
+//            };
 
-    private PropertyMap<RadarType, RadarTypeEntity> radarTypeEntityModelMap =
-            new PropertyMap<RadarType, RadarTypeEntity>()
-            {
-                protected void configure()
-                {
-                    skip().setVersionedId(null);
-                }
-            };
+//    private PropertyMap<RadarType, RadarTypeEntity> radarTypeEntityModelMap =
+//            new PropertyMap<RadarType, RadarTypeEntity>()
+//            {
+//                protected void configure()
+//                {
+//                    skip().setVersionedId(null);
+//                }
+//            };
 
     private PropertyMap<RadarUserEntity, RadarUser> radarUserModelMap =
             new PropertyMap<RadarUserEntity, RadarUser>()

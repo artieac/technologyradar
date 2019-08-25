@@ -1,9 +1,6 @@
 package com.pucksandprogramming.technologyradar.web.Models;
 
-import com.pucksandprogramming.technologyradar.domainmodel.Radar;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.domainmodel.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +16,8 @@ public class RadarViewModel
     private List<RadarItem> radarItems;
     private boolean isPublished;
     private boolean isLocked;
-    private RadarTypeViewModel radarType;
+    private RadarRingSetViewModel radarRingSet;
+    private RadarCategorySetViewModel radarCategorySet;
 
     public RadarViewModel()
     {
@@ -41,7 +39,8 @@ public class RadarViewModel
         this.radarItems = source.getRadarItems();
         this.isPublished = source.getIsPublished();
         this.isLocked = source.getIsLocked();
-        this.radarType = new RadarTypeViewModel(source.getRadarType());
+        this.radarRingSet = new RadarRingSetViewModel(source.getRadarRingSet());
+        this.radarCategorySet = new RadarCategorySetViewModel(source.getRadarCategorySet());
     }
 
     public Long getId(){ return id;}
@@ -75,7 +74,9 @@ public class RadarViewModel
     public boolean getIsLocked(){ return this.isLocked;}
     public void setIsLocked(boolean value){ this.isLocked = value;}
 
-    public RadarTypeViewModel getRadarType() { return this.radarType;}
-    public void setRadarType(RadarTypeViewModel value) { this.radarType = value;}
+    public RadarRingSetViewModel getRadarRingSet() { return this.radarRingSet;}
+    public void setRadarRingSet(RadarRingSetViewModel value) { this.radarRingSet = value;}
 
+    public RadarCategorySetViewModel getRadarCategorySet() { return this.radarCategorySet;}
+    public void setRadarCategorySet(RadarCategorySetViewModel value) { this.radarCategorySet = value;}
 }

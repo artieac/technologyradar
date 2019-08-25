@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Import;
 @EnableAutoConfiguration
 @Import(WebSecurityConfig.class)
 @SpringBootApplication
-public class TechnologyradarApplication {
+public class TechnologyRadarApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TechnologyradarApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TechnologyRadarApplication.class, args);
+    }
 }

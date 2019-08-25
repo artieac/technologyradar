@@ -22,10 +22,12 @@ public class RadarService extends ServiceBase
     protected RadarRingRepository radarRingRepository;
     protected RadarCategoryRepository radarCategoryRepository;
     protected RadarAccessManager radarAccessManager;
-    protected RadarTypeRepository radarTypeRepository;
+    protected RadarRingSetRepository radarRingSetRepository;
+    protected RadarCategorySetRepository radarCategorySetRepository;
 
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
-                        RadarTypeRepository radarTypeRepository,
+                        RadarRingSetRepository radarRingSetRepository,
+                        RadarCategorySetRepository radarCategorySetRepository,
                         TechnologyRepository technologyRepository,
                         RadarRingRepository radarRingRepository,
                         RadarCategoryRepository radarCategoryRepository,
@@ -39,7 +41,8 @@ public class RadarService extends ServiceBase
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarAccessManager = radarAccessManager;
-        this.radarTypeRepository = radarTypeRepository;
+        this.radarRingSetRepository = radarRingSetRepository;
+        this.radarCategoryRepository = radarCategoryRepository;
     }
 
     public Radar createDefault(RadarUser radarUser)
@@ -170,20 +173,22 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    public Radar findCurrentByRadarRingSetAndRadarCategorySet(Long radarUserId, Long radarRingSetId, Long radarCategorySetId)
     {
         Radar retVal = null;
 
         RadarUser dataOwner = this.getRadarUserRepository().findOne(radarUserId);
-        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarTypeVersion);
+        RadarRingSet radarRingSet = this.radarRingSetRepository.findOne(radarRingSetId);
+        RadarCategorySet radarCategorySet = this.radarCategorySetRepository.findOne(radarCategorySetId);
 
         if(dataOwner != null)
         {
-            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
+            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByRadarRingSetAndRadarCategorySet(radarUserId, radarRingSetId, radarCategorySetId);
 
             retVal = new Radar();
             retVal.setAssessmentDate(new Date());
-            retVal.setRadarType(radarType);
+            retVal.setRadarRingSet(radarRingSet);
+            retVal.setRadarCategorySet(radarCategorySet);
             retVal.setIsLocked(true);
             retVal.setIsPublished(true);
             retVal.setName("Current");
@@ -195,7 +200,7 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar addRadar(Long radarUserId, String name, String radarTypeId, Long radarVersion)
+    public Radar addRadar(Long radarUserId, String name, Long radarRingSetId, Long radarCategorySetId)
     {
         Radar retVal = null;
 
@@ -207,13 +212,15 @@ public class RadarService extends ServiceBase
             {
                 RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(dataOwner);
 
-                RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarVersion);
+                RadarRingSet radarRingSet = this.radarRingSetRepository.findOne(radarRingSetId);
+                RadarCategorySet radarCategorySet = this.radarCategorySetRepository.findOne(radarCategorySetId);
 
-                if (dataOwner != null && radarType != null)
+                if (dataOwner != null && radarRingSet != null && radarCategorySet != null)
                 {
                     retVal = this.createDefault(dataOwner);
                     retVal.setName(name);
-                    retVal.setRadarType(radarType);
+                    retVal.setRadarRingSet(radarRingSet);
+                    retVal.setRadarCategorySet(radarCategorySet);
                     radarRepository.save(retVal);
                 }
             }
@@ -307,7 +314,7 @@ public class RadarService extends ServiceBase
                     RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
                     RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarCategoryId);
 
-                    if (retVal.getRadarType().hasRadarRing(radarRing) && retVal.getRadarType().hasRadarCategory(radarCategory))
+                    if (retVal.getRadarRingSet().hasRadarRing(radarRing) && retVal.getRadarCategorySet().hasRadarCategory(radarCategory))
                     {
                         RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(radarUser);
 

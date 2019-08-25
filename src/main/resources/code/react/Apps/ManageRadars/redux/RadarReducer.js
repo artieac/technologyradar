@@ -7,7 +7,9 @@ const radarManagementState = {
   sourceRadar: {},
   radarItemsToAdd: [],
   radarItemsToRemove: [],
-  radarTypes: []
+  radarTypes: [],
+  radarRingSets: [],
+  radarCategorySets: []
 };
 
 export function addRadarsToState(radars){
@@ -79,6 +81,19 @@ export function clearAddRadarItems(){
     };
 }
 
+export function addRadarRingSetsToState(radarRingSets){
+    return {
+        type: actionTypes.SETRADARRINGSETS,
+        payload: {radarRingSets}
+    };
+}
+
+export function addRadarCategorySetsToState(radarCategorySets){
+    return {
+        type: actionTypes.SETRADARCATEGORYSETS,
+        payload: {radarCategorySets}
+    };
+}
 
 export default function(state = radarManagementState, action) {
  // alert(JSON.stringify(action));
@@ -121,6 +136,16 @@ export default function(state = radarManagementState, action) {
     case actionTypes.SETRADARTYPECOLLECTION:
         return Object.assign({}, state, {
             radarTypes: action.payload
+        })
+        break;
+    case actionTypes.SETRADARRINGSETS:
+        return Object.assign({}, state, {
+            radarRingSets: action.payload
+        })
+        break;
+    case actionTypes.SETRADARCATEGORYSETS:
+        return Object.assign({}, state, {
+            radarCategorySets: action.payload
         })
         break;
     default:

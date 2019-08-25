@@ -1,21 +1,13 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
 import javax.persistence.*;
+import java.util.Comparator;
 
 /**
  * Created by acorrea on 10/19/2016.
  */
 @Entity
 @Table(name = "RadarRings")
-@org.hibernate.annotations.NamedNativeQueries
-(
-        {
-                @org.hibernate.annotations.NamedNativeQuery(name = "checkIfHasItems", query = "SELECT RadarRingId, MAX(Id) FROM TechnologyAssessmentItems WHERE RadarRingId IN :radarRingIdList GROUP BY RadarRingId", resultClass = RadarTypeEntity.class),
-        }
-)
-
-
-
 public class RadarRingEntity
 {
     @Id
@@ -31,13 +23,9 @@ public class RadarRingEntity
     @Column(name="DisplayOrder", nullable=false)
     private Long displayOrder;
 
+    @JoinColumn(name = "radarRingSetId", referencedColumnName = "id")
     @ManyToOne(optional=false)
-    @JoinColumns
-    ({
-        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
-        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
-    })
-    private RadarTypeEntity radarType;
+    private RadarRingSetEntity radarRingSet;
 
     public RadarRingEntity()
     {
@@ -53,6 +41,6 @@ public class RadarRingEntity
     public Long getDisplayOrder(){ return this.displayOrder;}
     public void setDisplayOrder(Long value){ this.displayOrder = value;}
 
-    public RadarTypeEntity getRadarType() { return this.radarType;}
-    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
+    public RadarRingSetEntity getRadarRingSet() { return this.radarRingSet;}
+    public void setRadarRingSet(RadarRingSetEntity value) { this.radarRingSet = value;}
 }

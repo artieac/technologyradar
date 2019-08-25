@@ -20,9 +20,6 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     EntityManager entityManager;
 
     @Autowired
-    RadarTypeDAO radarTypeDAO;
-
-    @Autowired
     RadarRingDAO radarRingDAO;
 
     @Autowired

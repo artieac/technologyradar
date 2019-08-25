@@ -57,8 +57,8 @@ public class HomeController extends ControllerBase
             if (targetRadar != null)
             {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
-                modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", targetRadar.getRadarType().getVersion());
+                modelAndView.addObject("radarRingSetId", targetRadar.getRadarRingSet().getId());
+                modelAndView.addObject("radarCategorySetId", targetRadar.getRadarCategorySet().getId());
             }
         }
 
@@ -81,8 +81,8 @@ public class HomeController extends ControllerBase
             if (radarInstances != null && radarInstances.size() > 0)
             {
                 modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
-                modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", radarInstances.get(0).getRadarType().getVersion());
+                modelAndView.addObject("radarRingSetId", radarInstances.get(0).getRadarRingSet().getId());
+                modelAndView.addObject("radarCategorySetId", radarInstances.get(0).getRadarCategorySet().getId());
             }
         }
 
@@ -110,8 +110,8 @@ public class HomeController extends ControllerBase
 
             if(radarInstance!=null)
             {
-                modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", radarInstance.getRadarType().getVersion());
+                modelAndView.addObject("radarRingSetId", radarInstance.getRadarRingSet().getId());
+                modelAndView.addObject("radarCategorySetId", radarInstance.getRadarCategorySet().getId());
             }
         }
 
@@ -131,7 +131,8 @@ public class HomeController extends ControllerBase
         if(radarInstances != null && radarInstances.size() > 0)
         {
             modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
-            modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
+            modelAndView.addObject("radarRingSetId", radarInstances.get(0).getRadarRingSet().getId());
+            modelAndView.addObject("radarCategorySetId", radarInstances.get(0).getRadarCategorySet().getId());
         }
 
         if(isEmbeddable)
@@ -141,37 +142,6 @@ public class HomeController extends ControllerBase
         else {
             modelAndView.setViewName("home/radar");
         }
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = { "/public/home/user/{userId}/radartype/{radarTypeId}/radars"})
-    public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable String radarTypeId,
-                                                @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
-
-    {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userId", userId);
-        modelAndView.addObject("radarTypeId", radarTypeId);
-
-        if(mostRecent==true)
-        {
-            List<Radar> radarInstances = this.radarService.findByUserAndType(userId, radarTypeId);
-
-            if (radarInstances != null && radarInstances.size() > 0)
-            {
-                Radar mostRecentRadar = Collections.max(radarInstances, new MostRecentRadarComparator());
-
-                if (mostRecentRadar != null)
-                {
-                    modelAndView.addObject("radarTypeVersion", mostRecentRadar.getRadarType().getVersion());
-                    modelAndView.addObject("radarInstanceId", mostRecentRadar.getId());
-                }
-            }
-        }
-
-        modelAndView.setViewName("home/radar");
 
         return modelAndView;
     }

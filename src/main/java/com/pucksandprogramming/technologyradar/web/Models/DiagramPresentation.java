@@ -2,10 +2,9 @@ package com.pucksandprogramming.technologyradar.web.Models;
 
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarCategorySet;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
-import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
-import com.pucksandprogramming.technologyradar.web.Models.RadarTypeViewModel;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarRingSet;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,8 +32,8 @@ public class DiagramPresentation
     private Date assessmentDate;
     private List<Quadrant> quadrantList;
     private List<RadarRingPresentation> radarArcs;
-    private List<RadarRing> radarRings;
-    private RadarTypeViewModel radarType;
+    private RadarRingSet radarRingSet;
+    private RadarCategorySet radarCategorySet;
 
     public DiagramPresentation()
     {
@@ -92,7 +91,9 @@ public class DiagramPresentation
         return this.assessmentDate;
     }
 
-    public RadarTypeViewModel getRadarType() { return this.radarType;}
+    public RadarRingSetViewModel getRadarRingSet() { return new RadarRingSetViewModel(this.radarRingSet);}
+
+    public RadarCategorySetViewModel getRadarCategorySet() { return new RadarCategorySetViewModel(this.radarCategorySet);}
 
     @JsonProperty
     public List<RadarRingPresentation> getRadarArcs() {
@@ -106,7 +107,7 @@ public class DiagramPresentation
 
     @JsonProperty
     List<RadarRing> getRadarRings() {
-        return this.radarRings;
+        return this.radarRingSet.getRadarRings();
     }
 
     public void setRadarInstanceDetails(Radar radarInstance)
@@ -114,7 +115,8 @@ public class DiagramPresentation
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
         this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
-        this.radarType = new RadarTypeViewModel(radarInstance.getRadarType());
+        this.radarRingSet = radarInstance.getRadarRingSet();
+        this.radarCategorySet = radarInstance.getRadarCategorySet();
     }
 
     public void sddRadarArc(RadarRing radarRing)
@@ -124,9 +126,9 @@ public class DiagramPresentation
             this.radarArcs = new ArrayList<RadarRingPresentation>();
         }
 
-        if(this.radarRings == null)
+        if(this.radarRingSet == null)
         {
-            this.radarRings = new ArrayList<RadarRing>();
+            this.radarRingSet = new RadarRingSet();
         }
 
         Integer arcStart = this.radarArcs.size() * this.radarArcWidth;
@@ -137,7 +139,7 @@ public class DiagramPresentation
 
         RadarRingPresentation newItem = new RadarRingPresentation(radarRing, arcStart, this.radarArcWidth);
         this.radarArcs.add(newItem);
-        this.radarRings.add(radarRing);
+        this.radarRingSet.addRadarRing(radarRing);
     }
 
     public void addRadarArcs(List<RadarRing> radarRings)

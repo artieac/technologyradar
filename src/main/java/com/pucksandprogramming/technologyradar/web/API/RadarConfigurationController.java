@@ -28,48 +28,4 @@ public class RadarConfigurationController extends ControllerBase
 
     @Autowired
     RadarService radarService;
-
-    @GetMapping(value = "/radar/{radarId}/rings", produces = "application/json")
-    public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
-    {
-        List<RadarRing> retVal = new ArrayList<RadarRing>();
-
-        try
-        {
-            Radar targetRadar = this.radarService.findById(radarId);
-
-            if (targetRadar != null)
-            {
-                retVal = targetRadar.getRadarType().getRadarRings();
-            }
-        }
-        catch(Exception e)
-        {
-            logger.error(e);
-        }
-
-        return retVal;
-    }
-
-    @GetMapping(value = "/radar/{radarId}/categories", produces = "application/json")
-    public @ResponseBody List<RadarCategory> getRadarCategories(@PathVariable Long radarId)
-    {
-        List<RadarCategory> retVal = new ArrayList<RadarCategory>();
-
-        try
-        {
-            Radar targetRadar = this.radarService.findById(radarId);
-
-            if (targetRadar != null)
-            {
-                retVal = targetRadar.getRadarType().getRadarCategories();
-            }
-        }
-        catch(Exception e)
-        {
-            logger.error(e);
-        }
-
-        return retVal;
-    }
 }

@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping(value={"/api/RadarSubject", "/api/public/RadarSubject"})
 public class RadarSubjectController extends ControllerBase
 {
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = Logger.getLogger(RadarSubjectController.class);
 
     @Autowired
     private RadarService radarService;

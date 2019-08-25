@@ -22,8 +22,15 @@ import ManageTeamRadarsPage from './components/TeamRadars/ManageTeamRadarsPage';
 import { addCurrentUserToState } from '../redux/CommonUserReducer';
 import { UserRepository } from '../../Repositories/UserRepository';
 import teamReducer from './redux/TeamReducer';
+import setManagementReducer from './redux/SetManagementReducer';
+import ManageRadarRingsPage from './components/ManageRadarRings/ManageRadarRingsPage';
+import ManageRadarCategoriesPage from './components/ManageRadarCategories/ManageRadarCategoriesPage';
 
-const manageRadarsAppStore = createStore(combineReducers({radarReducer,radarTypeReducer, userReducer, teamReducer}), applyMiddleware(thunk));
+const manageRadarsAppStore = createStore(combineReducers({  radarReducer,
+                                                            radarTypeReducer,
+                                                            userReducer,
+                                                            teamReducer,
+                                                            setManagementReducer}), applyMiddleware(thunk));
 
 class ManageRadarsApp extends React.Component{
     constructor(props){
@@ -71,6 +78,30 @@ class ManageRadarsApp extends React.Component{
                         </div>
                         <div className="col-md-4">
                             <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Manage Your Radar Rings</div>
+                                <div id="ManageRadarTemplatesPanel" className="panel-body">
+                                    <p>A Radar Rings defines how you will rate your topics.  These are the measuring sticks that you'll use to share you how feel about something'.'</p>
+                                    <p>Go here to manage your existing Radar rings or add new ones</p>
+                                    <Link to='/manageradars/radarRings'>
+                                        <button className="btn btn-techradar">Radar Rings</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="panel panel-techradar adminMenuPanel">
+                                <div className="panel-heading-techradar">Manage Your Radar Categories</div>
+                                <div id="ManageRadarTemplatesPanel" className="panel-body">
+                                    <p>A Radar Categories defines how you will group your topics.  These are how yo classify the things you will be rating with the Radar Rings'.'</p>
+                                    <p>Go here to manage your existing Radar Categories or add new ones</p>
+                                    <Link to='/manageradars/radarCategories'>
+                                        <button className="btn btn-techradar">Radar Categories</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="panel panel-techradar adminMenuPanel">
                                 <div className="panel-heading-techradar">Associate Radar Types</div>
                                 <div id="AssociateRadarTypesPanel" className="panel-body">
                                     <p>See other's radar types and mark the so you can also use them'.</p>
@@ -82,6 +113,8 @@ class ManageRadarsApp extends React.Component{
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className="col-md-4">
                             <div className="panel panel-techradar adminMenuPanel">
                                 <div className="panel-heading-techradar">Manage your Radars</div>
@@ -95,8 +128,6 @@ class ManageRadarsApp extends React.Component{
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
                         <div className={ this.state.currentUser.allowTeamMembersToManageRadars==true ? "col-md-4" : "col-md-4 hidden"}>
                             <div className="panel panel-techradar adminMenuPanel">
                                 <div className="panel-heading-techradar">Manage your Teams</div>
@@ -124,6 +155,8 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/manageradars/index" component={ ManageRadarsApp } />
                     <Route path="/manageradars/radartypes" component={ OwnedRadarTypesPage } />
+                    <Route path="/manageradars/radarCategories" component={ ManageRadarCategoriesPage } />
+                    <Route path="/manageradars/radarRings" component={ ManageRadarRingsPage } />
                     <Route path="/manageradars/associatedradartypes" component={ ManageAssociatedRadarTypesPage } />
                     <Route path="/manageradars/radars" component={ ManageRadarsPage } />
                     <Route path="/manageradars/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadarPage }/>

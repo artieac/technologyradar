@@ -47,24 +47,4 @@ public class EmbeddableController
 
         return modelAndView;
     }
-
-    @RequestMapping(value = { "/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
-    public ModelAndView mostRecentRadar(@PathVariable Long userId)
-    {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userId", userId);
-
-        List<Radar> radarInstance = this.radarService.findByRadarUserId(userId);
-
-        if(radarInstance != null && radarInstance.size() > 0)
-        {
-            modelAndView.addObject("radarInstanceId", radarInstance.get(0).getId());
-            modelAndView.addObject("radarTypeId", radarInstance.get(0).getRadarType().getId());
-        }
-
-        modelAndView.setViewName("embeddable/radar");
-
-        return modelAndView;
-    }
-
 }

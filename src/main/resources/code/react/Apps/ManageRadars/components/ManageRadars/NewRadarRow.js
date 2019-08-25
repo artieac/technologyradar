@@ -4,30 +4,47 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState} from '../../redux/RadarReducer';
-import { DropdownButton, Dropdown} from 'react-bootstrap';
+import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
+import { addRadarsToState, addRadarRingSetsToState, addRadarCategorySetsToState} from '../../redux/RadarReducer';
+import { UserRepository } from '../../../../Repositories/UserRepository';
 import { RadarRepository } from '../../../../Repositories/RadarRepository';
-import { RadarTypeDropdown } from './RadarTypeDropdown';
+import { RadarRingRepository } from '../../../../Repositories/RadarRingRepository';
+import { RadarCategoryRepository } from '../../../../Repositories/RadarCategoryRepository';
+import { GenericDropdown } from './GenericDropdown';
 
 class NewRadarRow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             radarNameInput: '',
-            selectedRadarType: {}
+            selectedRadarRingSet: {},
+            selectedRadarCategorySet: {}
         };
 
+        this.userRepository = new UserRepository();
         this.radarRepository = new RadarRepository();
+        this.radarRingRepository = new RadarRingRepository();
+        this.radarCategoryRepository = new RadarCategoryRepository();
 
         this.handleRadarNameChange = this.handleRadarNameChange.bind(this);
         this.handleAddSuccess = this.handleAddSuccess.bind(this);
         this.handleGetByUserIdSuccess = this.handleGetByUserIdSuccess.bind(this);
         this.handleAddError = this.handleAddError.bind(this);
         this.handleAddRadar = this.handleAddRadar.bind(this);
-        this.handleDropdownSelectionNotify = this.handleDropdownSelectionNotify.bind(this);
+        this.handleRadarRingDropdownSelectionNotify = this.handleRadarRingDropdownSelectionNotify.bind(this);
+        this.handleRadarCategoryDropdownSelectionNotify = this.handleRadarCategoryDropdownSelectionNotify.bind(this);
+        this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
     }
 
+    componentDidMount(){
+        this.userRepository.getUser(this.handleGetUserSuccess);
+    }
+
+    handleGetUserSuccess(currentUser){
+        this.props.storeCurrentUser(currentUser);
+        this.radarRingRepository.getByUserId(currentUser.id, this.props.storeRadarRingSets);
+        this.radarCategoryRepository.getByUserId(currentUser.id, this.props.storeRadarCategorySets);
+    }
 
     handleRadarNameChange(event){
         this.setState({radarNameInput:event.target.value});
@@ -48,23 +65,31 @@ class NewRadarRow extends React.Component{
 
     handleAddRadar() {
         if(this.state.radarNameInput!=""){
-            this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+            this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarRingSet, this.state.selectedRadarCategorySet, this.handleAddSuccess, this.handleAddError );
         }
         else{
             alert("You must enter a name for the radar.");
         }
     }
 
-    handleDropdownSelectionNotify(radarType){
-        this.setState({selectedRadarType: radarType});
+    handleRadarRingDropdownSelectionNotify(radarRingSet){
+        this.setState({selectedRadarRingSet: radarRingSet});
+    }
+
+    handleRadarCategoryDropdownSelectionNotify(radarCategorySet){
+        this.setState({selectedRadarCategorySet: radarCategorySet});
     }
 
     render(){
         return(
             <tr>
                 <td><input type="text" ref="radarName" required="required" onChange={ this.handleRadarNameChange } /></td>
+                <td></td>
                 <td>
-                    <RadarTypeDropdown selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTypes}/>
+                    <GenericDropdown selectionNotification={this.handleRadarCategoryDropdownSelectionNotify} data={this.props.userRadarCategorySets.radarCategorySets}/>
+                </td>
+                <td>
+                    <GenericDropdown selectionNotification={this.handleRadarRingDropdownSelectionNotify} data={this.props.userRadarRingSets.radarRingSets}/>
                 </td>
                 <td><input type="button" className="btn btn-techradar" value="Add Radar" onClick={this.handleAddRadar} /></td>
             </tr>
@@ -74,14 +99,18 @@ class NewRadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radarTypes: state.radarReducer.radarTypes,
-        currentUser: state.userReducer.currentUser
+    	currentUser: state.userReducer.currentUser,
+        userRadarRingSets: state.radarReducer.radarRingSets,
+        userRadarCategorySets: state.radarReducer.radarCategorySets
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-        storeRadars : (userRadars) => { dispatch(addRadarsToState(userRadars))}
+        storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))},
+        storeRadars : userRadars => { dispatch(addRadarsToState(userRadars))},
+        storeRadarRingSets: radarRingSets => {dispatch(addRadarRingSetsToState(radarRingSets))},
+        storeRadarCategorySets: radarCategorySets => {dispatch(addRadarCategorySetsToState(radarCategorySets))}
     }
 };
 

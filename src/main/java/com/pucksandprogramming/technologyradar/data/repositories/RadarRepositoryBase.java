@@ -36,7 +36,10 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     RadarItemDAO radarItemDAO;
 
     @Autowired
-    RadarTypeDAO radarTypeDAO;
+    RadarRingSetDAO radarRingSetDAO;
+
+    @Autowired
+    RadarCategorySetDAO radarCategorySetDAO;
 
     @Autowired
     public void setEntityRepository(RadarDAO entityRepository)
@@ -77,7 +80,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     public abstract List<Radar> findByRadarSubjectId(Long radarSubjectIdf);
     public abstract List<Radar> findNotOwnedByRadarSubjectAndUser(Long radarUserId, Long radarSubjectId);
     public abstract List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId);
-    public abstract List<RadarItem> findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion);
+    public abstract List<RadarItem> findCurrentByRadarRingSetAndRadarCategorySet(Long radarUserId, Long radarRingSetId, Long radarCategorySetId);
 
     public Radar findByIdAndName(Long radarInstanceId, String assessmentName)
     {
@@ -145,8 +148,8 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
             radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
             radarEntity.setIsPublished(itemToSave.getIsPublished());
             radarEntity.setIsLocked(itemToSave.getIsLocked());
-            VersionedIdEntity versionedIdEntity = new VersionedIdEntity(itemToSave.getRadarType().getId(), itemToSave.getRadarType().getVersion());
-            radarEntity.setRadarType(radarTypeDAO.findOne(versionedIdEntity));
+            radarEntity.setRadarRingSet(radarRingSetDAO.findOne(itemToSave.getRadarRingSet().getId()));
+            radarEntity.setRadarCategorySet(radarCategorySetDAO.findOne(itemToSave.getRadarCategorySet().getId()));
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null)

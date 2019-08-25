@@ -1,11 +1,7 @@
 export class RadarRepository{
 
-    getByUserId(userId, getAllVersions, successHandler) {
+    getByUserId(userId, successHandler) {
         var url = '/api/User/' + userId + '/Radars';
-
-        if(getAllVersions==true){
-            url += "?getAllVersions=true";
-        }
 
         jQuery.ajax({
                 url: url,

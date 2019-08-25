@@ -19,7 +19,8 @@ public class Radar implements Serializable
     private List<RadarItem> radarItems;
     private boolean isPublished;
     private boolean isLocked;
-    private RadarType radarType;
+    private RadarRingSet radarRingSet;
+    private RadarCategorySet radarCategorySet;
 
     public Radar()
     {
@@ -59,8 +60,11 @@ public class Radar implements Serializable
     public boolean getIsLocked(){ return this.isLocked;}
     public void setIsLocked(boolean value){ this.isLocked = value;}
 
-    public RadarType getRadarType() { return this.radarType;}
-    public void setRadarType(RadarType value) { this.radarType = value;}
+    public RadarRingSet getRadarRingSet() { return this.radarRingSet;}
+    public void setRadarRingSet(RadarRingSet value) { this.radarRingSet = value;}
+
+    public RadarCategorySet getRadarCategorySet() { return this.radarCategorySet;}
+    public void setRadarCategorySet(RadarCategorySet value) { this.radarCategorySet = value;}
 
     public RadarItem findRadarItemById(Long radarItemId)
     {

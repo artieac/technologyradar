@@ -102,18 +102,18 @@ public class RadarController extends ControllerBase {
         return retVal;
     }
 
-    @GetMapping(value = {"/User/{radarUserId}/RadarType/{RadarType}/Version/{radarTypeVersion}/Radar/FullView", "/public/User/{radarUserId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"}, produces = "application/json")
+    @GetMapping(value = {"/User/{radarUserId}/RadarRing/{radarRingSet}/RadarCategory/{radarCategorySetId}/Radar/FullView", "/public/User/{radarUserId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"}, produces = "application/json")
     public @ResponseBody
     DiagramPresentation getMostRecentRadar(@PathVariable Long radarUserId,
-                           @PathVariable String radarTypeId,
-                           @PathVariable Long radarTypeVersion)
+                           @PathVariable Long radarRingSetId,
+                           @PathVariable Long radarCategorySetId)
     {
         DiagramPresentation retVal = new DiagramPresentation();
 
         try
         {
             RadarUser targetUser = this.userService.findOne(radarUserId);
-            Radar targetRadar = this.radarService.findCurrentByTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
+            Radar targetRadar = this.radarService.findCurrentByRadarRingSetAndRadarCategorySet(radarUserId, radarRingSetId, radarCategorySetId);
             retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
         }
         catch(Exception e)
@@ -137,9 +137,9 @@ public class RadarController extends ControllerBase {
 
             if (this.getCurrentUser().getId() == radarUserId) {
                 String radarName = modelMap.get("name").toString();
-                String radarTypeId = modelMap.get("radarTypeId").toString();
-                Long radarTypeVersion = Long.parseLong(modelMap.get("radarTypeVersion").toString());
-                this.radarService.addRadar(radarUserId, radarName, radarTypeId, radarTypeVersion);
+                Long radarRingSetId = (Long)modelMap.get("radarRingSetId");
+                Long radarCategorySetId = (Long)modelMap.get("radarCategorySetId");
+                this.radarService.addRadar(radarUserId, radarName, radarRingSetId, radarCategorySetId);
             }
 
             List<Radar> foundItems = this.radarService.findByRadarUserId(targetUser.getId());

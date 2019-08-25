@@ -1,5 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
+import com.pucksandprogramming.technologyradar.domainmodel.RadarCategorySet;
+
 import javax.persistence.*;
 
 /**
@@ -20,13 +22,9 @@ public class RadarCategoryEntity
     @Column(name = "Color", nullable=false, length=512)
     private String color;
 
+    @JoinColumn(name = "radarCategorySetId", referencedColumnName = "id")
     @ManyToOne(optional=false)
-    @JoinColumns
-    ({
-        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
-        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
-    })
-    private RadarTypeEntity radarType;
+    private RadarCategorySetEntity radarCategorySet;
 
     public RadarCategoryEntity()
     {
@@ -42,7 +40,6 @@ public class RadarCategoryEntity
     public String getColor() { return this.color;}
     public void setColor(String value) { this.color = value;}
 
-    public RadarTypeEntity getRadarType() { return this.radarType;}
-    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
-
+    public RadarCategorySetEntity getRadarCategorySet() { return this.radarCategorySet;}
+    public void setRadarCategorySet(RadarCategorySetEntity value) { this.radarCategorySet = value;}
 }

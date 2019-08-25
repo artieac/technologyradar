@@ -131,14 +131,14 @@ public class FullRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<RadarItem> findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    public List<RadarItem> findCurrentByRadarRingSetAndRadarCategorySet(Long radarUserId, Long radarRingSetId, Long radarCategorySetId)
     {
         List<RadarItem> retVal = new ArrayList<RadarItem>();
 
         Query query = entityManager.createNamedQuery("history_PublicFindCurrentRadarItemsByRadarTypeAndVersion");
         query.setParameter("radarUserId", radarUserId);
-        query.setParameter("radarTypeId", radarTypeId);
-        query.setParameter("radarTypeVersion", radarTypeVersion);
+        query.setParameter("radarRingSetId", radarRingSetId);
+        query.setParameter("radarCategorySetId", radarCategorySetId);
 
         List<RadarItemEntity> foundItems = query.getResultList();
 
