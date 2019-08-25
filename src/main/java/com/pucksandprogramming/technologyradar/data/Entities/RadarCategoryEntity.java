@@ -20,12 +20,8 @@ public class RadarCategoryEntity
     @Column(name = "Color", nullable=false, length=512)
     private String color;
 
-    @ManyToOne(optional=false)
-    @JoinColumns
-    ({
-        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
-        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
-    })
+    @OneToOne
+    @JoinColumn(name="RadarTypeId", nullable = false)
     private RadarTypeEntity radarType;
 
     public RadarCategoryEntity()

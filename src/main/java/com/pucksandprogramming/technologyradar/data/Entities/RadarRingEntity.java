@@ -31,12 +31,8 @@ public class RadarRingEntity
     @Column(name="DisplayOrder", nullable=false)
     private Long displayOrder;
 
-    @ManyToOne(optional=false)
-    @JoinColumns
-    ({
-        @JoinColumn(name="RadarTypeId", referencedColumnName="Id"),
-        @JoinColumn(name="RadarTypeVersion", referencedColumnName="Version")
-    })
+    @OneToOne
+    @JoinColumn(name="RadarTypeId", nullable = false)
     private RadarTypeEntity radarType;
 
     public RadarRingEntity()

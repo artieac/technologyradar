@@ -26,12 +26,12 @@ public class RadarTypeService extends ServiceBase
         this.fullRadarRepository = fullRadarRepository;
     }
 
-    public RadarType findOneShared(String radarTypeId, Long version)
+    public RadarType findOneShared(Long radarTypeId)
     {
         RadarType retVal = null;
 
         RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-        retVal = this.radarTypeRepository.findOne(radarTypeId, version);
+        retVal = this.radarTypeRepository.findOne(radarTypeId);
 
         if(retVal.getIsPublished()==false)
         {
@@ -41,14 +41,14 @@ public class RadarTypeService extends ServiceBase
         return retVal;
     }
 
-    public RadarType findOne(String radarTypeId, Long version)
+    public RadarType findOne(Long radarTypeId)
     {
         RadarType retVal = null;
 
         if(this.getAuthenticatedUser()!=null)
         {
             RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-            retVal = this.radarTypeRepository.findOne(radarTypeId, version);
+            retVal = this.radarTypeRepository.findOne(radarTypeId);
         }
 
         return retVal;
@@ -60,20 +60,6 @@ public class RadarTypeService extends ServiceBase
 
         RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
         retVal = this.radarTypeRepository.findByUser(userId);
-
-        return retVal;
-    }
-
-    public List<RadarType> findMostRecentByUserId(Long userId)
-    {
-        List<RadarType> retVal = new ArrayList<>();
-
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
-
-        if(dataOwner != null)
-        {
-            retVal = this.radarTypeRepository.findMostRecentByUserId(userId);
-        }
 
         return retVal;
     }
@@ -153,7 +139,10 @@ public class RadarTypeService extends ServiceBase
 
             RadarUser dataOwner = this.getRadarUserRepository().findOne(ownerId);
 
-            retVal = this.radarTypeRepository.findOne(radarTypeUpdates.getId(), radarTypeUpdates.getVersion());
+            if(radarTypeUpdates.getId()!=null)
+            {
+                retVal = this.radarTypeRepository.findOne(radarTypeUpdates.getId());
+            }
 
             if(retVal==null)
             {
@@ -178,14 +167,14 @@ public class RadarTypeService extends ServiceBase
             if(canSave==true)
             {
                 radarTypeUpdates.setRadarUser(dataOwner);
-                retVal = this.radarTypeRepository.save(radarTypeUpdates, dataOwner.getUserType().isGrantEnabled(UserRights.CanVersionRadarTypes));
+                retVal = this.radarTypeRepository.save(radarTypeUpdates);
             }
         }
 
         return retVal;
     }
 
-    public boolean deleteRadarType(Long userId, String radarTypeId, Long radarTypeVersion)
+    public boolean deleteRadarType(Long userId, Long radarTypeId)
     {
         boolean retVal = false;
 
@@ -193,13 +182,13 @@ public class RadarTypeService extends ServiceBase
 
         if(dataOwner!=null)
         {
-            RadarType foundItem = this.radarTypeRepository.findOne(radarTypeId, radarTypeVersion);
+            RadarType foundItem = this.radarTypeRepository.findOne(radarTypeId);
 
             if(foundItem.getRadarUser().getId() == userId &&
                 (this.getAuthenticatedUser().getUserId()==foundItem.getRadarUser().getId() ||
                 this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())))
             {
-                List<Radar> userRadars = this.fullRadarRepository.findByUserTypeAndVersion(userId, radarTypeId, radarTypeVersion);
+                List<Radar> userRadars = this.fullRadarRepository.findByUserAndType(userId, radarTypeId);
 
                 if(userRadars.size()==0)
                 {

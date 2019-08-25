@@ -32,7 +32,6 @@
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
     <input type="hidden" id="radarTypeId" name="radarTypeId" th:value="${radarTypeId}"/>
-    <input type="hidden" id="radarTypeVersion" name="radarTypeVersion" th:value="${radarTypeVersion}"/>
     <div class="panel panel-techradar"  ng-controller="RadarController">
         <div class="panel-heading-techradar">Which Radar?</div>
         <div class="panel-body">
@@ -46,7 +45,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
                             <li><a ng-click="radarTypeAllSelected(currentUserId)" title="See a combined view of all radars of this type">{{ allOptionName }}</a></li>
-                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)" title="{{ radarType.description }}">{{radarType.name}} v{{radarType.version}}</a></li>
+                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)" title="{{ radarType.description }}">{{radarType.name}}</a></li>
                         </ul>
                     </div>
                     <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>

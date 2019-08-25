@@ -43,7 +43,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<Radar> findByUserAndType(Long radarUserId, String radarTypeId)
+    public List<Radar> findByUserAndType(Long radarUserId, Long radarTypeId)
     {
         List<Radar> retVal = new ArrayList<Radar>();
 
@@ -56,27 +56,6 @@ public class PublicRadarRepository extends RadarRepositoryBase
         for (RadarEntity foundItem : foundItems)
         {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
-        }
-
-        return retVal;
-    }
-
-    @Override
-    public List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
-    {
-        List<Radar> retVal = new ArrayList<>();
-
-        Query query = null;
-        query = this.entityManager.createNamedQuery("public_FindByUserTypeVersion");
-        query.setParameter("radarUserId", radarUserId);
-        query.setParameter("radarTypeId", radarTypeId);
-        query.setParameter("radarTypeVersion", radarTypeVersion);
-        query.setParameter("isPublished", true);
-        List<RadarEntity> foundItems = query.getResultList();
-
-        if (foundItems != null)
-        {
-            retVal = this.mapList(foundItems);
         }
 
         return retVal;
@@ -129,14 +108,13 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<RadarItem> findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    public List<RadarItem> findCurrentByType(Long radarUserId, Long radarTypeId)
     {
         List<RadarItem> retVal = new ArrayList<RadarItem>();
 
-        Query query = entityManager.createNamedQuery("public_PublicFindCurrentRadarItemsByRadarTypeAndVersion");
+        Query query = entityManager.createNamedQuery("public_PublicFindCurrentRadarItemsByRadarType");
         query.setParameter("radarUserId", radarUserId);
         query.setParameter("radarTypeId", radarTypeId);
-        query.setParameter("radarTypeVersion", radarTypeVersion);
 
         List<RadarItemEntity> foundItems = query.getResultList();
 
@@ -151,11 +129,11 @@ public class PublicRadarRepository extends RadarRepositoryBase
         return retVal;
     }
 
-    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, String radarTypeId, boolean publishedOnly)
+    public Radar findMostRecentByUserIdRadarTypeAndPublished(Long userId, Long radarTypeId, boolean publishedOnly)
     {
         Radar retVal = null;
         String maxQuery = "select ta.Id, ta.Name as Name, ta.AssessmentDate as AssessmentDate, ta.RadarUserId as RadarUserId,";
-        maxQuery += " ta.RadarTypeId as RadarTypeId, ta.RadarTypeVersion as RadarTypeVersion, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
+        maxQuery += " ta.RadarTypeId as RadarTypeId, ta.IsPublished as IsPublished, ta.IsLocked as IsLocked";
         maxQuery += " FROM TechnologyAssessments ta WHERE ta.id =";
         maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId";
         maxQuery += "  AND ta2.RadarTypeId = :radarTypeId";

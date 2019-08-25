@@ -47,8 +47,6 @@ public class RadarUser {
     public UserType getUserType(){ return this.userType;}
     public void setUserType(UserType value){ this.userType = value;}
 
-    public boolean canVersionRadarTypes() { return this.userType.isGrantEnabled(UserRights.CanVersionRadarTypes);}
-
     public boolean canShareRadarTypes()
     {
         return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes);

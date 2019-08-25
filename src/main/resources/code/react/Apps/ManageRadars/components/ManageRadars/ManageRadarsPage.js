@@ -37,7 +37,7 @@ class ManageRadarsPage extends React.Component{
     handleGetUserSuccess(currentUser){
         this.props.storeCurrentUser(currentUser);
         this.radarTypeRepository.getOwnedAndAssociatedByUserId(currentUser.id, this.props.storeRadarTypes) ;
-        this.radarRepository.getByUserId(currentUser.id, this.props.storeRadars);
+        this.radarRepository.getByUserId(currentUser.id, true, this.props.storeRadars);
     }
 
     render() {

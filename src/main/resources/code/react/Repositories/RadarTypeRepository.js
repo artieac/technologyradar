@@ -138,14 +138,14 @@ export class RadarTypeRepository {
             });
     }
 
-    deleteRadarType(userId, radarTypeId, radarTypeVersion, successHandler){
+    deleteRadarType(userId, radarTypeId, successHandler){
          $.ajax({
               headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
               },
               type: "DELETE",
-              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + "/Version/" + radarTypeVersion,
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId,
              success: function() {
                    responseHandler();
               },
@@ -169,7 +169,7 @@ export class RadarTypeRepository {
             });
     }
 
-    associateRadarType(userId, radarTypeId, radarTypeVersion, shouldAssociate, successHandler, errorHandler) {
+    associateRadarType(userId, radarTypeId, shouldAssociate, successHandler, errorHandler) {
          var radarTypeAssociation = {};
          radarTypeAssociation.shouldAssociate = shouldAssociate;
 
@@ -179,7 +179,7 @@ export class RadarTypeRepository {
                       'Content-Type': 'application/json'
               },
               type: "PUT",
-              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Version/' + radarTypeVersion + '/Associate',
+              url: '/api/User/' + userId + '/RadarType/' + radarTypeId + '/Associate',
               data: JSON.stringify(radarTypeAssociation),
               success: function() {
                     successHandler();

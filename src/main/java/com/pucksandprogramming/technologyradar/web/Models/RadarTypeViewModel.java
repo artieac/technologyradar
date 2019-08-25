@@ -7,8 +7,7 @@ import java.util.List;
 
 public class RadarTypeViewModel
 {
-    private String id;
-    private Long version;
+    private Long id;
     private String name;
     private boolean isPublished;
     private Long radarUserId;
@@ -31,7 +30,6 @@ public class RadarTypeViewModel
         if(radarType != null)
         {
             this.id = radarType.getId();
-            this.version = radarType.getVersion();
             this.name = radarType.getName();
             this.isPublished = radarType.getIsPublished();
             this.radarUserId = radarType.getRadarUser().getId();
@@ -60,7 +58,6 @@ public class RadarTypeViewModel
         RadarType retVal = new RadarType();
 
         retVal.setId(this.getId());
-        retVal.setVersion(this.getVersion());
         retVal.setName(this.getName());
         retVal.setIsPublished(this.getIsPublished());
 
@@ -79,11 +76,8 @@ public class RadarTypeViewModel
         return retVal;
     }
 
-    public String getId() { return this.id;}
-    public void setId(String value) { this.id = value;}
-
-    public Long getVersion() { return this.version;}
-    public void setVersion(Long value) { this.version = value;}
+    public Long getId() { return this.id;}
+    public void setId(Long value) { this.id = value;}
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}

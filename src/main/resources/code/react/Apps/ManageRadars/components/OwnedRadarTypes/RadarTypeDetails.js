@@ -84,7 +84,6 @@ class RadarTypeDetails extends React.Component{
                             <div className="col-md-4">
                                 <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}/>
                             </div>
-                            <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
                             <div className={this.props.editMode===true ? "col-md-3" : "hidden"}>
                                <input type="button" className='btn btn-techradar' disabled={this.props.editMode!==true} value="Save" onClick={(event) => this.handleSaveRadarType(event) }/>
                             </div>
@@ -111,7 +110,7 @@ class RadarTypeDetails extends React.Component{
                             <div className="col-md-12">
                                 <div className="panel panel-default">
                                     <div className="panel-heading">Rings</div>
-                                    <RadarRingList radarRings={this.props.selectedRadarType.radarRings} editMode={this.props.editMode} canAddOrDelete={ this.props.selectedRadarType.id === '' || this.props.canVersionRadarTypes }/>
+                                    <RadarRingList radarRings={this.props.selectedRadarType.radarRings} editMode={this.props.editMode} canAddOrDelete={ this.props.selectedRadarType.id < 0}/>
                                 </div>
                             </div>
                             <div className="col-md-12">
@@ -139,7 +138,6 @@ class RadarTypeDetails extends React.Component{
 function mapStateToProps(state) {
   return {
     	selectedRadarType: state.radarTypeReducer.selectedRadarType,
-        showHistory: state.radarTypeReducer.showHistory,
         showEdit: state.radarTypeReducer.showEdit,
         currentUser: state.userReducer.currentUser
 

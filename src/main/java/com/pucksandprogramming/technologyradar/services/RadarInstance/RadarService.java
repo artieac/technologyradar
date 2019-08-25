@@ -83,7 +83,7 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public List<Radar> findByUserAndType(Long radarUserId, String radarTypeId)
+    public List<Radar> findByUserAndType(Long radarUserId, Long radarTypeId)
     {
         List<Radar> retVal = new ArrayList<>();
         RadarUser targetDataOwner = this.getRadarUserRepository().findOne(radarUserId);
@@ -96,14 +96,14 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public List<Radar> findByUserTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    public List<Radar> findByUserTypeAndVersion(Long radarUserId, Long radarTypeId)
     {
         List<Radar> retVal = new ArrayList<>();
         RadarUser targetDataOwner = this.getRadarUserRepository().findOne(radarUserId);
 
         if(targetDataOwner!=null)
         {
-            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserTypeAndVersion(targetDataOwner.getId(), radarTypeId, radarTypeVersion);
+            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserAndType(targetDataOwner.getId(), radarTypeId);
         }
 
         return retVal;
@@ -170,16 +170,16 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar findCurrentByTypeAndVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion)
+    public Radar findCurrentByType(Long radarUserId, Long radarTypeId)
     {
         Radar retVal = null;
 
         RadarUser dataOwner = this.getRadarUserRepository().findOne(radarUserId);
-        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarTypeVersion);
+        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
 
         if(dataOwner != null)
         {
-            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByTypeAndVersion(radarUserId, radarTypeId, radarTypeVersion);
+            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByType(radarUserId, radarTypeId);
 
             retVal = new Radar();
             retVal.setAssessmentDate(new Date());
@@ -195,7 +195,7 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar addRadar(Long radarUserId, String name, String radarTypeId, Long radarVersion)
+    public Radar addRadar(Long radarUserId, String name, Long radarTypeId)
     {
         Radar retVal = null;
 
@@ -207,7 +207,7 @@ public class RadarService extends ServiceBase
             {
                 RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(dataOwner);
 
-                RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarVersion);
+                RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
 
                 if (dataOwner != null && radarType != null)
                 {

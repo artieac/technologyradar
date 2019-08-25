@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Repository
-public interface RadarTypeDAO extends JpaRepository<RadarTypeEntity, VersionedIdEntity>
+public interface RadarTypeDAO extends JpaRepository<RadarTypeEntity, Long>
 {
-    List<RadarTypeEntity> findAllByRadarUserIdAndStateOrderByVersionedId(Long radarUserId, Integer state);
+    List<RadarTypeEntity> findAllByRadarUserIdAndStateOrderByCreateDate(Long radarUserId, Integer state);
 }

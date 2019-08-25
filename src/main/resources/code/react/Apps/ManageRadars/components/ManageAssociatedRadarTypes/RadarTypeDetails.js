@@ -80,7 +80,6 @@ class RadarTypeDetails extends React.Component{
                             <div className="col-md-4">
                                 <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}/>
                             </div>
-                            <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">

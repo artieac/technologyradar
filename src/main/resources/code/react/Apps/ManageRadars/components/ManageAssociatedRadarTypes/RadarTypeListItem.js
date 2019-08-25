@@ -48,7 +48,7 @@ class RadarTypeListItem extends React.Component{
         {
             if(this.canAssociateRadarTypes(this.props.currentUser, this.props.associatedRadarTypes)==true)
             {
-                this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
+                this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
                 this.forceUpdate();
             }
             else
@@ -58,7 +58,7 @@ class RadarTypeListItem extends React.Component{
         }
         else
         {
-            this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, this.props.radarType.version, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
+            this.radarTypeRepository.associateRadarType(this.props.currentUser.id, this.props.radarType.id, shouldAssociate, this.handleAssociatedRadarTypeSuccess);
             this.forceUpdate();
         }
     }
@@ -76,7 +76,7 @@ class RadarTypeListItem extends React.Component{
 
         if(this.props.associatedRadarTypes.length > 0){
             for(var i = 0; i < this.props.associatedRadarTypes.length; i++){
-                if(this.props.associatedRadarTypes[i].id==this.props.radarType.id && this.props.associatedRadarTypes[i].version == this.props.radarType.version){
+                if(this.props.associatedRadarTypes[i].id==this.props.radarType.id){
                     retVal = true;
                     break;
                 }

@@ -36,7 +36,6 @@ public class RadarMapper
         modelMapper.addMappings(radarConfigModelMap);
         modelMapper.addMappings(radarCategoryModelMap);
         modelMapper.addMappings(radarTypeModelMap);
-        modelMapper.addMappings(radarTypeEntityModelMap);
         modelMapper.addMappings(technologyConfigModelMap);
         modelMapper.addMappings(technologyAssessmentMap);
         modelMapper.addMappings(technologyAssessmentItemMap);
@@ -126,17 +125,7 @@ public class RadarMapper
             {
                 protected void configure()
                 {
-                    map().setId(source.getVersionedId().getId());
-                    map().setVersion(source.getVersionedId().getVersion());
-                }
-            };
-
-    private PropertyMap<RadarType, RadarTypeEntity> radarTypeEntityModelMap =
-            new PropertyMap<RadarType, RadarTypeEntity>()
-            {
-                protected void configure()
-                {
-                    skip().setVersionedId(null);
+                    map().setId(source.getId());
                 }
             };
 

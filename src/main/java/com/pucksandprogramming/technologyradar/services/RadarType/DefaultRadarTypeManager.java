@@ -43,14 +43,14 @@ public class DefaultRadarTypeManager
     {
         List<RadarType> retVal = new ArrayList<RadarType>();
 
-        RadarType sharedType = this.radarTypeService.findOneShared("e9b8779a-3452-47b9-ab49-600162eace3c",1L);
+        RadarType sharedType = this.radarTypeService.findOneShared(3L);
 
         if(sharedType!=null)
         {
             retVal.add(sharedType);
         }
 
-        sharedType = this.radarTypeService.findOneShared("a2330b55-164a-49a0-a883-56d46c34a399",1L);
+        sharedType = this.radarTypeService.findOneShared(1L);
 
         if(sharedType!=null)
         {

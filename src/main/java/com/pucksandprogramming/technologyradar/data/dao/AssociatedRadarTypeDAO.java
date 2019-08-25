@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AssociatedRadarTypeDAO extends JpaRepository<AssociatedRadarTypeEntity, Long> {
-    AssociatedRadarTypeEntity findByRadarUserIdAndRadarTypeId(Long radarUserId, String radarTypeId);
-    AssociatedRadarTypeEntity findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(Long radarUserId, String radarTypeId, Long radarTypeVersion);
+    AssociatedRadarTypeEntity findByRadarUserIdAndRadarTypeId(Long radarUserId, Long radarTypeId);
 }
