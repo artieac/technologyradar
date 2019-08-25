@@ -1,55 +1,52 @@
 package com.pucksandprogramming.technologyradar.services;
 
-import com.pucksandprogramming.technologyradar.data.repositories.RadarRingRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingSetRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarTemplateRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RadarRingService extends ServiceBase
+public class RadarTemplateService extends ServiceBase
 {
-    RadarRingSetRepository radarRingSetRepository;
+    RadarTemplateRepository radarTemplateRepository;
 
-    @Autowired
-    public RadarRingService(RadarUserRepository radarUserRepository, RadarRingSetRepository radarRingSetRepository)
+    public RadarTemplateService(RadarUserRepository radarUserRepository, RadarTemplateRepository radarTemplateRepository)
     {
         super(radarUserRepository);
 
-        this.radarRingSetRepository = radarRingSetRepository;
+        this.radarTemplateRepository = radarTemplateRepository;
     }
 
-    public List<RadarRingSet> findByUserId(Long userId)
+    public List<RadarTemplate> findByUserId(Long userId)
     {
-        return this.radarRingSetRepository.findByUserId(userId);
+        return this.radarTemplateRepository.findByUserId(userId);
     }
 
-    public RadarRingSet update(RadarRingSet radarRingSetUpdates, Long ownerId)
+    public RadarTemplate update(RadarTemplate radarTemplateUpdates, Long ownerId)
     {
-        RadarRingSet retVal = null;
+        RadarTemplate retVal = null;
 
         // first maek sure it can even save at ll
-        if(radarRingSetUpdates != null && radarRingSetUpdates.getRadarRings() != null && radarRingSetUpdates.getRadarRings().size() > 0)
+        if(radarTemplateUpdates != null && radarTemplateUpdates.getRadarRingSet() != null && radarTemplateUpdates.getRadarCategorySet()!=null)
         {
             boolean canSave = false;
 
             RadarUser dataOwner = this.getRadarUserRepository().findOne(ownerId);
 
-            if(radarRingSetUpdates.getId()!=null)
+            if(radarTemplateUpdates.getId()!=null)
             {
-                retVal = this.radarRingSetRepository.findOne(radarRingSetUpdates.getId());
+                retVal = this.radarTemplateRepository.findOne(radarTemplateUpdates.getId());
             }
 
             if(retVal==null)
             {
                 // trying to add one, make sure they have room in their max amount
-                List<RadarRingSet> userRadarRingSets = this.radarRingSetRepository.findByUserId(ownerId);
+                List<RadarTemplate> userTemplates = this.radarTemplateRepository.findByUserId(ownerId);
 
-                if(userRadarRingSets!=null && userRadarRingSets.size() < dataOwner.getUserType().getGrantValue(UserRights.AllowNRadarTypes))
+                if(userTemplates!=null && userTemplates.size() < dataOwner.getUserType().getGrantValue(UserRights.AllowNRadarTypes))
                 {
                     canSave = true;
                 }
@@ -66,15 +63,15 @@ public class RadarRingService extends ServiceBase
 
             if(canSave==true)
             {
-                radarRingSetUpdates.setRadarUser(dataOwner);
-                retVal = this.radarRingSetRepository.save(radarRingSetUpdates);
+                radarTemplateUpdates.setRadarUser(dataOwner);
+                retVal = this.radarTemplateRepository.save(radarTemplateUpdates);
             }
         }
 
         return retVal;
     }
 
-    public boolean deleteRadarType(Long userId, Long radarRingSetId)
+    public boolean deleteRadarTemplate(Long userId, Long radarTemplateId)
     {
         boolean retVal = false;
 
@@ -82,7 +79,7 @@ public class RadarRingService extends ServiceBase
 
         if(dataOwner!=null)
         {
-            RadarRingSet foundItem = this.radarRingSetRepository.findOne(radarRingSetId);
+            RadarTemplate foundItem = this.radarTemplateRepository.findOne(radarTemplateId);
 
             if(foundItem.getRadarUser().getId() == userId &&
                     (this.getAuthenticatedUser().getUserId()==foundItem.getRadarUser().getId() ||
@@ -92,15 +89,15 @@ public class RadarRingService extends ServiceBase
 
                 if(userRadars.size()==0)
                 {
-                    this.radarRingSetRepository.delete(foundItem);
+                    this.radarTemplateRepository.delete(foundItem);
                     retVal = true;
                 }
                 else
                 {
-                    this.radarRingSetRepository.delete((Iterable)userRadars);
+                    this.radarTemplateRepository.delete((Iterable)userRadars);
 
-//                    foundItem.setState(RadarType.State_InActive);
-                    this.radarRingSetRepository.save(foundItem);
+                    foundItem.setState(RadarTemplate.State_InActive);
+                    this.radarTemplateRepository.save(foundItem);
                     retVal = true;
                 }
             }
@@ -108,3 +105,4 @@ public class RadarRingService extends ServiceBase
         return retVal;
     }
 }
+

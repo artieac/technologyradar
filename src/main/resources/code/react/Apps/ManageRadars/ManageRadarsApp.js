@@ -25,12 +25,15 @@ import teamReducer from './redux/TeamReducer';
 import setManagementReducer from './redux/SetManagementReducer';
 import ManageRadarRingsPage from './components/ManageRadarRings/ManageRadarRingsPage';
 import ManageRadarCategoriesPage from './components/ManageRadarCategories/ManageRadarCategoriesPage';
+import ManageRadarTemplatesPage from  './components/ManageRadarTemplates/ManageRadarTemplatesPage';
+import radarTemplateReducer from './components/ManageRadarTemplates/redux/RadarTemplateReducer';
 
 const manageRadarsAppStore = createStore(combineReducers({  radarReducer,
                                                             radarTypeReducer,
                                                             userReducer,
                                                             teamReducer,
-                                                            setManagementReducer}), applyMiddleware(thunk));
+                                                            setManagementReducer,
+                                                            radarTemplateReducer}), applyMiddleware(thunk));
 
 class ManageRadarsApp extends React.Component{
     constructor(props){
@@ -66,12 +69,12 @@ class ManageRadarsApp extends React.Component{
                     <div className="row">
                         <div className="col-md-4">
                             <div className="panel panel-techradar adminMenuPanel">
-                                <div className="panel-heading-techradar">Manage Your Radar Types</div>
+                                <div className="panel-heading-techradar">Manage Your Radar Templates</div>
                                 <div id="ManageRadarTypesPanel" className="panel-body">
-                                    <p>A Radar Type defines how you will classify and rate your topics.</p>
-                                    <p>Go here to manage your existing types or add new ones</p>
-                                    <Link to='/manageradars/radarTypes'>
-                                        <button className="btn btn-techradar">Radar Types</button>
+                                    <p>A Radar Templates defines how you will classify and rate your topics.</p>
+                                    <p>Go here to manage your existing templates or add new ones</p>
+                                    <Link to='/manageradars/radarTemplates'>
+                                        <button className="btn btn-techradar">Radar Templates</button>
                                     </Link>
                                 </div>
                             </div>
@@ -154,7 +157,7 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/manageradars/index" component={ ManageRadarsApp } />
-                    <Route path="/manageradars/radartypes" component={ OwnedRadarTypesPage } />
+                    <Route path="/manageradars/radarTemplates" component={ ManageRadarTemplatesPage } />
                     <Route path="/manageradars/radarCategories" component={ ManageRadarCategoriesPage } />
                     <Route path="/manageradars/radarRings" component={ ManageRadarRingsPage } />
                     <Route path="/manageradars/associatedradartypes" component={ ManageAssociatedRadarTypesPage } />

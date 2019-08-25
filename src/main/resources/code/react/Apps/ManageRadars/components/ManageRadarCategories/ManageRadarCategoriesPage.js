@@ -34,7 +34,7 @@ class ManageRadarCategoriesPage extends React.Component{
        this.radarCategoryRepository.getByUserId(currentUser.id, this.props.storeSetList);
     }
 
-    canAddRadarRings() {
+    canAddRadarCategorySets() {
         var retVal = false;
 
         if(this.props.currentUser !== undefined)
@@ -60,10 +60,10 @@ class ManageRadarCategoriesPage extends React.Component{
                 <div className="row">
                     <div className="col-md-4">
                         <div className="row">
-                            <div className={ this.canAddRadarRings()==true ? "col-md-6" : "col-md-6 hidden"}>
+                            <div className={ this.canAddRadarCategorySets()==true ? "col-md-6" : "col-md-6 hidden"}>
                                <NewRadarCategorySetRow />
                             </div>
-                           <div className={ this.canAddRadarRings()==false ? "col-md-6" : "col-md-6 hidden"}>
+                           <div className={ this.canAddRadarCategorySets()==false ? "col-md-6" : "col-md-6 hidden"}>
                                <div className="errorText">You are only allowed { this.props.currentUser.canHaveNRadarTypes } Radar Categories.  If you want a new one you need to delete one of your existing Radar Categories.</div>
                             </div>
                         </div>

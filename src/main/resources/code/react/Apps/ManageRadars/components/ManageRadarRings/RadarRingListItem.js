@@ -48,7 +48,7 @@ class RadarRingListItem extends React.Component{
             return(
                 <div className={this.state.isDeleted ? "hidden row" : "row"}>
                     <div className="col-md-6">
-                        <input type="text" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleTypeDetailsNameChange(event) }}/>
+                        <input type="text" defaultValue={this.props.rowData.name} onChange= {(event) => { this.handleNameChange(event) }}/>
                     </div>
                     <div className="col-md-2">
                         <input type="text" defaultValue={this.props.rowData.displayOption} onChange= {(event) => { this.handleDisplayOptionChange(event) }} maxLength="2" size="2"/>

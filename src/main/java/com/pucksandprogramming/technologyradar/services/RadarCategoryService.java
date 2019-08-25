@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.RadarCategorySe
 import com.pucksandprogramming.technologyradar.data.repositories.RadarRingSetRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class RadarCategoryService extends ServiceBase
 {
     RadarCategorySetRepository radarCategorySetRepository;
 
+    @Autowired
     public RadarCategoryService(RadarUserRepository radarUserRepository, RadarCategorySetRepository radarCategorySetRepository)
     {
         super(radarUserRepository);

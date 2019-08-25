@@ -11,7 +11,18 @@ class RadarCategorySetDetails extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            radarCategoriesColorMap: {  "Green": "#8FA227",
+                                        "Blue": "#587486",
+                                        "Maroon": "#B70062",
+                                        "Orange": "#DC6F1D"},
+            radarCategoriesColorNameMap: {}
         };
+
+        var colorNames = Object.keys(this.state.radarCategoriesColorMap);
+
+        for(var i = 0; i < colorNames.length; i++){
+            this.state.radarCategoriesColorNameMap[this.state.radarCategoriesColorMap[colorNames[i]]] = colorNames[i];
+        }
 
         this.radarCategoryRepository = new RadarCategoryRepository();
 
@@ -67,10 +78,12 @@ class RadarCategorySetDetails extends React.Component{
                         </div>
                     </div>
                     <div className="row">
-                        <textarea className="form-control rounded-0" rows="3" value={this.props.selectedListItem.description } onChange= {(event) => { this.handleDescriptionChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}></textarea>
+                        <div className="col-md-9">
+                            <textarea className="form-control rounded-0" rows="3" value={this.props.selectedListItem.description } onChange= {(event) => { this.handleDescriptionChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}></textarea>
+                        </div>
                     </div>
                     {this.props.selectedListItem.radarCategories.map((currentRow) => {
-                        return <RadarCategoryListItem key={currentRow.id} rowData={currentRow} editMode={this.props.editMode} listContainer={this} canAddOrDelete={this.props.canAddOrDelete}/>
+                        return <RadarCategoryListItem key={currentRow.id} rowData={currentRow} editMode={this.props.editMode} listContainer={this} colorMap={this.state.radarCategoriesColorMap} colorNameMap={this.state.radarCategoriesColorNameMap}/>
                         })}
                 </div>
             );
