@@ -58,7 +58,6 @@ public class HomeController extends ControllerBase
             {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
                 modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", targetRadar.getRadarType().getVersion());
             }
         }
 
@@ -82,7 +81,6 @@ public class HomeController extends ControllerBase
             {
                 modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
                 modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", radarInstances.get(0).getRadarType().getVersion());
             }
         }
 
@@ -111,7 +109,6 @@ public class HomeController extends ControllerBase
             if(radarInstance!=null)
             {
                 modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
-                modelAndView.addObject("radarTypeVersion", radarInstance.getRadarType().getVersion());
             }
         }
 
@@ -147,7 +144,7 @@ public class HomeController extends ControllerBase
 
     @RequestMapping(value = { "/public/home/user/{userId}/radartype/{radarTypeId}/radars"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable String radarTypeId,
+                                                @PathVariable Long radarTypeId,
                                                 @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
 
     {
@@ -165,7 +162,6 @@ public class HomeController extends ControllerBase
 
                 if (mostRecentRadar != null)
                 {
-                    modelAndView.addObject("radarTypeVersion", mostRecentRadar.getRadarType().getVersion());
                     modelAndView.addObject("radarInstanceId", mostRecentRadar.getId());
                 }
             }
@@ -178,14 +174,12 @@ public class HomeController extends ControllerBase
 
     @GetMapping(value = { "/public/home/user/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable String radarTypeId,
-                                                @PathVariable Long radarTypeVersion)
+                                                @PathVariable Long radarTypeId)
 
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTypeId", radarTypeId);
-        modelAndView.addObject( "radarTypeVersion", radarTypeVersion);
 
         RadarUser dataOwner = this.radarUserService.findOne(userId);
 

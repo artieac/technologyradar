@@ -30,7 +30,6 @@ class RadarTypeDetails extends React.Component{
         this.handleRadarTypeNameChangeEvent = this.handleRadarTypeNameChangeEvent.bind(this);
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
-        this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
         this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
     }
 
@@ -66,10 +65,6 @@ class RadarTypeDetails extends React.Component{
         this.radarTypeRepository.getByUserId(this.props.currentUser.Id, false, this.handleGetByUserIdSuccess);
     }
 
-    handleDeleteRadarType(){
-        this.radarTypeRepository.deleteRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
-    }
-
     render() {
         if(this.props.selectedRadarType !== undefined && this.props.selectedRadarType.name !== undefined){
             return (
@@ -80,7 +75,6 @@ class RadarTypeDetails extends React.Component{
                             <div className="col-md-4">
                                 <input type="text" value={this.props.selectedRadarType.name } ref={this.nameInput} onChange= {(event) => { this.handleRadarTypeNameChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}/>
                             </div>
-                            <div className="col-md-2">Version: { this.props.selectedRadarType.version }</div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">

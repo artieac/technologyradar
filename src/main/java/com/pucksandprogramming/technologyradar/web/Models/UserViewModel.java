@@ -23,7 +23,6 @@ public class UserViewModel
         retVal.setNumberOfSharedRadar(0);
         retVal.setCanHaveVariableRadarRingCount(true);
         retVal.setRole(Role.createUserRole());
-        retVal.setCanVersionRadarTypes(false);
         retVal.setUserType(UserType.DefaultInstance());
 
         return retVal;
@@ -66,9 +65,6 @@ public class UserViewModel
 
     public Integer getCanHaveNAssociatedRadarTypes() { return this.userType.getGrantValue(UserRights.AllowNAssociatedRadarTypes); }
     public void setCanHaveNAssociatedRadarTypes(Integer value) { }
-
-    public boolean getCanVersionRadarTypes() { return this.userType.isGrantEnabled(UserRights.CanVersionRadarTypes);}
-    public void setCanVersionRadarTypes(boolean value) { }
 
     public boolean getCanShareRadarTypes(){ return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes); }
     public void setCanShareRadarTypes(boolean value) { }

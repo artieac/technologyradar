@@ -47,8 +47,7 @@ public class RadarTypeController extends ControllerBase
     @GetMapping(value = {"/User/{radarUserId}/RadarTypes", "/public/User/{radarUserId}/RadarTypes"}, produces = "application/json")
     public @ResponseBody List<RadarTypeViewModel> getRadarTypesByUserId(@PathVariable Long radarUserId,
                                                                         @RequestParam(name="includeOwned", required = false, defaultValue = "true") boolean includeOwned,
-                                                                        @RequestParam(name="includeAssociated", required = false, defaultValue = "false") boolean includeAssociated,
-                                                                        @RequestParam(name="mostRecent", required = false, defaultValue = "false") boolean mostRecent)
+                                                                        @RequestParam(name="includeAssociated", required = false, defaultValue = "false") boolean includeAssociated)
     {
         List<RadarTypeViewModel> retVal = new ArrayList<RadarTypeViewModel>();
 
@@ -59,14 +58,7 @@ public class RadarTypeController extends ControllerBase
 
             if (targetUser != null)
             {
-                if(mostRecent == true)
-                {
-                    foundItems = radarTypeService.findMostRecentByUserId(radarUserId);
-                }
-                else
-                {
-                    foundItems = radarTypeService.findByUserId(radarUserId);
-                }
+                foundItems = radarTypeService.findByUserId(radarUserId);
 
                 if (includeAssociated == true && this.getCurrentUser()!=null && this.getCurrentUser().getId()==targetUser.getId())
                 {
@@ -275,7 +267,9 @@ public class RadarTypeController extends ControllerBase
     }
 
     @PutMapping(value = "/User/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Associate")
-    public @ResponseBody boolean associateRadarType(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable String radarTypeId, @PathVariable Long radarTypeVersion)
+    public @ResponseBody boolean associateRadarType(@RequestBody Map modelMap,
+                                                    @PathVariable Long userId,
+                                                    @PathVariable Long radarTypeId)
     {
         boolean retVal = false;
 
@@ -285,7 +279,7 @@ public class RadarTypeController extends ControllerBase
 
             if (this.getCurrentUser().getId() == userId)
             {
-                retVal = this.associatedRadarTypeService.associateRadarType(this.getCurrentUser(), radarTypeId, radarTypeVersion, shouldAssociate);
+                retVal = this.associatedRadarTypeService.associateRadarType(this.getCurrentUser(), radarTypeId, shouldAssociate);
             }
         }
         catch(Exception e)
@@ -297,7 +291,8 @@ public class RadarTypeController extends ControllerBase
     }
 
     @DeleteMapping(value = "/User/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}")
-    public @ResponseBody boolean associateRadarType(@PathVariable Long userId, @PathVariable String radarTypeId, @PathVariable Long radarTypeVersion)
+    public @ResponseBody boolean associateRadarType(@PathVariable Long userId,
+                                                    @PathVariable Long radarTypeId)
     {
         boolean retVal = false;
 
@@ -305,7 +300,7 @@ public class RadarTypeController extends ControllerBase
         {
             if (this.getCurrentUser().getId() == userId)
             {
-                retVal = this.radarTypeService.deleteRadarType(userId, radarTypeId, radarTypeVersion);
+                retVal = this.radarTypeService.deleteRadarType(userId, radarTypeId);
             }
         }
         catch(Exception e)

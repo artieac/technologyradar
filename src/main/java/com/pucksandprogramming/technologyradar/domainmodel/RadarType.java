@@ -14,8 +14,7 @@ public class RadarType
     public static final Integer State_Active = 1;
     public static final Integer State_InActive = 2;
 
-    private String id;
-    private Long version;
+    private Long id;
     private String name;
     private List<RadarRing> radarRings;
     private List<RadarCategory> radarCategories;
@@ -31,11 +30,8 @@ public class RadarType
         this.state = RadarType.State_Active;
     }
 
-    public String getId(){ return this.id;}
-    public void setId(String value){ this.id = value;}
-
-    public Long getVersion() { return this.version;}
-    public void setVersion(Long value) { this.version = value;}
+    public Long getId(){ return this.id;}
+    public void setId(Long value){ this.id = value;}
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}

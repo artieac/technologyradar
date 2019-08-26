@@ -6,7 +6,6 @@ import { addRadarTypesToState, addSelectedRadarTypeToState, addTargetUserToState
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import RadarTypeList from './RadarTypeList';
 import RadarTypeDetails from './RadarTypeDetails';
-import RadarTypeHistory from './RadarTypeHistory';
 import NewRadarTypeRow from './NewRadarTypeRow';
 import { RadarTypeRepository } from '../../../../Repositories/RadarTypeRepository';
 import { UserRepository } from '../../../../Repositories/UserRepository';
@@ -75,10 +74,7 @@ class OwnedRadarTypesPage extends React.Component{
                         </div>
                     </div>
                     <div className={ this.props.showEdit==true ? "col-md-8" : "hidden"}>
-                        <RadarTypeDetails  parentContainer={this} editMode={ true } canVersionRadarTypes={this.props.currentUser.canVersionRadarTypes }/>
-                    </div>
-                    <div className={ this.props.currentUser.canVersionRadarTypes && this.props.showHistory==true ? "col-md-8" : "hidden" }>
-                        <RadarTypeHistory parentContainer={this}/>
+                        <RadarTypeDetails  parentContainer={this} editMode={ true }/>
                     </div>
                 </div>
             </div>
@@ -90,7 +86,6 @@ function mapStateToProps(state) {
   return {
     	radarTypes: state.radarTypeReducer.radarTypes,
     	currentUser: state.userReducer.currentUser,
-    	showHistory: state.radarTypeReducer.showHistory,
     	showEdit: state.radarTypeReducer.showEdit
     };
 }

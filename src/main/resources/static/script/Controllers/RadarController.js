@@ -320,7 +320,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.radarTypes = radarTypes;
 
         var radarTypeId = $("#radarTypeId").val();
-        var radarTypeVersion = $("#radarTypeVersion").val();
 
         if (!$scope.isNullOrUndefined($scope.radarTypes) &&
             !$scope.isNullOrUndefined(radarTypeId) &&
@@ -330,7 +329,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         {
             for (var i = 0; i < $scope.radarTypes.length; i++)
             {
-                if ($scope.radarTypes[i].id == radarTypeId && $scope.radarTypes[i].version == radarTypeVersion)
+                if ($scope.radarTypes[i].id == radarTypeId)
                 {
                     $scope.radarTypeDropdownSelected($scope.currentUserId, $scope.radarTypes[i]);
                     break;
@@ -348,7 +347,6 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarType = {};
         $scope.selectedRadarType.id = "";
         $scope.selectedRadarType.name = $scope.allOptionName;
-        $scope.selectedRadarType.version = -1;
         $scope.showFullViewOption = false;
         $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
     }
@@ -361,8 +359,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance.name = $scope.fullViewOptionName;
         $scope.selectedRadarInstance.formattedAssessmentDate = "";
 
-        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/RadarType/' + $scope.selectedRadarType.id + '/Version/' + $scope.selectedRadarType.version + '/Radar/FullView';
+        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/RadarType/' + $scope.selectedRadarType.id + '/Radar/FullView';
 
-        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.selectedRadarType.version, $scope.renderRadar);
+        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.renderRadar);
     }
 });

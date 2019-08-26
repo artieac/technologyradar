@@ -25,7 +25,7 @@ public class EmbeddableController
 
     @RequestMapping(value = { "/user/{userId}/radartype/{radarTypeId}/radars"})
     public ModelAndView mostRecentRadarByType(@PathVariable Long userId,
-                                              @PathVariable String radarTypeId,
+                                              @PathVariable Long radarTypeId,
                                               @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
 
     {

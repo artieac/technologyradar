@@ -28,7 +28,6 @@ public class UserType
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 0);
-        retVal.put(UserRights.CanVersionRadarTypes, 0);
         return retVal;
     }
 
@@ -42,7 +41,6 @@ public class UserType
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
-        retVal.put(UserRights.CanVersionRadarTypes, 0);
 
         return retVal;
     }
@@ -57,7 +55,6 @@ public class UserType
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
-        retVal.put(UserRights.CanVersionRadarTypes, 1);
 
         return retVal;
     }
@@ -72,7 +69,6 @@ public class UserType
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 1);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
-        retVal.put(UserRights.CanVersionRadarTypes, 1);
         return retVal;
     }
 

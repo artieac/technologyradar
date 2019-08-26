@@ -106,7 +106,6 @@ export class RadarRepository{
         var radarToAdd = {};
         radarToAdd.name = radarName;
         radarToAdd.radarTypeId = radarType.id;
-        radarToAdd.radarTypeVersion = radarType.version;
 
         $.post({
               headers: {

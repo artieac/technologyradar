@@ -45,11 +45,11 @@ public class AssociatedRadarTypeService extends ServiceBase
         return retVal;
     }
 
-    public boolean associateRadarType(RadarUser targetUser, String radarTypeId, Long radarTypeVersion, boolean shouldAssociate)
+    public boolean associateRadarType(RadarUser targetUser, Long radarTypeId, boolean shouldAssociate)
     {
         boolean retVal = false;
 
-        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId, radarTypeVersion);
+        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
 
         if(radarType!=null && targetUser != null)
         {
@@ -75,9 +75,9 @@ public class AssociatedRadarTypeService extends ServiceBase
         return retVal;
     }
 
-    public boolean associateRadarType(String radarTypeId, Long radarTypeVersion, boolean shouldAssociate)
+    public boolean associateRadarType(Long radarTypeId, boolean shouldAssociate)
     {
         RadarUser targetUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-        return this.associateRadarType(targetUser, radarTypeId, radarTypeVersion, shouldAssociate);
+        return this.associateRadarType(targetUser, radarTypeId, shouldAssociate);
     }
 }

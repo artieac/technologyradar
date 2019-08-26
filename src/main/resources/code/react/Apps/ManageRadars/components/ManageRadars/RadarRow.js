@@ -97,7 +97,7 @@ class RadarRow extends React.Component{
              <tr>
                  <td>{ this.props.rowData.name}</td>
                  <td>{ this.props.rowData.formattedAssessmentDate}</td>
-                 <td>{ this.props.rowData.radarType.name} - v{this.props.rowData.radarType.version}</td>
+                 <td>{ this.props.rowData.radarType.name}</td>
                  <td><input type="checkbox" ref="isPublished" checked={ this.props.rowData.isPublished } onChange = {(event) => this.handleIsPublishedClick(event) }/></td>
                  <td><input type="checkbox" ref="isLocked" checked={ this.props.rowData.isLocked } onClick = {(event) => this.handleIsLockedClick(event) }/></td>
                  <td><a href={ this.getAddItemsLink(this.props.rowData.id) } className="btn btn-techradar" role="button" aria-disabled="true">Add Items</a></td>

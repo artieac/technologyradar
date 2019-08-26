@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 @Repository
-public class RadarTypeRepository extends SimpleDomainRepository<RadarType, RadarTypeEntity, RadarTypeDAO, VersionedIdEntity>
+public class RadarTypeRepository extends SimpleDomainRepository<RadarType, RadarTypeEntity, RadarTypeDAO, Long>
 {
     @Autowired
     EntityManager entityManager;
@@ -28,6 +28,9 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     @Autowired
     AssociatedRadarTypeDAO associatedRadarTypeDAO;
+
+    @Autowired
+    RadarDAO radarDAO;
 
     @Autowired
     public void setEntityRepository(RadarTypeDAO entityRepository) {
@@ -57,30 +60,14 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
     @Override
     protected RadarTypeEntity findOne(RadarType domainModel)
     {
-        VersionedIdEntity idEntity = new VersionedIdEntity(domainModel.getId(), domainModel.getVersion());
-        return this.entityRepository.findOne(idEntity);
-    }
-
-    public RadarType findOne(String radarTypeId, Long version)
-    {
-        RadarType retVal = null;
-
-        VersionedIdEntity idEntity = new VersionedIdEntity(radarTypeId, version);
-        RadarTypeEntity foundItem = this.entityRepository.findOne(idEntity);
-
-        if(foundItem!=null)
-        {
-            retVal = this.modelMapper.map(foundItem, RadarType.class);
-        }
-
-        return retVal;
+        return this.entityRepository.findOne(domainModel.getId());
     }
 
     public List<RadarType> findByUser(Long userId)
     {
         List<RadarType> retVal = new ArrayList<>();
 
-        List<RadarTypeEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndStateOrderByVersionedId(userId, 1);
+        List<RadarTypeEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndStateOrderByCreateDate(userId, 1);
 
         if(foundItems != null)
         {
@@ -91,14 +78,6 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         }
 
         return retVal;
-    }
-
-    public List<RadarType> findMostRecentByUserId(Long radarUserId)
-    {
-        Query query = entityManager.createNamedQuery("owned_FindMostRecentRadarTypeByRadarUserId");
-        query.setParameter("radarUserId", radarUserId);
-        List<RadarTypeEntity> foundItems = query.getResultList();
-        return this.mapList(foundItems);
     }
 
     public List<RadarType> findByUserAndRadarType(Long userId, String radarTypeId)
@@ -120,7 +99,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
     public List<RadarType> findSharedRadarTypes()
     {
-        Query query =  this.entityManager.createNamedQuery("public_findMostRecentSharedRadarTypes");
+        Query query =  this.entityManager.createNamedQuery("public_findSharedRadarTypes");
         List<RadarTypeEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
@@ -157,284 +136,166 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
         return this.mapList(foundItems);
     }
 
-    private boolean shouldVersion(RadarType source, RadarTypeEntity destination)
-    {
-        boolean retVal = false;
-
-        if(source.getRadarCategories().size() != destination.getRadarCategories().size())
-        {
-            retVal = true;
-        }
-        else
-        {
-            retVal = this.hasRadarCategoryBeenAdded(source, destination);
-
-            if (retVal == false)
-            {
-                retVal = this.hasRadarCategoryBeenRemoved(source, destination);
-            }
-        }
-
-        if(retVal==false)
-        {
-            if (source.getRadarRings().size() != destination.getRadarRings().size())
-            {
-                retVal = true;
-            }
-            else
-            {
-                retVal = this.hasRadarRingBeenAdded(source, destination);
-
-                if (retVal == false)
-                {
-                    retVal = this.hasRadarRingBeenRemoved(source, destination);
-                }
-            }
-        }
-
-        return retVal;
-    }
-
-    private boolean hasRadarCategoryBeenAdded(RadarType source, RadarTypeEntity destination)
-    {
-        boolean retVal = false;
-
-        for(RadarCategory radarCategory : source.getRadarCategories())
-        {
-            boolean foundMatch = false;
-
-            for (RadarCategoryEntity radarCategoryEntity : destination.getRadarCategories())
-            {
-                if (radarCategory.getId() == radarCategoryEntity.getId())
-                {
-                    foundMatch = true;
-                    break;
-                }
-            }
-
-            if(foundMatch==false)
-            {
-                retVal = true;
-                break;
-            }
-        }
-
-        return retVal;
-    }
-
-    private boolean hasRadarCategoryBeenRemoved(RadarType source, RadarTypeEntity destination)
-    {
-        boolean retVal = false;
-
-        for(RadarCategoryEntity radarCategoryEntity : destination.getRadarCategories())
-        {
-            boolean foundMatch = false;
-
-            for (RadarCategory radarCategory : source.getRadarCategories())
-            {
-                if (radarCategory.getId() == radarCategoryEntity.getId())
-                {
-                    foundMatch = true;
-                    break;
-                }
-            }
-
-            if(foundMatch==false)
-            {
-                retVal = true;
-                break;
-            }
-        }
-
-        return retVal;
-    }
-
-    private boolean hasRadarRingBeenAdded(RadarType source, RadarTypeEntity destination)
-    {
-        boolean retVal = false;
-
-        for(RadarRing radarRing : source.getRadarRings())
-        {
-            boolean foundMatch = false;
-
-            for (RadarRingEntity radarRingEntity : destination.getRadarRings())
-            {
-                if (radarRing.getId() == radarRingEntity.getId())
-                {
-                    foundMatch = true;
-                    break;
-                }
-            }
-
-            if(foundMatch==false)
-            {
-                retVal = true;
-                break;
-            }
-        }
-
-        return retVal;
-    }
-
-    private boolean hasRadarRingBeenRemoved(RadarType source, RadarTypeEntity destination)
-    {
-        boolean retVal = false;
-
-        for(RadarRingEntity radarRingEntity : destination.getRadarRings())
-        {
-            boolean foundMatch = false;
-
-            for (RadarRing radarRing : source.getRadarRings())
-            {
-                if (radarRing.getId() == radarRingEntity.getId())
-                {
-                    foundMatch = true;
-                    break;
-                }
-            }
-
-            if(foundMatch==false)
-            {
-                retVal = true;
-                break;
-            }
-        }
-
-        return retVal;
-    }
-
-    private VersionedIdEntity getNextVersionNumber(Long radarUserId, RadarTypeEntity instanceToId)
-    {
-        VersionedIdEntity retVal = new VersionedIdEntity();
-
-        if(instanceToId.getVersionedId().getId()==null || instanceToId.getVersionedId().getId()=="")
-        {
-            retVal.setId(UUID.randomUUID().toString());
-            retVal.setVersion(1L);
-        }
-        else
-        {
-            Query query = entityManager.createNamedQuery("findMostRecentByUserAndId");
-            query.setParameter("radarUserId", radarUserId);
-            query.setParameter("radarTypeId", instanceToId.getVersionedId().getId());
-            List<RadarTypeEntity> foundItems = query.getResultList();
-
-            if (foundItems != null && foundItems.size() > 0)
-            {
-                retVal.setId(instanceToId.getVersionedId().getId());
-                retVal.setVersion(foundItems.get(0).getVersionedId().getVersion() + 1);
-            }
-            else
-            {
-                // if nothing was found then it must be the first one.
-                retVal.setId(instanceToId.getVersionedId().getId());
-                retVal.setVersion(1L);
-            }
-        }
-
-        return retVal;
-    }
-
-    private RadarTypeEntity createNewRadarTypeInstance(RadarType itemToSave, VersionedIdEntity newVersionedId)
-    {
-        RadarTypeEntity retVal = new RadarTypeEntity();
-
-        // THe mapper doesn't overwrite an instance so I keep getting transient errors
-        // for now manually map it, and later look for another mapper
-        ///.... this sucks
-        retVal.setVersionedId(newVersionedId);
-        retVal = this.modelMapper.map(itemToSave, RadarTypeEntity.class);
-        retVal.getVersionedId().setId(itemToSave.getId());
-        retVal.setVersionedId(this.getNextVersionNumber(itemToSave.getRadarUser().getId(), retVal));
-        retVal.setIsPublished(false);
-        retVal.setCreateDate(Calendar.getInstance());
-        retVal.setState(RadarType.State_Active);
-
-        for(RadarRingEntity radarRingEntity : retVal.getRadarRings())
-        {
-            radarRingEntity.setRadarType(retVal);
-            radarRingEntity.setId(-1L);
-        }
-
-        for(RadarCategoryEntity radarCategoryEntity : retVal.getRadarCategories())
-        {
-            radarCategoryEntity.setRadarType(retVal);
-            radarCategoryEntity.setId(-1L);
-        }
-
-        return retVal;
-    }
-
     @Override
     public RadarType save(RadarType itemToSave)
     {
-        return this.save(itemToSave, false);
-    }
-
-    public RadarType save(RadarType itemToSave, boolean canVersion)
-    {
         RadarTypeEntity radarTypeEntity = null;
 
-        if(itemToSave !=null && itemToSave.getId() != null)
+        if(itemToSave !=null)
         {
-            boolean shouldVersion = false;
-
-            if (itemToSave.getId()!=null && itemToSave.getId()!="")
+            if (itemToSave.getId() != null && itemToSave.getId() > 0)
             {
-                VersionedIdEntity versionedIdEntity = new VersionedIdEntity(itemToSave.getId(), itemToSave.getVersion());
-                radarTypeEntity = this.entityRepository.findOne(versionedIdEntity);
-
-                if(this.shouldVersion(itemToSave, radarTypeEntity) && canVersion)
-                {
-                    // update version number and everything else about it that changed
-                    VersionedIdEntity newVersionedId = this.getNextVersionNumber(itemToSave.getRadarUser().getId(), radarTypeEntity);
-                    radarTypeEntity = this.createNewRadarTypeInstance(itemToSave, newVersionedId);
-                }
-                else
-                {
-                    // just update the text values of things.  The number of things doesn't change.
-                    radarTypeEntity.setName(itemToSave.getName());
-                    radarTypeEntity.setDescription(itemToSave.getDescription());
-                    radarTypeEntity.setIsPublished((itemToSave.getIsPublished()));
-
-                    for(RadarRing radarRing : itemToSave.getRadarRings())
-                    {
-                        for (RadarRingEntity radarRingEntity : radarTypeEntity.getRadarRings())
-                        {
-                            if (radarRing.getId() == radarRingEntity.getId())
-                            {
-                                radarRingEntity.setName(radarRing.getName());
-                                radarRingEntity.setDisplayOrder(radarRing.getDisplayOrder());
-                                break;
-                            }
-                        }
-                    }
-
-                    for(RadarCategory radarCategory : itemToSave.getRadarCategories())
-                    {
-                        for (RadarCategoryEntity radarCategoryEntity : radarTypeEntity.getRadarCategories())
-                        {
-                            if (radarCategory.getId() == radarCategoryEntity.getId())
-                            {
-                                radarCategoryEntity.setName(radarCategory.getName());
-                                radarCategoryEntity.setColor(radarCategory.getColor());
-                                break;
-                            }
-                        }
-                    }
-                }
+                radarTypeEntity = this.entityRepository.findOne(itemToSave.getId());
             }
             else
             {
-                // This is a brand new Radar Type, so just create a basic one with a new guid and version of 1
-                VersionedIdEntity newVersionedId = new VersionedIdEntity();
-                newVersionedId.setId(UUID.randomUUID().toString());
-                newVersionedId.setVersion(1L);
-
-                radarTypeEntity = this.createNewRadarTypeInstance(itemToSave, newVersionedId);
+                radarTypeEntity = new RadarTypeEntity();
             }
 
-            radarTypeEntity = this.entityRepository.save(radarTypeEntity);
+            // THe mapper doesn't overwrite an instance so I keep getting transient errors
+            // for now manually map it, and later look for another mapper
+            ///.... this sucks
+            if (radarTypeEntity != null)
+            {
+                radarTypeEntity.setName(itemToSave.getName());
+                radarTypeEntity.setIsPublished(itemToSave.getIsPublished());
+                radarTypeEntity.setDescription(itemToSave.getDescription());
+                radarTypeEntity.setState(itemToSave.getState());
+                radarTypeEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+
+                // save it here so we can add the rings and categories.  Not sure how else to do this.  Doesn't feel right though.
+                radarTypeEntity = this.entityRepository.saveAndFlush(radarTypeEntity);
+
+                // Some ground rules.  If it has any radar's associated with it you can't remove any radar rings.
+                List<RadarEntity> createdRadars = this.radarDAO.findAllByRadarUserIdAndRadarTypeId(itemToSave.getRadarUser().getId(), itemToSave.getId());
+
+                if(createdRadars==null || createdRadars.size()==0)
+                {
+                    // process Radar Rings
+                    if (radarTypeEntity.getRadarRings() != null)
+                    {
+                        for (RadarRingEntity radarRingEntity : radarTypeEntity.getRadarRings())
+                        {
+                            boolean foundMatch = false;
+
+                            for (RadarRing radarRing : itemToSave.getRadarRings())
+                            {
+                                if (radarRing.getId() == radarRingEntity.getId())
+                                {
+                                    foundMatch = true;
+                                    // match found, overwrite changes
+                                    radarRingEntity.setName(radarRing.getName());
+                                    radarRingEntity.setDisplayOrder(radarRing.getDisplayOrder());
+                                }
+                            }
+
+                            // it wasn't found in both lists, delete it
+                            if (foundMatch == false)
+                            {
+                                radarTypeEntity.getRadarRings().remove(radarRingEntity);
+                                radarRingDAO.delete(radarRingEntity);
+                            }
+                        }
+                    }
+
+                    // process Radar Categories
+                    // First remove any deletions
+                    if(radarTypeEntity.getRadarCategories() != null)
+                    {
+                        for (RadarCategoryEntity radarCategoryEntity : radarTypeEntity.getRadarCategories())
+                        {
+                            boolean foundMatch = false;
+
+                            for (RadarCategory radarCategory : itemToSave.getRadarCategories())
+                            {
+                                if (radarCategory.getId() == radarCategoryEntity.getId())
+                                {
+                                    foundMatch = true;
+                                    // match found, overwrite changes
+                                    radarCategoryEntity.setName(radarCategory.getName());
+                                    radarCategoryEntity.setColor(radarCategory.getColor());
+                                }
+                            }
+
+                            // it wasn't found in both lists, delete it
+                            if (foundMatch == false)
+                            {
+                                radarTypeEntity.getRadarCategories().remove(radarCategoryEntity);
+                                radarCategoryDAO.delete(radarCategoryEntity);
+                            }
+                        }
+                    }
+                }
+
+                // then add in any new ones
+                for (RadarRing radarRing : itemToSave.getRadarRings())
+                {
+                    boolean foundMatch = false;
+
+                    if(radarTypeEntity.getRadarRings()!=null)
+                    {
+                        for (RadarRingEntity radarRingEntity : radarTypeEntity.getRadarRings())
+                        {
+                            if (radarRingEntity.getId() == radarRing.getId())
+                            {
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        radarTypeEntity.setRadarRings(new ArrayList<RadarRingEntity>());
+                    }
+
+                    if (foundMatch == false)
+                    {
+                        RadarRingEntity newItem = new RadarRingEntity();
+                        newItem.setName(radarRing.getName());
+                        newItem.setDisplayOrder(radarRing.getDisplayOrder());
+                        newItem.setRadarType(radarTypeEntity);
+                        this.radarRingDAO.save(newItem);
+                        radarTypeEntity.getRadarRings().add(newItem);
+                    }
+                }
+
+                // then add in any new ones
+                for (RadarCategory radarCategory : itemToSave.getRadarCategories())
+                {
+                    boolean foundMatch = false;
+
+                    if(radarTypeEntity.getRadarCategories()!=null)
+                    {
+                        for (RadarCategoryEntity radarCategoryEntity : radarTypeEntity.getRadarCategories())
+                        {
+                            if (radarCategoryEntity.getId() == radarCategory.getId())
+                            {
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        radarTypeEntity.setRadarCategories(new ArrayList<RadarCategoryEntity>());
+                    }
+
+                    if (foundMatch == false)
+                    {
+                        RadarCategoryEntity newItem = new RadarCategoryEntity();
+                        newItem.setName(radarCategory.getName());
+                        newItem.setColor(radarCategory.getColor());
+                        newItem.setRadarType(radarTypeEntity);
+                        this.radarCategoryDAO.save(newItem);
+                        radarTypeEntity.getRadarCategories().add(newItem);
+                    }
+                }
+            }
+
+            if (radarTypeEntity != null)
+            {
+                this.entityRepository.save(radarTypeEntity);
+            }
         }
 
         return this.modelMapper.map(radarTypeEntity, RadarType.class);
@@ -446,14 +307,13 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
         if (radarType != null && radarUser != null)
         {
-            AssociatedRadarTypeEntity associatedRadarTypeEntityRadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
+            AssociatedRadarTypeEntity associatedRadarTypeEntityRadarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
 
             if(associatedRadarTypeEntityRadarTypeEntity==null)
             {
                 associatedRadarTypeEntityRadarTypeEntity = new AssociatedRadarTypeEntity();
                 associatedRadarTypeEntityRadarTypeEntity.setRadarUserId(radarUser.getId());
                 associatedRadarTypeEntityRadarTypeEntity.setRadarTypeId(radarType.getId());
-                associatedRadarTypeEntityRadarTypeEntity.setRadarTypeVersion(radarType.getVersion());
                 associatedRadarTypeEntityRadarTypeEntity = this.associatedRadarTypeDAO.save(associatedRadarTypeEntityRadarTypeEntity);
 
                 if(associatedRadarTypeEntityRadarTypeEntity.getId() > 0)
@@ -476,7 +336,7 @@ public class RadarTypeRepository extends SimpleDomainRepository<RadarType, Radar
 
         if (radarType != null && radarUser != null)
         {
-            AssociatedRadarTypeEntity radarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeIdAndRadarTypeVersion(radarUser.getId(), radarType.getId(), radarType.getVersion());
+            AssociatedRadarTypeEntity radarTypeEntity = this.associatedRadarTypeDAO.findByRadarUserIdAndRadarTypeId(radarUser.getId(), radarType.getId());
 
             if (radarTypeEntity != null)
             {

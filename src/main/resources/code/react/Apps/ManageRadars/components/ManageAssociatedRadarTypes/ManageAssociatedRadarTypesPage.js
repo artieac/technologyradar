@@ -49,8 +49,7 @@ class ManageAssociatedRadarTypesPage extends React.Component{
 
             for(var j = 0; j < sharedRadarTypes.length; j++)
             {
-                if(associatedRadarType.id == sharedRadarTypes[j].id &&
-                   associatedRadarType.version == sharedRadarTypes[j].version)
+                if(associatedRadarType.id == sharedRadarTypes[j].id)
                {
                     foundMatch = true;
                }

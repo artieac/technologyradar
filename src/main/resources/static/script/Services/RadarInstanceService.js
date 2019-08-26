@@ -42,7 +42,7 @@ theApp.service('RadarInstanceService', function ($resource, $http)
 
          if(radarType!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id + '&radarTypeVersion=' + radarType.version;
+            url += "?radarTypeId=" + radarType.id;
          }
 
         $http.get(url)
@@ -58,7 +58,7 @@ theApp.service('RadarInstanceService', function ($resource, $http)
 
          if(radarType!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id + "&radarTypeVersion=" + radarType.version;
+            url += "?radarTypeId=" + radarType.id;
          }
 
         $http.get(url)
@@ -87,16 +87,16 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         });
     }
 
-    this.getFulLViewUrl = function(userId, radarTypeId, radarTypeVersion)
+    this.getFulLViewUrl = function(userId, radarTypeId)
     {
-        return '/api/public/User/' + userId + '/RadarType/' + radarTypeId + '/Version/' + radarTypeVersion + '/Radar/FullView';
+        return '/api/public/User/' + userId + '/RadarType/' + radarTypeId + '/Radar/FullView';
     }
 
-    this.getRadarFullView = function(userId, radarTypeId, radarTypeVersion, callbackFunction)
+    this.getRadarFullView = function(userId, radarTypeId, callbackFunction)
     {
         var getRequest = {};
 
-        getRequest = $resource(this.getFulLViewUrl(userId, radarTypeId, radarTypeVersion));
+        getRequest = $resource(this.getFulLViewUrl(userId, radarTypeId));
 
         getRequest.get(function(data)
         {

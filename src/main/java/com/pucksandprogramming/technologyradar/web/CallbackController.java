@@ -95,7 +95,7 @@ public class CallbackController
 
                     for(RadarType radarType : defaultRadars)
                     {
-                        this.associatedRadarTypeService.associateRadarType(targetUser, radarType.getId(), radarType.getVersion(), true);
+                        this.associatedRadarTypeService.associateRadarType(targetUser, radarType.getId(), true);
                     }
                 }
             }
