@@ -7,7 +7,7 @@ const radarManagementState = {
   sourceRadar: {},
   radarItemsToAdd: [],
   radarItemsToRemove: [],
-  radarTypes: []
+  radarTemplates: []
 };
 
 export function addRadarsToState(radars){
@@ -17,10 +17,10 @@ export function addRadarsToState(radars){
    };
 }
 
-export function addRadarTypesToState(radarTypes){
+export function addRadarTemplatesToState(radarTemplates){
     return {
        type: actionTypes.SETRADARTYPECOLLECTION,
-       payload: radarTypes
+       payload: radarTemplates
    };
 }
 
@@ -120,7 +120,7 @@ export default function(state = radarManagementState, action) {
         break;
     case actionTypes.SETRADARTYPECOLLECTION:
         return Object.assign({}, state, {
-            radarTypes: action.payload
+            radarTemplates: action.payload
         })
         break;
     default:

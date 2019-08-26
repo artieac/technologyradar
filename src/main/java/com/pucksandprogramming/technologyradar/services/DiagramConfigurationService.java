@@ -58,7 +58,7 @@ public class DiagramConfigurationService
     {
         DiagramPresentation retVal = new DiagramPresentation();
 
-        retVal.addRadarArcs(radarInstance.getRadarType().getRadarRings());
+        retVal.addRadarArcs(radarInstance.getRadarTemplate().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
         List<RadarRingPresentation> radarRingPresentations = retVal.getRadarArcs();
 
@@ -70,9 +70,9 @@ public class DiagramConfigurationService
         Hashtable<Long, Quadrant> quadrantLookup = new Hashtable<Long, Quadrant>();
 
         Integer quadrantStart = 0;
-        Integer quadrantSize = 360 / radarInstance.getRadarType().getRadarCategories().size();
+        Integer quadrantSize = 360 / radarInstance.getRadarTemplate().getRadarCategories().size();
 
-        for(RadarCategory radarCategory : radarInstance.getRadarType().getRadarCategories())
+        for(RadarCategory radarCategory : radarInstance.getRadarTemplate().getRadarCategories())
         {
             Quadrant newQuadrant = new Quadrant(quadrantStart, quadrantSize, radarCategory, retVal.getWidth(), retVal.getHeight(), retVal.getMarginTop(), retVal.getMarginLeft(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);

@@ -34,8 +34,8 @@ class AdminApp extends React.Component{
                  <div className="row">
                     <div className="col-md-4">
                         <div className="panel panel-techradar adminMenuPanel">
-                            <div className="panel-heading-techradar">Manage Your Radar Types</div>
-                            <div id="ManageRadarTypesPanel" className="panel-body">
+                            <div className="panel-heading-techradar">Manage Your radartemplates</div>
+                            <div id="ManageRadarTemplatesPanel" className="panel-body">
                                 <p>Manage the users of this application</p>
                                 <br/>
                                 <Link to='/admin/manageusers'>

@@ -8,14 +8,14 @@ import radarReducer from '../../redux/RadarReducer';
 import { addRadarsToState} from '../../redux/RadarReducer';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
 import { RadarRepository } from '../../../../Repositories/RadarRepository';
-import { RadarTypeDropdown } from './RadarTypeDropdown';
+import { RadarTemplateDropdown } from './RadarTemplateDropdown';
 
 class NewRadarRow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             radarNameInput: '',
-            selectedRadarType: {}
+            selectedRadarTemplate: {}
         };
 
         this.radarRepository = new RadarRepository();
@@ -48,15 +48,15 @@ class NewRadarRow extends React.Component{
 
     handleAddRadar() {
         if(this.state.radarNameInput!=""){
-            this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarType, this.handleAddSuccess, this.handleAddError );
+            this.radarRepository.addRadar(this.props.currentUser.id, this.state.radarNameInput, this.state.selectedRadarTemplate, this.handleAddSuccess, this.handleAddError );
         }
         else{
             alert("You must enter a name for the radar.");
         }
     }
 
-    handleDropdownSelectionNotify(radarType){
-        this.setState({selectedRadarType: radarType});
+    handleDropdownSelectionNotify(radarTemplate){
+        this.setState({selectedRadarTemplate: radarTemplate});
     }
 
     render(){
@@ -64,7 +64,7 @@ class NewRadarRow extends React.Component{
             <tr>
                 <td><input type="text" ref="radarName" required="required" onChange={ this.handleRadarNameChange } /></td>
                 <td>
-                    <RadarTypeDropdown selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTypes}/>
+                    <RadarTemplateDropdown selectionNotification={this.handleDropdownSelectionNotify} data={this.props.radarTemplates}/>
                 </td>
                 <td><input type="button" className="btn btn-techradar" value="Add Radar" onClick={this.handleAddRadar} /></td>
             </tr>
@@ -74,7 +74,7 @@ class NewRadarRow extends React.Component{
 
 function mapStateToProps(state) {
   return {
-        radarTypes: state.radarReducer.radarTypes,
+        radarTemplates: state.radarReducer.radarTemplates,
         currentUser: state.userReducer.currentUser
     };
 };

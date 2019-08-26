@@ -1,5 +1,5 @@
 theApp.service('RadarSubjectService', function ($resource, $http) {
-    this.searchRequest = function(radarSubjectName, selectedRadarType, selectedCateogory, selectedRadarRing, isAnonymous)
+    this.searchRequest = function(radarSubjectName, selectedRadarTemplate, selectedCateogory, selectedRadarRing, isAnonymous)
     {
         var queryString = "";
 
@@ -8,9 +8,9 @@ theApp.service('RadarSubjectService', function ($resource, $http) {
             queryString += "name=" + radarSubjectName;
         }
 
-        if(selectedRadarType)
+        if(selectedRadarTemplate)
         {
-            queryString +="&radarTypeId=" + selectedRadarType.id;
+            queryString +="&radarTemplateId=" + selectedRadarTemplate.id;
         }
 
         if(selectedCateogory)

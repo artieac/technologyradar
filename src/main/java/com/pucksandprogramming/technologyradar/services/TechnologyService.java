@@ -39,8 +39,8 @@ public class TechnologyService
         return this.technologyRepository.findOne(technologyId);
     }
 
-    public List<Technology> searchTechnology(String technologyName, String radarTypeId, Long radarRingId, Long radarCategoryId)
+    public List<Technology> searchTechnology(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId)
     {
-        return this.technologyRepository.findByFilters(technologyName, radarTypeId, radarRingId, radarCategoryId);
+        return this.technologyRepository.findByFilters(technologyName, radarTemplateId, radarRingId, radarCategoryId);
     }
 }

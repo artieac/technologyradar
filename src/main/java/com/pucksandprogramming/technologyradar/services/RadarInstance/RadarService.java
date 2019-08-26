@@ -22,10 +22,10 @@ public class RadarService extends ServiceBase
     protected RadarRingRepository radarRingRepository;
     protected RadarCategoryRepository radarCategoryRepository;
     protected RadarAccessManager radarAccessManager;
-    protected RadarTypeRepository radarTypeRepository;
+    protected RadarTemplateRepository radarTemplateRepository;
 
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
-                        RadarTypeRepository radarTypeRepository,
+                        RadarTemplateRepository radarTemplateRepository,
                         TechnologyRepository technologyRepository,
                         RadarRingRepository radarRingRepository,
                         RadarCategoryRepository radarCategoryRepository,
@@ -39,7 +39,7 @@ public class RadarService extends ServiceBase
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarAccessManager = radarAccessManager;
-        this.radarTypeRepository = radarTypeRepository;
+        this.radarTemplateRepository = radarTemplateRepository;
     }
 
     public Radar createDefault(RadarUser radarUser)
@@ -83,27 +83,27 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public List<Radar> findByUserAndType(Long radarUserId, Long radarTypeId)
+    public List<Radar> findByUserAndType(Long radarUserId, Long radarTemplateId)
     {
         List<Radar> retVal = new ArrayList<>();
         RadarUser targetDataOwner = this.getRadarUserRepository().findOne(radarUserId);
 
         if(targetDataOwner!=null)
         {
-            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserAndType(targetDataOwner.getId(), radarTypeId);
+            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserAndType(targetDataOwner.getId(), radarTemplateId);
         }
 
         return retVal;
     }
 
-    public List<Radar> findByUserTypeAndVersion(Long radarUserId, Long radarTypeId)
+    public List<Radar> findByUserTypeAndVersion(Long radarUserId, Long radarTemplateId)
     {
         List<Radar> retVal = new ArrayList<>();
         RadarUser targetDataOwner = this.getRadarUserRepository().findOne(radarUserId);
 
         if(targetDataOwner!=null)
         {
-            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserAndType(targetDataOwner.getId(), radarTypeId);
+            retVal = this.radarRepositoryFactory.getRadarRepository(targetDataOwner).findByUserAndType(targetDataOwner.getId(), radarTemplateId);
         }
 
         return retVal;
@@ -170,20 +170,20 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar findCurrentByType(Long radarUserId, Long radarTypeId)
+    public Radar findCurrentByType(Long radarUserId, Long radarTemplateId)
     {
         Radar retVal = null;
 
         RadarUser dataOwner = this.getRadarUserRepository().findOne(radarUserId);
-        RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
+        RadarTemplate radarTemplate = this.radarTemplateRepository.findOne(radarTemplateId);
 
         if(dataOwner != null)
         {
-            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByType(radarUserId, radarTypeId);
+            List<RadarItem> foundItems = this.radarRepositoryFactory.getRadarRepository(dataOwner).findCurrentByType(radarUserId, radarTemplateId);
 
             retVal = new Radar();
             retVal.setAssessmentDate(new Date());
-            retVal.setRadarType(radarType);
+            retVal.setRadarTemplate(radarTemplate);
             retVal.setIsLocked(true);
             retVal.setIsPublished(true);
             retVal.setName("Current");
@@ -195,7 +195,7 @@ public class RadarService extends ServiceBase
         return retVal;
     }
 
-    public Radar addRadar(Long radarUserId, String name, Long radarTypeId)
+    public Radar addRadar(Long radarUserId, String name, Long radarTemplateId)
     {
         Radar retVal = null;
 
@@ -207,13 +207,13 @@ public class RadarService extends ServiceBase
             {
                 RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(dataOwner);
 
-                RadarType radarType = this.radarTypeRepository.findOne(radarTypeId);
+                RadarTemplate radarTemplate = this.radarTemplateRepository.findOne(radarTemplateId);
 
-                if (dataOwner != null && radarType != null)
+                if (dataOwner != null && radarTemplate != null)
                 {
                     retVal = this.createDefault(dataOwner);
                     retVal.setName(name);
-                    retVal.setRadarType(radarType);
+                    retVal.setRadarTemplate(radarTemplate);
                     radarRepository.save(retVal);
                 }
             }
@@ -307,7 +307,7 @@ public class RadarService extends ServiceBase
                     RadarRing radarRing = this.radarRingRepository.findOne(radarRingId);
                     RadarCategory radarCategory = this.radarCategoryRepository.findOne(radarCategoryId);
 
-                    if (retVal.getRadarType().hasRadarRing(radarRing) && retVal.getRadarType().hasRadarCategory(radarCategory))
+                    if (retVal.getRadarTemplate().hasRadarRing(radarRing) && retVal.getRadarTemplate().hasRadarCategory(radarCategory))
                     {
                         RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(radarUser);
 

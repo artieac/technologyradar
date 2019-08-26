@@ -73,7 +73,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByFilters(String technologyName, String radarTypeId, Long radarRingId, Long radarCategoryId)
+    public List<Technology> findByFilters(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId)
     {
         boolean hasNonTechnologyFilter = false;
 
@@ -83,11 +83,11 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
             hasTechnologyName = true;
         }
 
-        boolean hasRadarTypeId = false;
-        if(radarTypeId != null && radarTypeId != "")
+        boolean hasRadarTemplateId = false;
+        if(radarTemplateId != null && radarTemplateId != "")
         {
             hasNonTechnologyFilter = true;
-            hasRadarTypeId = true;
+            hasRadarTemplateId = true;
         }
 
         boolean hasRadarRing = false;
@@ -122,8 +122,8 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
 
             searchQuery += " t.ID IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai";
 
-            if (hasRadarTypeId) {
-                searchQuery += ", TechnologyAssessments ta WHERE ta.RadarTypeId=:radarTypeId AND tai.TechnologyAssessmentId = ta.Id";
+            if (hasRadarTemplateId) {
+                searchQuery += ", TechnologyAssessments ta WHERE ta.RadarTemplateId=:radarTemplateId AND tai.TechnologyAssessmentId = ta.Id";
                 whereAdded = true;
                 appendAnd = true;
             }
@@ -166,8 +166,8 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
             query.setParameter("technologyName", "%" + technologyName + "%");
         }
 
-        if (hasRadarTypeId) {
-            query.setParameter("radarTypeId", radarTypeId);
+        if (hasRadarTemplateId) {
+            query.setParameter("radarTemplateId", radarTemplateId);
         }
 
         if (hasRadarRing) {

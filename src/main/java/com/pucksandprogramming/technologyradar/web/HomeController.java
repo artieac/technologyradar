@@ -57,7 +57,7 @@ public class HomeController extends ControllerBase
             if (targetRadar != null)
             {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
-                modelAndView.addObject("radarTypeId", targetRadar.getRadarType().getId());
+                modelAndView.addObject("radarTemplateId", targetRadar.getRadarTemplate().getId());
             }
         }
 
@@ -80,7 +80,7 @@ public class HomeController extends ControllerBase
             if (radarInstances != null && radarInstances.size() > 0)
             {
                 modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
-                modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
+                modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
             }
         }
 
@@ -108,7 +108,7 @@ public class HomeController extends ControllerBase
 
             if(radarInstance!=null)
             {
-                modelAndView.addObject("radarTypeId", radarInstance.getRadarType().getId());
+                modelAndView.addObject("radarTemplateId", radarInstance.getRadarTemplate().getId());
             }
         }
 
@@ -128,7 +128,7 @@ public class HomeController extends ControllerBase
         if(radarInstances != null && radarInstances.size() > 0)
         {
             modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
-            modelAndView.addObject("radarTypeId", radarInstances.get(0).getRadarType().getId());
+            modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
         }
 
         if(isEmbeddable)
@@ -142,19 +142,19 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/public/home/user/{userId}/radartype/{radarTypeId}/radars"})
+    @RequestMapping(value = { "/public/home/user/{userId}/radartemplate/{radarTemplateId}/radars"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable Long radarTypeId,
+                                                @PathVariable Long radarTemplateId,
                                                 @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
 
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
-        modelAndView.addObject("radarTypeId", radarTypeId);
+        modelAndView.addObject("radarTemplateId", radarTemplateId);
 
         if(mostRecent==true)
         {
-            List<Radar> radarInstances = this.radarService.findByUserAndType(userId, radarTypeId);
+            List<Radar> radarInstances = this.radarService.findByUserAndType(userId, radarTemplateId);
 
             if (radarInstances != null && radarInstances.size() > 0)
             {
@@ -172,14 +172,14 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
-    @GetMapping(value = { "/public/home/user/{userId}/RadarType/{radarTypeId}/Version/{radarTypeVersion}/Radar/FullView"})
+    @GetMapping(value = { "/public/home/user/{userId}/RadarTemplate/{radarTemplateId}/Version/{radarTemplateVersion}/Radar/FullView"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
-                                                @PathVariable Long radarTypeId)
+                                                @PathVariable Long radarTemplateId)
 
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
-        modelAndView.addObject("radarTypeId", radarTypeId);
+        modelAndView.addObject("radarTemplateId", radarTemplateId);
 
         RadarUser dataOwner = this.radarUserService.findOne(userId);
 

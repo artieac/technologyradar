@@ -36,13 +36,13 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.getPublishedRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
+    this.getPublishedRadarsByUserAndRadarTemplates = function(userId, radarTemplate, successCallback)
     {
         var url =  '/api/public/User/' + userId + '/Radars';
 
-         if(radarType!==undefined)
+         if(radarTemplate!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id;
+            url += "?radarTemplateId=" + radarTemplate.id;
          }
 
         $http.get(url)
@@ -52,13 +52,13 @@ theApp.service('RadarInstanceService', function ($resource, $http)
             });
     };
 
-    this.getAllRadarsByUserAndRadarTypes = function(userId, radarType, successCallback)
+    this.getAllRadarsByUserAndRadarTemplates = function(userId, radarTemplate, successCallback)
     {
         var url =  '/api/User/' + userId + '/Radars';
 
-         if(radarType!==undefined)
+         if(radarTemplate!==undefined)
          {
-            url += "?radarTypeId=" + radarType.id;
+            url += "?radarTemplateId=" + radarTemplate.id;
          }
 
         $http.get(url)
@@ -87,16 +87,16 @@ theApp.service('RadarInstanceService', function ($resource, $http)
         });
     }
 
-    this.getFulLViewUrl = function(userId, radarTypeId)
+    this.getFulLViewUrl = function(userId, radarTemplateId)
     {
-        return '/api/public/User/' + userId + '/RadarType/' + radarTypeId + '/Radar/FullView';
+        return '/api/public/User/' + userId + '/RadarTemplate/' + radarTemplateId + '/Radar/FullView';
     }
 
-    this.getRadarFullView = function(userId, radarTypeId, callbackFunction)
+    this.getRadarFullView = function(userId, radarTemplateId, callbackFunction)
     {
         var getRequest = {};
 
-        getRequest = $resource(this.getFulLViewUrl(userId, radarTypeId));
+        getRequest = $resource(this.getFulLViewUrl(userId, radarTemplateId));
 
         getRequest.get(function(data)
         {

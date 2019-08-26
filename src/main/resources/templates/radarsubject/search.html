@@ -25,27 +25,27 @@
                     <input type="text" class="form-control" id="searchName" name="searchName" ng-model="searchParameters.radarSubjectName" />
                 </div>
                 <div class="col-md-3">
-                    <div class="row" ng-init="getPublishedRadarTypes()">
+                    <div class="row" ng-init="getPublishedRadarTemplates()">
                         <div class="dropdown pull-left">
-                            <label for="publishedRadarTypesDropdown">Shared Radar Types</label>
-                            <button class="btn btn-default dropdown-toggle" type="button" id="publishedRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{selectedRadarType.name}}
+                            <label for="publishedRadarTemplatesDropdown">Shared Templates</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="publishedRadarTemplatesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{selectedRadarTemplate.name}}
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="publishedRadarTypesDropdown">
-                                <li ng-repeat="radarType in publishedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="publishedRadarTemplatesDropdown">
+                                <li ng-repeat="radarTemplate in publishedRadarTemplates"><a ng-click="selectRadarTemplate(radarTemplate)">{{radarTemplate.name}}</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getUserRadarTypes()">
+                    <div class="row" sec:authorize="isAuthenticated()" ng-init="getUserRadarTemplates()">
                         <div class="dropdown pull-left">
-                            <label for="userRadarTypesDropdown">My Radar Types</label>
-                            <button class="btn btn-default dropdown-toggle" type="button" id="userRadarTypesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{selectedRadarType.name}}
+                            <label for="userRadarTemplatesDropdown">My Templates</label>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="userRadarTemplatesDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{selectedRadarTemplate.name}}
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="userRadarTypesDropdown">
-                                <li ng-repeat="radarType in userOwnedRadarTypes"><a ng-click="selectRadarType(radarType)">{{radarType.name}}</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="userRadarTemplatesDropdown">
+                                <li ng-repeat="radarTemplate in userOwnedRadarTemplates"><a ng-click="selectRadarTemplate(radarTemplate)">{{radarTemplate.name}}</a></li>
                             </ul>
                         </div>
                     </div>

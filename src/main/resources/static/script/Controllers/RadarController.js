@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTypeService)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTemplateService)
 {
     $scope.allOptionName = "All";
     $scope.fullViewOptionName = "Full View";
@@ -11,7 +11,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.showFullViewOption = false;
     $scope.publicRadarLink = "";
     $scope.mostRecentRadarsLink = "";
-    $scope.selectedRadarType = {};
+    $scope.selectedRadarTemplate = {};
 
     $scope.clickAddItemButton = function()
     {
@@ -45,10 +45,10 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
             $scope.publicRadarLink = "/public/home/radars/" + userId;
         }
 
-        if($scope.selectedRadarType !== null && $scope.selectedRadarType !== undefined &&
-            $scope.selectedRadarType.id !== null && $scope.selectedRadarType.id !== undefined)
+        if($scope.selectedRadarTemplate !== null && $scope.selectedRadarTemplate !== undefined &&
+            $scope.selectedRadarTemplate.id !== null && $scope.selectedRadarTemplate.id !== undefined)
         {
-            $scope.mostRecentRadarsLink = "/public/home/user/" + userId + "/radartype/" + $scope.selectedRadarType.id + "/radars?mostrecent=true";
+            $scope.mostRecentRadarsLink = "/public/home/user/" + userId + "/radartemplate/" + $scope.selectedRadarTemplate.id + "/radars?mostrecent=true";
         }
         else
         {
@@ -82,17 +82,17 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.canEditRadar = canEditRadar;
     }
 
-    $scope.getUserRadars = function (userId, selectedRadarType, isAnonymous)
+    $scope.getUserRadars = function (userId, selectedRadarTemplate, isAnonymous)
     {
         $scope.getRadarSharingLink(userId);
 
         if (isAnonymous == true)
         {
-            RadarInstanceService.getPublishedRadarsByUserAndRadarTypes(userId, selectedRadarType, $scope.setRadarInstances);
+            RadarInstanceService.getPublishedRadarsByUserAndRadarTemplates(userId, selectedRadarTemplate, $scope.setRadarInstances);
         }
         else
         {
-            RadarInstanceService.getAllRadarsByUserAndRadarTypes(userId, selectedRadarType, $scope.setRadarInstances);
+            RadarInstanceService.getAllRadarsByUserAndRadarTemplates(userId, selectedRadarTemplate, $scope.setRadarInstances);
         }
     }
 
@@ -107,7 +107,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         if (!$scope.isNullOrUndefined($scope.radarInstanceList))
         {
             if($scope.radarInstanceList.length > 1
-               && $scope.selectedRadarType.name!=$scope.allOptionName)
+               && $scope.selectedRadarTemplate.name!=$scope.allOptionName)
             {
                 if($scope.radarInstanceList[0].radarUser.canSeeFullView)
                 {
@@ -141,8 +141,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance = radarInstance;
         $scope.getRadarSharingLink(userId);
         $scope.getRadarData(userId, radarInstance.id, $scope.isAnonymous);
-        $scope.radarRings = radarInstance.radarType.radarRings;
-        $scope.radarCategories = radarInstance.radarType.radarCategories;
+        $scope.radarRings = radarInstance.radarTemplate.radarRings;
+        $scope.radarCategories = radarInstance.radarTemplate.radarCategories;
     }
 
     $scope.renderRadar = function (radarData)
@@ -312,43 +312,43 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         return retVal;
     }
 
-    $scope.getRadarTypes = function(currentUserId){
-        RadarTypeService.getUserRadarTypesWithAssociated(currentUserId, true, $scope.isAnonymous, $scope.setRadarTypes);
+    $scope.getRadarTemplates = function(currentUserId){
+        RadarTemplateService.getUserRadarTemplatesWithAssociated(currentUserId, true, $scope.isAnonymous, $scope.setRadarTemplates);
     }
 
-    $scope.setRadarTypes = function(radarTypes){
-        $scope.radarTypes = radarTypes;
+    $scope.setRadarTemplates = function(radarTemplates){
+        $scope.radarTemplates = radarTemplates;
 
-        var radarTypeId = $("#radarTypeId").val();
+        var radarTemplateId = $("#radarTemplateId").val();
 
-        if (!$scope.isNullOrUndefined($scope.radarTypes) &&
-            !$scope.isNullOrUndefined(radarTypeId) &&
-            radarTypeId !== '' &&
-            !$scope.isNullOrUndefined(radarTypeVersion) &&
-            radarTypeVersion !== '')
+        if (!$scope.isNullOrUndefined($scope.radarTemplates) &&
+            !$scope.isNullOrUndefined(radarTemplateId) &&
+            radarTemplateId !== '' &&
+            !$scope.isNullOrUndefined(radarTemplateVersion) &&
+            radarTemplateVersion !== '')
         {
-            for (var i = 0; i < $scope.radarTypes.length; i++)
+            for (var i = 0; i < $scope.radarTemplates.length; i++)
             {
-                if ($scope.radarTypes[i].id == radarTypeId)
+                if ($scope.radarTemplates[i].id == radarTemplateId)
                 {
-                    $scope.radarTypeDropdownSelected($scope.currentUserId, $scope.radarTypes[i]);
+                    $scope.radarTemplateDropdownSelected($scope.currentUserId, $scope.radarTemplates[i]);
                     break;
                 }
             }
         }
     }
 
-    $scope.radarTypeDropdownSelected = function(currentUserId, radarType){
-        $scope.selectedRadarType = radarType;
-        $scope.getUserRadars(currentUserId, radarType, $scope.isAnonymous);
+    $scope.radarTemplateDropdownSelected = function(currentUserId, radarTemplate){
+        $scope.selectedRadarTemplate = radarTemplate;
+        $scope.getUserRadars(currentUserId, radarTemplate, $scope.isAnonymous);
     }
 
-    $scope.radarTypeAllSelected = function(currentUserId){
-        $scope.selectedRadarType = {};
-        $scope.selectedRadarType.id = "";
-        $scope.selectedRadarType.name = $scope.allOptionName;
+    $scope.radarTemplateAllSelected = function(currentUserId){
+        $scope.selectedRadarTemplate = {};
+        $scope.selectedRadarTemplate.id = "";
+        $scope.selectedRadarTemplate.name = $scope.allOptionName;
         $scope.showFullViewOption = false;
-        $scope.getUserRadars(currentUserId, $scope.selectedRadarType, $scope.isAnonymous);
+        $scope.getUserRadars(currentUserId, $scope.selectedRadarTemplate, $scope.isAnonymous);
     }
 
     $scope.showCurrentRadarSelected = function(currentUserId)
@@ -359,8 +359,8 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance.name = $scope.fullViewOptionName;
         $scope.selectedRadarInstance.formattedAssessmentDate = "";
 
-        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/RadarType/' + $scope.selectedRadarType.id + '/Radar/FullView';
+        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/RadarTemplate/' + $scope.selectedRadarTemplate.id + '/Radar/FullView';
 
-        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarType.id, $scope.renderRadar);
+        RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarTemplate.id, $scope.renderRadar);
     }
 });

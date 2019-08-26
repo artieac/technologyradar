@@ -22,9 +22,9 @@ public class UserType
     {
         HashMap<String, Integer> retVal = new HashMap<String, Integer>();
         retVal.put(UserRights.CanShareNRadars, 1);
-        retVal.put(UserRights.CanShareRadarTypes, 0);
-        retVal.put(UserRights.AllowNRadarTypes, 2);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, 2);
+        retVal.put(UserRights.CanShareRadarTemplates, 0);
+        retVal.put(UserRights.AllowNRadarTemplates, 2);
+        retVal.put(UserRights.AllowNAssociatedRadarTemplates, 2);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 0);
@@ -35,9 +35,9 @@ public class UserType
     {
         HashMap<String, Integer> retVal = new HashMap<>();
         retVal.put(UserRights.CanShareNRadars, 10);
-        retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.AllowNRadarTypes, 10);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, 10);
+        retVal.put(UserRights.CanShareRadarTemplates, 1);
+        retVal.put(UserRights.AllowNRadarTemplates, 10);
+        retVal.put(UserRights.AllowNAssociatedRadarTemplates, 10);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
@@ -49,9 +49,9 @@ public class UserType
     {
         HashMap<String, Integer> retVal = new HashMap<>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
-        retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.AllowNRadarTypes, Integer.MAX_VALUE);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, Integer.MAX_VALUE);
+        retVal.put(UserRights.CanShareRadarTemplates, 1);
+        retVal.put(UserRights.AllowNRadarTemplates, Integer.MAX_VALUE);
+        retVal.put(UserRights.AllowNAssociatedRadarTemplates, Integer.MAX_VALUE);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 0);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);
@@ -63,9 +63,9 @@ public class UserType
     {
         HashMap<String, Integer> retVal = new HashMap<String, Integer>();
         retVal.put(UserRights.CanShareNRadars, Integer.MAX_VALUE);
-        retVal.put(UserRights.CanShareRadarTypes, 1);
-        retVal.put(UserRights.AllowNRadarTypes, 10);
-        retVal.put(UserRights.AllowNAssociatedRadarTypes, 10);
+        retVal.put(UserRights.CanShareRadarTemplates, 1);
+        retVal.put(UserRights.AllowNRadarTemplates, 10);
+        retVal.put(UserRights.AllowNAssociatedRadarTemplates, 10);
         retVal.put(UserRights.AllowTeamMembersToManageRadars, 1);
         retVal.put(UserRights.AllowVariableRadarRingCount, 1);
         retVal.put(UserRights.CanSeeFullView, 1);

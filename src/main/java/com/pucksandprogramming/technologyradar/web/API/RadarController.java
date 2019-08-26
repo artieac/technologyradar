@@ -59,7 +59,7 @@ public class RadarController extends ControllerBase {
     @GetMapping(value = {"/User/{radarUserId}/Radars", "/public/User/{radarUserId}/Radars"}, produces = "application/json")
     public @ResponseBody
     List<RadarViewModel> getAllRadarsByUser(@PathVariable Long radarUserId,
-                                            @RequestParam(name = "radarTypeId", required = false, defaultValue = "-1") Long radarTypeId) {
+                                            @RequestParam(name = "radarTemplateId", required = false, defaultValue = "-1") Long radarTemplateId) {
         List<RadarViewModel> retVal = new ArrayList<RadarViewModel>();
 
         try
@@ -68,9 +68,9 @@ public class RadarController extends ControllerBase {
 
             RadarUser targetUser = this.userService.findOne(radarUserId);
 
-            if (radarTypeId > 0)
+            if (radarTemplateId > 0)
             {
-                foundItems = this.radarService.findByUserAndType(radarUserId, radarTypeId);
+                foundItems = this.radarService.findByUserAndType(radarUserId, radarTemplateId);
             }
             else
             {
@@ -94,17 +94,17 @@ public class RadarController extends ControllerBase {
         return retVal;
     }
 
-    @GetMapping(value = {"/User/{radarUserId}/RadarType/{RadarType}/Radar/FullView", "/public/User/{radarUserId}/RadarType/{radarTypeId}/Radar/FullView"}, produces = "application/json")
+    @GetMapping(value = {"/User/{radarUserId}/RadarTemplate/{RadarTemplate}/Radar/FullView", "/public/User/{radarUserId}/RadarTemplate/{radarTemplateId}/Radar/FullView"}, produces = "application/json")
     public @ResponseBody
     DiagramPresentation getMostRecentRadar(@PathVariable Long radarUserId,
-                           @PathVariable Long radarTypeId)
+                           @PathVariable Long radarTemplateId)
     {
         DiagramPresentation retVal = new DiagramPresentation();
 
         try
         {
             RadarUser targetUser = this.userService.findOne(radarUserId);
-            Radar targetRadar = this.radarService.findCurrentByType(radarUserId, radarTypeId);
+            Radar targetRadar = this.radarService.findCurrentByType(radarUserId, radarTemplateId);
             retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
         }
         catch(Exception e)
@@ -128,8 +128,8 @@ public class RadarController extends ControllerBase {
 
             if (this.getCurrentUser().getId() == radarUserId) {
                 String radarName = modelMap.get("name").toString();
-                Long radarTypeId = Long.parseLong(modelMap.get("radarTypeId").toString());
-                this.radarService.addRadar(radarUserId, radarName, radarTypeId);
+                Long radarTemplateId = Long.parseLong(modelMap.get("radarTemplateId").toString());
+                this.radarService.addRadar(radarUserId, radarName, radarTemplateId);
             }
 
             List<Radar> foundItems = this.radarService.findByRadarUserId(targetUser.getId());

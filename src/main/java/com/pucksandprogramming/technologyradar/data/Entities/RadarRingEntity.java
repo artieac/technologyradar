@@ -10,7 +10,7 @@ import javax.persistence.*;
 @org.hibernate.annotations.NamedNativeQueries
 (
         {
-                @org.hibernate.annotations.NamedNativeQuery(name = "checkIfHasItems", query = "SELECT RadarRingId, MAX(Id) FROM TechnologyAssessmentItems WHERE RadarRingId IN :radarRingIdList GROUP BY RadarRingId", resultClass = RadarTypeEntity.class),
+                @org.hibernate.annotations.NamedNativeQuery(name = "checkIfHasItems", query = "SELECT RadarRingId, MAX(Id) FROM TechnologyAssessmentItems WHERE RadarRingId IN :radarRingIdList GROUP BY RadarRingId", resultClass = RadarTemplateEntity.class),
         }
 )
 
@@ -32,8 +32,8 @@ public class RadarRingEntity
     private Long displayOrder;
 
     @OneToOne
-    @JoinColumn(name="RadarTypeId", nullable = false)
-    private RadarTypeEntity radarType;
+    @JoinColumn(name="RadarTemplateId", nullable = false)
+    private RadarTemplateEntity radarTemplate;
 
     public RadarRingEntity()
     {
@@ -49,6 +49,6 @@ public class RadarRingEntity
     public Long getDisplayOrder(){ return this.displayOrder;}
     public void setDisplayOrder(Long value){ this.displayOrder = value;}
 
-    public RadarTypeEntity getRadarType() { return this.radarType;}
-    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
+    public RadarTemplateEntity getRadarTemplate() { return this.radarTemplate;}
+    public void setRadarTemplate(RadarTemplateEntity value) { this.radarTemplate = value;}
 }
