@@ -31,7 +31,6 @@ class RadarTypeDetails extends React.Component{
         this.handleRadarTypeNameChangeEvent = this.handleRadarTypeNameChangeEvent.bind(this);
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
-        this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
         this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
         this.handleRadarTypeDescriptionChangeEvent = this.handleRadarTypeDescriptionChangeEvent.bind(this);
     }
@@ -70,10 +69,6 @@ class RadarTypeDetails extends React.Component{
         this.radarTypeRepository.getMostRecentByUserId(this.props.currentUser.id, this.props.storeRadarTypes);
     }
 
-    handleDeleteRadarType(){
-        this.radarTypeRepository.deleteRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
-    }
-
     render() {
         if(this.props.selectedRadarType !== undefined && this.props.selectedRadarType.name !== undefined){
             return (
@@ -94,9 +89,6 @@ class RadarTypeDetails extends React.Component{
                                 <div className="form-group">
                                       <textarea className="form-control rounded-0" rows="3" value={this.props.selectedRadarType.description } ref={this.descriptionInput} onChange= {(event) => { this.handleRadarTypeDescriptionChangeEvent(event) }} readOnly={this.props.editMode ? '' : '"readonly"'}></textarea>
                                   </div>
-                            </div>
-                            <div className={this.props.editMode===true ? "col-md-3" : "hidden"}>
-                               <input type="button" className='btn btn-techradar' disabled={!this.props.editMode} value="Delete" onClick={(event) => this.handleDeleteRadarType(event) }/>
                             </div>
                         </div>
                         <div className={ this.props.editMode===true ? "row" : "hidden"}>

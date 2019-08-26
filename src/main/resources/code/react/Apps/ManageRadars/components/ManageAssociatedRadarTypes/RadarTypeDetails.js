@@ -30,7 +30,6 @@ class RadarTypeDetails extends React.Component{
         this.handleRadarTypeNameChangeEvent = this.handleRadarTypeNameChangeEvent.bind(this);
         this.handleSaveRadarType = this.handleSaveRadarType.bind(this);
         this.handleEditChangeSuccess = this.handleEditChangeSuccess.bind(this);
-        this.handleDeleteRadarType = this.handleDeleteRadarType.bind(this);
         this.handleSharedWithOthersChange = this.handleSharedWithOthersChange.bind(this);
     }
 
@@ -64,10 +63,6 @@ class RadarTypeDetails extends React.Component{
 
     handleEditChangeSuccess(radarType){
         this.radarTypeRepository.getByUserId(this.props.currentUser.Id, false, this.handleGetByUserIdSuccess);
-    }
-
-    handleDeleteRadarType(){
-        this.radarTypeRepository.deleteRadarType(this.props.currentUser.id, this.props.selectedRadarType, this.handleEditChangeSuccess);
     }
 
     render() {
