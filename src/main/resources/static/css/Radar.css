@@ -146,8 +146,8 @@ textarea
 }
 
 .adminMenuPanel{
-    min-height:200;
-    max-height:200;
+    min-height:250;
+    max-height:250;
     horizontal-align:center;
     text-align:center;
 }

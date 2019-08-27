@@ -266,7 +266,7 @@ public class RadarTemplateController extends ControllerBase
         return retVal;
     }
 
-    @PutMapping(value = "/User/{userId}/RadarTemplate/{radarTemplateId}/Version/{radarTemplateVersion}/Associate")
+    @PutMapping(value = "/User/{userId}/RadarTemplate/{radarTemplateId}/Associate")
     public @ResponseBody boolean associateRadarTemplate(@RequestBody Map modelMap,
                                                     @PathVariable Long userId,
                                                     @PathVariable Long radarTemplateId)
@@ -290,7 +290,7 @@ public class RadarTemplateController extends ControllerBase
         return retVal;
     }
 
-    @DeleteMapping(value = "/User/{userId}/RadarTemplate/{radarTemplateId}/Version/{radarTemplateVersion}")
+    @DeleteMapping(value = "/User/{userId}/RadarTemplate/{radarTemplateId}")
     public @ResponseBody boolean associateRadarTemplate(@PathVariable Long userId,
                                                     @PathVariable Long radarTemplateId)
     {

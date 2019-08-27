@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarTemplateReducer from  '../../redux/RadarTemplateReducer';
-import { addSelectedRadarTemplateToState, addAssociatedRadarTemplatesToState, addRadarTemplateHistoryToState, setShowEdit, setShowHistory } from  '../../redux/RadarTemplateReducer';
+import { addSelectedRadarTemplateToState, addAssociatedRadarTemplatesToState, setShowEdit } from  '../../redux/RadarTemplateReducer';
 import { RadarCategoryDetails } from './RadarCategoryDetails';
 import { RadarTemplateRepository } from '../../../../Repositories/RadarTemplateRepository';
 
@@ -16,8 +16,6 @@ class RadarTemplateListItem extends React.Component{
         this.radarTemplateRepository = new RadarTemplateRepository();
 
         this.handleShowEditClick = this.handleShowEditClick.bind(this);
-        this.handleShowHistoryClick = this.handleShowHistoryClick.bind(this);
-        this.handleGetHistorySuccess = this.handleGetHistorySuccess.bind(this);
         this.handleAssociateRadarTemplateChange = this.handleAssociateRadarTemplateChange.bind(this);
         this.handleAssociatedRadarTemplateSuccess = this.handleAssociatedRadarTemplateSuccess.bind(this);
         this.handleGetAssociatedRadarTemplatesSuccess = this.handleGetAssociatedRadarTemplatesSuccess.bind(this);
@@ -27,17 +25,6 @@ class RadarTemplateListItem extends React.Component{
     handleShowEditClick(event){
         this.props.storeSelectedRadarTemplate(this.props.radarTemplate);
         this.props.setShowEdit(true);
-        this.forceUpdate();
-    }
-
-    handleShowHistoryClick(event){
-        this.radarTemplateRepository.getHistory(this.props.currentUser.id, this.props.radarTemplate.id, this.handleGetHistorySuccess);
-    }
-
-    handleGetHistorySuccess(radarTemplateHistory){
-        this.props.storeRadarTemplateHistory(radarTemplateHistory);
-        this.props.storeSelectedRadarTemplate(radarTemplateHistory[0]);
-        this.props.setShowHistory(true);
         this.forceUpdate();
     }
 
@@ -109,9 +96,6 @@ class RadarTemplateListItem extends React.Component{
                     <div className="col-md-2">
                        <input type="button" className="btn btn-techradar" value="View" onClick= {(event) => this.handleShowEditClick(event) } />
                     </div>
-                    <div className="col-md-2">
-                       <input type="button" className="btn btn-techradar" value="History" onClick= {(event) => this.handleShowHistoryClick(event) } />
-                    </div>
                 </div>
             );
         }
@@ -127,7 +111,6 @@ function mapStateToProps(state) {
         associatedRadarTemplates: state.radarTemplateReducer.associatedRadarTemplates,
         selectedRadarTemplate : state.radarTemplateReducer.selectedRadarTemplate,
         currentUser : state.userReducer.currentUser,
-        showHistory: state.radarTemplateReducer.showHistory,
         showEdit: state.radarTemplateReducer.showEdit
 
     };
