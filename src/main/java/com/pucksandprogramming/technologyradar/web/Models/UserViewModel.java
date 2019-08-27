@@ -42,7 +42,7 @@ public class UserViewModel
             this.setName(source.getName());
             this.setRole(Role.createRole(source.getRoleId()));
             this.setUserType(source.getUserType());
-            this.setCanShareRadarTypes(source.canShareRadarTypes());
+            this.setCanShareRadarTemplates(source.canShareRadarTemplates());
             this.setHowManyRadarsCanShare(source.howManyRadarsCanShare());
             this.setCanHaveVariableRadarRingCount(source.canHaveVariableRadarRingCounts());
         }
@@ -57,17 +57,17 @@ public class UserViewModel
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
 
-    public Integer getCanHaveNRadarTypes()
+    public Integer getCanHaveNRadarTemplates()
     {
-        return this.userType.getGrantValue(UserRights.AllowNRadarTypes);
+        return this.userType.getGrantValue(UserRights.AllowNRadarTemplates);
     }
-    public void setCanHaveNRadarTypes(Integer value) { }
+    public void setCanHaveNRadarTemplates(Integer value) { }
 
-    public Integer getCanHaveNAssociatedRadarTypes() { return this.userType.getGrantValue(UserRights.AllowNAssociatedRadarTypes); }
-    public void setCanHaveNAssociatedRadarTypes(Integer value) { }
+    public Integer getCanHaveNAssociatedRadarTemplates() { return this.userType.getGrantValue(UserRights.AllowNAssociatedRadarTemplates); }
+    public void setCanHaveNAssociatedRadarTemplates(Integer value) { }
 
-    public boolean getCanShareRadarTypes(){ return this.userType.isGrantEnabled(UserRights.CanShareRadarTypes); }
-    public void setCanShareRadarTypes(boolean value) { }
+    public boolean getCanShareRadarTemplates(){ return this.userType.isGrantEnabled(UserRights.CanShareRadarTemplates); }
+    public void setCanShareRadarTemplates(boolean value) { }
 
     public Integer getHowManyRadarsCanShare()
     {

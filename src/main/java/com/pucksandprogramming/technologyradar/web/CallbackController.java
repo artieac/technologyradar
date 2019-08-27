@@ -1,14 +1,14 @@
 package com.pucksandprogramming.technologyradar.web;
 
-import com.pucksandprogramming.technologyradar.domainmodel.RadarType;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
-import com.pucksandprogramming.technologyradar.services.RadarType.AssociatedRadarTypeService;
-import com.pucksandprogramming.technologyradar.services.RadarType.DefaultRadarTypeManager;
-import com.pucksandprogramming.technologyradar.services.RadarType.RadarTypeService;
+import com.pucksandprogramming.technologyradar.services.RadarTemplate.AssociatedRadarTemplateService;
+import com.pucksandprogramming.technologyradar.services.RadarTemplate.DefaultRadarTemplateManager;
+import com.pucksandprogramming.technologyradar.services.RadarTemplate.RadarTemplateService;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
@@ -40,13 +40,13 @@ public class CallbackController
     private RadarUserService userService;
 
     @Autowired
-    private RadarTypeService radarTypeService;
+    private RadarTemplateService radarTemplateService;
 
     @Autowired
     private AuthenticationController controller;
 
     @Autowired
-    AssociatedRadarTypeService associatedRadarTypeService;
+    AssociatedRadarTemplateService associatedRadarTemplateService;
 
     private final String redirectOnFail;
     private final String redirectOnSuccess;
@@ -91,11 +91,11 @@ public class CallbackController
 
                 if(targetUser.getId() > 0)
                 {
-                    List<RadarType> defaultRadars = DefaultRadarTypeManager.getDefaultRadarTypes(radarTypeService);
+                    List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
 
-                    for(RadarType radarType : defaultRadars)
+                    for(RadarTemplate radarTemplate : defaultRadars)
                     {
-                        this.associatedRadarTypeService.associateRadarType(targetUser, radarType.getId(), true);
+                        this.associatedRadarTemplateService.associateRadarTemplate(targetUser, radarTemplate.getId(), true);
                     }
                 }
             }

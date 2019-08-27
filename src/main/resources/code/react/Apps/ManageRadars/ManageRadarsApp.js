@@ -9,12 +9,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import OwnedRadarTypesPage from './components/OwnedRadarTypes/OwnedRadarTypesPage';
-import ManageAssociatedRadarTypesPage from './components/ManageAssociatedRadarTypes/ManageAssociatedRadarTypesPage';
+import OwnedRadarTemplatesPage from './components/OwnedRadarTemplates/OwnedRadarTemplatesPage';
+import ManageAssociatedRadarTemplatesPage from './components/ManageAssociatedRadarTemplates/ManageAssociatedRadarTemplatesPage';
 import ManageRadarsPage from './components/ManageRadars/ManageRadarsPage';
 import AddFromPreviousRadarPage from './components/AddFromPrevious/AddFromPreviousRadarPage';
 import radarReducer from './redux/RadarReducer';
-import radarTypeReducer from './redux/RadarTypeReducer';
+import radarTemplateReducer from './redux/RadarTemplateReducer';
 import userReducer from '../redux/CommonUserReducer';
 import ManageTeamsPage from './components/ManageTeams/ManageTeamsPage';
 import ManageTeamMembersPage from './components/TeamMembers/ManageTeamMembersPage';
@@ -23,7 +23,7 @@ import { addCurrentUserToState } from '../redux/CommonUserReducer';
 import { UserRepository } from '../../Repositories/UserRepository';
 import teamReducer from './redux/TeamReducer';
 
-const manageRadarsAppStore = createStore(combineReducers({radarReducer,radarTypeReducer, userReducer, teamReducer}), applyMiddleware(thunk));
+const manageRadarsAppStore = createStore(combineReducers({radarReducer,radarTemplateReducer, userReducer, teamReducer}), applyMiddleware(thunk));
 
 class ManageRadarsApp extends React.Component{
     constructor(props){
@@ -59,25 +59,25 @@ class ManageRadarsApp extends React.Component{
                     <div className="row">
                         <div className="col-md-4">
                             <div className="panel panel-techradar adminMenuPanel">
-                                <div className="panel-heading-techradar">Manage Your Radar Types</div>
-                                <div id="ManageRadarTypesPanel" className="panel-body">
-                                    <p>A Radar Type defines how you will classify and rate your topics.</p>
+                                <div className="panel-heading-techradar">Manage Your Radar Templates</div>
+                                <div id="ManageRadarTemplatesPanel" className="panel-body">
+                                    <p>A Radar Templates defines how you will classify and rate your topics.</p>
                                     <p>Go here to manage your existing types or add new ones</p>
-                                    <Link to='/manageradars/radarTypes'>
-                                        <button className="btn btn-techradar">Radar Types</button>
+                                    <Link to='/manageradars/radarTemplates'>
+                                        <button className="btn btn-techradar">Radar Templates</button>
                                     </Link>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="panel panel-techradar adminMenuPanel">
-                                <div className="panel-heading-techradar">Associate Radar Types</div>
-                                <div id="AssociateRadarTypesPanel" className="panel-body">
-                                    <p>See other's radar types and mark the so you can also use them'.</p>
+                                <div className="panel-heading-techradar">Associate Radar Templates</div>
+                                <div id="AssociateRadarTemplatesPanel" className="panel-body">
+                                    <p>See other's Radar Templates and mark them so you can also use them'.</p>
                                     <p></p>
                                     <br/><br/>
-                                    <Link to='/manageradars/associatedRadarTypes'>
-                                        <button className="btn btn-techradar">Associated Radar Types</button>
+                                    <Link to='/manageradars/associatedRadarTemplates'>
+                                        <button className="btn btn-techradar">Associated Radar Templates</button>
                                     </Link>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@ class ManageRadarsApp extends React.Component{
                             <div className="panel panel-techradar adminMenuPanel">
                                 <div className="panel-heading-techradar">Manage your Radars</div>
                                 <div id="ManageRadarsPanels" className="panel-body">
-                                    <p>Once you have Radar Types defined go here to create an instance of a Radar Type.</p>
+                                    <p>Once you have Radar Templates defined go here to create an instance of a Template.</p>
                                     <p></p>
                                     <br/>
                                     <Link to='/manageradars/radars'>
@@ -123,8 +123,8 @@ ReactDOM.render(
             <Router>
                 <Switch>
                     <Route path="/manageradars/index" component={ ManageRadarsApp } />
-                    <Route path="/manageradars/radartypes" component={ OwnedRadarTypesPage } />
-                    <Route path="/manageradars/associatedradartypes" component={ ManageAssociatedRadarTypesPage } />
+                    <Route path="/manageradars/radartemplates" component={ OwnedRadarTemplatesPage } />
+                    <Route path="/manageradars/associatedradartemplates" component={ ManageAssociatedRadarTemplatesPage } />
                     <Route path="/manageradars/radars" component={ ManageRadarsPage } />
                     <Route path="/manageradars/user/:userId/radar/:radarId/addfromprevious" component={ AddFromPreviousRadarPage }/>
                     <Route path="/manageradars/teams" component={ ManageTeamsPage }/>

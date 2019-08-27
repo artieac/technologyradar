@@ -18,7 +18,7 @@ export default class RadarsDropdownItem extends React.Component{
         this.getSourceRadarInstance(this.props.userId, this.props.dropDownItem.id);
     }
 
-    getSourceRadarInstance(userId, radarId, radarTypeId){
+    getSourceRadarInstance(userId, radarId, radarTemplateId){
         fetch( '/api/User/' + userId + '/Radar/' + radarId)
             .then(response => response.json())
             .then(json => this.props.setSourceRadarInstance({ sourceRadar: json}));

@@ -62,13 +62,13 @@ public class RadarAccessManager
         return retVal;
     }
 
-    public boolean canShareRadarTypes(RadarUser targetDataOwner)
+    public boolean canShareRadarTemplates(RadarUser targetDataOwner)
     {
         boolean retVal = false;
 
         if (targetDataOwner != null)
         {
-            if (targetDataOwner.canShareRadarTypes() == true)
+            if (targetDataOwner.canShareRadarTemplates() == true)
             {
                 // public access, but the target owner can share their full history publicly.
                 retVal = true;

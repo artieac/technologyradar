@@ -30,8 +30,8 @@ export class RadarRepository{
             });
     }
 
-    getRadarsByUserIdAndRadarTypeId(userId, radarTypeId, successHandler){
-        var url = '/api/User/' + userId + '/Radars?radarTypeId=' + radarTypeId;
+    getRadarsByUserIdAndRadarTemplateId(userId, radarTemplateId, successHandler){
+        var url = '/api/User/' + userId + '/Radars?radarTemplateId=' + radarTemplateId;
 
         jQuery.ajax({
             url: url,
@@ -102,10 +102,10 @@ export class RadarRepository{
             });
     }
 
-    addRadar(userId, radarName, radarType, successHandler, errorHandler) {
+    addRadar(userId, radarName, radarTemplate, successHandler, errorHandler) {
         var radarToAdd = {};
         radarToAdd.name = radarName;
-        radarToAdd.radarTypeId = radarType.id;
+        radarToAdd.radarTemplateId = radarTemplate.id;
 
         $.post({
               headers: {
@@ -115,8 +115,8 @@ export class RadarRepository{
               type: "POST",
               url: '/api/User/' + userId + '/Radar',
               data: JSON.stringify(radarToAdd),
-              success: function(radarTypes) {
-                successHandler(radarTypes);
+              success: function(radarTemplates) {
+                successHandler(radarTemplates);
                },
                error: function(xhr, status, err){
                     errorHandler();

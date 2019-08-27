@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import radarTypeReducer from  '../../redux/RadarTypeReducer';
+import radarTemplateReducer from  '../../redux/RadarTemplateReducer';
 
 export default class WarningListItem extends React.Component{
     constructor(props){

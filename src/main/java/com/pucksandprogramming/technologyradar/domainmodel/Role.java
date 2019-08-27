@@ -36,7 +36,7 @@ public class Role
         Role retVal = new Role();
         retVal.setId(RoleType_Admin);
         retVal.setName("ROLE_ADMIN");
-        retVal.addPermission(Permissions.ManageRadarTypes);
+        retVal.addPermission(Permissions.ManageRadarTemplates);
         retVal.addPermission(Permissions.ManageRadars);
         retVal.addPermission(Permissions.UserManagement);
         retVal.addPermission(Permissions.AllUserRadarManagement);
@@ -49,7 +49,7 @@ public class Role
         Role retVal = new Role();
         retVal.setId(RoleType_User);
         retVal.setName("ROLE_USER");
-        retVal.addPermission(Permissions.ManageRadarTypes);
+        retVal.addPermission(Permissions.ManageRadarTemplates);
         retVal.addPermission(Permissions.ManageRadars);
 
         return retVal;

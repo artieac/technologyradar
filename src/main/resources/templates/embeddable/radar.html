@@ -11,7 +11,7 @@
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarItemService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTypeService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTemplateService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
 
     <style type="text/css" media="screen">
@@ -29,12 +29,12 @@
 <input sec:authorize="isAnonymous()" type="text" id="isAnonymous" name="isAnonymous" value="true"/>
 <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
 <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
-<input type="hidden" id="radarTypeId" name="radarInstanceId" th:value="${radarTypeId}"/>
+<input type="hidden" id="radarTemplateId" name="radarInstanceId" th:value="${radarTemplateId}"/>
 <div class="panel-primary"  ng-controller="RadarController">
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-3">
-                <div ng-init="getRadarTypes(currentUserId, true)">{{selectedRadarType.name}}</div>
+                <div ng-init="getRadarTemplates(currentUserId, true)">{{selectedRadarTemplate.name}}</div>
             </div>
             <div class="col-sm-3">
                 <div>{{getDropdownLabel(selectedRadarInstance)}}</div>

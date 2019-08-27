@@ -24,7 +24,7 @@ class AddFromPreviousRadarPage extends React.Component{
         this.handleAddItemsToRadarClick = this.handleAddItemsToRadarClick.bind(this);
         this.handleRemoveItemsFromRadarClick = this.handleRemoveItemsFromRadarClick.bind(this);
         this.handleCurrentRadarInstanceSuccess = this.handleCurrentRadarInstanceSuccess.bind(this);
-        this.getRadarCollectionByUserIdAndRadarTypeId = this.getRadarCollectionByUserIdAndRadarTypeId.bind(this);
+        this.getRadarCollectionByUserIdAndRadarTemplateId = this.getRadarCollectionByUserIdAndRadarTemplateId.bind(this);
         this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
     }
 
@@ -45,11 +45,11 @@ class AddFromPreviousRadarPage extends React.Component{
 
     handleCurrentRadarInstanceSuccess(targetRadar){
         this.props.setCurrentRadarInstance({ currentRadar: targetRadar});
-        this.getRadarCollectionByUserIdAndRadarTypeId(this.props.currentUser.id, targetRadar.radarType.id);
+        this.getRadarCollectionByUserIdAndRadarTemplateId(this.props.currentUser.id, targetRadar.radarTemplate.id);
     }
 
-    getRadarCollectionByUserIdAndRadarTypeId(userId, radarTypeId){
-        fetch( '/api/User/' + userId + '/Radars?radarTypeId=' + radarTypeId,)
+    getRadarCollectionByUserIdAndRadarTemplateId(userId, radarTemplateId){
+        fetch( '/api/User/' + userId + '/Radars?radarTemplateId=' + radarTemplateId,)
             .then(response => response.json())
             .then(json => this.setState({ filteredRadarCollection: json}));
     }

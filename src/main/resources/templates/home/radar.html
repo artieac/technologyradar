@@ -11,7 +11,7 @@
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarItemService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTypeService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTemplateService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
 
     <style type="text/css" media="screen">
@@ -31,27 +31,27 @@
     <input sec:authorize="isAnonymous()" type="hidden" id="isAnonymous" name="isAnonymous" value="true"/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
-    <input type="hidden" id="radarTypeId" name="radarTypeId" th:value="${radarTypeId}"/>
+    <input type="hidden" id="radarTemplateId" name="radarTemplateId" th:value="${radarTemplateId}"/>
     <div class="panel panel-techradar"  ng-controller="RadarController">
         <div class="panel-heading-techradar">Which Radar?</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-4" ng-init="getRadarTypes(currentUserId)">
+                <div class="col-md-4" ng-init="getRadarTemplates(currentUserId)">
                     <div class="dropdown pull-left">
-                        <label for="radarTypeDropdown">Select Radar Type:</label>
-                        <button class="btn btn-default dropdown-toggle" type="button" id="radarTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {{selectedRadarType.name}}
+                        <label for="radarTemplateDropdown">Select Radar Template:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="radarTemplateDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedRadarTemplate.name}}
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="radarTypeDropdown">
-                            <li><a ng-click="radarTypeAllSelected(currentUserId)" title="See a combined view of all radars of this type">{{ allOptionName }}</a></li>
-                            <li ng-repeat="radarType in radarTypes"><a ng-click="radarTypeDropdownSelected(currentUserId, radarType)" title="{{ radarType.description }}">{{radarType.name}}</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="radarTemplateDropdown">
+                            <li><a ng-click="radarTemplateAllSelected(currentUserId)" title="See a combined view of all radars of this type">{{ allOptionName }}</a></li>
+                            <li ng-repeat="radarTemplate in radarTemplates"><a ng-click="radarTemplateDropdownSelected(currentUserId, radarTemplate)" title="{{ radarTemplate.description }}">{{radarTemplate.name}}</a></li>
                         </ul>
                     </div>
                     <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
                 <div class="col-md-8">
-                    <div>{{selectedRadarType.description}}</div>
+                    <div>{{selectedRadarTemplate.description}}</div>
                 </div>
             </div>
             <div class="row">

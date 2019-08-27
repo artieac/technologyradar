@@ -40,7 +40,7 @@ public class RadarConfigurationController extends ControllerBase
 
             if (targetRadar != null)
             {
-                retVal = targetRadar.getRadarType().getRadarRings();
+                retVal = targetRadar.getRadarTemplate().getRadarRings();
             }
         }
         catch(Exception e)
@@ -62,7 +62,7 @@ public class RadarConfigurationController extends ControllerBase
 
             if (targetRadar != null)
             {
-                retVal = targetRadar.getRadarType().getRadarCategories();
+                retVal = targetRadar.getRadarTemplate().getRadarCategories();
             }
         }
         catch(Exception e)

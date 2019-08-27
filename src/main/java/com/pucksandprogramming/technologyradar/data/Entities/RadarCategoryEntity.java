@@ -21,8 +21,8 @@ public class RadarCategoryEntity
     private String color;
 
     @OneToOne
-    @JoinColumn(name="RadarTypeId", nullable = false)
-    private RadarTypeEntity radarType;
+    @JoinColumn(name="RadarTemplateId", nullable = false)
+    private RadarTemplateEntity radarTemplate;
 
     public RadarCategoryEntity()
     {
@@ -38,7 +38,7 @@ public class RadarCategoryEntity
     public String getColor() { return this.color;}
     public void setColor(String value) { this.color = value;}
 
-    public RadarTypeEntity getRadarType() { return this.radarType;}
-    public void setRadarType(RadarTypeEntity value) { this.radarType = value;}
+    public RadarTemplateEntity getRadarTemplate() { return this.radarTemplate;}
+    public void setRadarTemplate(RadarTemplateEntity value) { this.radarTemplate = value;}
 
 }

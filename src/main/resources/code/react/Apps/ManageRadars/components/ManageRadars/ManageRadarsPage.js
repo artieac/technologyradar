@@ -5,10 +5,10 @@ import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState, addRadarTypesToState} from '../../redux/RadarReducer';
+import { addRadarsToState, addRadarTemplatesToState} from '../../redux/RadarReducer';
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
 import { RadarRepository} from '../../../../Repositories/RadarRepository';
-import { RadarTypeRepository } from '../../../../Repositories/RadarTypeRepository'
+import { RadarTemplateRepository } from '../../../../Repositories/RadarTemplateRepository'
 import RadarTableBody   from './RadarTableBody';
 import { UserRepository } from '../../../../Repositories/UserRepository'
 
@@ -19,7 +19,7 @@ class ManageRadarsPage extends React.Component{
         };
 
         this.radarRepository = new RadarRepository();
-        this.radarTypeRepository = new RadarTypeRepository();
+        this.radarTemplateRepository = new RadarTemplateRepository();
         this.userRepository = new UserRepository();
 
         this.getUserDetails = this.getUserDetails.bind(this);
@@ -36,7 +36,7 @@ class ManageRadarsPage extends React.Component{
 
     handleGetUserSuccess(currentUser){
         this.props.storeCurrentUser(currentUser);
-        this.radarTypeRepository.getOwnedAndAssociatedByUserId(currentUser.id, this.props.storeRadarTypes) ;
+        this.radarTemplateRepository.getOwnedAndAssociatedByUserId(currentUser.id, this.props.storeRadarTemplates) ;
         this.radarRepository.getByUserId(currentUser.id, true, this.props.storeRadars);
     }
 
@@ -70,7 +70,7 @@ class ManageRadarsPage extends React.Component{
 const mapDispatchToProps = dispatch => {
   return {
         storeRadars : radars => { dispatch(addRadarsToState(radars))},
-        storeRadarTypes : radarTypes => { dispatch(addRadarTypesToState(radarTypes))},
+        storeRadarTemplates : radarTemplates => { dispatch(addRadarTemplatesToState(radarTemplates))},
         storeCurrentUser : currentUser => { dispatch(addCurrentUserToState(currentUser))}
     }
 };
@@ -79,7 +79,7 @@ const mapDispatchToProps = dispatch => {
 function mapStateToProps(state) {
   return {
     	radars: state.radarReducer.radars,
-    	radarTypes: state.radarReducer.radarTypes,
+    	radarTemplates: state.radarReducer.radarTemplates,
     	currentUser: state.userReducer.currentUser
     };
 }

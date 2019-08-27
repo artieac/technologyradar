@@ -91,10 +91,10 @@ public class RadarSubjectController extends ControllerBase
                 radarSubjectName = allRequestParams.get("name");
             }
 
-            String radarTypeId = "";
-            if (allRequestParams.containsKey("radarTypeId"))
+            String radarTemplateId = "";
+            if (allRequestParams.containsKey("radarTemplateId"))
             {
-                radarTypeId = allRequestParams.get("radarTypeId").toString();
+                radarTemplateId = allRequestParams.get("radarTemplateId").toString();
             }
 
             Long radarRingId = new Long(-1);
@@ -109,7 +109,7 @@ public class RadarSubjectController extends ControllerBase
                 radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
             }
 
-            retVal = this.technologyService.searchTechnology(radarSubjectName, radarTypeId, radarRingId, radarCategoryId);
+            retVal = this.technologyService.searchTechnology(radarSubjectName, radarTemplateId, radarRingId, radarCategoryId);
         }
         catch(Exception e)
         {

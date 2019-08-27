@@ -23,19 +23,19 @@ public class EmbeddableController
     @Autowired
     RadarService radarService;
 
-    @RequestMapping(value = { "/user/{userId}/radartype/{radarTypeId}/radars"})
+    @RequestMapping(value = { "/user/{userId}/radartemplate/{radarTemplateId}/radars"})
     public ModelAndView mostRecentRadarByType(@PathVariable Long userId,
-                                              @PathVariable Long radarTypeId,
+                                              @PathVariable Long radarTemplateId,
                                               @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
 
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
-        modelAndView.addObject("radarTypeId", radarTypeId);
+        modelAndView.addObject("radarTemplateId", radarTemplateId);
 
         if(mostRecent==true)
         {
-            List<Radar> radarInstance = this.radarService.findByUserAndType(userId, radarTypeId);
+            List<Radar> radarInstance = this.radarService.findByUserAndType(userId, radarTemplateId);
 
             if (radarInstance != null && radarInstance.size() > 0)
             {
@@ -59,7 +59,7 @@ public class EmbeddableController
         if(radarInstance != null && radarInstance.size() > 0)
         {
             modelAndView.addObject("radarInstanceId", radarInstance.get(0).getId());
-            modelAndView.addObject("radarTypeId", radarInstance.get(0).getRadarType().getId());
+            modelAndView.addObject("radarTemplateId", radarInstance.get(0).getRadarTemplate().getId());
         }
 
         modelAndView.setViewName("embeddable/radar");
