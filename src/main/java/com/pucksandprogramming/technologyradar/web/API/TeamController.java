@@ -97,4 +97,14 @@ public class TeamController extends ControllerBase
         return retVal;
     }
 
+    @PostMapping(value = "/User/{userId}/Team/{teamId}/Radar")
+    public @ResponseBody TeamViewModel updateRadarAccess(@PathVariable Long userId, @PathVariable Long teamId, @RequestBody Map modelMap)
+    {
+        Long radarId = Long.parseLong(modelMap.get("radarId").toString());
+        boolean allowAccess = Boolean.parseBoolean(modelMap.get("allowAccess").toString());
+
+        Team retVal = this.teamService.updateRadarAccess(userId, teamId, radarId, allowAccess);
+
+        return new TeamViewModel(retVal);
+    }
 }

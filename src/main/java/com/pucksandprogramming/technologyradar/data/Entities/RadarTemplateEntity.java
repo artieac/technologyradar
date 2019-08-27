@@ -14,6 +14,8 @@ import java.util.UUID;
 @Table(name = "RadarTemplates")
 @org.hibernate.annotations.NamedNativeQueries
 (
+        /// NOTE ALL OF THESE WERE REQUIRED WHEN I HAD VERSIONING ON MY TEMPLATES.  NOW THAT I DON"T HAVE VERSIONING I NEED TO
+        // REVISIT THESE AND MOVE WHAT I CAN TO THE DAO.
     {
         @org.hibernate.annotations.NamedNativeQuery(name = "public_findSharedRadarTemplates", query = "select * from RadarTemplates rt where rt.State = 1 AND rt.IsPublished = true", resultClass = RadarTemplateEntity.class),
 

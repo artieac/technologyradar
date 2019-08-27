@@ -1,7 +1,10 @@
 package com.pucksandprogramming.technologyradar.services;
 
+import com.pucksandprogramming.technologyradar.data.repositories.FullRadarRepository;
+import com.pucksandprogramming.technologyradar.data.repositories.RadarRepositoryBase;
 import com.pucksandprogramming.technologyradar.data.repositories.RadarUserRepository;
 import com.pucksandprogramming.technologyradar.data.repositories.TeamRepository;
+import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.Team;
@@ -15,13 +18,15 @@ import java.util.List;
 public class TeamService extends ServiceBase
 {
     TeamRepository teamRepository;
+    FullRadarRepository fullRadarRepository;
 
     @Autowired
-    public TeamService(TeamRepository teamRepository, RadarUserRepository radarUserRepository)
+    public TeamService(TeamRepository teamRepository, RadarUserRepository radarUserRepository, FullRadarRepository fullRadarRepository)
     {
         super(radarUserRepository);
 
         this.teamRepository = teamRepository;
+        this.fullRadarRepository = fullRadarRepository;
     }
 
     private boolean canModifyTeams(RadarUser dataOwner)
@@ -79,6 +84,33 @@ public class TeamService extends ServiceBase
         if (this.getAuthenticatedUser().getUserId() == userId || this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
         {
             retVal = this.teamRepository.findOne(teamId);
+        }
+
+        return retVal;
+    }
+
+    public Team updateRadarAccess(Long userId, Long teamId, Long radarId, boolean allowAccess)
+    {
+        Team retVal = this.teamRepository.findOne(teamId);
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+
+        if(retVal.getOwner().getId() == userId && this.canModifyTeams(dataOwner))
+        {
+            Radar targetRadar = this.fullRadarRepository.findOne(radarId);
+
+            if(targetRadar!= null && targetRadar.getRadarUser().getId()==userId)
+            {
+                if (allowAccess)
+                {
+                    retVal.addRadar(targetRadar);
+                }
+                else
+                {
+                    retVal.removeRadar(targetRadar);
+                }
+
+                retVal = this.teamRepository.save(retVal);
+            }
         }
 
         return retVal;

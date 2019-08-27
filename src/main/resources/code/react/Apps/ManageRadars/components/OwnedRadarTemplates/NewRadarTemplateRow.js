@@ -32,19 +32,19 @@ class NewRadarTemplateRow extends React.Component{
     }
 };
 
-function mapNRTRStateToProps(state) {
+function mapStateToProps(state) {
   return {
         selectedRadarTemplate : state.radarTemplateReducer.selectedRadarTemplate
     };
 };
 
-const mapNRTRLDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
         storeSelectedRadarTemplate : radarTemplate => { dispatch(addSelectedRadarTemplateToState(radarTemplate))}
     }
 };
 
 export default connect(
-  mapNRTRStateToProps,
-    mapNRTRLDispatchToProps
+  mapStateToProps,
+    mapDispatchToProps
 )(NewRadarTemplateRow);

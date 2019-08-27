@@ -80,6 +80,8 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
                 targetEntity.setId(itemToSave.getId());
                 targetEntity.setName(itemToSave.getName());
                 targetEntity.setOwner(radarUserDAO.findOne(itemToSave.getOwner().getId()));
+
+                
             }
 
             if (targetEntity != null)
