@@ -52,7 +52,7 @@ public class TeamService extends ServiceBase
 
         if(dataOwner!=null)
         {
-            retVal = this.teamRepository.findAllList();
+            retVal = (List<Team>)this.teamRepository.findAll();
         }
 
         return retVal;
@@ -116,16 +116,26 @@ public class TeamService extends ServiceBase
         return retVal;
     }
 
-    public Team addMember(Long teamId, Long newTeamMemberId)
+    public Team updateMemberAccess(Long userId, Long teamId, Long teamMemberId, boolean allowAccess)
     {
         Team retVal = this.teamRepository.findOne(teamId);
-        RadarUser newTeamMember = this.getRadarUserRepository().findOne(newTeamMemberId);
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
 
-        if(retVal!=null && newTeamMember != null)
+        if(retVal.getOwner().getId() == userId && this.canModifyTeams(dataOwner))
         {
-            if(this.canModifyTeams(retVal.getOwner()))
+            RadarUser targetMember = this.getRadarUserRepository().findOne(teamMemberId);
+
+            if(targetMember!= null)
             {
-                retVal.addTeamMember(newTeamMember);
+                if (allowAccess)
+                {
+                    retVal.addMember(targetMember);
+                }
+                else
+                {
+                    retVal.removeMember(targetMember);
+                }
+
                 retVal = this.teamRepository.save(retVal);
             }
         }

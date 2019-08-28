@@ -2,6 +2,8 @@ package com.pucksandprogramming.technologyradar.data.mapper;
 
 import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
+import org.modelmapper.config.Configuration;
+import org.modelmapper.convention.NamingConventions;
 import org.springframework.stereotype.Component;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -29,8 +31,11 @@ public class RadarMapper
         modelMapper = new ModelMapper();
 
         // do not map null objects
-        modelMapper.getConfiguration().setPropertyCondition(
-                Conditions.isNotNull());
+        modelMapper.getConfiguration()
+                .setPropertyCondition(Conditions.isNotNull())
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
+                .setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
 
         // Product Config
         modelMapper.addMappings(radarConfigModelMap);
@@ -41,6 +46,7 @@ public class RadarMapper
         modelMapper.addMappings(technologyAssessmentItemMap);
         modelMapper.addMappings(userTypeModelMap);
         modelMapper.addMappings(radarUserModelMap);
+        modelMapper.addMappings(teamModelMap);
     }
 
     private ModelMapper getMapper()
@@ -146,5 +152,15 @@ public class RadarMapper
                     map().setId(source.getId());
                 }
             };
+
+    private PropertyMap<TeamEntity, Team> teamModelMap =
+            new PropertyMap<TeamEntity, Team>()
+            {
+                protected void configure()
+                {
+                    map().setId(source.getId());
+                }
+            };
+
 }
 

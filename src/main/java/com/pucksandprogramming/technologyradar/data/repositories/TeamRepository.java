@@ -1,10 +1,15 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
+import com.pucksandprogramming.technologyradar.data.Entities.RadarEntity;
+import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TeamEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
+import com.pucksandprogramming.technologyradar.data.dao.RadarDAO;
 import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
 import com.pucksandprogramming.technologyradar.data.dao.TeamDAO;
 import com.pucksandprogramming.technologyradar.data.dao.UserTypeDAO;
+import com.pucksandprogramming.technologyradar.domainmodel.Radar;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Team;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,9 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
 
     @Autowired
     EntityManager entityManager;
+
+    @Autowired
+    RadarDAO radarDAO;
 
     @Autowired
     public void TeamRepository(TeamDAO entityRepository)
@@ -81,7 +89,93 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
                 targetEntity.setName(itemToSave.getName());
                 targetEntity.setOwner(radarUserDAO.findOne(itemToSave.getOwner().getId()));
 
-                
+                /// Process the users
+                // first add in missing ones
+                for(RadarUser sourceTeamMember : itemToSave.getMembers())
+                {
+                    boolean foundMatch = false;
+
+                    for(RadarUserEntity entityTeamMember : targetEntity.getMembers())
+                    {
+                        if(entityTeamMember.getId().compareTo(sourceTeamMember.getId())==0)
+                        {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+
+                    if(foundMatch==false)
+                    {
+                        targetEntity.getMembers().add(radarUserDAO.findOne(sourceTeamMember.getId()));
+                    }
+                }
+
+                // next remove extra ones
+                for(RadarUserEntity entityTeamMember : targetEntity.getMembers())
+                {
+                    boolean foundMatch = false;
+
+                    for(RadarUser sourceTeamMember : itemToSave.getMembers())
+                    {
+                        if(sourceTeamMember.getId().compareTo(entityTeamMember.getId())==0)
+                        {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+
+                    if(foundMatch==false)
+                    {
+                        targetEntity.getMembers().remove(entityTeamMember);
+                    }
+                }
+
+
+                /// Process the radars
+                // first add in missing ones
+                for(Radar sourceRadar : itemToSave.getRadars())
+                {
+                    boolean foundMatch = false;
+
+                    for(RadarEntity entityRadar : targetEntity.getRadars())
+                    {
+                        if(entityRadar.getId().compareTo(sourceRadar.getId())==0)
+                        {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+
+                    if(foundMatch==false)
+                    {
+                        targetEntity.getRadars().add(radarDAO.findOne(sourceRadar.getId()));
+                    }
+                }
+
+                // next remove extra ones
+                if(targetEntity.getRadars()!=null && targetEntity.getRadars().size() > 0)
+                {
+                    for (int i = targetEntity.getMembers().size() - 1; i > -1; i--)
+                    {
+                        RadarEntity entityRadar = targetEntity.getRadars().get(i);
+
+                        boolean foundMatch = false;
+
+                        for (Radar sourceRadar : itemToSave.getRadars())
+                        {
+                            if (sourceRadar.getId().compareTo(entityRadar.getId()) == 0)
+                            {
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+
+                        if (foundMatch == false)
+                        {
+                            targetEntity.getRadars().remove(i);
+                        }
+                    }
+                }
             }
 
             if (targetEntity != null)

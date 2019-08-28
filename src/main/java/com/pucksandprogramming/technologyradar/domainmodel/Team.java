@@ -11,7 +11,7 @@ public class Team
     private Long id;
     private String name;
     private RadarUser owner;
-    private List<RadarUser> teamMembers;
+    private List<RadarUser> members;
     private List<Radar> radars;
 
     public Team()
@@ -28,16 +28,16 @@ public class Team
     public RadarUser getOwner() { return this.owner; }
     public void setOwner(RadarUser value) { this.owner = value;}
 
-    public List<RadarUser> getTeamMembers()
+    public List<RadarUser> getMembers()
     {
-        if(this.teamMembers==null)
+        if(this.members==null)
         {
-            this.teamMembers = new ArrayList<>();
+            this.members = new ArrayList<>();
         }
 
-        return this.teamMembers;
+        return this.members;
     }
-    private void setTeamMembers(List<RadarUser> value) { this.teamMembers = value;}
+    private void setMembers(List<RadarUser> value) { this.members = value;}
 
     public List<Radar> getRadars()
     {
@@ -49,22 +49,22 @@ public class Team
     }
     private void setRadars(List<Radar> value) { this.radars = value;}
 
-    public void addTeamMember(RadarUser newTeamMember)
+    public void addMember(RadarUser newTeamMember)
     {
         if(newTeamMember.getId()!=this.getOwner().getId())
         {
-            if (!this.getTeamMembers().contains(newTeamMember))
+            if (!this.getMembers().contains(newTeamMember))
             {
-                this.getTeamMembers().add(newTeamMember);
+                this.getMembers().add(newTeamMember);
             }
         }
     }
 
-    public void removeTeamMember(RadarUser teamMemberToRemove)
+    public void removeMember(RadarUser teamMemberToRemove)
     {
-        if (!this.getTeamMembers().contains(teamMemberToRemove))
+        if (!this.getMembers().contains(teamMemberToRemove))
         {
-            this.getTeamMembers().remove(teamMemberToRemove);
+            this.getMembers().remove(teamMemberToRemove);
         }
     }
 
@@ -81,7 +81,7 @@ public class Team
 
     public void removeRadar(Radar radarToRemove)
     {
-        if (!this.getRadars().contains(radarToRemove))
+        if (this.getRadars().contains(radarToRemove))
         {
             this.getRadars().remove(radarToRemove);
         }

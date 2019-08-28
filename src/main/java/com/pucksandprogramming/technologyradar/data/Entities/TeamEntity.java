@@ -26,7 +26,14 @@ public class TeamEntity
             name = "TeamMembers",
             joinColumns = { @JoinColumn(name = "TeamId") },
             inverseJoinColumns = { @JoinColumn(name = "MemberId") })
-    private List<RadarUserEntity> teamMembers;
+    private List<RadarUserEntity> members;
+
+    @ManyToMany
+    @JoinTable(
+            name = "TeamRadars",
+            joinColumns = { @JoinColumn(name = "TeamId") },
+            inverseJoinColumns = { @JoinColumn(name = "RadarId") })
+    private List<RadarEntity> radars;
 
     public TeamEntity()
     {
@@ -42,6 +49,9 @@ public class TeamEntity
     public RadarUserEntity getOwner() { return this.owner; }
     public void setOwner(RadarUserEntity value) { this.owner = value;}
 
-    public List<RadarUserEntity> getTeamMembers() { return this.teamMembers;}
-    public void setTeamMembers(List<RadarUserEntity> value) { this.teamMembers = value;}
+    public List<RadarUserEntity> getMembers() { return this.members;}
+    public void setMembers(List<RadarUserEntity> value) { this.members = value;}
+
+    public List<RadarEntity> getRadars() { return this.radars;}
+    public void setRadars(List<RadarEntity> value) { this.radars = value;}
 }

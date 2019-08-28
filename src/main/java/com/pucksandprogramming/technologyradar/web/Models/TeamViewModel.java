@@ -58,9 +58,9 @@ public class TeamViewModel
 
         this.setMembers(new ArrayList<UserViewModel>());
 
-        if(source.getTeamMembers()!=null)
+        if(source.getMembers()!=null)
         {
-            for(RadarUser currentUser : source.getTeamMembers())
+            for(RadarUser currentUser : source.getMembers())
             {
                 this.getMembers().add(new UserViewModel(currentUser));
             }

@@ -323,9 +323,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
         if (!$scope.isNullOrUndefined($scope.radarTemplates) &&
             !$scope.isNullOrUndefined(radarTemplateId) &&
-            radarTemplateId !== '' &&
-            !$scope.isNullOrUndefined(radarTemplateVersion) &&
-            radarTemplateVersion !== '')
+            radarTemplateId !== '')
         {
             for (var i = 0; i < $scope.radarTemplates.length; i++)
             {

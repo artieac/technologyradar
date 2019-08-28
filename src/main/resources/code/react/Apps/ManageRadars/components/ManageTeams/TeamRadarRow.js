@@ -15,17 +15,26 @@ class TeamRadarRow extends React.Component{
 
         this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
         this.doesTeamHaveAccess = this.doesTeamHaveAccess.bind(this);
-        this.handleUpdateRadarResponse = this.handleUpdateRadarResponse.bind(this);
+        this.handleUpdateRadarsResponse = this.handleUpdateRadarsResponse.bind(this);
     }
 
     componentDidMount(){}
 
     handleCheckboxClick(event){
         var allowAccess = this.refs.allowAccess.checked;
-        this.teamRepository.updateTeamRadar(this.props.currentUser.id, this.props.currentTeam.id, this.props.rowData.id, allowAccess, this.HandleUpdateRadarResponse);
+
+        if(allowAccess===true)
+        {
+            this.props.currentTeam.radars.add(this.rowData);
+        }
+        else
+        {
+
+        }
+        this.teamRepository.updateTeamRadars(this.props.currentUser.id, this.props.currentTeam.radars, this.handleUpdateRadarsResponse);
     }
 
-    handleUpdateRadarResponse(team){
+    handleUpdateRadarsResponse(team){
         this.props.storeCurrentTeam(team);
     }
 
@@ -36,7 +45,7 @@ class TeamRadarRow extends React.Component{
         {
             for(var i = 0; i < this.props.currentTeam.radars.length; i++)
             {
-                if(this.props.currentTeam.radars[i].id===this.rowData.id)
+                if(this.props.currentTeam.radars[i].id===this.props.rowData.id)
                 {
                     retVal = true;
                 }
