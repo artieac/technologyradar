@@ -9,7 +9,6 @@ import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.RadarViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.TeamViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
-import com.sun.tools.javac.util.Convert;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
