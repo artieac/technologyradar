@@ -61,4 +61,36 @@ public class RadarUser {
     {
         return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount);
     }
+
+    @Override
+    public boolean equals(Object testItem)
+    {
+        boolean retVal = false;
+
+        // checking if both the object references are
+        // referring to the same object.
+        if(this == testItem)
+        {
+            retVal = true;
+        }
+
+        if(!retVal)
+        {
+            // it checks if the argument is of the
+            // type Geek by comparing the classes
+            // of the passed argument and this object.
+            // if(!(obj instanceof Geek)) return false; ---> avoid.
+            if (testItem != null && testItem.getClass() == this.getClass())
+            {
+                RadarUser testUser = (RadarUser) testItem;
+
+                if (testUser.getId().compareTo(this.getId())==0)
+                {
+                    retVal = true;
+                }
+            }
+        }
+
+        return retVal;
+    }
 }

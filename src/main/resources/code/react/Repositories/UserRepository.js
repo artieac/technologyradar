@@ -37,4 +37,17 @@ export class UserRepository {
                 }.bind(this)
             });
         }
+
+    searchByEmail(searchString, responseHandler){
+        var getUrl = '/api/Users?emailSearch=' + searchString;
+
+        jQuery.ajax({
+                url: getUrl,
+                async: true,
+                dataType: 'json',
+                success: function (users) {
+                    responseHandler(users);
+                }.bind(this)
+            });
+    }
 }

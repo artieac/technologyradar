@@ -72,6 +72,12 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
         return retVal;
     }
 
+    public List<RadarUser> searchByEmail(String searchString)
+    {
+        List<RadarUserEntity> foundItems = this.entityRepository.findByEmailContaining(searchString);
+        return this.mapList(foundItems);
+    }
+
     @Override
     public RadarUser save(RadarUser itemToSave)
     {

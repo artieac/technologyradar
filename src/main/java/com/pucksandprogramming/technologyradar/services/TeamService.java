@@ -116,30 +116,66 @@ public class TeamService extends ServiceBase
         return retVal;
     }
 
-    public Team updateMemberAccess(Long userId, Long teamId, Long teamMemberId, boolean allowAccess)
+    public Team updateRadarAccess(Long userId, Long teamId, List<Long> radarIds)
     {
         Team retVal = this.teamRepository.findOne(teamId);
         RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
 
-        if(retVal.getOwner().getId() == userId && this.canModifyTeams(dataOwner))
+        if(retVal.getOwner().getId() == userId && this.canModifyTeams(dataOwner) && radarIds!=null)
         {
-            RadarUser targetMember = this.getRadarUserRepository().findOne(teamMemberId);
-
-            if(targetMember!= null)
+            for(Long radarId : radarIds)
             {
-                if (allowAccess)
-                {
-                    retVal.addMember(targetMember);
-                }
-                else
-                {
-                    retVal.removeMember(targetMember);
-                }
+                Radar targetRadar = this.fullRadarRepository.findOne(radarId);
 
-                retVal = this.teamRepository.save(retVal);
+                if (targetRadar != null && targetRadar.getRadarUser().getId().compareTo(userId)==0)
+                {
+                    retVal.addRadar(targetRadar);
+                }
             }
+
+            for(Radar currentRadar : retVal.getRadars())
+            {
+                if (!radarIds.contains(currentRadar.getId()))
+                {
+                    retVal.removeRadar(currentRadar);
+                }
+            }
+
+            retVal = this.teamRepository.save(retVal);
         }
 
         return retVal;
     }
+
+    public Team updateMemberAccess(Long userId, Long teamId, List<Long> memberIds)
+    {
+        Team retVal = this.teamRepository.findOne(teamId);
+        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+
+        if(retVal.getOwner().getId() == userId && this.canModifyTeams(dataOwner) && memberIds!=null)
+        {
+            for(Long memberId : memberIds)
+            {
+                RadarUser targetUser = this.getRadarUserRepository().findOne(memberId);
+
+                if (targetUser != null && targetUser.getId().compareTo(userId) != 0)
+                {
+                    retVal.addMember(targetUser);
+                }
+            }
+
+            for(RadarUser currentUser : retVal.getMembers())
+            {
+                if (!memberIds.contains(currentUser.getId()))
+                {
+                    retVal.removeMember(currentUser);
+                }
+            }
+
+            retVal = this.teamRepository.save(retVal);
+        }
+
+        return retVal;
+    }
+
 }

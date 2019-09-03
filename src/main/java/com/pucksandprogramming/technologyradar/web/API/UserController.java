@@ -51,7 +51,7 @@ public class UserController extends ControllerBase
 
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/Users", produces = "application/json")
-    public @ResponseBody List<UserViewModel> getAllUsers()
+    public @ResponseBody List<UserViewModel> getAllUsers(@RequestParam(name = "emailSearch", required = false, defaultValue = "") String emailSearch)
     {
         List<UserViewModel> retVal = new ArrayList<>();
 
@@ -61,7 +61,16 @@ public class UserController extends ControllerBase
 
             if(userRole.getId()==Role.RoleType_Admin)
             {
-                List<RadarUser> radarUsers = this.radarUserService.getAllUsers(this.getCurrentUser());
+                List<RadarUser> radarUsers = new ArrayList<>();
+
+                if(emailSearch!=null && !emailSearch.isEmpty())
+                {
+                    radarUsers = this.radarUserService.searchByEmail(emailSearch, this.getCurrentUser());
+                }
+                else
+                {
+                    radarUsers = this.radarUserService.getAllUsers(this.getCurrentUser());
+                }
 
                 for(RadarUser radarUser : radarUsers)
                 {

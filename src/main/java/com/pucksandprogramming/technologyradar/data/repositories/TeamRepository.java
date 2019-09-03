@@ -155,7 +155,7 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
                 // next remove extra ones
                 if(targetEntity.getRadars()!=null && targetEntity.getRadars().size() > 0)
                 {
-                    for (int i = targetEntity.getMembers().size() - 1; i > -1; i--)
+                    for (int i = targetEntity.getRadars().size() - 1; i > -1; i--)
                     {
                         RadarEntity entityRadar = targetEntity.getRadars().get(i);
 

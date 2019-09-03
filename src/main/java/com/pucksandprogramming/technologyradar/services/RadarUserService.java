@@ -142,4 +142,21 @@ public class RadarUserService
         String cleanedAccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));
         return this.auth0Repository.getUserProfile(issuer, accessToken);
     }
+
+    public List<RadarUser> searchByEmail(String searchString, RadarUser currentUser)
+    {
+        List<RadarUser> retVal = new ArrayList<>();
+
+        if(currentUser != null)
+        {
+            Role userRole = Role.createRole(currentUser.getRoleId());
+
+            if(userRole.getId()==Role.RoleType_Admin)
+            {
+                retVal = this.radarUserRepository.searchByEmail(searchString);
+            }
+        }
+
+        return retVal;
+    }
 }

@@ -26,6 +26,7 @@ class ManageTeamsPage extends React.Component{
         this.getUserDetails = this.getUserDetails.bind(this);
         this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
         this.handleGetTeamsResponse = this.handleGetTeamsResponse.bind(this);
+        this.loadTeams = this.loadTeams.bind(this);
     }
 
     componentDidMount(){
@@ -38,8 +39,12 @@ class ManageTeamsPage extends React.Component{
 
     handleGetUserSuccess(currentUser){
         this.props.storeCurrentUser(currentUser);
-        this.teamRepository.getAllByUser(currentUser.id, this.handleGetTeamsResponse);
+        this.loadTeams(currentUser);
         this.radarRepository.getByUserId(this.props.currentUser.id, true, this.props.storeUserRadars);
+    }
+
+    loadTeams(currentUser){
+        this.teamRepository.getAllByUser(currentUser.id, this.handleGetTeamsResponse);
     }
 
     handleGetTeamsResponse(teams){
@@ -60,10 +65,10 @@ class ManageTeamsPage extends React.Component{
                     </div>
                     <div className="col-md-6">
                         <div className={ this.props.showTeamRadars ? "row" : "hidden"}>
-                            <TeamRadars userRadars={this.props.userRadars}/>
+                            <TeamRadars userRadars={this.props.userRadars} detailsContainer={this}/>
                         </div>
                         <div className={ this.props.showTeamMembers ? "row" : "hidden"}>
-                            <TeamMembers />
+                            <TeamMembers detailsContainer={this}/>
                         </div>
                     </div>
                 </div>

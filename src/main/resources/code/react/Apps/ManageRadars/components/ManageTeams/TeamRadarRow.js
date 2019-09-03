@@ -25,13 +25,23 @@ class TeamRadarRow extends React.Component{
 
         if(allowAccess===true)
         {
-            this.props.currentTeam.radars.add(this.rowData);
+            this.props.currentTeam.radars.push(this.props.rowData);
+            this.props.storeCurrentTeam(this.props.currentTeam);
         }
         else
         {
-
+            for(var i = this.props.currentTeam.radars.length - 1; i > -1; i--)
+            {
+                if(this.props.currentTeam.radars[i].id===this.props.rowData.id){
+                    this.props.currentTeam.radars.splice(i, 1);
+                    this.props.storeCurrentTeam(this.props.currentTeam);
+                    this.props.listContainer.forceUpdate();
+                    break;
+                }
+            }
         }
-        this.teamRepository.updateTeamRadars(this.props.currentUser.id, this.props.currentTeam.radars, this.handleUpdateRadarsResponse);
+
+        this.forceUpdate();
     }
 
     handleUpdateRadarsResponse(team){

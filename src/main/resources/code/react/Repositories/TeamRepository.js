@@ -67,4 +67,58 @@ export class TeamRepository {
                    }
                 });
         }
+
+        saveRadars(userId, team, responseHandler){
+            var teamToUpdate = {};
+            teamToUpdate.name = team.name;
+            teamToUpdate.radars = [];
+
+            for(var i = 0; i < team.radars.length; i++)
+            {
+                teamToUpdate.radars.push(team.radars[i].id);
+            }
+
+            $.post({
+                  headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json'
+                  },
+                  type: "POST",
+                  url: '/api/User/' + userId + '/Team/' + team.id + '/Radars',
+                  data: JSON.stringify(teamToUpdate),
+                  success: function(team) {
+                    responseHandler(true, team);
+                   },
+                   error: function(xhr, status, err){
+                        responseHandler(false);
+                   }
+                });
+        }
+
+        saveMembers(userId, team, responseHandler){
+            var teamToUpdate = {};
+            teamToUpdate.name = team.name;
+            teamToUpdate.members = [];
+
+            for(var i = 0; i < team.members.length; i++)
+            {
+                teamToUpdate.members.push(team.members[i].id);
+            }
+
+            $.post({
+                  headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json'
+                  },
+                  type: "POST",
+                  url: '/api/User/' + userId + '/Team/' + team.id + '/Members',
+                  data: JSON.stringify(teamToUpdate),
+                  success: function(team) {
+                    responseHandler(true, team);
+                   },
+                   error: function(xhr, status, err){
+                        responseHandler(false);
+                   }
+                });
+        }
 }

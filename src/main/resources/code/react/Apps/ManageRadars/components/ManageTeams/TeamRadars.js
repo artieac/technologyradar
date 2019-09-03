@@ -24,6 +24,14 @@ class TeamRadars extends React.Component{
         this.props.currentTeam.name = event.target.value;
     }
 
+    handleSaveClick(){
+        this.teamRepository.saveRadars(this.props.currentUser.id, this.props.currentTeam, this.handleSaveResponse);
+    }
+
+    handleSaveResponse(team){
+        this.props.detailsContainer.loadTeams(this.props.currentUser);
+    }
+
     render() {
         if(this.props.currentTeam !== undefined && this.props.currentTeam.name !== undefined){
             return (
@@ -33,6 +41,9 @@ class TeamRadars extends React.Component{
                             <div className="col-md-3">Name</div>
                             <div className="col-md-4">
                                 <input type="text" value={this.props.currentTeam.name } onChange= {(event) => { this.handleNameChangeEvent(event) }} />
+                            </div>
+                            <div>
+                                <input type="button" className='btn btn-techradar' onClick={(event) => this.handleSaveClick(event) } value="Save Changes"/>
                             </div>
                         </div>
                         <div className="row">
@@ -47,7 +58,7 @@ class TeamRadars extends React.Component{
                                 </div>
                                 {
                                     this.props.userRadars.map((currentRow, index) => {
-                                        return <TeamRadarRow key={index} rowNum={index} rowData={currentRow} />
+                                        return <TeamRadarRow key={index} rowNum={index} rowData={currentRow} listContainer={this} />
                                     })
                                 }
                             </div>

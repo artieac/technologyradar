@@ -62,7 +62,7 @@ public class Team
 
     public void removeMember(RadarUser teamMemberToRemove)
     {
-        if (!this.getMembers().contains(teamMemberToRemove))
+        if (this.getMembers().contains(teamMemberToRemove))
         {
             this.getMembers().remove(teamMemberToRemove);
         }
@@ -85,5 +85,37 @@ public class Team
         {
             this.getRadars().remove(radarToRemove);
         }
+    }
+
+    @Override
+    public boolean equals(Object testItem)
+    {
+        boolean retVal = false;
+
+        // checking if both the object references are
+        // referring to the same object.
+        if(this == testItem)
+        {
+            retVal = true;
+        }
+
+        if(!retVal)
+        {
+            // it checks if the argument is of the
+            // type Geek by comparing the classes
+            // of the passed argument and this object.
+            // if(!(obj instanceof Geek)) return false; ---> avoid.
+            if (testItem != null && testItem.getClass() == this.getClass())
+            {
+                Team testTeam = (Team) testItem;
+
+                if (testTeam.getId().compareTo(this.getId())==0)
+                {
+                    retVal = true;
+                }
+            }
+        }
+
+        return retVal;
     }
 }

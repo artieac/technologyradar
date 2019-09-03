@@ -9,6 +9,7 @@ import com.pucksandprogramming.technologyradar.web.ControllerBase;
 import com.pucksandprogramming.technologyradar.web.Models.RadarViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.TeamViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
+import com.sun.tools.javac.util.Convert;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -98,12 +99,50 @@ public class TeamController extends ControllerBase
     }
 
     @PostMapping(value = "/User/{userId}/Team/{teamId}/Radar")
-    public @ResponseBody TeamViewModel updateRadarAccess(@PathVariable Long userId, @PathVariable Long teamId, @RequestBody Map modelMap)
+    public @ResponseBody TeamViewModel updateTeamRadar(@PathVariable Long userId, @PathVariable Long teamId, @RequestBody Map modelMap)
     {
         Long radarId = Long.parseLong(modelMap.get("radarId").toString());
         boolean allowAccess = Boolean.parseBoolean(modelMap.get("allowAccess").toString());
 
         Team retVal = this.teamService.updateRadarAccess(userId, teamId, radarId, allowAccess);
+
+        return new TeamViewModel(retVal);
+    }
+
+    @PostMapping(value = "/User/{userId}/Team/{teamId}/Radars")
+    public @ResponseBody TeamViewModel updateTeamRadars(@PathVariable Long userId, @PathVariable Long teamId, @RequestBody Map modelMap)
+    {
+        List<Integer> radarIdParameters = (List<Integer>)modelMap.get("radars");
+        List<Long> radarIds = new ArrayList<>();
+
+        if(radarIdParameters!=null)
+        {
+            for(Integer radarIdParameter : radarIdParameters)
+            {
+                radarIds.add(new Long(radarIdParameter));
+            }
+        }
+
+        Team retVal = this.teamService.updateRadarAccess(userId, teamId, radarIds);
+
+        return new TeamViewModel(retVal);
+    }
+
+    @PostMapping(value = "/User/{userId}/Team/{teamId}/Members")
+    public @ResponseBody TeamViewModel updateTeamMembers(@PathVariable Long userId, @PathVariable Long teamId, @RequestBody Map modelMap)
+    {
+        List<Integer> memberIdParameters = (List<Integer>)modelMap.get("members");
+        List<Long> memberIds = new ArrayList<>();
+
+        if(memberIdParameters!=null)
+        {
+            for(Integer memberIdParameter : memberIdParameters)
+            {
+                memberIds.add(new Long(memberIdParameter));
+            }
+        }
+
+        Team retVal = this.teamService.updateMemberAccess(userId, teamId, memberIds);
 
         return new TeamViewModel(retVal);
     }
