@@ -10,6 +10,7 @@ public class UserViewModel
     private Long id;
     private String email;
     private String name;
+    private String nickname;
     private Role role;
     private Integer numberOfSharedRadars;
     private UserType userType;
@@ -20,6 +21,7 @@ public class UserViewModel
         retVal.setId(-1L);
         retVal.setEmail("");
         retVal.setName("");
+        retVal.setNickname("");
         retVal.setNumberOfSharedRadar(0);
         retVal.setCanHaveVariableRadarRingCount(true);
         retVal.setRole(Role.createUserRole());
@@ -40,6 +42,7 @@ public class UserViewModel
             this.setId(source.getId());
             this.setEmail(source.getEmail());
             this.setName(source.getName());
+            this.setNickname(source.getNickname());
             this.setRole(Role.createRole(source.getRoleId()));
             this.setUserType(source.getUserType());
             this.setCanShareRadarTemplates(source.canShareRadarTemplates());
@@ -56,6 +59,9 @@ public class UserViewModel
 
     public String getName() { return this.name;}
     public void setName(String value) { this.name = value;}
+
+    public String getNickname() { return this.nickname;}
+    public void setNickname(String value) { this.nickname = value;}
 
     public Integer getCanHaveNRadarTemplates()
     {

@@ -1,4 +1,4 @@
-theApp.controller('RadarController', function ($scope, $resource, $http, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTemplateService)
+theApp.controller('RadarController', function ($scope, $resource, $http, RadarUserService, RadarInstanceService, RadarItemService, RadarSubjectService, RadarTemplateService)
 {
     $scope.allOptionName = "All";
     $scope.fullViewOptionName = "Full View";
@@ -12,6 +12,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
     $scope.publicRadarLink = "";
     $scope.mostRecentRadarsLink = "";
     $scope.selectedRadarTemplate = {};
+    $scope.dataOwnerDetails = {};
 
     $scope.clickAddItemButton = function()
     {
@@ -67,6 +68,10 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         }
 
         return retVal;
+    }
+
+    $scope.getDataOwnerDetails = function(){
+        $scope.dataOwnerDetails = RadarUserService.getDataOwnerDetails($scope.currentUserId).get();
     }
 
     $scope.getRadarData = function (userId, radarId, isAnonymous)

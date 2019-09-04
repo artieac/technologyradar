@@ -49,6 +49,52 @@ public class UserController extends ControllerBase
         return retVal;
     }
 
+    @GetMapping(value = "/public/User/{userId}", produces = "application/json")
+    public @ResponseBody UserViewModel getIdentifiedUserDetils(@PathVariable Long userId)
+    {
+        UserViewModel retVal = UserViewModel.DefaultInstance();
+
+        try
+        {
+            boolean shouldRestrict = true;
+
+            retVal = new UserViewModel(this.radarUserService.findOne(userId));
+
+            if (this.getCurrentUser() != null)
+            {
+                if((userId.compareTo(this.getCurrentUser().getId())==0) ||
+                    this.getCurrentUser().getRoleId()==Role.RoleType_Admin)
+                {
+                    shouldRestrict = false;
+                }
+            }
+
+            if(shouldRestrict==true)
+            {
+                if(retVal.getName().isEmpty())
+                {
+                    retVal.setName(retVal.getNickname());
+                }
+
+                retVal.setCanHaveVariableRadarRingCount(false);
+                retVal.setNumberOfSharedRadar(0);
+                retVal.setRole(Role.createRole(Role.RoleType_User));
+                retVal.setUserType(UserType.DefaultInstance());
+                retVal.setHowManyRadarsCanShare(0);
+                retVal.setAllowTeamMembersToManageRadars(false);
+                retVal.setCanHaveNAssociatedRadarTemplates(0);
+                retVal.setCanHaveNRadarTemplates(0);
+                retVal.setCanSeeFullView(false);
+            }
+        }
+        catch(Exception e)
+        {
+            logger.error(e);
+        }
+
+        return retVal;
+    }
+
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/Users", produces = "application/json")
     public @ResponseBody List<UserViewModel> getAllUsers(@RequestParam(name = "emailSearch", required = false, defaultValue = "") String emailSearch)
