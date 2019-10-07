@@ -50,6 +50,10 @@ public class RadarItemEntity
     @Column(name = "State")
     private Integer state;
 
+    @ManyToOne
+    @JoinColumn(name = "CreatorId", nullable=false)
+    private RadarUserEntity creator;
+
     public RadarItemEntity()
     {
 
@@ -78,4 +82,7 @@ public class RadarItemEntity
 
     public Integer getState() { return this.state;}
     public void setState(Integer value) { this.state = value;}
+
+    public RadarUserEntity getCreator() { return this.creator;}
+    public void setCreator(RadarUserEntity value) { this.creator = value;}
 }

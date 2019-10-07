@@ -89,6 +89,18 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
+    @RequestMapping(value = { "/home/user/{userId}/teamradars"})
+    public ModelAndView viewUserTeamRadars(@PathVariable Long userId)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userId", userId);
+        modelAndView.addObject("teamId", -1);
+        modelAndView.addObject("radarInstanceId", -1);
+        modelAndView.setViewName("home/teamradar");
+
+        return modelAndView;
+    }
+
     // I hate this url format, but I can't figure out how to get seccurity working with the
     // format that I want
     @RequestMapping(value = { "/public/home/user/{userId}/radar/{radarInstanceId}" })

@@ -178,4 +178,8 @@ public class TeamService extends ServiceBase
         return retVal;
     }
 
+    public List<Team> findAllUserBelongsTo(Long userId)
+    {
+       return this.teamRepository.findTeamsUserBelongsTo(userId);
+    }
 }

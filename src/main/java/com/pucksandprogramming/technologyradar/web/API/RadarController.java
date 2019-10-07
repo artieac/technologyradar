@@ -187,14 +187,11 @@ public class RadarController extends ControllerBase {
 
                 if (targetRadar != null)
                 {
-                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser()))
+                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser(), radarId))
                     {
-                        if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId())
+                        if (targetRadar.getIsLocked() == false)
                         {
-                            if (targetRadar.getIsLocked() == false)
-                            {
-                                retVal = true;
-                            }
+                            retVal = true;
                         }
                     }
                 }

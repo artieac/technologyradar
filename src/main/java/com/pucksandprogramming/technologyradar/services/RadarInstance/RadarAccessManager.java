@@ -1,11 +1,16 @@
 package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
+import com.pucksandprogramming.technologyradar.data.repositories.TeamRepository;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
+import com.pucksandprogramming.technologyradar.domainmodel.Team;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class RadarAccessManager
@@ -17,6 +22,13 @@ public class RadarAccessManager
     }
 
     AuthenticatedUser authenticatedUser;
+    TeamRepository teamRepository;
+
+    @Autowired
+    public RadarAccessManager(TeamRepository teamRepository)
+    {
+        this.teamRepository = teamRepository;
+    }
 
     public AuthenticatedUser getAuthenticatedUser()
     {
@@ -36,41 +48,47 @@ public class RadarAccessManager
         return this.authenticatedUser;
     }
 
-    public ViewAccessMode canViewHistory(RadarUser targetDataOwner)
+    public ViewAccessMode canViewUserRadars(RadarUser targetDataOwner)
     {
         ViewAccessMode retVal = ViewAccessMode.PublishedOnly;
 
-        if(this.getAuthenticatedUser()!=null)
+        if(isOwnerOrAdmin(targetDataOwner))
         {
-            if (this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
+            retVal = ViewAccessMode.FullAccess;
+        }
+
+        return retVal;
+    }
+
+    public ViewAccessMode canViewRadar(RadarUser targetDataOwner, Long radarId)
+    {
+        ViewAccessMode retVal = ViewAccessMode.PublishedOnly;
+
+        if(isOwnerOrAdmin(targetDataOwner))
+        {
+            retVal = ViewAccessMode.FullAccess;
+        }
+        else
+        {
+            if(this.isInTeam(radarId))
             {
-                // is this person an admin?
-                retVal = RadarAccessManager.ViewAccessMode.FullAccess;
-            }
-            else
-            {
-                if (targetDataOwner != null)
-                {
-                    if(targetDataOwner.getId() == this.getAuthenticatedUser().getUserId())
-                    {
-                        retVal = ViewAccessMode.FullAccess;
-                    }
-                }
+                retVal = ViewAccessMode.FullAccess;
             }
         }
 
         return retVal;
     }
 
-    public boolean canShareRadarTemplates(RadarUser targetDataOwner)
+    private boolean isInTeam(Long radarId)
     {
-        boolean retVal = false;
+        boolean retVal = true;
 
-        if (targetDataOwner != null)
+        if(this.getAuthenticatedUser()!=null)
         {
-            if (targetDataOwner.canShareRadarTemplates() == true)
+            List<Team> radarTeam = this.teamRepository.findByRadarAndMember(this.getAuthenticatedUser().getUserId(), radarId);
+
+            if (radarTeam != null && radarTeam.size() > 0)
             {
-                // public access, but the target owner can share their full history publicly.
                 retVal = true;
             }
         }
@@ -78,13 +96,13 @@ public class RadarAccessManager
         return retVal;
     }
 
-    public boolean canModifyRadar(RadarUser targetDataOwner)
+    private boolean isOwnerOrAdmin(RadarUser targetDataOwner)
     {
         boolean retVal = false;
 
         if(this.getAuthenticatedUser()!=null)
         {
-            if(this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
+            if(this.getAuthenticatedUser().isAdmin())
             {
                 retVal = true;
             }
@@ -97,13 +115,30 @@ public class RadarAccessManager
                     {
                         retVal = true;
                     }
-                    else
-                    {
-                        // if they are in the same team
-                        // TBD
-                    }
                 }
             }
+        }
+
+        return retVal;
+    }
+
+    public boolean canAddRadar(RadarUser targetDataOwner)
+    {
+        return isOwnerOrAdmin(targetDataOwner);
+    }
+
+    public boolean canDeleteRadar(RadarUser targetDataOwner)
+    {
+        return isOwnerOrAdmin(targetDataOwner);
+    }
+
+    public boolean canModifyRadar(RadarUser targetDataOwner, Long radarId)
+    {
+        boolean retVal = isOwnerOrAdmin(targetDataOwner);
+
+        if(retVal == false)
+        {
+            retVal = this.isInTeam(radarId);
         }
 
         return retVal;

@@ -11,9 +11,9 @@
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarItemService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTemplateService.js"></script>
     <script type="text/javascript" charset="utf-8" src="/script/Services/RadarUserService.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/TeamService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/TeamRadarController.js"></script>
     <style type="text/css" media="screen">
 
         #fig {
@@ -30,62 +30,56 @@
     <input sec:authorize="isAuthenticated()" type="hidden" id="isAnonymous" name="isAnonymous" value="false"/>
     <input sec:authorize="isAnonymous()" type="hidden" id="isAnonymous" name="isAnonymous" value="true"/>
     <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+    <input type="hidden" id="teamId" name="teamId" th:value="${teamId}"/>
     <input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
-    <input type="hidden" id="radarTemplateId" name="radarTemplateId" th:value="${radarTemplateId}"/>
-    <div class="panel panel-techradar"  ng-controller="RadarController">
-        <div sec:authorize="isAuthenticated()" class="panel-heading-techradar">Viewing your Radar details</div>
-        <div sec:authorize="isAnonymous()" class="panel-heading-techradar" ng-init="getDataOwnerDetails()">
-            Viewing {{ dataOwnerDetails.nickname }}'s Radars
-        </div>
+    <div class="panel panel-techradar"  ng-controller="TeamRadarController">
+        <div class="panel-heading-techradar">Viewing your Team Radars</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-4" ng-init="getRadarTemplates(currentUserId)">
+                <div class="col-md-4" ng-init="getUserTeams(currentUserId)">
                     <div class="dropdown pull-left">
-                        <label for="radarTemplateDropdown">Select Radar Template:</label>
-                        <button class="btn btn-default dropdown-toggle" type="button" id="radarTemplateDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {{selectedRadarTemplate.name}}
+                        <label for="userTeamsDropdown">Select A Team:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="userTeamsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedUserTeam.name}}
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="radarTemplateDropdown">
-                            <li><a ng-click="radarTemplateAllSelected(currentUserId)" title="See a combined view of all radars of this type">{{ allOptionName }}</a></li>
-                            <li ng-repeat="radarTemplate in radarTemplates"><a ng-click="radarTemplateDropdownSelected(currentUserId, radarTemplate)" title="{{ radarTemplate.description }}">{{radarTemplate.name}}</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="userTeamsDropdown">
+                            <li ng-repeat="userTeam in userTeams">
+                                <a ng-click="userTeamDropdownSelected(currentUserId, userTeam)" title="{{ userTeam.description }}">{{userTeam.name}}</a>
+                            </li>
                         </ul>
                     </div>
-                    <a href="{{ mostRecentRadarsLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
                 <div class="col-md-8">
-                    <div>{{selectedRadarTemplate.description}}</div>
+                    <div>{{selectedUserTeam.description}}</div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <div class="dropdown pull-left">
-                        <label for="radarInstanceDropdown">Select Radar:</label>
-                        <button class="btn btn-default dropdown-toggle" type="button" id="radarInstanceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {{getDropdownLabel(selectedRadarInstance)}}
+                        <label for="teamRadarDropdown">Select Radar:</label>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="teamRadarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{selectedTeamRadar.name}}
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
-                            <li><a ng-click="showCurrentRadarSelected(currentUserId)" ng-show="showFullViewOption==true">Full View</a></li>
-                            <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)" title="{{ radarInstance.description }}">{{getDropdownLabel(radarInstance)}}</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="teamRadarDropdown">
+                            <li ng-repeat="teamRadar in teamRadars"><a ng-click="teamRadarsDropdownSelected(currentUserId, teamRadar)" title="{{ teamRadar.description }}">{{teamRadar.name}}</a></li>
                         </ul>
                     </div>
-                    <a href="{{ publicRadarLink }}"><img src="/images/LinkIcon.png" alt=""/></a>
                 </div>
                 <div class="col-md-3" sec:authorize="isAuthenticated()">
                     <button type="button" class="btn btn-techradar" ng-click="clickAddItemButton()" ng-Show="canEditRadar==true">Add Item</button>
                 </div>
             </div>
+        </div>
+        <div id="addItemSection" sec:authorize="isAuthenticated()" ng-Show="showAddItemSection">
             <div class="row">
-                <div class="col-md-9">
-                    <div id="radar"></div>
-                </div>
-                <div class="col-md-3" id="addItemSection" sec:authorize="isAuthenticated()" ng-Show="showAddItemSection">
-                    <div class="panel panel-techradar">
-                        <div class="panel-heading-techradar">Radar Item</div>
-                        <div id="technologyAssessmentDetailsPanel" class="panel-body">
-                            <form name="radarItemInputForm">
-                                <div class="row">
+                <div class="panel panel-techradar">
+                    <div class="panel-heading-techradar">Radar Item</div>
+                    <div id="technologyAssessmentDetailsPanel" class="panel-body">
+                        <form name="radarItemInputForm">
+                            <div class="row">
+                                <div class="col-md-3">
                                     <label for="newTechnologyName">Name</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="newTechnologyName" name="newTechnologyName" ng-model="selectedRadarInstanceItem.technology.name" ng-keypress="clearTechnologySelection()"/>
@@ -97,7 +91,26 @@
                                         <li class="list-group-item" ng-repeat="searchResult in technologySearchResults" ng-click="selectTechnology(searchResult)">{{searchResult.name}}</li>
                                     </ul>
                                 </div>
-                                <div class="row">
+                                <div class="col-md-3">
+                                    <label for="newTechnologyUrl">Url</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="newTechnologyUrl" name="newTechnologyUrl" ng-model="selectedRadarInstanceItem.technology.url" ng-required="true"/>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-techradar" ng-disabled="false"><a href="{{selectedRadarInstanceItem.technology.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a></button>
+                                        </div>
+                                    </div>
+                                    <p ng-show="radarItemInputForm.newTechnologyUrl.$error.required">A Url is required</p>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-techradar" ng-click="clearRadarItemSelection();">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
                                     <div class="dropdown pull-left">
                                         <label for="radarCategoryDropdown">Category</label>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="radarCategoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -109,17 +122,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label for="newTechnologyUrl">Url</label>
-                                    <p ng-show="radarItemInputForm.newTechnologyUrl.$error.required">A Url is required</p>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="newTechnologyUrl" name="newTechnologyUrl" ng-model="selectedRadarInstanceItem.technology.url" ng-required="true"/>
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-techradar" ng-disabled="false"><a href="{{selectedRadarInstanceItem.technology.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
+                                <div class="col-md-3">
                                     <div class="dropdown pull-left">
                                         <label for="radarRingDropdown">Radar Ring:</label>
                                         <button class="btn btn-default dropdown-toggle" type="button" id="radarRingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -131,44 +134,46 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row" ng-show="false">
-                                    <div class="dropdown pull-left">
-                                        <label for="confidenceLevelDropdown">How well is it going so far?</label>
-                                        <button class="btn btn-techradar dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            {{selectedConfidence}}
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="confidenceLevelDropdown">
-                                            <li><a ng-click="selectConfidence(2)">Not very well</a></li>
-                                            <li><a ng-click="selectConfidence(5)">As expected</a></li>
-                                            <li><a ng-click="selectConfidence(7)">Very well</a></li>
-                                        </ul>
+                                <div class="col-md-3">
+                                    <div ng-show="false">
+                                        <div class="dropdown pull-left">
+                                            <label for="confidenceLevelDropdown">How well is it going so far?</label>
+                                            <button class="btn btn-techradar dropdown-toggle" type="button" id="confidenceLevelDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                {{selectedConfidence}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="confidenceLevelDropdown">
+                                                <li><a ng-click="selectConfidence(2)">Not very well</a></li>
+                                                <li><a ng-click="selectConfidence(5)">As expected</a></li>
+                                                <li><a ng-click="selectConfidence(7)">Very well</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-techradar" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
                                     <div class="form-group">
                                         <label for="newTechnologyDetails">Details</label>
                                         <p ng-show="radarItemInputForm.newTechnologyDetails.$error.required">Radar Item details are required</p>
                                         <p ng-show="radarItemInputForm.newTechnologyDetails.$error.minLength">Minimum length details are required</p>
-                                        <textarea rows="10" id="newTechnologyDetails" name="newTechnologyDetails" class="form-control" ng-model="selectedRadarInstanceItem.details" ng-required="true" ng-minlenght="1"/>
+                                        <textarea rows="5" id="newTechnologyDetails" name="newTechnologyDetails" class="form-control" ng-model="selectedRadarInstanceItem.details" ng-required="true" ng-minlenght="1"/>
                                     </div>
-                                </div>
-                            </form>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-techradar" ng-click="clearRadarItemSelection();">Clear</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-techradar" ng-click="addRadarItem(currentUserId);" ng-disabled="!canAddRadarItem(radarItemInputForm.$valid)">Save</button>
                                 </div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-techradar" ng-click="deleteRadarItem(currentUserId, selectedRadarInstance.id, selectedRadarInstanceItem.id);" ng-disabled="!isExistingRadarInstanceItemSelected()">Delete</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div id="radar"></div>
         </div>
     </div>
     <div th:replace="fragments/footer :: uiFooter"></div>

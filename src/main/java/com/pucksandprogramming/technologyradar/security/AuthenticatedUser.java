@@ -89,6 +89,11 @@ public class AuthenticatedUser
         return splitSubject[splitSubject.length - 1];
     }
 
+    public boolean isAdmin()
+    {
+        return this.hasPrivilege(Role.createRole(Role.RoleType_Admin).getName());
+    }
+
     public void extractJWTDetails(DecodedJWT jwt)
     {
         this.addGrantedAuthorities(jwt);

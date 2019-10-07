@@ -18,13 +18,19 @@ public class RadarItem implements Serializable
     private Integer confidenceFactor;
     private RadarCategory radarCategory;
     private Integer state;
+    private RadarUser creator;
 
     public RadarItem()
     {
 
     }
 
-    public RadarItem(Long id, Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
+    public RadarItem(Long id,
+                     Technology targetTechnology,
+                     RadarCategory radarCategory,
+                     RadarRing radarRing,
+                     Integer confidenceLevel,
+                     String assessmentDetails)
     {
         this.setId(id);
         this.setDetails(assessmentDetails);
@@ -55,6 +61,9 @@ public class RadarItem implements Serializable
 
     public Integer getState() { return this.state;}
     public void setState(Integer value) { this.state = value;}
+
+    public RadarUser getCreator() { return this.creator;}
+    public void setCreator(RadarUser value) { this.creator = value;}
 
     public void determineState(RadarItem previousRadarItem)
     {

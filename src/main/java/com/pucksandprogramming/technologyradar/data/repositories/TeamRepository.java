@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,39 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
     protected TeamEntity findOne(Team domainModel)
     {
         return this.entityRepository.findOne(domainModel.getId());
+    }
+
+    public List<Team> findTeamsUserBelongsTo(Long memberId)
+    {
+        List<Team> retVal = new ArrayList<>();
+
+        Query query = entityManager.createNamedQuery("findByMemberId");
+        query.setParameter("memberId", memberId);
+        List<TeamEntity> foundItems = query.getResultList();
+
+        if (foundItems != null && foundItems.isEmpty()==false)
+        {
+            retVal = this.mapList(foundItems);
+        }
+
+        return retVal;
+    }
+
+    public List<Team> findByRadarAndMember(Long radarId, Long memberId)
+    {
+        List<Team> retVal = new ArrayList<>();
+
+        Query query = entityManager.createNamedQuery("findByRadarIdAndMemberId");
+        query.setParameter("memberId", memberId);
+        query.setParameter("radarId", radarId);
+        List<TeamEntity> foundItems = query.getResultList();
+
+        if (foundItems != null && foundItems.isEmpty()==false)
+        {
+            retVal = this.mapList(foundItems);
+        }
+
+        return retVal;
     }
 
     @Override

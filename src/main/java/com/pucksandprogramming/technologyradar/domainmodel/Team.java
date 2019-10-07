@@ -49,6 +49,25 @@ public class Team
     }
     private void setRadars(List<Radar> value) { this.radars = value;}
 
+    public boolean isMember(Long userId)
+    {
+        boolean retVal = false;
+
+        if(this.getMembers()!=null)
+        {
+            for(RadarUser teamMember : this.getMembers())
+            {
+                if(teamMember.getId().compareTo(userId)==0)
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+        }
+
+        return retVal;
+    }
+
     public void addMember(RadarUser newTeamMember)
     {
         if(newTeamMember.getId()!=this.getOwner().getId())

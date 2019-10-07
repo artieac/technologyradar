@@ -204,6 +204,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                     newItem.setState(assessmentItem.getState());
+                    newItem.setCreator(this.radarUserDAO.findOne(assessmentItem.getCreator().getId()));
 
                     TechnologyEntity targetTechnology = null;
 

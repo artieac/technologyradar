@@ -7,6 +7,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "Teams")
+@org.hibernate.annotations.NamedNativeQueries
+(
+    {
+        @org.hibernate.annotations.NamedNativeQuery(name = "findByMemberId", query = "SELECT * From Teams t INNER JOIN TeamMembers tm on t.Id = tm.TeamId WHERE tm.MemberId = :memberId", resultClass = TeamEntity.class),
+        @org.hibernate.annotations.NamedNativeQuery(name = "findByRadarIdAndMemberId", query = "SELECT * From Teams t INNER JOIN TeamMembers tm on t.Id = tm.TeamId INNER JOIN TeamRadars tr on t.Id = tr.Id WHERE tm.MemberId = :memberId and tr.RadarId = :radarId", resultClass = TeamEntity.class)
+    }
+)
 public class TeamEntity
 {
     @Id

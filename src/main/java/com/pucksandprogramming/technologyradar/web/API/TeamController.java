@@ -6,6 +6,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.Team;
 import com.pucksandprogramming.technologyradar.services.TeamService;
 import com.pucksandprogramming.technologyradar.web.ControllerBase;
+import com.pucksandprogramming.technologyradar.web.Models.DiagramPresentation;
 import com.pucksandprogramming.technologyradar.web.Models.RadarViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.TeamViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
@@ -48,20 +49,20 @@ public class TeamController extends ControllerBase
         return retVal;
     }
 
-    @GetMapping(value = "/User/{userId}/Team/{teamId}", produces = "application/json")
+    @GetMapping(value = "/User/{userId}/TeamMembership", produces = "application/json")
     public @ResponseBody
-    TeamViewModel getAllByUser(@PathVariable Long userId,
-                                     @PathVariable Long teamId)
+    List<TeamViewModel> getAllMembershipByUser(@PathVariable Long userId)
     {
-        TeamViewModel retVal = null;
+        List<TeamViewModel> retVal = new ArrayList<>();
 
-        if(this.getCurrentUserId()==userId || this.getCurrentUser().getRoleId()== Role.RoleType_Admin)
+        List<Team> foundItems = this.teamService.findAllUserBelongsTo(userId);
+
+        if(foundItems!=null)
         {
-            Team foundItem = this.teamService.findByUserAndTeam(userId, teamId);
-
-            if(foundItem != null)
+            for(Team foundItem : foundItems)
             {
-                retVal = new TeamViewModel(foundItem);
+                foundItem.getMembers().clear();
+                retVal.add(new TeamViewModel(foundItem));
             }
         }
 

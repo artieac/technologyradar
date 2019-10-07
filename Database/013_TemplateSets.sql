@@ -1,13 +1,23 @@
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE TABLE `RadarCategorySets`(
+DROP TABLE `TeamMembers`;
+
+CREATE TABLE `TeamMembers`(
 	`Id` BIGINT NOT NULL AUTO_INCREMENT,
-    `RadarUserId` BIGINT NOT NULL,
-	`Name` NVARCHAR(50) NOT NULL,
-	`Description` NVARCHAR(1024) NOT NULL,
+	`TeamId` BIGINT NOT NULL,
+	`MemberId` BIGINT NOT NULL,
 	PRIMARY KEY (`Id`),
-	UNIQUE INDEX `IX_RadarCategorySets_Id` (`Id` ASC));
+	INDEX `IX_TeamMember_Id` (`Id` ASC),
+	INDEX `IX_Teams_TeamId` (`TeamId` ASC),
+	INDEX `IX_Teams_MemberId` (`MemberId` ASC));
+    
+CREATE TABLE `TeamRadars`(
+	`Id` BIGINT NOT NULL AUTO_INCREMENT,
+	`TeamId` BIGINT NOT NULL,
+	`RadarId` BIGINT NOT NULL,
+	PRIMARY KEY (`Id`),
+	INDEX `IX_TeamRadar_Id` (`Id` ASC),
+	INDEX `IX_Teams_TeamId` (`TeamId` ASC),
+	INDEX `IX_Teams_RadarId` (`RadarId` ASC));
 
-ALTER TABLE `RadarCategories` ADD COLUMN `RadarCategorySetId` BIGINT;
-
-
+ALTER TABLE `TechnologyAssessmentItems` ADD COLUMN `CreatorId` BIGINT NOT NULL DEFAULT 1;

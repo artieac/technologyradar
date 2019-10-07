@@ -10,6 +10,7 @@ public abstract class ServiceBase
 {
     private RadarUserRepository radarUserRepository;
     private AuthenticatedUser authenticatedUser = null;
+    private RadarUser loggedInUser = null;
 
     public ServiceBase(RadarUserRepository radarUserRepository)
     {
@@ -34,5 +35,18 @@ public abstract class ServiceBase
         }
 
         return this.authenticatedUser;
+    }
+
+    public RadarUser getLoggedInUser()
+    {
+        if(this.loggedInUser==null)
+        {
+            if(this.getAuthenticatedUser()!=null)
+            {
+                this.loggedInUser = this.radarUserRepository.findOne(this.getAuthenticatedUser().getUserId());
+            }
+        }
+
+        return this.loggedInUser;
     }
 }
