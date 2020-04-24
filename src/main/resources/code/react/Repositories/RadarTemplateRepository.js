@@ -1,7 +1,7 @@
 export class RadarTemplateRepository {
     createDefaultRadarTemplate(name){
             var retVal = {};
-            retVal.id = '';
+            retVal.id = -1;
             retVal.name= name;
 
             retVal.radarRings = [];

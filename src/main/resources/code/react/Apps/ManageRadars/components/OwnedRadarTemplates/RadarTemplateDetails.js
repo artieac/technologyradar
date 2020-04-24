@@ -109,6 +109,11 @@ class RadarTemplateDetails extends React.Component{
                                 <div className="panel panel-default">
                                     <div className="panel-heading">Categories</div>
                                     <div className="panel-body">
+                                        <div className="row">
+                                            <div className="col-md-6"><b>Name</b></div>
+                                            <div className="col-md-2"><b>Icon Color</b></div>
+                                        </div>
+                                        <div className="row"></div>
                                         {this.props.selectedRadarTemplate.radarCategories.map((currentRow) =>{
                                             return <RadarCategoryDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer } colorMap={this.state.radarCategoriesColorMap} colorNameMap={this.state.radarCategoriesColorNameMap} editMode={this.props.editMode}/>
                                             })}
