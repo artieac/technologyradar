@@ -30,6 +30,12 @@ class RadarRingList extends React.Component{
         if(this.props.radarRings!==undefined && this.props.radarRings.length > 0){
             return(
                 <div className="panel-body">
+                    <div className="row">
+                        <div className="col-md-6"><b>Name</b></div>
+                        <div className="col-md-2"><b>Sort Order</b></div>
+                        <div className="col-md-2"></div>
+                    </div>
+                    <div className="row"></div>
                     {this.props.radarRings.map((currentRow) => {
                         return <RadarRingListItem key={currentRow.id} rowData={currentRow} editMode={this.props.editMode} listContainer={this} canAddOrDelete={this.props.canAddOrDelete}/>
                         })}

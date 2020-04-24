@@ -22,7 +22,7 @@ export class RadarTemplateDropdown extends React.Component{
     }
 
     getTitle(){
-        var retVal = "Select";
+        var retVal = "Select Template";
 
         if(this.state.selectedRadarTemplate !== undefined && this.state.selectedRadarTemplate.name !==undefined){
             retVal = this.state.selectedRadarTemplate.name;

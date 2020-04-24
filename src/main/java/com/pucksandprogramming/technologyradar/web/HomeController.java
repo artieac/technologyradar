@@ -172,7 +172,7 @@ public class HomeController extends ControllerBase
         return modelAndView;
     }
 
-    @GetMapping(value = { "/public/home/user/{userId}/RadarTemplate/{radarTemplateId}/Version/{radarTemplateVersion}/Radar/FullView"})
+    @GetMapping(value = { "/public/home/user/{userId}/radartemplate/{radarTemplateId}/radar/fullview"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
                                                 @PathVariable Long radarTemplateId)
 

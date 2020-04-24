@@ -109,6 +109,7 @@ class AddFromPreviousRadarPage extends React.Component{
             <div>
                 <div className="row">
                     <div className="col-lg-4">
+                        <label>Source Radar Instance</label>
                         <RadarsDropdown data={this.state.filteredRadarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.currentUser.id} setSourceRadarInstance={setSourceRadarInstance}/>
                         <button type="button" className="btn btn-techradar" onClick={ (event) => { this.handleAddItemsToRadarClick(event) }}>Add</button>
                     </div>

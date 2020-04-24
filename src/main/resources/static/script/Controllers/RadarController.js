@@ -117,9 +117,9 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
             if(!$scope.isNullOrUndefined(radarInstanceId) && radarInstanceId !== '')
             {
-                if(radarInstanceId==-1)
+                if(radarInstanceId==="-1")
                 {
-                    $scope.showCurrentRadarSelected($scope.currentUserId);
+                    $scope.showCurrentRadarTemplateFullView($scope.currentUserId);
                 }
                 else
                 {
@@ -323,9 +323,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
 
         if (!$scope.isNullOrUndefined($scope.radarTemplates) &&
             !$scope.isNullOrUndefined(radarTemplateId) &&
-            radarTemplateId !== '' &&
-            !$scope.isNullOrUndefined(radarTemplateVersion) &&
-            radarTemplateVersion !== '')
+            radarTemplateId !== '')
         {
             for (var i = 0; i < $scope.radarTemplates.length; i++)
             {
@@ -351,7 +349,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.getUserRadars(currentUserId, $scope.selectedRadarTemplate, $scope.isAnonymous);
     }
 
-    $scope.showCurrentRadarSelected = function(currentUserId)
+    $scope.showCurrentRadarTemplateFullView = function(currentUserId)
     {
         $scope.canEditRadar = false;
         $scope.selectedRadarInstance = {};
@@ -359,7 +357,7 @@ theApp.controller('RadarController', function ($scope, $resource, $http, RadarIn
         $scope.selectedRadarInstance.name = $scope.fullViewOptionName;
         $scope.selectedRadarInstance.formattedAssessmentDate = "";
 
-        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/RadarTemplate/' + $scope.selectedRadarTemplate.id + '/Radar/FullView';
+        $scope.publicRadarLink = "/public/home/user/" + currentUserId + '/radartemplate/' + $scope.selectedRadarTemplate.id + '/radar/fullview';
 
         RadarInstanceService.getRadarFullView(currentUserId, $scope.selectedRadarTemplate.id, $scope.renderRadar);
     }

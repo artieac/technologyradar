@@ -63,7 +63,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="radarInstanceDropdown">
-                            <li><a ng-click="showCurrentRadarSelected(currentUserId)" ng-show="showFullViewOption==true">Full View</a></li>
+                            <li><a ng-click="showCurrentRadarTemplateFullView(currentUserId)" ng-show="showFullViewOption==true">Full View</a></li>
                             <li ng-repeat="radarInstance in radarInstanceList"><a ng-click="radarInstanceDropdownSelected(currentUserId, radarInstance)" title="{{ radarInstance.description }}">{{getDropdownLabel(radarInstance)}}</a></li>
                         </ul>
                     </div>
