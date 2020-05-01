@@ -77,10 +77,14 @@ public class HomeController extends ControllerBase
         {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
-            if (radarInstances != null && radarInstances.size() > 0)
-            {
-                modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
+            if (radarInstances != null && radarInstances.size() > 0) {
                 modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
+
+                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                    modelAndView.addObject("radarInstanceId", -1);
+                } else {
+                    modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
+                }
             }
         }
 
@@ -118,21 +122,27 @@ public class HomeController extends ControllerBase
 
     @RequestMapping(value = { "/public/home/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
     public ModelAndView mostRecentRadar(@PathVariable Long userId,
-                                        @RequestParam(name="embeddable", required = false, defaultValue="false") Boolean isEmbeddable)
-    {
+                                        @RequestParam(name="embeddable", required = false, defaultValue="false") Boolean isEmbeddable) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
+        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(radarInstances != null && radarInstances.size() > 0)
-        {
-            modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
-            modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
+        if(targetDataOwner!=null) {
+            List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
+
+            if (radarInstances != null && radarInstances.size() > 0) {
+                modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
+
+                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                    modelAndView.addObject("radarInstanceId", -1);
+                } else {
+                    modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
+                }
+            }
         }
-
-        if(isEmbeddable)
-        {
+        
+        if(isEmbeddable) {
             modelAndView.setViewName("home/embeddedradar");
         }
         else {

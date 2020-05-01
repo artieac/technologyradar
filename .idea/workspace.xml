@@ -3,17 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e870002e-a592-49b4-8d6b-b937b1de7002" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pucksandprogramming/technologyradar/web/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/AddFromPrevious/AddFromPreviousRadarPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTemplateDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/ManageRadars/RadarTemplateDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTemplates/RadarRingList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTemplates/RadarRingList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTemplates/RadarTemplateDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Apps/ManageRadars/components/OwnedRadarTemplates/RadarTemplateDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/code/react/Repositories/RadarTemplateRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/code/react/Repositories/RadarTemplateRepository.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/script/Controllers/RadarController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error/accessdenied.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error/accessdenied.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home/radar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/technologyradar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/technologyradar.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
