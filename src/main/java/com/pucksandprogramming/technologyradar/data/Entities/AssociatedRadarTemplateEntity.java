@@ -7,8 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "AssociatedRadarTemplates")
-public class AssociatedRadarTemplateEntity
-{
+public class AssociatedRadarTemplateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -20,8 +19,7 @@ public class AssociatedRadarTemplateEntity
     @Column(name = "RadarTemplateId", nullable = false)
     private Long radarTemplateId;
 
-    public AssociatedRadarTemplateEntity()
-    {
+    public AssociatedRadarTemplateEntity() {
 
     }
 

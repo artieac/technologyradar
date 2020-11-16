@@ -23,8 +23,7 @@ import java.util.Optional;
  */
 
 @Controller
-public class HomeController extends ControllerBase
-{
+public class HomeController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
@@ -40,22 +39,18 @@ public class HomeController extends ControllerBase
     }
 
     @RequestMapping(value = { "/home/secureradar", "/home/secureradar/{radarInstanceId}" })
-    public ModelAndView secureRadar(@PathVariable Optional<Long> radarInstanceId)
-    {
+    public ModelAndView secureRadar(@PathVariable Optional<Long> radarInstanceId) {
         ModelAndView modelAndView = new ModelAndView();
         RadarUser currentUser = this.getCurrentUser();
 
-        if(currentUser != null)
-        {
+        if(currentUser != null) {
             modelAndView.addObject("userId", currentUser.getId());
         }
 
-        if(radarInstanceId.isPresent())
-        {
+        if(radarInstanceId.isPresent()) {
             Radar targetRadar = this.radarService.findById(radarInstanceId.get());
 
-            if (targetRadar != null)
-            {
+            if (targetRadar != null) {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
                 modelAndView.addObject("radarTemplateId", targetRadar.getRadarTemplate().getId());
             }
@@ -66,15 +61,13 @@ public class HomeController extends ControllerBase
     }
 
     @RequestMapping(value = { "/home/user/{userId}/radars"})
-    public ModelAndView viewUserRadars(@PathVariable Long userId)
-    {
+    public ModelAndView viewUserRadars(@PathVariable Long userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
         RadarUser targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(targetDataOwner!=null)
-        {
+        if(targetDataOwner!=null) {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
             if (radarInstances != null && radarInstances.size() > 0) {
@@ -96,13 +89,11 @@ public class HomeController extends ControllerBase
     // I hate this url format, but I can't figure out how to get seccurity working with the
     // format that I want
     @RequestMapping(value = { "/public/home/user/{userId}/radar/{radarInstanceId}" })
-    public ModelAndView publicRadar(@PathVariable Long userId, @PathVariable Optional<Long> radarInstanceId)
-    {
+    public ModelAndView publicRadar(@PathVariable Long userId, @PathVariable Optional<Long> radarInstanceId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        if(radarInstanceId.isPresent())
-        {
+        if(radarInstanceId.isPresent()) {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
             RadarUser dataOwner = this.radarUserService.findOne(userId);
@@ -110,8 +101,7 @@ public class HomeController extends ControllerBase
             // TBD if they can't share with others make sure this is the most recent.
             Radar radarInstance = this.radarService.findByUserAndRadarId(userId, radarInstanceId.get());
 
-            if(radarInstance!=null)
-            {
+            if(radarInstance!=null) {
                 modelAndView.addObject("radarTemplateId", radarInstance.getRadarTemplate().getId());
             }
         }
@@ -156,22 +146,18 @@ public class HomeController extends ControllerBase
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
                                                 @PathVariable Long radarTemplateId,
                                                 @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
-
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTemplateId", radarTemplateId);
 
-        if(mostRecent==true)
-        {
+        if(mostRecent==true) {
             List<Radar> radarInstances = this.radarService.findByUserAndType(userId, radarTemplateId);
 
-            if (radarInstances != null && radarInstances.size() > 0)
-            {
+            if (radarInstances != null && radarInstances.size() > 0) {
                 Radar mostRecentRadar = Collections.max(radarInstances, new MostRecentRadarComparator());
 
-                if (mostRecentRadar != null)
-                {
+                if (mostRecentRadar != null) {
                     modelAndView.addObject("radarInstanceId", mostRecentRadar.getId());
                 }
             }
@@ -185,7 +171,6 @@ public class HomeController extends ControllerBase
     @GetMapping(value = { "/public/home/user/{userId}/radartemplate/{radarTemplateId}/radar/fullview"})
     public ModelAndView mostRecentRadarByType(  @PathVariable Long userId,
                                                 @PathVariable Long radarTemplateId)
-
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
@@ -193,8 +178,7 @@ public class HomeController extends ControllerBase
 
         RadarUser dataOwner = this.radarUserService.findOne(userId);
 
-        if(dataOwner!=null && dataOwner.getUserType().getId()!= UserType.Free)
-        {
+        if(dataOwner!=null && dataOwner.getUserType().getId()!= UserType.Free) {
             modelAndView.addObject("radarInstanceId", -1);
         }
 
@@ -204,8 +188,7 @@ public class HomeController extends ControllerBase
     }
 
     @RequestMapping(value = { "/public/home/about", "/public/home/about" })
-    public ModelAndView About()
-    {
+    public ModelAndView About() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home/about");
         return modelAndView;

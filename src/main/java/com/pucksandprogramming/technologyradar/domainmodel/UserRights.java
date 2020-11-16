@@ -1,7 +1,6 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
-public class UserRights
-{
+public class UserRights {
     public static final String CanShareRadarTemplates = "CanShareRadarTemplates";
     public static final String CanShareNRadars = "CanShareNRadars";
     public static final String AllowTeamMembersToManageRadars = "AllowTeamMembersToManageRadars";

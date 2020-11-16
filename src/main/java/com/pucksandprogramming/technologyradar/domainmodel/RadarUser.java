@@ -15,8 +15,7 @@ public class RadarUser {
     private String name;
     private UserType userType;
 
-    public RadarUser()
-    {
+    public RadarUser() {
 
     }
 
@@ -57,8 +56,7 @@ public class RadarUser {
         return this.userType.getGrantValue(UserRights.CanShareNRadars);
     }
 
-    public boolean canHaveVariableRadarRingCounts()
-    {
+    public boolean canHaveVariableRadarRingCounts() {
         return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount);
     }
 }

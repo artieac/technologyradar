@@ -46,8 +46,7 @@ import java.util.List;
         @org.hibernate.annotations.NamedNativeQuery(name = "findByTechnologyIdAndIsPublished", query = "SELECT * FROM TechnologyAssessments ta WHERE ta.IsPublished = :isPublished AND ta.Id IN (SELECT TechnologyAssessmentId FROM TechnologyAssessmentItems WHERE TechnologyId = :technologyId)", resultClass = RadarEntity.class),
     }
 )
-public class RadarEntity
-{
+public class RadarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -76,8 +75,7 @@ public class RadarEntity
     @JoinColumn(name="RadarTemplateId", nullable = false)
     private RadarTemplateEntity radarTemplate;
 
-    public RadarEntity()
-    {
+    public RadarEntity() {
 
     }
 

@@ -5,8 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class RadarRingPresentation
-{
+public class RadarRingPresentation {
     // TBD make this dynamic
     private static final int arcWidthSegments = 10;
 
@@ -14,8 +13,7 @@ public class RadarRingPresentation
     private Integer arcStart;
     private Integer arcWidth;
 
-    public RadarRingPresentation(RadarRing radarRing, Integer arcStart, Integer arcWidth)
-    {
+    public RadarRingPresentation(RadarRing radarRing, Integer arcStart, Integer arcWidth) {
         this.radarRing = radarRing;
         this.arcStart = arcStart;
         this.arcWidth = arcWidth;

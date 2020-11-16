@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * Created by acorrea on 10/26/2016.
  */
-public class RadarSubjectBreakdown
-{
+public class RadarSubjectBreakdown {
     Technology targetTechnology;
     List<RadarSubjectBreakdownItem> userItems;
     List<RadarSubjectBreakdownItem> otherUsersItems;
@@ -28,28 +27,21 @@ public class RadarSubjectBreakdown
 
     public List<RadarSubjectBreakdownItem> getOtherUsersItems() { return this.otherUsersItems;}
 
-    public void addOwnedRadarSubjectAssessment(Radar radarInstance)
-    {
-        if(radarInstance.getRadarItems() != null)
-        {
-            for(int i = 0; i < radarInstance.getRadarItems().size(); i++)
-            {
-                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
-                {
+    public void addOwnedRadarSubjectAssessment(Radar radarInstance) {
+        if(radarInstance.getRadarItems() != null) {
+            for(int i = 0; i < radarInstance.getRadarItems().size(); i++) {
+                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId()) {
                     this.addRadarSubjectAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i), true);
                     break;
                 }
             }
         }
     }
-    public void addPublishedRadarSubjectAssessment(Radar radarInstance)
-    {
-        if(radarInstance.getRadarItems() != null)
-        {
-            for(int i = 0; i < radarInstance.getRadarItems().size(); i++)
-            {
-                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId())
-                {
+
+    public void addPublishedRadarSubjectAssessment(Radar radarInstance) {
+        if(radarInstance.getRadarItems() != null) {
+            for(int i = 0; i < radarInstance.getRadarItems().size(); i++) {
+                if (radarInstance.getRadarItems().get(i).getTechnology().getId() == this.targetTechnology.getId()) {
                     this.addRadarSubjectAssessmentItem(radarInstance, radarInstance.getRadarItems().get(i), false);
                     break;
                 }
@@ -57,15 +49,12 @@ public class RadarSubjectBreakdown
         }
     }
 
-    public void addRadarSubjectAssessmentItem(Radar assessment, RadarItem assessmentItem, boolean isOwned)
-    {
-        if(this.userItems == null)
-        {
+    public void addRadarSubjectAssessmentItem(Radar assessment, RadarItem assessmentItem, boolean isOwned) {
+        if(this.userItems == null) {
             this.userItems = new ArrayList<RadarSubjectBreakdownItem>();
         }
 
-        if(this.otherUsersItems == null)
-        {
+        if(this.otherUsersItems == null) {
             this.otherUsersItems = new ArrayList<RadarSubjectBreakdownItem>();
         }
 
@@ -78,12 +67,10 @@ public class RadarSubjectBreakdown
         newItem.setAssessmentRing(assessmentItem.getRadarRing());
         newItem.setAssessmentDetails(assessmentItem.getDetails());
 
-        if(isOwned)
-        {
+        if(isOwned) {
             this.userItems.add(newItem);
         }
-        else
-        {
+        else {
             this.otherUsersItems.add(newItem);
         }
     }

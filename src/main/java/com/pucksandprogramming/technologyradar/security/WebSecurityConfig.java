@@ -69,8 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        if(this.securityEnabled==true)
-        {
+        if(this.securityEnabled==true) {
             http
                     .authorizeRequests()
                         .antMatchers("/script/**",
@@ -94,8 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
                     .and().logout().permitAll();
         }
-        else
-        {
+        else {
             http
                     .authorizeRequests()
                     .antMatchers("/script/**",
@@ -114,8 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
     }
 
-    private boolean shouldUseEnvironmentForConfiguration()
-    {
+    private boolean shouldUseEnvironmentForConfiguration() {
         boolean retVal = false;
 
         String propertyValue = env.getProperty("com.pucksandprogramming.useEnvironmentForConfiguration");
@@ -125,36 +122,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return retVal;
     }
 
-    public String getDomain()
-    {
+    public String getDomain() {
         String retVal = domain;
 
-        if(this.shouldUseEnvironmentForConfiguration())
-        {
+        if(this.shouldUseEnvironmentForConfiguration()) {
             retVal = env.getProperty("AUTH0_DOMAIN");
         }
 
         return retVal;
     }
 
-    public String getClientId()
-    {
+    public String getClientId() {
         String retVal = clientId;
 
-        if(this.shouldUseEnvironmentForConfiguration())
-        {
+        if(this.shouldUseEnvironmentForConfiguration()) {
             retVal = env.getProperty("AUTH0_CLIENT_ID");
         }
 
         return retVal;
     }
 
-    public String getClientSecret()
-    {
+    public String getClientSecret() {
         String retVal = clientSecret;
 
-        if(this.shouldUseEnvironmentForConfiguration())
-        {
+        if(this.shouldUseEnvironmentForConfiguration()) {
             retVal = env.getProperty("AUTH0_CLIENT_SECRET");
         }
 

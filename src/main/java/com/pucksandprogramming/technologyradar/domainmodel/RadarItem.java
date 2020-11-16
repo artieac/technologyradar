@@ -5,8 +5,7 @@ import java.io.Serializable;
 /**
  * Created by acorrea on 10/19/2016.
  */
-public class RadarItem implements Serializable
-{
+public class RadarItem implements Serializable {
     public static final int State_New = 0;
     public static final int State_Changed = 1;
     public static final int State_Stable = 2;
@@ -19,13 +18,11 @@ public class RadarItem implements Serializable
     private RadarCategory radarCategory;
     private Integer state;
 
-    public RadarItem()
-    {
+    public RadarItem() {
 
     }
 
-    public RadarItem(Long id, Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails)
-    {
+    public RadarItem(Long id, Technology targetTechnology, RadarCategory radarCategory, RadarRing radarRing, Integer confidenceLevel, String assessmentDetails) {
         this.setId(id);
         this.setDetails(assessmentDetails);
         this.setRadarCategory(radarCategory);
@@ -56,19 +53,15 @@ public class RadarItem implements Serializable
     public Integer getState() { return this.state;}
     public void setState(Integer value) { this.state = value;}
 
-    public void determineState(RadarItem previousRadarItem)
-    {
+    public void determineState(RadarItem previousRadarItem) {
         this.setState(State_Stable);
 
-        if(previousRadarItem==null)
-        {
+        if(previousRadarItem==null) {
             this.setState(State_New);
         }
-        else
-        {
+        else {
             if((this.radarCategory.getId()!=previousRadarItem.getRadarCategory().getId()) ||
-                    this.radarRing.getId()!=previousRadarItem.getRadarRing().getId())
-            {
+                    this.radarRing.getId()!=previousRadarItem.getRadarRing().getId()) {
                 this.setState(State_Changed);
             }
         }

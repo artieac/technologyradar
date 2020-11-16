@@ -26,14 +26,12 @@ public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategor
         super(RadarCategory.class);
     }
 
-    public List<RadarCategory> findAll()
-    {
+    public List<RadarCategory> findAll() {
         List<RadarCategory> retVal = new ArrayList<RadarCategory>();
 
         Iterable<RadarCategoryEntity> radarCategories = this.entityRepository.findAll();
 
-        for (RadarCategoryEntity radarCategory : radarCategories)
-        {
+        for (RadarCategoryEntity radarCategory : radarCategories) {
             retVal.add(this.modelMapper.map(radarCategory, RadarCategory.class));
         }
 
@@ -41,8 +39,7 @@ public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategor
     }
 
     @Override
-    protected RadarCategoryEntity findOne(RadarCategory domainModel)
-    {
+    protected RadarCategoryEntity findOne(RadarCategory domainModel) {
         return this.entityRepository.findOne(domainModel.getId());
     }
 }

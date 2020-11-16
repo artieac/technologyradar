@@ -21,8 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @Secured("ROLE_ADMIN")
 @RequestMapping("/admin")
-public class AdminController extends ControllerBase
-{
+public class AdminController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
@@ -32,17 +31,14 @@ public class AdminController extends ControllerBase
     HttpServletRequest securityContext;
 
     @GetMapping("/index")
-    public ModelAndView index(Model viewModel)
-    {
+    public ModelAndView index(Model viewModel) {
         ModelAndView retVal = new ModelAndView();
         retVal.setViewName("admin/index");
 
         RadarUser currentUser = this.getCurrentUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             retVal.addObject("userId", currentUser.getId());
-        } else
-        {
+        } else {
             retVal.addObject("userId", -1);
         }
 

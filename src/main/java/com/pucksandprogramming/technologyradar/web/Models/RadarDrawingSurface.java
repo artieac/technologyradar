@@ -1,7 +1,6 @@
 package com.pucksandprogramming.technologyradar.web.Models;
 
-public class RadarDrawingSurface
-{
+public class RadarDrawingSurface {
     public static final Integer DisplayHeight = 1000;
     public static final Integer DisplayWidth = 1100;
     public static final Integer RingDiameter = 360;
@@ -20,13 +19,11 @@ public class RadarDrawingSurface
     private Integer numberOfCategories;
     private Integer radarRingDiameter;
 
-    public RadarDrawingSurface(Integer numberOfArcs, Integer numberOfCategories)
-    {
+    public RadarDrawingSurface(Integer numberOfArcs, Integer numberOfCategories) {
         this(numberOfArcs, numberOfCategories, RingDiameter, DisplayHeight, DisplayWidth, TopBorder, LeftBorder, MarginTop, MarginLeft);
     }
 
-    public RadarDrawingSurface(Integer numberOfRings, Integer numberOfCategories, Integer radarRingDiameter, Integer height, Integer width, Integer top, Integer left, Integer marginTop, Integer marginLeft)
-    {
+    public RadarDrawingSurface(Integer numberOfRings, Integer numberOfCategories, Integer radarRingDiameter, Integer height, Integer width, Integer top, Integer left, Integer marginTop, Integer marginLeft) {
         this.numberOfRings = numberOfRings;
         this.numberOfCategories = numberOfCategories;
         this.radarRingDiameter = radarRingDiameter;

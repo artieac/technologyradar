@@ -32,8 +32,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @Controller
-public class CallbackController
-{
+public class CallbackController {
     private static final Logger logger = Logger.getLogger(CallbackController.class);
 
     @Autowired
@@ -51,28 +50,23 @@ public class CallbackController
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
-    public CallbackController()
-    {
+    public CallbackController() {
         this.redirectOnFail = "/login";
         this.redirectOnSuccess = "/home/secureradar";
     }
 
     @RequestMapping(value = "/auth0callback", method = RequestMethod.GET)
-    protected void getCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException
-    {
+    protected void getCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
         handleAuth0Callback(req, res);
     }
 
     @RequestMapping(value = "/auth0callback", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    protected void postCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException
-    {
+    protected void postCallback(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
         handleAuth0Callback(req, res);
     }
 
-    private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException
-    {
-        try
-        {
+    private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        try {
             Tokens tokens = controller.handle(req);
 
             AuthenticatedUser authenticatedUser = new AuthenticatedUser();
@@ -80,8 +74,7 @@ public class CallbackController
 
             RadarUser targetUser = this.userService.findByAuthenticationId(authenticatedUser.getAuthSubjectIdentifier());
 
-            if(targetUser == null)
-            {
+            if(targetUser == null) {
                 targetUser = this.userService.addUser(  authenticatedUser.getAuthSubjectIdentifier(),
                                                         authenticatedUser.getAuthority(),
                                                         authenticatedUser.getAuthTokenIssuer(),
@@ -89,8 +82,7 @@ public class CallbackController
                                                         authenticatedUser.getNickname(),
                                                         authenticatedUser.getName());
 
-                if(targetUser.getId() > 0)
-                {
+                if(targetUser.getId() > 0) {
                     List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
 
                     for(RadarTemplate radarTemplate : defaultRadars)
@@ -100,13 +92,11 @@ public class CallbackController
                 }
             }
 
-            if(targetUser != null && targetUser.getId() > 0)
-            {
+            if(targetUser != null && targetUser.getId() > 0) {
                 Role userRole = Role.createRole(targetUser.getRoleId());
                 authenticatedUser.addGrantedAuthority(userRole.getName());
 
-                for(String permission : userRole.getPermissions())
-                {
+                for(String permission : userRole.getPermissions()) {
                     authenticatedUser.addGrantedAuthority(permission);
                 }
 
@@ -120,17 +110,14 @@ public class CallbackController
 
             res.sendRedirect(redirectOnSuccess);
         }
-
-        catch (AuthenticationException | IdentityVerificationException e)
-        {
+        catch (AuthenticationException | IdentityVerificationException e) {
             logger.error(e);
 
             e.printStackTrace();
             SecurityContextHolder.clearContext();
             res.sendRedirect(redirectOnFail);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             logger.error(e);
 
             e.printStackTrace();

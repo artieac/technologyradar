@@ -15,8 +15,7 @@ import java.util.List;
  * Created by acorrea on 10/18/2016.
  */
 @Repository
-public class TechnologyRepository extends SimpleDomainRepository<Technology, TechnologyEntity, TechnologyDAO, Long>
-{
+public class TechnologyRepository extends SimpleDomainRepository<Technology, TechnologyEntity, TechnologyDAO, Long> {
     @Autowired
     EntityManager entityManager;
 
@@ -30,14 +29,11 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         super(Technology.class);
     }
 
-    private List<Technology> mapList(List<TechnologyEntity> source)
-    {
+    private List<Technology> mapList(List<TechnologyEntity> source) {
         List<Technology> retVal = new ArrayList<>();
 
-        if(source!=null)
-        {
-            for(int i = 0; i < source.size(); i++)
-            {
+        if(source!=null) {
+            for(int i = 0; i < source.size(); i++) {
                 Technology newItem = this.modelMapper.map(source.get(i), Technology.class);
                 retVal.add(newItem);
             }
@@ -47,19 +43,16 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     }
 
     @Override
-    protected TechnologyEntity findOne(Technology domainModel)
-    {
+    protected TechnologyEntity findOne(Technology domainModel) {
         return this.entityRepository.findOne(domainModel.getId());
     }
 
-    public Technology findByName(String name)
-    {
+    public Technology findByName(String name) {
         Technology retVal = null;
 
         TechnologyEntity foundItem = this.entityRepository.findByName(name);
 
-        if(foundItem!=null)
-        {
+        if(foundItem!=null) {
             retVal = this.modelMapper.map(foundItem, Technology.class);
         }
 
@@ -67,51 +60,43 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     }
 
     // Simple name search for now
-    public List<Technology> searchByName(String technologyName)
-    {
+    public List<Technology> searchByName(String technologyName) {
         List<TechnologyEntity> foundItems = this.entityRepository.findByNameStartingWith(technologyName);
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByFilters(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId)
-    {
+    public List<Technology> findByFilters(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId) {
         boolean hasNonTechnologyFilter = false;
 
         boolean hasTechnologyName = false;
-        if(technologyName!=null && !technologyName.trim().isEmpty())
-        {
+        if(technologyName!=null && !technologyName.trim().isEmpty()) {
             hasTechnologyName = true;
         }
 
         boolean hasRadarTemplateId = false;
-        if(radarTemplateId != null && radarTemplateId != "")
-        {
+        if(radarTemplateId != null && radarTemplateId != "") {
             hasNonTechnologyFilter = true;
             hasRadarTemplateId = true;
         }
 
         boolean hasRadarRing = false;
-        if(radarRingId!=null && radarRingId > 0)
-        {
+        if(radarRingId!=null && radarRingId > 0) {
             hasRadarRing = true;
             hasNonTechnologyFilter = true;
         }
 
         boolean hasRadarCategory = false;
-        if(radarCategoryId != null && radarCategoryId > 0)
-        {
+        if(radarCategoryId != null && radarCategoryId > 0) {
             hasRadarCategory = true;
             hasNonTechnologyFilter = true;
         }
 
         String searchQuery = "SELECT * FROM Technology t WHERE";
 
-        if(hasTechnologyName)
-        {
+        if(hasTechnologyName) {
             searchQuery += " t.Name LIKE :technologyName";
 
-            if(hasNonTechnologyFilter)
-            {
+            if(hasNonTechnologyFilter) {
                 searchQuery += " AND";
             }
         }
@@ -129,8 +114,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
             }
 
             if (hasRadarRing) {
-                if(whereAdded == false)
-                {
+                if(whereAdded == false) {
                     searchQuery += " WHERE";
                 }
                 else {
@@ -144,8 +128,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
             }
 
             if (hasRadarCategory) {
-                if(whereAdded == false)
-                {
+                if(whereAdded == false) {
                     searchQuery += " WHERE";
                 }
                 else {
@@ -183,8 +166,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByRadarCategoryId(Long radarCategoryId)
-    {
+    public List<Technology> findByRadarCategoryId(Long radarCategoryId) {
         Query query = entityManager.createNamedQuery("findByRadarCategoryId");
         query.setParameter("radarCategoryId", radarCategoryId);
         List<TechnologyEntity> foundItems = query.getResultList();
@@ -192,16 +174,14 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     }
 
 
-    public List<Technology> findByRadarRingId(Long radarRingId)
-    {
+    public List<Technology> findByRadarRingId(Long radarRingId) {
         Query query = entityManager.createNamedQuery("findByRadarRingId");
         query.setParameter("radarRingId", radarRingId);
         List<TechnologyEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByNameAndRadarRingId(String technologyName, Long radarRingId)
-    {
+    public List<Technology> findByNameAndRadarRingId(String technologyName, Long radarRingId) {
         Query query = entityManager.createNamedQuery("findByNameAndRadarRingId");
         query.setParameter("technologyName", "%" + technologyName + "%");
         query.setParameter("radarRingId", radarRingId);
@@ -209,8 +189,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByNameAndRadarCategoryId(String technologyName, Long radarCategoryId)
-    {
+    public List<Technology> findByNameAndRadarCategoryId(String technologyName, Long radarCategoryId) {
         Query query = entityManager.createNamedQuery("findByNameAndRadarCategoryId");
         query.setParameter("technologyName", "%" + technologyName + "%");
         query.setParameter("radarCategoryId", radarCategoryId);
@@ -218,8 +197,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByRadarRingIdAndRadarCategoryId(Long radarRingId, Long radarCategoryId)
-    {
+    public List<Technology> findByRadarRingIdAndRadarCategoryId(Long radarRingId, Long radarCategoryId) {
         Query query = entityManager.createNamedQuery("findByRadarRingIdAndRadarCategoryId");
         query.setParameter("radarRingId", radarRingId);
         query.setParameter("radarCategoryId", radarCategoryId);
@@ -227,8 +205,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.mapList(foundItems);
     }
 
-    public List<Technology> findByNameRadarRingIdAndRadarCategoryId(String technologyName, Long radarRingId, Long radarCategoryId)
-    {
+    public List<Technology> findByNameRadarRingIdAndRadarCategoryId(String technologyName, Long radarRingId, Long radarCategoryId) {
         Query query = entityManager.createNamedQuery("findByNameRadarRingIdAndRadarCategoryId");
         query.setParameter("technologyName", "%" + technologyName + "%");
         query.setParameter("radarRingId", radarRingId);

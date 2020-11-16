@@ -6,21 +6,18 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class QuadrantItem
-{
+public class QuadrantItem {
     private PolarCoords polarCoords;
     private RadarRingPresentation radarRing;
     private RadarItem assessmentItem;
     private String movement;
 
-    public QuadrantItem(Integer quadrantVisualStart, RadarRingPresentation radarRing, RadarItem assessmentItem)
-    {
+    public QuadrantItem(Integer quadrantVisualStart, RadarRingPresentation radarRing, RadarItem assessmentItem) {
         this.assessmentItem = assessmentItem;
         this.radarRing = radarRing;
         this.polarCoords = new PolarCoords(this.radarRing.calculateArcPlacement(assessmentItem.getConfidenceFactor()), quadrantVisualStart);
 
-        switch(assessmentItem.getState())
-        {
+        switch(assessmentItem.getState()) {
             case RadarItem.State_New:
                 this.movement = "t";
                 break;

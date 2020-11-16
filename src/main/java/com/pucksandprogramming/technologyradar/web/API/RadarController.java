@@ -42,14 +42,12 @@ public class RadarController extends ControllerBase {
 
     @GetMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", produces = "application/json")
     public @ResponseBody
-    RadarViewModel getPublicMostRecentRadarByUser(@PathVariable Long radarUserId)
-    {
+    RadarViewModel getPublicMostRecentRadarByUser(@PathVariable Long radarUserId) {
         RadarViewModel retVal = null;
 
         List<Radar> foundRadar = radarService.findByRadarUserId(radarUserId);
 
-        if(foundRadar!=null && foundRadar.size() > 0)
-        {
+        if(foundRadar!=null && foundRadar.size() > 0) {
             retVal = new RadarViewModel(foundRadar.get(0));
         }
 
@@ -62,31 +60,25 @@ public class RadarController extends ControllerBase {
                                             @RequestParam(name = "radarTemplateId", required = false, defaultValue = "-1") Long radarTemplateId) {
         List<RadarViewModel> retVal = new ArrayList<RadarViewModel>();
 
-        try
-        {
+        try {
             List<Radar> foundItems = new ArrayList<>();
 
             RadarUser targetUser = this.userService.findOne(radarUserId);
 
-            if (radarTemplateId > 0)
-            {
+            if (radarTemplateId > 0) {
                 foundItems = this.radarService.findByUserAndType(radarUserId, radarTemplateId);
             }
-            else
-            {
+            else {
                 foundItems = this.radarService.findByRadarUserId(radarUserId);
             }
 
-            if(foundItems != null)
-            {
-                for(Radar foundItem : foundItems)
-                {
+            if(foundItems != null) {
+                for(Radar foundItem : foundItems) {
                     retVal.add(new RadarViewModel(foundItem));
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -97,18 +89,15 @@ public class RadarController extends ControllerBase {
     @GetMapping(value = {"/User/{radarUserId}/RadarTemplate/{RadarTemplate}/Radar/FullView", "/public/User/{radarUserId}/RadarTemplate/{radarTemplateId}/Radar/FullView"}, produces = "application/json")
     public @ResponseBody
     DiagramPresentation getMostRecentRadar(@PathVariable Long radarUserId,
-                           @PathVariable Long radarTemplateId)
-    {
+                           @PathVariable Long radarTemplateId) {
         DiagramPresentation retVal = new DiagramPresentation();
 
-        try
-        {
+        try {
             RadarUser targetUser = this.userService.findOne(radarUserId);
             Radar targetRadar = this.radarService.findCurrentByType(radarUserId, radarTemplateId);
             retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -118,12 +107,10 @@ public class RadarController extends ControllerBase {
 
     @PostMapping(value = "/User/{radarUserId}/Radar")
     public @ResponseBody
-    List<RadarViewModel> addRadar(@RequestBody Map modelMap, @PathVariable Long radarUserId)
-    {
+    List<RadarViewModel> addRadar(@RequestBody Map modelMap, @PathVariable Long radarUserId) {
         List<RadarViewModel> retVal = new ArrayList<>();
 
-        try
-        {
+        try {
             RadarUser targetUser = this.userService.findOne(radarUserId);
 
             if (this.getCurrentUser().getId() == radarUserId) {
@@ -134,16 +121,13 @@ public class RadarController extends ControllerBase {
 
             List<Radar> foundItems = this.radarService.findByRadarUserId(targetUser.getId());
 
-            if(foundItems != null)
-            {
-                for(Radar foundItem : foundItems)
-                {
+            if(foundItems != null) {
+                for(Radar foundItem : foundItems) {
                     retVal.add(new RadarViewModel(foundItem));
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -152,16 +136,13 @@ public class RadarController extends ControllerBase {
 
 
     @GetMapping(value = {"/User/{radarUserId}/Radar/{radarId}", "/public/User/{radarUserId}/Radar/{radarId}"}, produces = "application/json")
-    public @ResponseBody DiagramPresentation getRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId)
-    {
+    public @ResponseBody DiagramPresentation getRadarInstance(@PathVariable Long radarUserId, @PathVariable Long radarId) {
         DiagramPresentation retVal = new DiagramPresentation();
 
-        try
-        {
+        try {
             RadarUser targetUser = this.userService.findOne(radarUserId);
 
-            if(targetUser!=null)
-            {
+            if(targetUser!=null) {
                 Radar targetRadar = this.radarService.findByUserAndRadarId(targetUser.getId(), radarId);
                 retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
             }
@@ -175,24 +156,17 @@ public class RadarController extends ControllerBase {
     }
 
     @GetMapping(value ="/User/Radar/{radarId}/CanEdit", produces = "application/json")
-    public @ResponseBody boolean canEditRadar(@PathVariable Long radarId)
-    {
+    public @ResponseBody boolean canEditRadar(@PathVariable Long radarId) {
         boolean retVal = false;
 
-        try
-        {
-            if (this.getCurrentUser() != null)
-            {
+        try {
+            if (this.getCurrentUser() != null) {
                 Radar targetRadar = this.radarService.findById(radarId);
 
-                if (targetRadar != null)
-                {
-                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser()))
-                    {
-                        if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId())
-                        {
-                            if (targetRadar.getIsLocked() == false)
-                            {
+                if (targetRadar != null) {
+                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser())) {
+                        if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId()) {
+                            if (targetRadar.getIsLocked() == false) {
                                 retVal = true;
                             }
                         }
@@ -200,8 +174,7 @@ public class RadarController extends ControllerBase {
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -209,31 +182,25 @@ public class RadarController extends ControllerBase {
     }
 
     @PutMapping(value = "/User/{radarUserId}/Radar/{radarId}")
-    public @ResponseBody List<RadarViewModel> updateTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId)
-    {
+    public @ResponseBody List<RadarViewModel> updateTechnologyAssessment(@RequestBody Map modelMap, @PathVariable Long radarUserId, @PathVariable Long radarId) {
         List<RadarViewModel> retVal = new ArrayList<>();
 
-        try
-        {
+        try {
             RadarUser targetUser = this.userService.findOne(radarUserId);
 
-            if(this.getCurrentUser().getId() == radarUserId)
-            {
+            if(this.getCurrentUser().getId() == radarUserId) {
                 this.radarService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
             }
 
             List<Radar> foundItems = this.radarService.findByRadarUserId(this.getCurrentUser().getId());
 
-            if(foundItems != null)
-            {
-                for(Radar foundItem : foundItems)
-                {
+            if(foundItems != null) {
+                for(Radar foundItem : foundItems) {
                     retVal.add(new RadarViewModel(foundItem));
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -242,12 +209,10 @@ public class RadarController extends ControllerBase {
 
     @PutMapping(value = "/User/{userId}/Radar/{radarId}/Publish")
     public @ResponseBody
-    PublishRadarModel updateRadarIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
-    {
+    PublishRadarModel updateRadarIsPublished(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId) {
         PublishRadarModel retVal = new PublishRadarModel();
 
-        try
-        {
+        try {
             boolean isPublished = Boolean.parseBoolean(modelMap.get("isPublished").toString());
 
             RadarUser targetUser = this.userService.findOne(userId);
@@ -259,8 +224,7 @@ public class RadarController extends ControllerBase {
             currentUser.setNumberOfSharedRadar(this.radarService.getSharedRadarCount(userId));
             retVal.setCurrentUser(currentUser);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -268,19 +232,16 @@ public class RadarController extends ControllerBase {
     }
 
     @PutMapping(value = "/User/{userId}/Radar/{radarId}/Lock")
-    public @ResponseBody boolean updateRadarIsLocked(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId)
-    {
+    public @ResponseBody boolean updateRadarIsLocked(@RequestBody Map modelMap, @PathVariable Long userId, @PathVariable Long radarId) {
         boolean retVal = false;
 
-        try
-        {
+        try {
             boolean isLocked = Boolean.parseBoolean(modelMap.get("isLocked").toString());
 
             RadarUser targetDataOwner = this.userService.findOne(userId);
             retVal = this.radarService.lockRadar(userId, radarId, isLocked);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -288,34 +249,27 @@ public class RadarController extends ControllerBase {
     }
 
     @DeleteMapping(value = "/User/{radarUserId}/Radar/{radarId}")
-    public @ResponseBody List<RadarViewModel> deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId)
-    {
+    public @ResponseBody List<RadarViewModel> deleteUserRadar(@PathVariable Long radarId, @PathVariable Long radarUserId) {
         List<RadarViewModel> retVal = new ArrayList<>();
 
-        try
-        {
+        try {
             RadarUser targetDataOwner = this.userService.findOne(radarUserId);
 
-            if(targetDataOwner != null)
-            {
+            if(targetDataOwner != null) {
                 List<Radar> foundItems = null;
 
-                if (this.radarService.deleteRadar(radarUserId, radarId))
-                {
+                if (this.radarService.deleteRadar(radarUserId, radarId)) {
                     foundItems = this.radarService.findByRadarUserId(radarUserId);
                 }
 
-                if (foundItems != null)
-                {
-                    for (Radar foundItem : foundItems)
-                    {
+                if (foundItems != null) {
+                    for (Radar foundItem : foundItems) {
                         retVal.add(new RadarViewModel(foundItem));
                     }
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 

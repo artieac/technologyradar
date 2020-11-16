@@ -13,8 +13,7 @@ import java.util.Set;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class Quadrant
-{
+public class Quadrant {
     private RadarCategory radarCategory;
     private Integer leftLocation;
     private Integer topLocation;
@@ -22,24 +21,20 @@ public class Quadrant
     private Integer quandrantSize;
     private Hashtable<Long, List<QuadrantItem>> quadrantRings;
 
-    public Quadrant(Integer quadrantStart, Integer quandrantSize, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, Integer marginTop, Integer marginLeft, List<RadarRingPresentation> radarRings)
-    {
+    public Quadrant(Integer quadrantStart, Integer quandrantSize, RadarCategory radarCategory, Integer diagramWidth, Integer diagramHeight, Integer marginTop, Integer marginLeft, List<RadarRingPresentation> radarRings) {
         this.radarCategory = radarCategory;
         this.quadrantStart = quadrantStart;
         this.quandrantSize = quandrantSize;
         this.calculateLeftAndTop(diagramWidth, diagramHeight, marginLeft, marginTop);
         this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
 
-        for(int i = 0; i < radarRings.size(); i++)
-        {
+        for(int i = 0; i < radarRings.size(); i++) {
             this.quadrantRings.put(radarRings.get(i).getRadarRing().getId(), new ArrayList<QuadrantItem>());
         }
     }
 
-    private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight, Integer marginLeft, Integer marginTop)
-    {
-        switch(this.quadrantStart)
-        {
+    private void calculateLeftAndTop(Integer diagramWidth, Integer diagramHeight, Integer marginLeft, Integer marginTop) {
+        switch(this.quadrantStart) {
             case 0:
                 topLocation = marginTop;
                 leftLocation = diagramWidth - marginLeft;
@@ -72,14 +67,12 @@ public class Quadrant
     public String getColor() { return this.radarCategory.getColor();}
 
     @JsonProperty(value="items")
-    public List<QuadrantItem> getItems()
-    {
+    public List<QuadrantItem> getItems() {
         List<QuadrantItem> retVal = new ArrayList<QuadrantItem>();
 
         Set<Long> categoryIds  = this.quadrantRings.keySet();
 
-        for(Long categoryId : categoryIds)
-        {
+        for(Long categoryId : categoryIds) {
             retVal.addAll(this.quadrantRings.get(categoryId));
         }
 
@@ -87,10 +80,8 @@ public class Quadrant
     }
 
     @JsonIgnore
-    public void addItem(RadarRingPresentation radarRing, RadarItem assessmentItem)
-    {
-        if(this.quadrantRings == null)
-        {
+    public void addItem(RadarRingPresentation radarRing, RadarItem assessmentItem) {
+        if(this.quadrantRings == null) {
             this.quadrantRings = new Hashtable<Long, List<QuadrantItem>>();
         }
 
@@ -98,8 +89,7 @@ public class Quadrant
 
         List<QuadrantItem> stateItems = this.quadrantRings.get(radarRing.getRadarRing().getId());
 
-        if(stateItems == null)
-        {
+        if(stateItems == null) {
             stateItems = new ArrayList<QuadrantItem>();
         }
 
@@ -107,20 +97,17 @@ public class Quadrant
         this.quadrantRings.put(radarRing.getRadarRing().getId(), stateItems);
     }
 
-    public void evenlyDistributeItems()
-    {
+    public void evenlyDistributeItems() {
         Set<Long> stateIds  = this.quadrantRings.keySet();
 
-        for(Long stateId : stateIds)
-        {
+        for(Long stateId : stateIds) {
             List<QuadrantItem> quadrantItems = this.quadrantRings.get(stateId);
 
             int distanceBetween = quandrantSize / (quadrantItems.size() + 2);
             int currentLocation = this.quadrantStart + distanceBetween;
 
             // recalculate the quadrant start
-            for(int i = 0; i < quadrantItems.size(); i++)
-            {
+            for(int i = 0; i < quadrantItems.size(); i++) {
                 currentLocation += distanceBetween;
                 quadrantItems.get(i).getPolarCoords().setAngular(currentLocation);
             }

@@ -1,9 +1,5 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
-import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +28,7 @@ import java.util.UUID;
         @org.hibernate.annotations.NamedNativeQuery(name = "findHistoryByRadarUserIdAndId", query = "SELECT * from RadarTemplates rt WHERE rt.RadarUserId = :radarUserId AND rt.Id = :radarTemplateId AND rt.State=1 ƒORDER BY rt.Id, rt.CreateDate", resultClass = RadarTemplateEntity.class),
      }
 )
-public class RadarTemplateEntity
-{
+public class RadarTemplateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -64,8 +59,7 @@ public class RadarTemplateEntity
     @Column(name="State", nullable=true)
     private Integer state;
 
-    public RadarTemplateEntity()
-    {
+    public RadarTemplateEntity() {
         this.radarRings = new ArrayList<>();
         this.radarCategories = new ArrayList<>();
     }

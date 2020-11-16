@@ -9,8 +9,7 @@ import java.util.Date;
 /**
  * Created by acorrea on 12/28/2017.
  */
-public class RadarSubjectBreakdownItem
-{
+public class RadarSubjectBreakdownItem {
     Long assessmentId;
     Date assessmentDate;
     String assessmentName;

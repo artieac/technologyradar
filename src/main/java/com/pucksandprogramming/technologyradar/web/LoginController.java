@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
 @Controller
-public class LoginController
-{
+public class LoginController {
     @Value("${com.auth0.callbackUrl}")
     private String callbackLocation;
 
@@ -32,16 +31,14 @@ public class LoginController
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    protected String login(final HttpServletRequest req)
-    {
+    protected String login(final HttpServletRequest req) {
         logger.debug("Performing login");
 
         String redirectUri = req.getScheme() + "://" + req.getServerName();
 
         String serverPort = "";
 
-        if(req.getServerPort()!=80 && req.getServerPort()!=443)
-        {
+        if(req.getServerPort()!=80 && req.getServerPort()!=443) {
             serverPort = Integer.toString(req.getServerPort());
             redirectUri += ":" + serverPort;
         }

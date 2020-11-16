@@ -5,21 +5,18 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class VersionedIdEntity implements Serializable
-{
+public class VersionedIdEntity implements Serializable {
     @Column(name = "Id")
     private String id;
 
     @Column(name = "Version")
     private Long version;
 
-    public VersionedIdEntity()
-    {
+    public VersionedIdEntity() {
 
     }
 
-    public VersionedIdEntity(String id, Long version)
-    {
+    public VersionedIdEntity(String id, Long version) {
         this.id = id;
         this.version = version;
     }

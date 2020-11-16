@@ -7,12 +7,10 @@ import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.*;
 
-public class AuthenticatedUser
-{
+public class AuthenticatedUser {
     private Long userId;
     private String name;
     private String userEmail;
@@ -25,13 +23,11 @@ public class AuthenticatedUser
 
     List<GrantedAuthority> grantedAuthorities;
 
-    public AuthenticatedUser()
-    {
+    public AuthenticatedUser() {
 
     }
 
-    public AuthenticatedUser(RadarUser radaruser)
-    {
+    public AuthenticatedUser(RadarUser radaruser) {
         this.setUserType(radaruser.getUserType());
         this.setUserId(radaruser.getId());
         this.setAuthTokenIssuer("Test");
@@ -44,8 +40,7 @@ public class AuthenticatedUser
         Role userRole = Role.createRole(radaruser.getRoleId());
         this.addGrantedAuthority(userRole.getName());
 
-        for(String permission : userRole.getPermissions())
-        {
+        for(String permission : userRole.getPermissions()) {
             this.addGrantedAuthority(permission);
         }
     }
@@ -81,16 +76,14 @@ public class AuthenticatedUser
     public UserType getUserType() { return this.userType;}
     public void setUserType(UserType value) { this.userType = value;}
 
-    public String getAuthSubjectIdentifier()
-    {
+    public String getAuthSubjectIdentifier() {
         String[] splitSubject = this.getAuthSubject().split("\\|");
         // using substring instead of split because its not splitting on | for some reason
         // even though I can see it is in it.
         return splitSubject[splitSubject.length - 1];
     }
 
-    public void extractJWTDetails(DecodedJWT jwt)
-    {
+    public void extractJWTDetails(DecodedJWT jwt) {
         this.addGrantedAuthorities(jwt);
         this.extractClaimsDetails(jwt);
 
@@ -100,56 +93,48 @@ public class AuthenticatedUser
         this.setAuthTokenIssuer(jwt.getIssuer());
     }
 
-    public void addGrantedAuthority(String authorityName)
-    {
-        if(this.grantedAuthorities==null)
-        {
+    public void addGrantedAuthority(String authorityName) {
+        if(this.grantedAuthorities==null) {
             this.grantedAuthorities = new ArrayList<>();
         }
 
         SimpleGrantedAuthority newAuthority = new SimpleGrantedAuthority(authorityName);
 
-        if(!this.grantedAuthorities.contains(newAuthority))
-        {
+        if(!this.grantedAuthorities.contains(newAuthority)) {
             this.grantedAuthorities.add(newAuthority);
         }
     }
 
-    public void addGrantedAuthorities(DecodedJWT jwt)
-    {
+    public void addGrantedAuthorities(DecodedJWT jwt) {
         Claim rolesClaim = jwt.getClaim("https://access.control/roles");
 
-        if (!rolesClaim.isNull())
-        {
+        if (!rolesClaim.isNull()) {
             List<GrantedAuthority> authorities = new ArrayList<>();
             String[] scopes = rolesClaim.asArray(String.class);
-            for (String s : scopes)
-            {
+
+            for (String s : scopes) {
                 this.addGrantedAuthority(s);
             }
         }
     }
 
-    private void extractClaimsDetails(DecodedJWT jwt)
-    {
+    private void extractClaimsDetails(DecodedJWT jwt) {
         Claim emailClaim = jwt.getClaim("https://www.pucksandprogramming.com/email");
         this.setUserEmail(emailClaim.asString());
+
         Claim nicknameClaim = jwt.getClaim("https://www.pucksandprogramming.com/nickname");
         this.setName(nicknameClaim.asString());
+
         Claim nameClaim = jwt.getClaim("https://www.pucksandprogramming.com/name");
         this.setName(nameClaim.asString());
     }
 
-    public boolean hasPrivilege(String userPrivilege)
-    {
+    public boolean hasPrivilege(String userPrivilege) {
         boolean retVal = false;
 
-        if(!userPrivilege.isEmpty() && this.grantedAuthorities != null)
-        {
-            for(GrantedAuthority grantedAuthority : this.getGrantedAuthorities())
-            {
-                if(grantedAuthority.toString()==userPrivilege)
-                {
+        if(!userPrivilege.isEmpty() && this.grantedAuthorities != null) {
+            for(GrantedAuthority grantedAuthority : this.getGrantedAuthorities()) {
+                if(grantedAuthority.toString()==userPrivilege) {
                     retVal = true;
                     break;
                 }

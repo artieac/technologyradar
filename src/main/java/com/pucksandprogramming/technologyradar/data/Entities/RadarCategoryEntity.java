@@ -7,8 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "RadarCategories")
-public class RadarCategoryEntity
-{
+public class RadarCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -24,8 +23,7 @@ public class RadarCategoryEntity
     @JoinColumn(name="RadarTemplateId", nullable = false)
     private RadarTemplateEntity radarTemplate;
 
-    public RadarCategoryEntity()
-    {
+    public RadarCategoryEntity() {
 
     }
 

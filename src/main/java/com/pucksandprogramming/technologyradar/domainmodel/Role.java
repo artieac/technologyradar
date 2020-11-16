@@ -5,8 +5,7 @@ import org.springframework.security.access.method.P;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Role
-{
+public class Role {
     public static final int RoleType_User = 0;
     public static final int RoleType_Admin = 1;
 
@@ -14,12 +13,10 @@ public class Role
     private String name;
     private List<String> permissions;
 
-    public static Role createRole(Integer roleType)
-    {
+    public static Role createRole(Integer roleType) {
         Role retVal = null;
 
-        switch(roleType)
-        {
+        switch(roleType) {
             case RoleType_Admin:
                 retVal = createAdminRole();
                 break;
@@ -31,8 +28,7 @@ public class Role
         return retVal;
     }
 
-    public static Role createAdminRole()
-    {
+    public static Role createAdminRole() {
         Role retVal = new Role();
         retVal.setId(RoleType_Admin);
         retVal.setName("ROLE_ADMIN");
@@ -44,8 +40,7 @@ public class Role
         return retVal;
     }
 
-    public static Role createUserRole()
-    {
+    public static Role createUserRole() {
         Role retVal = new Role();
         retVal.setId(RoleType_User);
         retVal.setName("ROLE_USER");
@@ -64,15 +59,12 @@ public class Role
     public void setName(String value) { this.name = value;}
 
     public List<String> getPermissions() { return this.permissions;}
-    public void addPermission(String permission)
-    {
-        if(this.permissions==null)
-        {
+    public void addPermission(String permission) {
+        if(this.permissions==null) {
             this.permissions = new ArrayList<>();
         }
 
-        if(!this.permissions.contains(permission))
-        {
+        if(!this.permissions.contains(permission)) {
             this.permissions.add(permission);
         }
     }

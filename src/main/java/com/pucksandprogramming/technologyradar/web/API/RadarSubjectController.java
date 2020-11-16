@@ -21,8 +21,7 @@ import java.util.Map;
  */
 @Controller("APIRadarSubjectController")
 @RequestMapping(value={"/api/RadarSubject", "/api/public/RadarSubject"})
-public class RadarSubjectController extends ControllerBase
-{
+public class RadarSubjectController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
     @Autowired
@@ -33,44 +32,36 @@ public class RadarSubjectController extends ControllerBase
 
     @GetMapping("/{id}/assessments")
     public @ResponseBody
-    RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id)
-    {
+    RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id) {
         Technology targetTechnology = this.technologyService.findById(id);
         RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology);
 
-        try
-        {
-            if (targetTechnology != null)
-            {
+        try {
+            if (targetTechnology != null) {
                 // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
                 // that would make the subsequent calls at lot easier to manage.
                 List<Radar> ownedRadarList = new ArrayList<Radar>();
                 List<Radar> publishedRadarList = new ArrayList<>();
 
-                if (this.getCurrentUser() != null)
-                {
+                if (this.getCurrentUser() != null) {
                     ownedRadarList = this.radarService.getAllOwnedByTechnologyId(this.getCurrentUserId(), id);
                     publishedRadarList = this.radarService.getAllNotOwnedByTechnologyId(this.getCurrentUserId(), id);
                 }
-                else
-                {
+                else {
                     publishedRadarList = this.radarService.getAllByRadarSubjectId(id);
                 }
 
-                for (int i = 0; i < ownedRadarList.size(); i++)
-                {
+                for (int i = 0; i < ownedRadarList.size(); i++) {
                     retVal.addOwnedRadarSubjectAssessment(ownedRadarList.get(i));
                 }
 
 
-                for (int i = 0; i < publishedRadarList.size(); i++)
-                {
+                for (int i = 0; i < publishedRadarList.size(); i++) {
                     retVal.addPublishedRadarSubjectAssessment(publishedRadarList.get(i));
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -78,41 +69,34 @@ public class RadarSubjectController extends ControllerBase
     }
 
     @GetMapping("/search")
-    public @ResponseBody List<Technology> searchRadarSubjects(@RequestParam Map<String, String> allRequestParams)
-    {
+    public @ResponseBody List<Technology> searchRadarSubjects(@RequestParam Map<String, String> allRequestParams) {
         List<Technology> retVal = new ArrayList<>();
 
-        try
-        {
+        try {
             String radarSubjectName = "";
 
-            if (allRequestParams.containsKey("name"))
-            {
+            if (allRequestParams.containsKey("name")) {
                 radarSubjectName = allRequestParams.get("name");
             }
 
             String radarTemplateId = "";
-            if (allRequestParams.containsKey("radarTemplateId"))
-            {
+            if (allRequestParams.containsKey("radarTemplateId")) {
                 radarTemplateId = allRequestParams.get("radarTemplateId").toString();
             }
 
             Long radarRingId = new Long(-1);
-            if (allRequestParams.containsKey("radarRingId"))
-            {
+            if (allRequestParams.containsKey("radarRingId")) {
                 radarRingId = Long.parseLong(allRequestParams.get("radarRingId"));
             }
 
             Long radarCategoryId = new Long(-1);
-            if (allRequestParams.containsKey("radarCategoryId"))
-            {
+            if (allRequestParams.containsKey("radarCategoryId")) {
                 radarCategoryId = Long.parseLong(allRequestParams.get("radarCategoryId"));
             }
 
             retVal = this.technologyService.searchTechnology(radarSubjectName, radarTemplateId, radarRingId, radarCategoryId);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 

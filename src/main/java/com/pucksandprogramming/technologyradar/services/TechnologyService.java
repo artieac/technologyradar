@@ -13,18 +13,15 @@ import java.util.List;
  * Created by acorrea on 11/3/2016.
  */
 @Component
-public class TechnologyService
-{
+public class TechnologyService {
     private TechnologyRepository technologyRepository;
 
     @Autowired
-    public TechnologyService(TechnologyRepository technologyRepository)
-    {
+    public TechnologyService(TechnologyRepository technologyRepository) {
         this.technologyRepository = technologyRepository;
     }
 
-    public static Technology createDefaultTechnology()
-    {
+    public static Technology createDefaultTechnology() {
         Technology retVal = new Technology();
         retVal.setId(new Long(0));
         retVal.setCreator("None");
@@ -39,8 +36,7 @@ public class TechnologyService
         return this.technologyRepository.findOne(technologyId);
     }
 
-    public List<Technology> searchTechnology(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId)
-    {
+    public List<Technology> searchTechnology(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId) {
         return this.technologyRepository.findByFilters(technologyName, radarTemplateId, radarRingId, radarCategoryId);
     }
 }

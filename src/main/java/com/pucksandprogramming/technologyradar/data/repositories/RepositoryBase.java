@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by acorrea on 10/26/2016.
  */
 @Component
-public class RepositoryBase<DomainModel>
-{
+public class RepositoryBase<DomainModel> {
     @Autowired
     protected RadarMapper modelMapper;
 

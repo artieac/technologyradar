@@ -18,8 +18,7 @@ import javax.persistence.*;
                         "    AND tai.TechnologyId = :technologyId) ORDER BY Id;", resultClass = RadarItemEntity.class),
         }
 )
-public class RadarItemEntity
-{
+public class RadarItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -50,8 +49,7 @@ public class RadarItemEntity
     @Column(name = "State")
     private Integer state;
 
-    public RadarItemEntity()
-    {
+    public RadarItemEntity() {
 
     }
 

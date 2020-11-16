@@ -1,10 +1,7 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
-import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
-import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
 import com.pucksandprogramming.technologyradar.data.dao.UserTypeDAO;
-import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTypeEntity, UserTypeDAO, Integer>
-{
+public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTypeEntity, UserTypeDAO, Integer> {
     @Autowired
     EntityManager entityManager;
 
@@ -30,14 +26,11 @@ public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTyp
         super(UserType.class);
     }
 
-    private List<UserType> mapList(List<UserTypeEntity> source)
-    {
+    private List<UserType> mapList(List<UserTypeEntity> source) {
         List<UserType> retVal = new ArrayList<>();
 
-        if (source != null)
-        {
-            for (int i = 0; i < source.size(); i++)
-            {
+        if (source != null) {
+            for (int i = 0; i < source.size(); i++) {
                 UserType newItem = this.modelMapper.map(source.get(i), UserType.class);
                 retVal.add(newItem);
             }
@@ -47,8 +40,7 @@ public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTyp
     }
 
     @Override
-    protected UserTypeEntity findOne(UserType domainModel)
-    {
+    protected UserTypeEntity findOne(UserType domainModel) {
         return this.entityRepository.findOne(domainModel.getId());
     }
 }

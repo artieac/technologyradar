@@ -13,11 +13,7 @@ import javax.persistence.*;
                 @org.hibernate.annotations.NamedNativeQuery(name = "checkIfHasItems", query = "SELECT RadarRingId, MAX(Id) FROM TechnologyAssessmentItems WHERE RadarRingId IN :radarRingIdList GROUP BY RadarRingId", resultClass = RadarTemplateEntity.class),
         }
 )
-
-
-
-public class RadarRingEntity
-{
+public class RadarRingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -35,8 +31,7 @@ public class RadarRingEntity
     @JoinColumn(name="RadarTemplateId", nullable = false)
     private RadarTemplateEntity radarTemplate;
 
-    public RadarRingEntity()
-    {
+    public RadarRingEntity() {
 
     }
 

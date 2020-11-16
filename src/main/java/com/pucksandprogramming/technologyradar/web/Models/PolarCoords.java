@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class PolarCoords
-{
+public class PolarCoords {
     private Integer radial;
     private Integer angular;
 
-    public PolarCoords(Integer radial, Integer angular)
-    {
+    public PolarCoords(Integer radial, Integer angular) {
         this.radial = radial;
         this.angular = angular;
     }

@@ -19,8 +19,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api")
-public class RadarConfigurationController extends ControllerBase
-{
+public class RadarConfigurationController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarConfigurationController.class);
 
     @Autowired
@@ -30,21 +29,17 @@ public class RadarConfigurationController extends ControllerBase
     RadarService radarService;
 
     @GetMapping(value = "/radar/{radarId}/rings", produces = "application/json")
-    public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId)
-    {
+    public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId) {
         List<RadarRing> retVal = new ArrayList<RadarRing>();
 
-        try
-        {
+        try {
             Radar targetRadar = this.radarService.findById(radarId);
 
-            if (targetRadar != null)
-            {
+            if (targetRadar != null) {
                 retVal = targetRadar.getRadarTemplate().getRadarRings();
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 
@@ -52,21 +47,17 @@ public class RadarConfigurationController extends ControllerBase
     }
 
     @GetMapping(value = "/radar/{radarId}/categories", produces = "application/json")
-    public @ResponseBody List<RadarCategory> getRadarCategories(@PathVariable Long radarId)
-    {
+    public @ResponseBody List<RadarCategory> getRadarCategories(@PathVariable Long radarId) {
         List<RadarCategory> retVal = new ArrayList<RadarCategory>();
 
-        try
-        {
+        try {
             Radar targetRadar = this.radarService.findById(radarId);
 
-            if (targetRadar != null)
-            {
+            if (targetRadar != null) {
                 retVal = targetRadar.getRadarTemplate().getRadarCategories();
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 

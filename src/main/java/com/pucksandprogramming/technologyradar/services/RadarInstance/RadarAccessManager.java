@@ -8,26 +8,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RadarAccessManager
-{
-    public enum ViewAccessMode
-    {
+public class RadarAccessManager {
+    public enum ViewAccessMode {
         PublishedOnly,
         FullAccess
     }
 
     AuthenticatedUser authenticatedUser;
 
-    public AuthenticatedUser getAuthenticatedUser()
-    {
-        if(this.authenticatedUser == null)
-        {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication)
-            {
+    public AuthenticatedUser getAuthenticatedUser() {
+
+        if(this.authenticatedUser == null) {
+
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
                 Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
 
-                if (tokenAuth != null)
-                {
+                if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
                 }
             }
@@ -36,23 +32,17 @@ public class RadarAccessManager
         return this.authenticatedUser;
     }
 
-    public ViewAccessMode canViewHistory(RadarUser targetDataOwner)
-    {
+    public ViewAccessMode canViewHistory(RadarUser targetDataOwner) {
         ViewAccessMode retVal = ViewAccessMode.PublishedOnly;
 
-        if(this.getAuthenticatedUser()!=null)
-        {
-            if (this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
-            {
+        if(this.getAuthenticatedUser()!=null) {
+            if (this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
                 // is this person an admin?
                 retVal = RadarAccessManager.ViewAccessMode.FullAccess;
             }
-            else
-            {
-                if (targetDataOwner != null)
-                {
-                    if(targetDataOwner.getId() == this.getAuthenticatedUser().getUserId())
-                    {
+            else {
+                if (targetDataOwner != null) {
+                    if(targetDataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
                         retVal = ViewAccessMode.FullAccess;
                     }
                 }
@@ -62,14 +52,11 @@ public class RadarAccessManager
         return retVal;
     }
 
-    public boolean canShareRadarTemplates(RadarUser targetDataOwner)
-    {
+    public boolean canShareRadarTemplates(RadarUser targetDataOwner) {
         boolean retVal = false;
 
-        if (targetDataOwner != null)
-        {
-            if (targetDataOwner.canShareRadarTemplates() == true)
-            {
+        if (targetDataOwner != null) {
+            if (targetDataOwner.canShareRadarTemplates() == true) {
                 // public access, but the target owner can share their full history publicly.
                 retVal = true;
             }
@@ -78,27 +65,21 @@ public class RadarAccessManager
         return retVal;
     }
 
-    public boolean canModifyRadar(RadarUser targetDataOwner)
-    {
+    public boolean canModifyRadar(RadarUser targetDataOwner) {
         boolean retVal = false;
 
-        if(this.getAuthenticatedUser()!=null)
-        {
-            if(this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))
-            {
+        if(this.getAuthenticatedUser()!=null) {
+            if(this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
                 retVal = true;
             }
             else
             {
-                if (targetDataOwner != null)
-                {
+                if (targetDataOwner != null) {
                     // logged in user owns the data
-                    if (targetDataOwner.getId() == this.getAuthenticatedUser().getUserId())
-                    {
+                    if (targetDataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
                         retVal = true;
                     }
-                    else
-                    {
+                    else {
                         // if they are in the same team
                         // TBD
                     }

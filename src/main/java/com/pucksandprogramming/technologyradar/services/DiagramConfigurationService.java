@@ -19,8 +19,7 @@ import java.util.List;
  * Created by acorrea on 10/19/2016.
  */
 @Component
-public class DiagramConfigurationService
-{
+public class DiagramConfigurationService {
     private static final Logger logger = Logger.getLogger(DiagramConfigurationService.class);
 
     private RadarRingRepository radarRingRepository;
@@ -30,8 +29,7 @@ public class DiagramConfigurationService
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,
                                        RadarCategoryRepository radarCategoryRepository,
-                                       RadarUserRepository radarUserRepository)
-    {
+                                       RadarUserRepository radarUserRepository) {
         this.radarRingRepository = radarRingRepository;
         this.radarCategoryRepository = radarCategoryRepository;
         this.radarUserRepository = radarUserRepository;
@@ -47,23 +45,20 @@ public class DiagramConfigurationService
         return this.radarCategoryRepository.findAll();
     }
 
-    public DiagramPresentation generateDiagramData(Long radarUserId, Radar radarInstance)
-    {
+    public DiagramPresentation generateDiagramData(Long radarUserId, Radar radarInstance) {
         RadarUser targetUser = this.radarUserRepository.findOne(radarUserId);
 
         return this.generateDiagramData(targetUser, radarInstance);
     }
 
-    public DiagramPresentation generateDiagramData(RadarUser radarUser, Radar radarInstance)
-    {
+    public DiagramPresentation generateDiagramData(RadarUser radarUser, Radar radarInstance) {
         DiagramPresentation retVal = new DiagramPresentation();
 
         retVal.addRadarArcs(radarInstance.getRadarTemplate().getRadarRings());
         Hashtable<Long, RadarRingPresentation> radarRingLookup = new Hashtable<Long, RadarRingPresentation>();
         List<RadarRingPresentation> radarRingPresentations = retVal.getRadarArcs();
 
-        for(RadarRingPresentation radarRing : radarRingPresentations)
-        {
+        for(RadarRingPresentation radarRing : radarRingPresentations) {
             radarRingLookup.put(radarRing.getRadarRing().getId(), radarRing);
         }
 
@@ -72,16 +67,14 @@ public class DiagramConfigurationService
         Integer quadrantStart = 0;
         Integer quadrantSize = 360 / radarInstance.getRadarTemplate().getRadarCategories().size();
 
-        for(RadarCategory radarCategory : radarInstance.getRadarTemplate().getRadarCategories())
-        {
+        for(RadarCategory radarCategory : radarInstance.getRadarTemplate().getRadarCategories()) {
             Quadrant newQuadrant = new Quadrant(quadrantStart, quadrantSize, radarCategory, retVal.getWidth(), retVal.getHeight(), retVal.getMarginTop(), retVal.getMarginLeft(), radarRingPresentations);
             quadrantLookup.put(radarCategory.getId(), newQuadrant);
             retVal.getQuadrants().add(newQuadrant);
             quadrantStart += quadrantSize;
         }
 
-        if(radarInstance != null)
-        {
+        if(radarInstance != null) {
             retVal.setRadarInstanceDetails(radarInstance);
 
             logger.debug(radarInstance);
@@ -89,26 +82,21 @@ public class DiagramConfigurationService
             logger.debug(radarInstance.getRadarItems());
             logger.debug(radarInstance.getRadarItems().size());
 
-            if (radarInstance.getRadarItems().size() > 0)
-            {
-                for (RadarItem assessmentItem : radarInstance.getRadarItems())
-                {
+            if (radarInstance.getRadarItems().size() > 0) {
+                for (RadarItem assessmentItem : radarInstance.getRadarItems()) {
                     Quadrant targetQuadrant = quadrantLookup.get(assessmentItem.getRadarCategory().getId());
 
-                    if (targetQuadrant != null)
-                    {
+                    if (targetQuadrant != null) {
                         targetQuadrant.addItem(radarRingLookup.get(assessmentItem.getRadarRing().getId()), assessmentItem);
                     }
                 }
             }
 
-            for (int i = 0; i < retVal.getQuadrants().size(); i++)
-            {
+            for (int i = 0; i < retVal.getQuadrants().size(); i++) {
                 retVal.getQuadrants().get(i).evenlyDistributeItems();
             }
         }
 
         return retVal;
     }
-
 }

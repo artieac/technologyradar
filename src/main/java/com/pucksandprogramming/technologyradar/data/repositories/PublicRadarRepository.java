@@ -12,13 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PublicRadarRepository extends RadarRepositoryBase
-{
+public class PublicRadarRepository extends RadarRepositoryBase {
     private static final Logger logger = Logger.getLogger(PublicRadarRepository.class);
 
     @Override
-    public List<Radar> findByUserId(Long radarUserId)
-    {
+    public List<Radar> findByUserId(Long radarUserId) {
         List<Radar> retVal = new ArrayList<>();
 
         List<RadarEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, true);
@@ -28,8 +26,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public Radar findByUserRadarId(Long radarUserId, Long radarId)
-    {
+    public Radar findByUserRadarId(Long radarUserId, Long radarId) {
         Radar retVal = null;
 
         RadarEntity foundItem = this.entityRepository.findByIdAndRadarUserIdAndIsPublished(radarId, radarUserId, true);
@@ -43,8 +40,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<Radar> findByUserAndType(Long radarUserId, Long radarTemplateId)
-    {
+    public List<Radar> findByUserAndType(Long radarUserId, Long radarTemplateId) {
         List<Radar> retVal = new ArrayList<Radar>();
 
         Query query =  this.entityManager.createNamedQuery("public_FindByUserTypeAndIsPublished");
@@ -62,8 +58,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<Radar> findByRadarSubjectId(Long radarSubjectIdf)
-    {
+    public List<Radar> findByRadarSubjectId(Long radarSubjectIdf) {
         List<Radar> retVal = new ArrayList();
         Query query = entityManager.createNamedQuery("public_FindByTechnologyIdAndIsPublished");
         query.setParameter("technologyId", radarSubjectIdf);
@@ -75,8 +70,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<Radar> findNotOwnedByRadarSubjectAndUser(Long radarUserId, Long radarSubjectId)
-    {
+    public List<Radar> findNotOwnedByRadarSubjectAndUser(Long radarUserId, Long radarSubjectId) {
         List<Radar> retVal = new ArrayList<Radar>();
 
         Query query = entityManager.createNamedQuery("public_FindNotOwnedByTechnologyIdAndIsPublished");
@@ -84,8 +78,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
         query.setParameter("radarUserId", radarUserId);
         List<RadarEntity> foundItems = query.getResultList();
 
-        for (RadarEntity foundItem : foundItems)
-        {
+        for (RadarEntity foundItem : foundItems) {
             retVal.add(this.modelMapper.map(foundItem, Radar.class));
         }
 
@@ -93,8 +86,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId)
-    {
+    public List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId) {
         List<Radar> retVal = new ArrayList<Radar>();
 
         Query query = entityManager.createNamedQuery("public_FindOwnedByTechnologyIdAndIsPublished");
@@ -108,8 +100,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
     }
 
     @Override
-    public List<RadarItem> findCurrentByType(Long radarUserId, Long radarTemplateId)
-    {
+    public List<RadarItem> findCurrentByType(Long radarUserId, Long radarTemplateId) {
         List<RadarItem> retVal = new ArrayList<RadarItem>();
 
         Query query = entityManager.createNamedQuery("public_PublicFindCurrentRadarItemsByRadarTemplate");
@@ -118,10 +109,8 @@ public class PublicRadarRepository extends RadarRepositoryBase
 
         List<RadarItemEntity> foundItems = query.getResultList();
 
-        if(foundItems!=null)
-        {
-            for(RadarItemEntity foundItem : foundItems)
-            {
+        if(foundItems!=null) {
+            for(RadarItemEntity foundItem : foundItems) {
                 retVal.add(this.modelMapper.map(foundItem, RadarItem.class));
             }
         }
@@ -138,8 +127,7 @@ public class PublicRadarRepository extends RadarRepositoryBase
         maxQuery += " (SELECT MAX(ta2.Id) FROM TechnologyAssessments ta2 WHERE ta2.RadarUserId = :radarUserId";
         maxQuery += "  AND ta2.RadarTemplateId = :radarTemplateId";
 
-        if(publishedOnly==true)
-        {
+        if(publishedOnly==true) {
             maxQuery += " AND ta2.IsPublished = :isPublished";
         }
 
@@ -149,15 +137,13 @@ public class PublicRadarRepository extends RadarRepositoryBase
         q.setParameter("radarUserId", userId);
         q.setParameter("radarTemplateId", radarTemplateId);
 
-        if(publishedOnly==true)
-        {
+        if(publishedOnly==true) {
             q.setParameter("isPublished", publishedOnly);
         }
 
         RadarEntity foundItem = (RadarEntity)q.getSingleResult();
 
-        if (foundItem != null)
-        {
+        if (foundItem != null) {
             retVal = this.modelMapper.map(foundItem, Radar.class);
         }
 
@@ -174,12 +160,10 @@ public class PublicRadarRepository extends RadarRepositoryBase
         query.setParameter("previousRadarInstanceId", previousRadarInstanceId);
         List<RadarItemEntity> foundItems = query.getResultList();
 
-        if (foundItems != null && foundItems.isEmpty()==false)
-        {
+        if (foundItems != null && foundItems.isEmpty()==false) {
             retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
         }
 
         return retVal;
-
     }
 }

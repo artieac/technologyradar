@@ -5,8 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 
-public class UserViewModel
-{
+public class UserViewModel {
     private Long id;
     private String email;
     private String name;
@@ -14,8 +13,7 @@ public class UserViewModel
     private Integer numberOfSharedRadars;
     private UserType userType;
 
-    public static UserViewModel DefaultInstance()
-    {
+    public static UserViewModel DefaultInstance() {
         UserViewModel retVal = new UserViewModel();
         retVal.setId(-1L);
         retVal.setEmail("");
@@ -28,15 +26,12 @@ public class UserViewModel
         return retVal;
     }
 
-    public UserViewModel()
-    {
+    public UserViewModel() {
 
     }
 
-    public UserViewModel(RadarUser source)
-    {
-        if(source!=null)
-        {
+    public UserViewModel(RadarUser source) {
+        if(source!=null) {
             this.setId(source.getId());
             this.setEmail(source.getEmail());
             this.setName(source.getName());

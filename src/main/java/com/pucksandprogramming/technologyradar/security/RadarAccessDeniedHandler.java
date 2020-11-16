@@ -17,18 +17,17 @@ import java.util.logging.Logger;
  * Created by acorrea on 1/11/2018.
  */
 @Component
-public class RadarAccessDeniedHandler implements AccessDeniedHandler
-{
+public class RadarAccessDeniedHandler implements AccessDeniedHandler {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AccessDeniedException exc) throws IOException, ServletException
-    {
+            AccessDeniedException exc) throws IOException, ServletException {
         Authentication auth
                 = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth != null) {
             logger.warn("User: " + auth.getName()
                     + " attempted to access the protected URL: "

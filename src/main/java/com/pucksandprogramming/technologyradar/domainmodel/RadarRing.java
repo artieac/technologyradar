@@ -6,16 +6,14 @@ import java.util.Date;
 /**
  * Created by acorrea on 10/19/2016.
  */
-public class RadarRing implements Serializable
-{
+public class RadarRing implements Serializable {
     private Long id;
     private String name;
     private Long displayOrder;
 
     private Date createDate;
 
-    public RadarRing()
-    {
+    public RadarRing() {
         this.displayOrder = 0L;
         this.createDate = new Date();
     }

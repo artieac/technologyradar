@@ -20,22 +20,17 @@ import javax.servlet.http.HttpServletRequest;
  * Created by acorrea on 1/11/2018.
  */
 @Controller
-public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController
-{
+public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController {
     private static final Logger logger = Logger.getLogger(ErrorController.class);
 
     private AuthenticatedUser authenticatedUser = null;
 
-    public AuthenticatedUser getAuthenticatedUser()
-    {
-        if(this.authenticatedUser == null)
-        {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication)
-            {
+    public AuthenticatedUser getAuthenticatedUser() {
+        if(this.authenticatedUser == null) {
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
                 Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
 
-                if (tokenAuth != null)
-                {
+                if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
                 }
             }
@@ -48,21 +43,17 @@ public class ErrorController implements org.springframework.boot.autoconfigure.w
     public String getErrorPath() { return "/error";}
 
     @RequestMapping(value = { "/error", "/error/default"})
-    public String defaultErrorPage(final HttpServletRequest request)
-    {
+    public String defaultErrorPage(final HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        if (status != null)
-        {
+        if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
 
-            if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value())
-            {
+            if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error/internalservererror";
             }
             else if(statusCode == HttpStatus.UNAUTHORIZED.value() ||
-                    statusCode == HttpStatus.FORBIDDEN.value())
-            {
+                    statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "error/accessDenied";
             }
         }
@@ -71,8 +62,7 @@ public class ErrorController implements org.springframework.boot.autoconfigure.w
     }
 
     @RequestMapping(value = "/error/accessdenied", method = RequestMethod.GET)
-    public ModelAndView accessDenied(final HttpServletRequest req)
-    {
+    public ModelAndView accessDenied(final HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("unauthorized", "true");
         modelAndView.setViewName("error/accessdenied");

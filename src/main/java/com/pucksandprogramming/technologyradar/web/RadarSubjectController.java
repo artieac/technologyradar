@@ -23,15 +23,13 @@ public class RadarSubjectController extends ControllerBase
     private TechnologyService technologyService;
 
     @RequestMapping(value ={"/radarsubject/search", "/public/radarsubject/search"})
-    public ModelAndView technologySearch(ModelAndView model)
-    {
+    public ModelAndView technologySearch(ModelAndView model) {
         model.setViewName("radarsubject/search");
         return model;
     }
 
     @RequestMapping(value={"/radarsubject/{id}", "/public/radarsubject/{id}"})
-    public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model)
-    {
+    public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model) {
         Technology targetTechnology = this.technologyService.findById(id);
 
         model.setViewName("radarsubject/details");

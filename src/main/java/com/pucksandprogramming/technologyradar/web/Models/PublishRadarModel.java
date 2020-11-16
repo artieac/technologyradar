@@ -5,14 +5,12 @@ import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublishRadarModel
-{
+public class PublishRadarModel {
     boolean publishSucceeded;
     UserViewModel currentUser;
     List<Radar> radars;
 
-    public PublishRadarModel()
-    {
+    public PublishRadarModel() {
         this.currentUser = UserViewModel.DefaultInstance();
         this.radars = new ArrayList<>();
         this.publishSucceeded = false;

@@ -20,8 +20,7 @@ import java.util.Date;
             @org.hibernate.annotations.NamedNativeQuery(name = "findByNameRadarRingIdAndRadarCategoryId", query = "SELECT * FROM Technology t WHERE t.Name LIKE :technologyName AND t.Id IN (SELECT tai.TechnologyId FROM TechnologyAssessmentItems tai WHERE tai.RadarCategoryId = :radarCategoryId AND tai.RadarRingId = :radarRingId)", resultClass = TechnologyEntity.class)
     }
 )
-public class TechnologyEntity
-{
+public class TechnologyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)

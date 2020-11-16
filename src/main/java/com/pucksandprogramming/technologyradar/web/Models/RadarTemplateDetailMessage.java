@@ -3,32 +3,27 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
 
-public class RadarTemplateDetailMessage
-{
+public class RadarTemplateDetailMessage {
     private Long id;
     private String name;
     private String displayOption;
 
-    public RadarTemplateDetailMessage()
-    {
+    public RadarTemplateDetailMessage() {
     }
 
-    public RadarTemplateDetailMessage(RadarRing radarRing)
-    {
+    public RadarTemplateDetailMessage(RadarRing radarRing) {
         this.id = radarRing.getId();
         this.name = radarRing.getName();
         this.displayOption = radarRing.getDisplayOrder().toString();
     }
 
-    public RadarTemplateDetailMessage(RadarCategory radarCategory)
-    {
+    public RadarTemplateDetailMessage(RadarCategory radarCategory) {
         this.id = radarCategory.getId();
         this.name = radarCategory.getName();
         this.displayOption = radarCategory.getColor();
     }
 
-    public RadarRing ConvertToRadarRing()
-    {
+    public RadarRing ConvertToRadarRing() {
         RadarRing retVal = new RadarRing();
         retVal.setId(this.getId());
         retVal.setName(this.getName());
@@ -37,8 +32,7 @@ public class RadarTemplateDetailMessage
         return retVal;
     }
 
-    public RadarCategory ConvertToRadarCategory()
-    {
+    public RadarCategory ConvertToRadarCategory() {
         RadarCategory retVal = new RadarCategory();
         retVal.setId(this.getId());
         retVal.setName(this.getName());

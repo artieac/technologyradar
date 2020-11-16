@@ -9,8 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class RadarViewModel
-{
+public class RadarViewModel {
     private Long id;
     private String name;
     private Date assessmentDate;
@@ -21,8 +20,7 @@ public class RadarViewModel
     private boolean isLocked;
     private RadarTemplateViewModel radarTemplate;
 
-    public RadarViewModel()
-    {
+    public RadarViewModel() {
 
     }
 
@@ -31,8 +29,7 @@ public class RadarViewModel
         this.initialize(source);
     }
 
-    public void initialize(Radar source)
-    {
+    public void initialize(Radar source) {
         this.id = source.getId();
         this.name = source.getName();
         this.assessmentDate = source.getAssessmentDate();
@@ -53,8 +50,7 @@ public class RadarViewModel
     public Date getAssessmentDate() { return assessmentDate;}
     public void setAssessmentDate(Date value) { this.assessmentDate = value;}
 
-    public String getFormattedAssessmentDate()
-    {
+    public String getFormattedAssessmentDate() {
         String pattern = "MM-yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(this.assessmentDate);
@@ -77,5 +73,4 @@ public class RadarViewModel
 
     public RadarTemplateViewModel getRadarTemplate() { return this.radarTemplate;}
     public void setRadarTemplate(RadarTemplateViewModel value) { this.radarTemplate = value;}
-
 }

@@ -6,8 +6,7 @@ import java.util.Date;
 /**
  * Created by acorrea on 10/18/2016.
  */
-public class Technology implements Serializable
-{
+public class Technology implements Serializable {
     private Long id;
     private String name;
     private String url;

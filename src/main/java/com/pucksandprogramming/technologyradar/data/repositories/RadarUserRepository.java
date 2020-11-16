@@ -1,7 +1,6 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
-import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +54,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     }
 
     @Override
-    protected RadarUserEntity findOne(RadarUser domainModel)
-    {
+    protected RadarUserEntity findOne(RadarUser domainModel) {
         return this.entityRepository.findOne(domainModel.getId());
     }
 
@@ -73,8 +71,7 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     }
 
     @Override
-    public RadarUser save(RadarUser itemToSave)
-    {
+    public RadarUser save(RadarUser itemToSave) {
         RadarUserEntity radarUserEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {

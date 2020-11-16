@@ -13,13 +13,11 @@ import java.util.List;
 @Controller
 @Secured("ROLE_ADMIN")
 @RequestMapping("/api")
-public class RoleController extends ControllerBase
-{
+public class RoleController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RoleController.class);
 
     @GetMapping(value = "/roles", produces = "application/json")
-    public @ResponseBody List<Role> getRoles()
-    {
+    public @ResponseBody List<Role> getRoles() {
         List<Role> retVal = new ArrayList<>();
 
         retVal.add(Role.createUserRole());

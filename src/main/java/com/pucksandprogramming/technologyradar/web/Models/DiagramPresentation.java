@@ -3,9 +3,6 @@ package com.pucksandprogramming.technologyradar.web.Models;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
-import com.pucksandprogramming.technologyradar.web.Models.Quadrant;
-import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
-import com.pucksandprogramming.technologyradar.web.Models.RadarTemplateViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,8 +11,7 @@ import java.util.List;
 /**
  * Created by acorrea on 10/20/2016.
  */
-public class DiagramPresentation
-{
+public class DiagramPresentation {
     public static final Integer DiagramDisplayHeight = 900;
     public static final Integer DiagramDisplayWidth = 1100;
     public static final Integer RingDiameter = 360;
@@ -36,8 +32,7 @@ public class DiagramPresentation
     private List<RadarRing> radarRings;
     private RadarTemplateViewModel radarTemplate;
 
-    public DiagramPresentation()
-    {
+    public DiagramPresentation() {
         this(DiagramPresentation.DiagramDisplayHeight,
              DiagramPresentation.DiagramDisplayWidth,
              DiagramPresentation.RingDiameter,
@@ -45,8 +40,7 @@ public class DiagramPresentation
              DiagramPresentation.MarginLeft);
     }
 
-    public DiagramPresentation(Integer height, Integer width, Integer ringDiameter, Integer marginTop, Integer marginLeft)
-    {
+    public DiagramPresentation(Integer height, Integer width, Integer ringDiameter, Integer marginTop, Integer marginLeft) {
         this.height = height;
         this.width = width;
         this.marginTop = marginTop;
@@ -109,29 +103,24 @@ public class DiagramPresentation
         return this.radarRings;
     }
 
-    public void setRadarInstanceDetails(Radar radarInstance)
-    {
+    public void setRadarInstanceDetails(Radar radarInstance) {
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
         this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
         this.radarTemplate = new RadarTemplateViewModel(radarInstance.getRadarTemplate());
     }
 
-    public void sddRadarArc(RadarRing radarRing)
-    {
-        if(this.radarArcs == null)
-        {
+    public void addRadarArc(RadarRing radarRing) {
+        if(this.radarArcs == null) {
             this.radarArcs = new ArrayList<RadarRingPresentation>();
         }
 
-        if(this.radarRings == null)
-        {
+        if(this.radarRings == null) {
             this.radarRings = new ArrayList<RadarRing>();
         }
 
         Integer arcStart = this.radarArcs.size() * this.radarArcWidth;
-        if(arcStart > 0)
-        {
+        if(arcStart > 0) {
             arcStart++;
         }
 
@@ -140,13 +129,11 @@ public class DiagramPresentation
         this.radarRings.add(radarRing);
     }
 
-    public void addRadarArcs(List<RadarRing> radarRings)
-    {
+    public void addRadarArcs(List<RadarRing> radarRings) {
         this.radarArcWidth = this.ringDiameter / radarRings.size();
 
-        for(RadarRing radarRing : radarRings)
-        {
-            this.sddRadarArc(radarRing);
+        for(RadarRing radarRing : radarRings) {
+            this.addRadarArc(radarRing);
         }
     }
 }

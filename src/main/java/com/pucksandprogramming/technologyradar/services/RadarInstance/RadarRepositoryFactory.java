@@ -8,28 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RadarRepositoryFactory
-{
+public class RadarRepositoryFactory {
     private RadarAccessManager radarAccessManager;
     private PublicRadarRepository publicRadarRepository;
     private FullRadarRepository fullRadarRepository;
 
     @Autowired
-    public RadarRepositoryFactory(RadarAccessManager radarAccessManager, PublicRadarRepository publicRadarRepository, FullRadarRepository fullRadarRepository)
-    {
+    public RadarRepositoryFactory(RadarAccessManager radarAccessManager, PublicRadarRepository publicRadarRepository, FullRadarRepository fullRadarRepository) {
         this.radarAccessManager = radarAccessManager;
         this.publicRadarRepository = publicRadarRepository;
         this.fullRadarRepository = fullRadarRepository;
     }
 
-    public RadarRepositoryBase getRadarRepository(RadarUser targetDataOwner)
-    {
+    public RadarRepositoryBase getRadarRepository(RadarUser targetDataOwner) {
         RadarRepositoryBase retVal = this.publicRadarRepository;
 
         RadarAccessManager.ViewAccessMode viewMode = this.radarAccessManager.canViewHistory(targetDataOwner);
 
-        switch(viewMode)
-        {
+        switch(viewMode) {
             case FullAccess:
                 retVal = this.fullRadarRepository;
                 break;

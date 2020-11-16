@@ -5,8 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RadarTemplateViewModel
-{
+public class RadarTemplateViewModel {
     private Long id;
     private String name;
     private boolean isPublished;
@@ -15,8 +14,7 @@ public class RadarTemplateViewModel
     private List<RadarTemplateDetailMessage> radarRings;
     private List<RadarTemplateDetailMessage> radarCategories;
 
-    public RadarTemplateViewModel()
-    {
+    public RadarTemplateViewModel() {
 
     }
 
@@ -25,26 +23,22 @@ public class RadarTemplateViewModel
         this.Initialize(radarTemplate);
     }
 
-    public void Initialize(RadarTemplate radarTemplate)
-    {
-        if(radarTemplate != null)
-        {
+    public void Initialize(RadarTemplate radarTemplate) {
+        if(radarTemplate != null) {
             this.id = radarTemplate.getId();
             this.name = radarTemplate.getName();
             this.isPublished = radarTemplate.getIsPublished();
             this.radarUserId = radarTemplate.getRadarUser().getId();
             this.radarRings = new ArrayList<RadarTemplateDetailMessage>();
 
-            for(int i = 0; i < radarTemplate.getRadarRings().size(); i++)
-            {
+            for(int i = 0; i < radarTemplate.getRadarRings().size(); i++) {
                 RadarTemplateDetailMessage newItem = new RadarTemplateDetailMessage(radarTemplate.getRadarRings().get(i));
                 this.radarRings.add(newItem);
             }
 
             this.radarCategories = new ArrayList<RadarTemplateDetailMessage>();
 
-            for(int i = 0; i < radarTemplate.getRadarCategories().size(); i++)
-            {
+            for(int i = 0; i < radarTemplate.getRadarCategories().size(); i++) {
                 RadarTemplateDetailMessage newItem = new RadarTemplateDetailMessage(radarTemplate.getRadarCategories().get(i));
                 this.radarCategories.add(newItem);
             }
@@ -53,21 +47,18 @@ public class RadarTemplateViewModel
         }
     }
 
-    public RadarTemplate ConvertToRadarTemplate()
-    {
+    public RadarTemplate ConvertToRadarTemplate() {
         RadarTemplate retVal = new RadarTemplate();
 
         retVal.setId(this.getId());
         retVal.setName(this.getName());
         retVal.setIsPublished(this.getIsPublished());
 
-        for(RadarTemplateDetailMessage detailMessage : this.radarRings)
-        {
+        for(RadarTemplateDetailMessage detailMessage : this.radarRings) {
             retVal.addRadarRing(detailMessage.ConvertToRadarRing());
         }
 
-        for(RadarTemplateDetailMessage detailMessage : this.radarCategories)
-        {
+        for(RadarTemplateDetailMessage detailMessage : this.radarCategories) {
             retVal.addRadarCategory(detailMessage.ConvertToRadarCategory());
         }
 

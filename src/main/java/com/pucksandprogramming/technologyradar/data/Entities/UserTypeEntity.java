@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "UserTypes")
-public class UserTypeEntity
-{
+public class UserTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false)
@@ -14,8 +13,7 @@ public class UserTypeEntity
     @Column(name = "Name", nullable=false, length=512)
     private String name;
 
-    public UserTypeEntity()
-    {
+    public UserTypeEntity() {
 
     }
 

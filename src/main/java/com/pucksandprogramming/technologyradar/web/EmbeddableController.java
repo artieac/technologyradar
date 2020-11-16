@@ -16,8 +16,7 @@ import java.util.List;
 @Controller
 @CrossOrigin
 @RequestMapping("/public/embeddable")
-public class EmbeddableController
-{
+public class EmbeddableController {
     private static final Logger logger = Logger.getLogger(EmbeddableController.class);
 
     @Autowired
@@ -27,18 +26,15 @@ public class EmbeddableController
     public ModelAndView mostRecentRadarByType(@PathVariable Long userId,
                                               @PathVariable Long radarTemplateId,
                                               @RequestParam(name="mostrecent", required = false, defaultValue="false") boolean mostRecent)
-
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTemplateId", radarTemplateId);
 
-        if(mostRecent==true)
-        {
+        if(mostRecent==true) {
             List<Radar> radarInstance = this.radarService.findByUserAndType(userId, radarTemplateId);
 
-            if (radarInstance != null && radarInstance.size() > 0)
-            {
+            if (radarInstance != null && radarInstance.size() > 0) {
                 modelAndView.addObject("radarInstanceId", radarInstance.get(0).getId());
             }
         }
@@ -49,15 +45,13 @@ public class EmbeddableController
     }
 
     @RequestMapping(value = { "/user/{userId}/radars/mostrecent",  "/public/home/user/{userId}/radars"})
-    public ModelAndView mostRecentRadar(@PathVariable Long userId)
-    {
+    public ModelAndView mostRecentRadar(@PathVariable Long userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
         List<Radar> radarInstance = this.radarService.findByRadarUserId(userId);
 
-        if(radarInstance != null && radarInstance.size() > 0)
-        {
+        if(radarInstance != null && radarInstance.size() > 0) {
             modelAndView.addObject("radarInstanceId", radarInstance.get(0).getId());
             modelAndView.addObject("radarTemplateId", radarInstance.get(0).getRadarTemplate().getId());
         }
@@ -66,5 +60,4 @@ public class EmbeddableController
 
         return modelAndView;
     }
-
 }

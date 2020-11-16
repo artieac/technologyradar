@@ -16,8 +16,7 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     private boolean invalidated;
     private final AuthenticatedUser authenticatedUser;
 
-    public Auth0TokenAuthentication(AuthenticatedUser authenticatedUser)
-    {
+    public Auth0TokenAuthentication(AuthenticatedUser authenticatedUser) {
         super(authenticatedUser.getGrantedAuthorities());
 
         this.authenticatedUser = authenticatedUser;
@@ -55,12 +54,10 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     public boolean isAuthenticated() {
         boolean retVal = false;
 
-        if (this.securityEnabled == true)
-        {
+        if (this.securityEnabled == true) {
             retVal = !invalidated && !hasExpired();
         }
-        else
-        {
+        else {
             retVal = true;
         }
 

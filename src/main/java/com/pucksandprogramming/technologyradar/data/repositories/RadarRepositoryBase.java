@@ -3,11 +3,9 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarItemEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
-import com.pucksandprogramming.technologyradar.data.Entities.VersionedIdEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -15,8 +13,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long>
-{
+public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long> {
     @Autowired
     protected EntityManager entityManager;
 
@@ -49,14 +46,11 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         super(Radar.class);
     }
 
-    protected List<Radar> mapList(List<RadarEntity> source)
-    {
+    protected List<Radar> mapList(List<RadarEntity> source) {
         List<Radar> retVal = new ArrayList<>();
 
-        if(source!=null)
-        {
-            for(RadarEntity radarEntity : source)
-            {
+        if(source!=null) {
+            for(RadarEntity radarEntity : source) {
                 retVal.add(this.modelMapper.map(radarEntity, Radar.class));
             }
         }
@@ -78,22 +72,19 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     public abstract List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId);
     public abstract List<RadarItem> findCurrentByType(Long radarUserId, Long radarTemplateId);
 
-    public Radar findByIdAndName(Long radarInstanceId, String assessmentName)
-    {
+    public Radar findByIdAndName(Long radarInstanceId, String assessmentName) {
         Radar retVal = null;
 
         RadarEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
 
-        if (foundItem != null)
-        {
+        if (foundItem != null) {
             retVal = this.modelMapper.map(foundItem, Radar.class);
         }
 
         return retVal;
     }
 
-    public List<Radar> findAllPublishedRadarsByUser(Long radarUserId)
-    {
+    public List<Radar> findAllPublishedRadarsByUser(Long radarUserId) {
         List<Radar> retVal = new ArrayList<>();
 
         List<RadarEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndIsPublished(radarUserId, true);
@@ -102,8 +93,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         return retVal;
     }
 
-    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
-    {
+    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId) {
         RadarItem retVal = null;
 
         Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
@@ -112,8 +102,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         query.setParameter("previousRadarInstanceId", previousRadarInstanceId);
         List<RadarItemEntity> foundItems = query.getResultList();
 
-        if (foundItems != null && foundItems.isEmpty()==false)
-        {
+        if (foundItems != null && foundItems.isEmpty()==false) {
             retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
         }
 
@@ -121,24 +110,20 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     }
 
     @Override
-    public Radar save(Radar itemToSave)
-    {
+    public Radar save(Radar itemToSave) {
         RadarEntity radarEntity = null;
 
-        if(itemToSave !=null && itemToSave.getId() != null)
-        {
+        if(itemToSave !=null && itemToSave.getId() != null) {
             radarEntity = this.entityRepository.findOne(itemToSave.getId());
         }
-        else
-        {
+        else {
             radarEntity = new RadarEntity();
         }
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
         ///.... this sucks
-        if(radarEntity != null)
-        {
+        if(radarEntity != null) {
             radarEntity.setAssessmentDate(itemToSave.getAssessmentDate());
             radarEntity.setName(itemToSave.getName());
             radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
@@ -147,10 +132,8 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
             radarEntity.setRadarTemplate(radarTemplateDAO.findOne(itemToSave.getRadarTemplate().getId()));
 
             // First remove any deletions
-            if(radarEntity != null && radarEntity.getRadarItems() != null)
-            {
-                for(int i = radarEntity.getRadarItems().size() - 1; i >= 0 ; i--)
-                {
+            if(radarEntity != null && radarEntity.getRadarItems() != null) {
+                for(int i = radarEntity.getRadarItems().size() - 1; i >= 0 ; i--) {
                     RadarItemEntity radarInstanceItemEntity = radarEntity.getRadarItems().get(i);
 
                     boolean foundMatch = false;
@@ -164,8 +147,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                         }
                     }
 
-                    if (foundMatch == false)
-                    {
+                    if (foundMatch == false) {
                         radarEntity.getRadarItems().remove(radarInstanceItemEntity);
                         radarItemDAO.delete(radarInstanceItemEntity);
                     }
@@ -173,18 +155,15 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
             }
 
             // then add in any new ones
-            for(int i = 0; i < itemToSave.getRadarItems().size(); i++)
-            {
+            for(int i = 0; i < itemToSave.getRadarItems().size(); i++) {
                 RadarItem assessmentItem = itemToSave.getRadarItems().get(i);
 
                 boolean foundMatch = false;
 
-                for(int j = 0; j < radarEntity.getRadarItems().size(); j++)
-                {
+                for(int j = 0; j < radarEntity.getRadarItems().size(); j++) {
                     RadarItemEntity radarInstanceItemEntity = radarEntity.getRadarItems().get(j);
 
-                    if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId())
-                    {
+                    if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId()) {
                         foundMatch = true;
                         radarInstanceItemEntity.setDetails(assessmentItem.getDetails());
                         radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
@@ -195,8 +174,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     }
                 }
 
-                if(foundMatch == false)
-                {
+                if(foundMatch == false) {
                     RadarItemEntity newItem = new RadarItemEntity();
                     newItem.setRadarInstance(radarEntity);
                     newItem.setDetails(assessmentItem.getDetails());
@@ -207,18 +185,15 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
 
                     TechnologyEntity targetTechnology = null;
 
-                    if(assessmentItem.getTechnology().getId() != null)
-                    {
+                    if(assessmentItem.getTechnology().getId() != null) {
                         targetTechnology = technologyDAO.findOne(assessmentItem.getTechnology().getId());
                     }
 
-                    if(targetTechnology == null)
-                    {
+                    if(targetTechnology == null) {
                         targetTechnology = technologyDAO.findByName(assessmentItem.getTechnology().getName());
                     }
 
-                    if(targetTechnology == null)
-                    {
+                    if(targetTechnology == null) {
                         targetTechnology = new TechnologyEntity();
                         targetTechnology.setName(assessmentItem.getTechnology().getName());
                         targetTechnology.setCreator(assessmentItem.getTechnology().getCreator());
@@ -235,8 +210,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
             }
         }
 
-        if(radarEntity != null)
-        {
+        if(radarEntity != null) {
             this.entityRepository.save(radarEntity);
         }
 

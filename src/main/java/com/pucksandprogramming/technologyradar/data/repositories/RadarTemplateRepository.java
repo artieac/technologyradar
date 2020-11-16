@@ -4,7 +4,6 @@ import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.data.dao.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,8 +11,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 @Repository
-public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplate, RadarTemplateEntity, RadarTemplateDAO, Long>
-{
+public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplate, RadarTemplateEntity, RadarTemplateDAO, Long> {
     @Autowired
     EntityManager entityManager;
 
@@ -41,14 +39,11 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
         super(RadarTemplate.class);
     }
 
-    public List<RadarTemplate> mapList(List<RadarTemplateEntity> source)
-    {
+    public List<RadarTemplate> mapList(List<RadarTemplateEntity> source) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
-        if(source!=null)
-        {
-            for(int i = 0; i < source.size(); i++)
-            {
+        if(source!=null) {
+            for(int i = 0; i < source.size(); i++) {
                 RadarTemplate newItem = this.modelMapper.map(source.get(i), RadarTemplate.class);
                 retVal.add(newItem);
             }
@@ -58,21 +53,17 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
     }
 
     @Override
-    protected RadarTemplateEntity findOne(RadarTemplate domainModel)
-    {
+    protected RadarTemplateEntity findOne(RadarTemplate domainModel) {
         return this.entityRepository.findOne(domainModel.getId());
     }
 
-    public List<RadarTemplate> findByUser(Long userId)
-    {
+    public List<RadarTemplate> findByUser(Long userId) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
         List<RadarTemplateEntity> foundItems = this.entityRepository.findAllByRadarUserIdAndStateOrderByCreateDate(userId, 1);
 
-        if(foundItems != null)
-        {
-            for (RadarTemplateEntity foundItem : foundItems)
-            {
+        if(foundItems != null) {
+            for (RadarTemplateEntity foundItem : foundItems) {
                 retVal.add(this.modelMapper.map(foundItem, RadarTemplate.class));
             }
         }
@@ -80,8 +71,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
         return retVal;
     }
 
-    public List<RadarTemplate> findByUserAndRadarTemplate(Long userId, String radarTemplateId)
-    {
+    public List<RadarTemplate> findByUserAndRadarTemplate(Long userId, String radarTemplateId) {
         Query query = entityManager.createNamedQuery("owned_FindHistoryByRadarUserIdAndId");
         query.setParameter("radarUserId", userId);
         query.setParameter("radarTemplateId", radarTemplateId);
@@ -89,23 +79,20 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
         return this.mapList(foundItems);
     }
 
-    public List<RadarTemplate> findSharedRadarTemplatesExcludeOwned(Long radarUserId)
-    {
+    public List<RadarTemplate> findSharedRadarTemplatesExcludeOwned(Long radarUserId) {
         Query query = entityManager.createNamedQuery("owned_FindHistorySharedRadarTemplatesExcludeOwned");
         query.setParameter("radarUserId", radarUserId);
         List<RadarTemplateEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    public List<RadarTemplate> findSharedRadarTemplates()
-    {
+    public List<RadarTemplate> findSharedRadarTemplates() {
         Query query =  this.entityManager.createNamedQuery("public_findSharedRadarTemplates");
         List<RadarTemplateEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    public List<RadarTemplate> findAssociatedRadarTemplates(Long radarUserId)
-    {
+    public List<RadarTemplate> findAssociatedRadarTemplates(Long radarUserId) {
         Query query = entityManager.createNamedQuery("findAllAssociated");
         query.setParameter("radarUserId", radarUserId);
         List<RadarTemplateEntity> foundItems = query.getResultList();
@@ -113,23 +100,20 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
     }
 
 
-    public List<RadarTemplate> findByPublishedRadars()
-    {
+    public List<RadarTemplate> findByPublishedRadars() {
         Query query = entityManager.createNamedQuery("findAllForPublishedRadars");
         List<RadarTemplateEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    public List<RadarTemplate> findByPublishedRadarsExcludeUser(Long excludeUserId)
-    {
+    public List<RadarTemplate> findByPublishedRadarsExcludeUser(Long excludeUserId) {
         Query query = entityManager.createNamedQuery("findAllForPublishedRadarsExcludeUser");
         query.setParameter("radarUserId", excludeUserId);
         List<RadarTemplateEntity> foundItems = query.getResultList();
         return this.mapList(foundItems);
     }
 
-    public List<RadarTemplate> findOwnedWithRadars(Long radarUserId)
-    {
+    public List<RadarTemplate> findOwnedWithRadars(Long radarUserId) {
         Query query = entityManager.createNamedQuery("findAllOwnedWithRadars");
         query.setParameter("radarUserId", radarUserId);
         List<RadarTemplateEntity> foundItems = query.getResultList();
@@ -137,26 +121,21 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
     }
 
     @Override
-    public RadarTemplate save(RadarTemplate itemToSave)
-    {
+    public RadarTemplate save(RadarTemplate itemToSave) {
         RadarTemplateEntity radarTemplateEntity = null;
 
-        if(itemToSave !=null)
-        {
-            if (itemToSave.getId() != null && itemToSave.getId() > 0)
-            {
+        if(itemToSave !=null) {
+            if (itemToSave.getId() != null && itemToSave.getId() > 0) {
                 radarTemplateEntity = this.entityRepository.findOne(itemToSave.getId());
             }
-            else
-            {
+            else {
                 radarTemplateEntity = new RadarTemplateEntity();
             }
 
             // THe mapper doesn't overwrite an instance so I keep getting transient errors
             // for now manually map it, and later look for another mapper
             ///.... this sucks
-            if (radarTemplateEntity != null)
-            {
+            if (radarTemplateEntity != null) {
                 radarTemplateEntity.setName(itemToSave.getName());
                 radarTemplateEntity.setIsPublished(itemToSave.getIsPublished());
                 radarTemplateEntity.setDescription(itemToSave.getDescription());
@@ -169,19 +148,14 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                 // Some ground rules.  If it has any radar's associated with it you can't remove any radar rings.
                 List<RadarEntity> createdRadars = this.radarDAO.findAllByRadarUserIdAndRadarTemplateId(itemToSave.getRadarUser().getId(), itemToSave.getId());
 
-                if(createdRadars==null || createdRadars.size()==0)
-                {
+                if(createdRadars==null || createdRadars.size()==0) {
                     // process Radar Rings
-                    if (radarTemplateEntity.getRadarRings() != null)
-                    {
-                        for (RadarRingEntity radarRingEntity : radarTemplateEntity.getRadarRings())
-                        {
+                    if (radarTemplateEntity.getRadarRings() != null) {
+                        for (RadarRingEntity radarRingEntity : radarTemplateEntity.getRadarRings()) {
                             boolean foundMatch = false;
 
-                            for (RadarRing radarRing : itemToSave.getRadarRings())
-                            {
-                                if (radarRing.getId() == radarRingEntity.getId())
-                                {
+                            for (RadarRing radarRing : itemToSave.getRadarRings()) {
+                                if (radarRing.getId() == radarRingEntity.getId()) {
                                     foundMatch = true;
                                     // match found, overwrite changes
                                     radarRingEntity.setName(radarRing.getName());
@@ -190,8 +164,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                             }
 
                             // it wasn't found in both lists, delete it
-                            if (foundMatch == false)
-                            {
+                            if (foundMatch == false) {
                                 radarTemplateEntity.getRadarRings().remove(radarRingEntity);
                                 radarRingDAO.delete(radarRingEntity);
                             }
@@ -200,16 +173,12 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
 
                     // process Radar Categories
                     // First remove any deletions
-                    if(radarTemplateEntity.getRadarCategories() != null)
-                    {
-                        for (RadarCategoryEntity radarCategoryEntity : radarTemplateEntity.getRadarCategories())
-                        {
+                    if(radarTemplateEntity.getRadarCategories() != null) {
+                        for (RadarCategoryEntity radarCategoryEntity : radarTemplateEntity.getRadarCategories()) {
                             boolean foundMatch = false;
 
-                            for (RadarCategory radarCategory : itemToSave.getRadarCategories())
-                            {
-                                if (radarCategory.getId() == radarCategoryEntity.getId())
-                                {
+                            for (RadarCategory radarCategory : itemToSave.getRadarCategories()) {
+                                if (radarCategory.getId() == radarCategoryEntity.getId()) {
                                     foundMatch = true;
                                     // match found, overwrite changes
                                     radarCategoryEntity.setName(radarCategory.getName());
@@ -218,8 +187,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                             }
 
                             // it wasn't found in both lists, delete it
-                            if (foundMatch == false)
-                            {
+                            if (foundMatch == false) {
                                 radarTemplateEntity.getRadarCategories().remove(radarCategoryEntity);
                                 radarCategoryDAO.delete(radarCategoryEntity);
                             }
@@ -228,28 +196,22 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                 }
 
                 // then add in any new ones
-                for (RadarRing radarRing : itemToSave.getRadarRings())
-                {
+                for (RadarRing radarRing : itemToSave.getRadarRings()) {
                     boolean foundMatch = false;
 
-                    if(radarTemplateEntity.getRadarRings()!=null)
-                    {
-                        for (RadarRingEntity radarRingEntity : radarTemplateEntity.getRadarRings())
-                        {
-                            if (radarRingEntity.getId() == radarRing.getId())
-                            {
+                    if(radarTemplateEntity.getRadarRings()!=null) {
+                        for (RadarRingEntity radarRingEntity : radarTemplateEntity.getRadarRings()) {
+                            if (radarRingEntity.getId() == radarRing.getId()) {
                                 foundMatch = true;
                                 break;
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         radarTemplateEntity.setRadarRings(new ArrayList<RadarRingEntity>());
                     }
 
-                    if (foundMatch == false)
-                    {
+                    if (foundMatch == false) {
                         RadarRingEntity newItem = new RadarRingEntity();
                         newItem.setName(radarRing.getName());
                         newItem.setDisplayOrder(radarRing.getDisplayOrder());
@@ -260,28 +222,22 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                 }
 
                 // then add in any new ones
-                for (RadarCategory radarCategory : itemToSave.getRadarCategories())
-                {
+                for (RadarCategory radarCategory : itemToSave.getRadarCategories()) {
                     boolean foundMatch = false;
 
-                    if(radarTemplateEntity.getRadarCategories()!=null)
-                    {
-                        for (RadarCategoryEntity radarCategoryEntity : radarTemplateEntity.getRadarCategories())
-                        {
-                            if (radarCategoryEntity.getId() == radarCategory.getId())
-                            {
+                    if(radarTemplateEntity.getRadarCategories()!=null) {
+                        for (RadarCategoryEntity radarCategoryEntity : radarTemplateEntity.getRadarCategories()) {
+                            if (radarCategoryEntity.getId() == radarCategory.getId()) {
                                 foundMatch = true;
                                 break;
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         radarTemplateEntity.setRadarCategories(new ArrayList<RadarCategoryEntity>());
                     }
 
-                    if (foundMatch == false)
-                    {
+                    if (foundMatch == false) {
                         RadarCategoryEntity newItem = new RadarCategoryEntity();
                         newItem.setName(radarCategory.getName());
                         newItem.setColor(radarCategory.getColor());
@@ -292,8 +248,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                 }
             }
 
-            if (radarTemplateEntity != null)
-            {
+            if (radarTemplateEntity != null) {
                 this.entityRepository.save(radarTemplateEntity);
             }
         }
@@ -301,28 +256,23 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
         return this.modelMapper.map(radarTemplateEntity, RadarTemplate.class);
     }
 
-    public boolean saveAssociatedRadarTemplate(RadarUser radarUser, RadarTemplate radarTemplate)
-    {
+    public boolean saveAssociatedRadarTemplate(RadarUser radarUser, RadarTemplate radarTemplate) {
         boolean retVal = false;
 
-        if (radarTemplate != null && radarUser != null)
-        {
+        if (radarTemplate != null && radarUser != null) {
             AssociatedRadarTemplateEntity associatedRadarTemplateEntityRadarTemplateEntity = this.associatedRadarTemplateDAO.findByRadarUserIdAndRadarTemplateId(radarUser.getId(), radarTemplate.getId());
 
-            if(associatedRadarTemplateEntityRadarTemplateEntity==null)
-            {
+            if(associatedRadarTemplateEntityRadarTemplateEntity==null) {
                 associatedRadarTemplateEntityRadarTemplateEntity = new AssociatedRadarTemplateEntity();
                 associatedRadarTemplateEntityRadarTemplateEntity.setRadarUserId(radarUser.getId());
                 associatedRadarTemplateEntityRadarTemplateEntity.setRadarTemplateId(radarTemplate.getId());
                 associatedRadarTemplateEntityRadarTemplateEntity = this.associatedRadarTemplateDAO.save(associatedRadarTemplateEntityRadarTemplateEntity);
 
-                if(associatedRadarTemplateEntityRadarTemplateEntity.getId() > 0)
-                {
+                if(associatedRadarTemplateEntityRadarTemplateEntity.getId() > 0) {
                     retVal = true;
                 }
             }
-            else
-            {
+            else {
                 retVal = true;
             }
         }
@@ -330,16 +280,13 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
         return retVal;
     }
 
-    public boolean deleteAssociatedRadarTemplate(RadarUser radarUser, RadarTemplate radarTemplate)
-    {
+    public boolean deleteAssociatedRadarTemplate(RadarUser radarUser, RadarTemplate radarTemplate) {
         boolean retVal = false;
 
-        if (radarTemplate != null && radarUser != null)
-        {
+        if (radarTemplate != null && radarUser != null) {
             AssociatedRadarTemplateEntity radarTemplateEntity = this.associatedRadarTemplateDAO.findByRadarUserIdAndRadarTemplateId(radarUser.getId(), radarTemplate.getId());
 
-            if (radarTemplateEntity != null)
-            {
+            if (radarTemplateEntity != null) {
                 this.associatedRadarTemplateDAO.delete(radarTemplateEntity.getId());
                 retVal = true;
             }

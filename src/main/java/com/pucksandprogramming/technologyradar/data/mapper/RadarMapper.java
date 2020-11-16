@@ -13,8 +13,7 @@ import javax.annotation.PostConstruct;
  * Created by acorrea on 10/18/2016.
  */
 @Component
-public class RadarMapper
-{
+public class RadarMapper {
 
     private ModelMapper modelMapper;
 
@@ -24,8 +23,7 @@ public class RadarMapper
     }
 
     @PostConstruct
-    private void initializeMapper()
-    {
+    private void initializeMapper() {
         modelMapper = new ModelMapper();
 
         // do not map null objects
@@ -43,10 +41,8 @@ public class RadarMapper
         modelMapper.addMappings(radarUserModelMap);
     }
 
-    private ModelMapper getMapper()
-    {
-        if (modelMapper == null)
-        {
+    private ModelMapper getMapper() {
+        if (modelMapper == null) {
             initializeMapper();
         }
         return modelMapper;

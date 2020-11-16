@@ -1,7 +1,5 @@
 package com.pucksandprogramming.technologyradar.data.Entities;
 
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-
 import javax.persistence.*;
 import java.util.List;
 

@@ -39,8 +39,7 @@ public class RadarUserEntity {
     @JoinColumn(name = "UserTypeId", nullable = false)
     private UserTypeEntity userType;
 
-    public RadarUserEntity()
-    {
+    public RadarUserEntity() {
 
     }
 

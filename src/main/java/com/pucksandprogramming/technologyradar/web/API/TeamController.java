@@ -21,8 +21,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
-public class TeamController extends ControllerBase
-{
+public class TeamController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(TeamController.class);
 
     @Autowired
@@ -31,16 +30,13 @@ public class TeamController extends ControllerBase
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/User/{userId}/Teams", produces = "application/json")
     public @ResponseBody
-    List<TeamViewModel> getAllByUser(@PathVariable Long userId)
-    {
+    List<TeamViewModel> getAllByUser(@PathVariable Long userId) {
         List<TeamViewModel> retVal = new ArrayList<>();
 
         List<Team> foundItems = this.teamService.findAll(userId);
 
-        if(foundItems!=null)
-        {
-            for(Team foundItem : foundItems)
-            {
+        if(foundItems!=null) {
+            for(Team foundItem : foundItems) {
                 retVal.add(new TeamViewModel(foundItem));
             }
         }
@@ -51,16 +47,13 @@ public class TeamController extends ControllerBase
     @GetMapping(value = "/User/{userId}/Team/{teamId}", produces = "application/json")
     public @ResponseBody
     TeamViewModel getAllByUser(@PathVariable Long userId,
-                                     @PathVariable Long teamId)
-    {
+                                     @PathVariable Long teamId) {
         TeamViewModel retVal = null;
 
-        if(this.getCurrentUserId()==userId || this.getCurrentUser().getRoleId()== Role.RoleType_Admin)
-        {
+        if(this.getCurrentUserId()==userId || this.getCurrentUser().getRoleId()== Role.RoleType_Admin) {
             Team foundItem = this.teamService.findByUserAndTeam(userId, teamId);
 
-            if(foundItem != null)
-            {
+            if(foundItem != null) {
                 retVal = new TeamViewModel(foundItem);
             }
         }
@@ -70,27 +63,22 @@ public class TeamController extends ControllerBase
 
     @PostMapping(value = "/User/{userId}/Team")
     public @ResponseBody
-    List<TeamViewModel> addTeam(@RequestBody Map modelMap, @PathVariable Long userId)
-    {
+    List<TeamViewModel> addTeam(@RequestBody Map modelMap, @PathVariable Long userId) {
         List<TeamViewModel> retVal = new ArrayList<>();
 
-        try
-        {
+        try {
             String teamName = modelMap.get("name").toString();
             this.teamService.addTeam(userId, teamName);
 
             List<Team> foundItems = this.teamService.findAll(userId);
 
-            if(foundItems != null)
-            {
-                for(Team foundItem : foundItems)
-                {
+            if(foundItems != null) {
+                for(Team foundItem : foundItems) {
                     retVal.add(new TeamViewModel(foundItem));
                 }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             logger.error(e);
         }
 

@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 /**
  * Created by acorrea on 12/26/2017.
  */
-public class ControllerBase
-{
+public class ControllerBase {
     @Value("${com.pucksandprogramming.securityEnabled}")
     private boolean securityEnabled;
 
@@ -23,22 +22,16 @@ public class ControllerBase
     private RadarUser currentUser = null;
     private AuthenticatedUser authenticatedUser = null;
 
-    public AuthenticatedUser getAuthenticatedUser()
-    {
-        if(this.authenticatedUser == null)
-        {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication)
-            {
+    public AuthenticatedUser getAuthenticatedUser() {
+        if(this.authenticatedUser == null) {
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
                 Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
 
-                if (tokenAuth != null)
-                {
+                if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
                 }
-                else
-                {
-                    if(this.securityEnabled==false)
-                    {
+                else {
+                    if(this.securityEnabled==false) {
                         RadarUser radarUser = this.radarUserService.findOne(1L);
                         this.authenticatedUser= new AuthenticatedUser(radarUser);
                         Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
@@ -46,10 +39,8 @@ public class ControllerBase
                     }
                 }
             }
-            else
-            {
-                if(this.securityEnabled==false)
-                {
+            else {
+                if(this.securityEnabled==false) {
                     RadarUser radarUser = this.radarUserService.findOne(1L);
                     this.authenticatedUser= new AuthenticatedUser(radarUser);
                     Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
@@ -61,12 +52,9 @@ public class ControllerBase
         return this.authenticatedUser;
     }
 
-    public RadarUser getCurrentUser()
-    {
-        if(this.currentUser == null)
-        {
-             if(this.getAuthenticatedUser()!=null)
-             {
+    public RadarUser getCurrentUser() {
+        if(this.currentUser == null) {
+             if(this.getAuthenticatedUser()!=null) {
                  this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId());
              }
         }
@@ -76,12 +64,10 @@ public class ControllerBase
 
 
     @ModelAttribute("currentUserId")
-    public Long getCurrentUserId()
-    {
+    public Long getCurrentUserId() {
         Long retVal = -1L;
 
-        if(this.getCurrentUser()!=null)
-        {
+        if(this.getCurrentUser()!=null) {
             retVal = this.getCurrentUser().getId();
         }
 

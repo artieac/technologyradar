@@ -6,14 +6,12 @@ import java.util.Date;
 /**
  * Created by acorrea on 10/19/2016.
  */
-public class RadarCategory implements Serializable
-{
+public class RadarCategory implements Serializable {
     private Long id;
     private String name;
     private String color;
 
-    public RadarCategory()
-    {
+    public RadarCategory() {
     }
 
     public Long getId(){ return id;}
