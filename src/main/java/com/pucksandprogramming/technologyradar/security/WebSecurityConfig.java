@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.AuthenticationController;
 import com.pucksandprogramming.technologyradar.security.jwt.JwtAuthorizationFilter;
+import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -92,7 +93,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
                         .antMatchers("/**").authenticated()
                     .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
-                    .and().logout().permitAll();
+                    .and().logout().logoutUrl("/logout").deleteCookies(JwtCookieManager.COOKIE_NAME).invalidateHttpSession(true);
+
         }
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
