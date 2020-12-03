@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/20/2016.
@@ -33,10 +34,10 @@ public class RadarConfigurationController extends ControllerBase {
         List<RadarRing> retVal = new ArrayList<RadarRing>();
 
         try {
-            Radar targetRadar = this.radarService.findById(radarId);
+            Optional<Radar> targetRadar = this.radarService.findById(radarId);
 
-            if (targetRadar != null) {
-                retVal = targetRadar.getRadarTemplate().getRadarRings();
+            if (targetRadar.isPresent()) {
+                retVal = targetRadar.get().getRadarTemplate().getRadarRings();
             }
         }
         catch(Exception e) {
@@ -51,10 +52,10 @@ public class RadarConfigurationController extends ControllerBase {
         List<RadarCategory> retVal = new ArrayList<RadarCategory>();
 
         try {
-            Radar targetRadar = this.radarService.findById(radarId);
+            Optional<Radar> targetRadar = this.radarService.findById(radarId);
 
-            if (targetRadar != null) {
-                retVal = targetRadar.getRadarTemplate().getRadarCategories();
+            if (targetRadar.isPresent()) {
+                retVal = targetRadar.get().getRadarTemplate().getRadarCategories();
             }
         }
         catch(Exception e) {

@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
@@ -48,14 +50,14 @@ public class RadarTemplateController extends ControllerBase {
         List<RadarTemplateViewModel> retVal = new ArrayList<RadarTemplateViewModel>();
 
         try {
-            RadarUser targetUser = radarUserService.findOne(radarUserId);
+            Optional<RadarUser> targetUser = radarUserService.findOne(radarUserId);
             List<RadarTemplate> foundItems = new ArrayList<RadarTemplate>();
 
             if (targetUser != null) {
                 foundItems = radarTemplateService.findByUserId(radarUserId);
 
-                if (includeAssociated == true && this.getCurrentUser()!=null && this.getCurrentUser().getId()==targetUser.getId()) {
-                    List<RadarTemplate> associatedRadarTemplates = this.associatedRadarTemplateService.findAssociatedRadarTemplates(targetUser);
+                if (includeAssociated == true && this.isCurrentUser(targetUser)) {
+                    List<RadarTemplate> associatedRadarTemplates = this.associatedRadarTemplateService.findAssociatedRadarTemplates(targetUser.get());
                     foundItems.addAll(associatedRadarTemplates);
                 }
             }
@@ -139,10 +141,10 @@ public class RadarTemplateController extends ControllerBase {
             List<RadarTemplate> foundItems = new ArrayList<RadarTemplate>();
 
             if (radarUserId != null && radarUserId > 0) {
-                RadarUser targetUser = radarUserService.findOne(radarUserId);
+                Optional<RadarUser> targetUser = radarUserService.findOne(radarUserId);
 
-                if (targetUser != null) {
-                    foundItems = this.associatedRadarTemplateService.findAssociatedRadarTemplates(targetUser);
+                if (targetUser.isPresent()) {
+                    foundItems = this.associatedRadarTemplateService.findAssociatedRadarTemplates(targetUser.get());
                 }
             }
 
@@ -164,7 +166,6 @@ public class RadarTemplateController extends ControllerBase {
         List<RadarTemplateViewModel> retVal = new ArrayList<RadarTemplateViewModel>();
 
         try {
-            RadarUser targetUser = radarUserService.findOne(radarUserId);
             List<RadarTemplate> foundItems = radarTemplateService.findByUserAndRadarTemplate(radarUserId, radarTemplateId);
 
             for (RadarTemplate radarTemplateItem : foundItems) {
@@ -185,12 +186,12 @@ public class RadarTemplateController extends ControllerBase {
 
         try {
             if (radarTemplateViewModel != null) {
-                RadarUser targetUser = this.radarUserService.findOne(radarUserId);
+                Optional<RadarUser> targetUser = this.radarUserService.findOne(radarUserId);
 
-                if(targetUser != null) {
-                    RadarTemplate radarTemplate = radarTemplateViewModel.ConvertToRadarTemplate();
+                if(targetUser.isPresent()) {
+                    Optional<RadarTemplate> radarTemplate = Optional.ofNullable(radarTemplateViewModel.ConvertToRadarTemplate());
                     radarTemplate = radarTemplateService.update(radarTemplate, radarUserId);
-                    retVal = new RadarTemplateViewModel(radarTemplate);
+                    retVal = new RadarTemplateViewModel(radarTemplate.get());
                 }
             }
         }
@@ -208,12 +209,12 @@ public class RadarTemplateController extends ControllerBase {
 
         try {
             if (radarTemplateViewModel != null) {
-                RadarUser targetUser = this.radarUserService.findOne(radarUserId);
+                Optional<RadarUser> targetUser = this.radarUserService.findOne(radarUserId);
 
-                if(targetUser != null) {
-                    RadarTemplate radarTemplate = radarTemplateViewModel.ConvertToRadarTemplate();
+                if(targetUser.isPresent()) {
+                    Optional<RadarTemplate> radarTemplate = Optional.ofNullable(radarTemplateViewModel.ConvertToRadarTemplate());
                     radarTemplate = radarTemplateService.update(radarTemplate, radarUserId);
-                    retVal = new RadarTemplateViewModel(radarTemplate);
+                    retVal = new RadarTemplateViewModel(radarTemplate.get());
                 }
             }
         }
@@ -233,8 +234,8 @@ public class RadarTemplateController extends ControllerBase {
         try {
             boolean shouldAssociate = Boolean.parseBoolean(modelMap.get("shouldAssociate").toString());
 
-            if (this.getCurrentUser().getId() == userId) {
-                retVal = this.associatedRadarTemplateService.associateRadarTemplate(this.getCurrentUser(), radarTemplateId, shouldAssociate);
+            if (this.isCurrentUser(userId)) {
+                retVal = this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(this.getCurrentUser()), radarTemplateId, shouldAssociate);
             }
         }
         catch(Exception e) {

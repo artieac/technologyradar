@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AssociatedRadarTemplateService extends ServiceBase {
@@ -39,24 +40,24 @@ public class AssociatedRadarTemplateService extends ServiceBase {
         return retVal;
     }
 
-    public boolean associateRadarTemplate(RadarUser targetUser, Long radarTemplateId, boolean shouldAssociate) {
+    public boolean associateRadarTemplate(Optional<RadarUser> targetUser, Long radarTemplateId, boolean shouldAssociate) {
         boolean retVal = false;
 
-        RadarTemplate radarTemplate = this.radarTemplateRepository.findOne(radarTemplateId);
+        Optional<RadarTemplate> radarTemplate = this.radarTemplateRepository.findById(radarTemplateId);
 
-        if(radarTemplate!=null && targetUser != null) {
+        if(radarTemplate.isPresent() && targetUser.isPresent()) {
             if(shouldAssociate==true) {
                 // don't allow a user to associate their own radar
-                if (radarTemplate.getRadarUser().getId() != targetUser.getId()) {
-                    List<RadarTemplate> associatedRadarTemplates = this.findAssociatedRadarTemplates(targetUser);
+                if (radarTemplate.get().getRadarUser().getId() != targetUser.get().getId()) {
+                    List<RadarTemplate> associatedRadarTemplates = this.findAssociatedRadarTemplates(targetUser.get());
 
-                    if(associatedRadarTemplates != null && associatedRadarTemplates.size() < targetUser.getUserType().getGrantValue(UserRights.AllowNAssociatedRadarTemplates)) {
-                        retVal = this.radarTemplateRepository.saveAssociatedRadarTemplate(targetUser, radarTemplate);
+                    if(associatedRadarTemplates != null && associatedRadarTemplates.size() < targetUser.get().getUserType().getGrantValue(UserRights.AllowNAssociatedRadarTemplates)) {
+                        retVal = this.radarTemplateRepository.saveAssociatedRadarTemplate(targetUser.get(), radarTemplate.get());
                     }
                 }
             }
             else {
-                retVal = this.radarTemplateRepository.deleteAssociatedRadarTemplate(targetUser, radarTemplate);
+                retVal = this.radarTemplateRepository.deleteAssociatedRadarTemplate(targetUser.get(), radarTemplate.get());
             }
         }
 
@@ -64,7 +65,7 @@ public class AssociatedRadarTemplateService extends ServiceBase {
     }
 
     public boolean associateRadarTemplate(Long radarTemplateId, boolean shouldAssociate) {
-        RadarUser targetUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
+        Optional<RadarUser> targetUser = this.getRadarUserRepository().findById(this.getAuthenticatedUser().getUserId());
         return this.associateRadarTemplate(targetUser, radarTemplateId, shouldAssociate);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 12/23/2017.
@@ -54,8 +55,8 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     }
 
     @Override
-    protected RadarUserEntity findOne(RadarUser domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarUserEntity> findOne(RadarUser domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public RadarUser findByAuthenticationId(String authenticationId) {
@@ -72,14 +73,16 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
 
     @Override
     public RadarUser save(RadarUser itemToSave) {
-        RadarUserEntity radarUserEntity = null;
+        Optional<RadarUserEntity> targetItem = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
             if (itemToSave != null && itemToSave.getId() != null && itemToSave.getId() > 0) {
-                radarUserEntity = this.entityRepository.findOne(itemToSave.getId());
+                targetItem = this.entityRepository.findById(itemToSave.getId());
             } else {
-                radarUserEntity = new RadarUserEntity();
+                targetItem = Optional.of(new RadarUserEntity());
             }
+
+            RadarUserEntity radarUserEntity = targetItem.get();
 
             // THe mapper doesn't overwrite an instance so I keep getting transient errors
             // for now manually map it, and later look for another mapper
@@ -92,14 +95,14 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
                 radarUserEntity.setName(itemToSave.getName());
                 radarUserEntity.setNickname(itemToSave.getNickname());
                 radarUserEntity.setRoleId(itemToSave.getRoleId());
-                radarUserEntity.setUserType(this.userTypeDAO.findOne(itemToSave.getUserType().getId()));
+                radarUserEntity.setUserType(this.userTypeDAO.findById(itemToSave.getUserType().getId()).get());
             }
 
             if (radarUserEntity != null) {
-                radarUserEntity = this.entityRepository.save(radarUserEntity);
+                this.entityRepository.save(radarUserEntity);
             }
         }
 
-        return this.modelMapper.map(this.findOne(radarUserEntity.getId()), RadarUser.class);
+        return this.modelMapper.map(this.findOne(itemToSave), RadarUser.class);
     }
 }

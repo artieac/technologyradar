@@ -7,6 +7,8 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class RadarRepositoryFactory {
     private RadarAccessManager radarAccessManager;
@@ -20,17 +22,19 @@ public class RadarRepositoryFactory {
         this.fullRadarRepository = fullRadarRepository;
     }
 
-    public RadarRepositoryBase getRadarRepository(RadarUser targetDataOwner) {
+    public RadarRepositoryBase getRadarRepository(Optional<RadarUser> targetDataOwner) {
         RadarRepositoryBase retVal = this.publicRadarRepository;
 
-        RadarAccessManager.ViewAccessMode viewMode = this.radarAccessManager.canViewHistory(targetDataOwner);
+        if(targetDataOwner.isPresent()) {
+            RadarAccessManager.ViewAccessMode viewMode = this.radarAccessManager.canViewHistory(targetDataOwner.get());
 
-        switch(viewMode) {
-            case FullAccess:
-                retVal = this.fullRadarRepository;
-                break;
-            default:
-                retVal = this.publicRadarRepository;
+            switch (viewMode) {
+                case FullAccess:
+                    retVal = this.fullRadarRepository;
+                    break;
+                default:
+                    retVal = this.publicRadarRepository;
+            }
         }
 
         return retVal;

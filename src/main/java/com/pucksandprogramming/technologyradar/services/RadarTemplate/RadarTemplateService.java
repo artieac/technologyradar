@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RadarTemplateService extends ServiceBase {
@@ -24,54 +25,39 @@ public class RadarTemplateService extends ServiceBase {
         this.fullRadarRepository = fullRadarRepository;
     }
 
-    public RadarTemplate findOneShared(Long radarTemplateId) {
-        RadarTemplate retVal = null;
+    public Optional<RadarTemplate> findOneShared(Long radarTemplateId) {
+        Optional<RadarUser> currentUser = this.getRadarUserRepository().findById(this.getAuthenticatedUser().getUserId());
+        Optional<RadarTemplate> radarTemplate = this.radarTemplateRepository.findById(radarTemplateId);
 
-        RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-        retVal = this.radarTemplateRepository.findOne(radarTemplateId);
-
-        if(retVal.getIsPublished()==false) {
-            return retVal;
+        if(radarTemplate.isPresent() && radarTemplate.get().getIsPublished()==false){
+            return radarTemplate;
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
-    public RadarTemplate findOne(Long radarTemplateId) {
-        RadarTemplate retVal = null;
-
+    public Optional<RadarTemplate> findOne(Long radarTemplateId) {
         if(this.getAuthenticatedUser()!=null) {
-            RadarUser currentUser = this.getRadarUserRepository().findOne(this.getAuthenticatedUser().getUserId());
-            retVal = this.radarTemplateRepository.findOne(radarTemplateId);
+            return this.radarTemplateRepository.findById(radarTemplateId);
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     public List<RadarTemplate> findByUserId(Long userId) {
-        List<RadarTemplate> retVal = new ArrayList<>();
-
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
-        retVal = this.radarTemplateRepository.findByUser(userId);
-
-        return retVal;
+        return this.radarTemplateRepository.findByUser(userId);
     }
 
     public List<RadarTemplate> findByUserAndRadarTemplate(Long userId, String radarTemplateId) {
-        List<RadarTemplate> retVal = new ArrayList<>();
-
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
-        retVal = this.radarTemplateRepository.findByUserAndRadarTemplate(userId, radarTemplateId);
-
-        return retVal;
+        return this.radarTemplateRepository.findByUserAndRadarTemplate(userId, radarTemplateId);
     }
 
     public List<RadarTemplate> findSharedRadarTemplates(Long userToExclude) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userToExclude);
+        Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(userToExclude);
 
-        if(dataOwner==null) {
+        if(!dataOwner.isPresent()) {
             retVal = this.radarTemplateRepository.findSharedRadarTemplates();
         }
         else {
@@ -84,9 +70,9 @@ public class RadarTemplateService extends ServiceBase {
     public List<RadarTemplate> findByPublishedRadars(Long excludeUserId) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
-        RadarUser excludeUser = this.getRadarUserRepository().findOne(excludeUserId);
+        Optional<RadarUser> excludeUser = this.getRadarUserRepository().findById(excludeUserId);
 
-        if(excludeUser==null) {
+        if(!excludeUser.isPresent()) {
             retVal = this.radarTemplateRepository.findByPublishedRadars();
         }
         else {
@@ -99,50 +85,50 @@ public class RadarTemplateService extends ServiceBase {
     public List<RadarTemplate> findOwnedWithRadars(Long dataOwnerId) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(dataOwnerId);
+        Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(dataOwnerId);
 
-        if(dataOwner==null) {
+        if(!dataOwner.isPresent()) {
             retVal = this.radarTemplateRepository.findByPublishedRadars();
         }
         else {
-            retVal = this.radarTemplateRepository.findOwnedWithRadars(dataOwner.getId());
+            retVal = this.radarTemplateRepository.findOwnedWithRadars(dataOwner.get().getId());
         }
 
         return retVal;
     }
 
-    public RadarTemplate update(RadarTemplate radarTemplateUpdates, Long ownerId) {
-        RadarTemplate retVal = null;
+    public Optional<RadarTemplate> update(Optional<RadarTemplate> radarTemplateUpdates, Long ownerId) {
+        Optional<RadarTemplate> retVal = Optional.empty();
 
         // first maek sure it can even save at ll
-        if(radarTemplateUpdates != null && radarTemplateUpdates.getRadarRings() != null && radarTemplateUpdates.getRadarRings().size() > 0) {
+        if(radarTemplateUpdates.isPresent() && radarTemplateUpdates.get().getRadarRings() != null && radarTemplateUpdates.get().getRadarRings().size() > 0) {
             boolean canSave = false;
 
-            RadarUser dataOwner = this.getRadarUserRepository().findOne(ownerId);
+            Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(ownerId);
 
-            if(radarTemplateUpdates.getId()!=null) {
-                retVal = this.radarTemplateRepository.findOne(radarTemplateUpdates.getId());
+            if(radarTemplateUpdates.get().getId()!=null) {
+                retVal = this.radarTemplateRepository.findById(radarTemplateUpdates.get().getId());
             }
 
-            if(retVal==null) {
+            if(!retVal.isPresent()) {
                 // trying to add one, make sure they have room in their max amount
                 List<RadarTemplate> userRadarTemplates = this.radarTemplateRepository.findByUser(ownerId);
 
-                if(userRadarTemplates!=null && userRadarTemplates.size() < dataOwner.getUserType().getGrantValue(UserRights.AllowNRadarTemplates)) {
+                if(userRadarTemplates!=null && userRadarTemplates.size() < dataOwner.get().getUserType().getGrantValue(UserRights.AllowNRadarTemplates)) {
                     canSave = true;
                 }
             }
             else {
                 // trying to update an existing, make sure they can version
-                if (dataOwner != null &&
-                        dataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
+                if (dataOwner.isPresent() &&
+                        dataOwner.get().getId() == this.getAuthenticatedUser().getUserId()) {
                     canSave = true;
                 }
             }
 
             if(canSave==true) {
-                radarTemplateUpdates.setRadarUser(dataOwner);
-                retVal = this.radarTemplateRepository.save(radarTemplateUpdates);
+                radarTemplateUpdates.get().setRadarUser(dataOwner.get());
+                retVal = Optional.ofNullable(this.radarTemplateRepository.save(radarTemplateUpdates.get()));
             }
         }
 
@@ -152,25 +138,25 @@ public class RadarTemplateService extends ServiceBase {
     public boolean deleteRadarTemplate(Long userId, Long radarTemplateId) {
         boolean retVal = false;
 
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+        Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(userId);
 
-        if(dataOwner!=null) {
-            RadarTemplate foundItem = this.radarTemplateRepository.findOne(radarTemplateId);
+        if(dataOwner.isPresent()) {
+            Optional<RadarTemplate> foundItem = this.radarTemplateRepository.findById(radarTemplateId);
 
-            if(foundItem.getRadarUser().getId() == userId &&
-                (this.getAuthenticatedUser().getUserId()==foundItem.getRadarUser().getId() ||
+            if(foundItem.isPresent() && foundItem.get().getRadarUser().getId() == userId &&
+                (this.getAuthenticatedUser().getUserId()==foundItem.get().getRadarUser().getId() ||
                 this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))) {
                 List<Radar> userRadars = this.fullRadarRepository.findByUserAndType(userId, radarTemplateId);
 
                 if(userRadars.size()==0) {
-                    this.radarTemplateRepository.delete(foundItem);
+                    this.radarTemplateRepository.delete(foundItem.get());
                     retVal = true;
                 }
                 else {
-                    this.radarTemplateRepository.delete((Iterable)userRadars);
+                    this.radarTemplateRepository.deleteAll((Iterable)userRadars);
 
-                    foundItem.setState(RadarTemplate.State_InActive);
-                    this.radarTemplateRepository.save(foundItem);
+                    foundItem.get().setState(RadarTemplate.State_InActive);
+                    this.radarTemplateRepository.save(foundItem.get());
                     retVal = true;
                 }
             }

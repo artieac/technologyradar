@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 /**
  * Created by acorrea on 12/28/2017.
  */
@@ -30,10 +32,10 @@ public class RadarSubjectController extends ControllerBase
 
     @RequestMapping(value={"/radarsubject/{id}", "/public/radarsubject/{id}"})
     public ModelAndView getTechnologyDetails(@PathVariable Long id, ModelAndView model) {
-        Technology targetTechnology = this.technologyService.findById(id);
+        Optional<Technology> targetTechnology = this.technologyService.findById(id);
 
         model.setViewName("radarsubject/details");
-        model.addObject("targetTechnology", targetTechnology);
+        model.addObject("targetTechnology", targetTechnology.get());
         return model;
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long> {
     @Autowired
@@ -59,9 +60,9 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     }
 
     @Override
-    protected RadarEntity findOne(Radar domainModel)
+    protected Optional<RadarEntity> findOne(Radar domainModel)
     {
-        return this.entityRepository.findOne(domainModel.getId());
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public abstract List<Radar> findByUserId(Long radarUserId);
@@ -111,14 +112,16 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
 
     @Override
     public Radar save(Radar itemToSave) {
-        RadarEntity radarEntity = null;
+        Optional<RadarEntity> targetEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
-            radarEntity = this.entityRepository.findOne(itemToSave.getId());
+            targetEntity = this.entityRepository.findById(itemToSave.getId());
         }
         else {
-            radarEntity = new RadarEntity();
+            targetEntity = Optional.of(new RadarEntity());
         }
+
+        RadarEntity radarEntity = targetEntity.get();
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
@@ -126,10 +129,10 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         if(radarEntity != null) {
             radarEntity.setAssessmentDate(itemToSave.getAssessmentDate());
             radarEntity.setName(itemToSave.getName());
-            radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+            radarEntity.setRadarUser(radarUserDAO.findById(itemToSave.getRadarUser().getId()).get());
             radarEntity.setIsPublished(itemToSave.getIsPublished());
             radarEntity.setIsLocked(itemToSave.getIsLocked());
-            radarEntity.setRadarTemplate(radarTemplateDAO.findOne(itemToSave.getRadarTemplate().getId()));
+            radarEntity.setRadarTemplate(radarTemplateDAO.findById(itemToSave.getRadarTemplate().getId()).get());
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null) {
@@ -166,8 +169,8 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId()) {
                         foundMatch = true;
                         radarInstanceItemEntity.setDetails(assessmentItem.getDetails());
-                        radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
-                        radarInstanceItemEntity.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                        radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findById(assessmentItem.getRadarCategory().getId()).get());
+                        radarInstanceItemEntity.setRadarRing(radarRingDAO.findById(assessmentItem.getRadarRing().getId()).get());
                         radarInstanceItemEntity.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         radarInstanceItemEntity.setState(assessmentItem.getState());
                         break;
@@ -178,15 +181,15 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     RadarItemEntity newItem = new RadarItemEntity();
                     newItem.setRadarInstance(radarEntity);
                     newItem.setDetails(assessmentItem.getDetails());
-                    newItem.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
-                    newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                    newItem.setRadarCategory(radarCategoryDAO.findById(assessmentItem.getRadarCategory().getId()).get());
+                    newItem.setRadarRing(radarRingDAO.findById(assessmentItem.getRadarRing().getId()).get());
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                     newItem.setState(assessmentItem.getState());
 
                     TechnologyEntity targetTechnology = null;
 
                     if(assessmentItem.getTechnology().getId() != null) {
-                        targetTechnology = technologyDAO.findOne(assessmentItem.getTechnology().getId());
+                        targetTechnology = technologyDAO.findById(assessmentItem.getTechnology().getId()).get();
                     }
 
                     if(targetTechnology == null) {

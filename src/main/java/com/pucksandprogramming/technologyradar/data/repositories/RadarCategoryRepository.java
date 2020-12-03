@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/19/2016.
@@ -39,7 +40,7 @@ public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategor
     }
 
     @Override
-    protected RadarCategoryEntity findOne(RadarCategory domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarCategoryEntity> findOne(RadarCategory domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 }

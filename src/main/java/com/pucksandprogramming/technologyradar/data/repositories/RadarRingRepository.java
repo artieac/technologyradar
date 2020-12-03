@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/19/2016.
@@ -31,14 +32,14 @@ public class RadarRingRepository extends SimpleDomainRepository<RadarRing, Radar
     }
 
     @Override
-    protected RadarRingEntity findOne(RadarRing domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarRingEntity> findOne(RadarRing domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public List<RadarRing> GetAllOrdered() {
         List<RadarRing> retVal = new ArrayList<RadarRing>();
 
-        Iterable<RadarRingEntity> foundItems = this.entityRepository.findAll(new Sort(Sort.Direction.DESC, "DisplayOrder"));
+        Iterable<RadarRingEntity> foundItems = this.entityRepository.findAll(Sort.by(Sort.Direction.DESC, "DisplayOrd"));
 
         for (RadarRingEntity foundItem : foundItems) {
             retVal.add(this.modelMapper.map(foundItem, RadarRing.class));

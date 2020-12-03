@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Optional;
+
 /**
  * Created by acorrea on 12/26/2017.
  */
@@ -32,8 +34,8 @@ public class ControllerBase {
                 }
                 else {
                     if(this.securityEnabled==false) {
-                        RadarUser radarUser = this.radarUserService.findOne(1L);
-                        this.authenticatedUser= new AuthenticatedUser(radarUser);
+                        Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
+                        this.authenticatedUser= new AuthenticatedUser(radarUser.get());
                         Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
                         SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
                     }
@@ -41,8 +43,8 @@ public class ControllerBase {
             }
             else {
                 if(this.securityEnabled==false) {
-                    RadarUser radarUser = this.radarUserService.findOne(1L);
-                    this.authenticatedUser= new AuthenticatedUser(radarUser);
+                    Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
+                    this.authenticatedUser= new AuthenticatedUser(radarUser.get());
                     Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
                     SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
                 }
@@ -55,13 +57,25 @@ public class ControllerBase {
     public RadarUser getCurrentUser() {
         if(this.currentUser == null) {
              if(this.getAuthenticatedUser()!=null) {
-                 this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId());
+                 this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId()).get();
              }
         }
 
         return this.currentUser;
     }
 
+    public boolean isCurrentUser(Long userId) {
+        Optional<RadarUser> radarUser = radarUserService.findOne(userId);
+        return this.isCurrentUser(radarUser);
+    }
+
+    public boolean isCurrentUser(Optional<RadarUser> radarUser){
+        if (radarUser.isPresent() && radarUser.get().getId() == this.getCurrentUser().getId()) {
+            return true;
+        }
+
+        return false;
+    }
 
     @ModelAttribute("currentUserId")
     public Long getCurrentUserId() {

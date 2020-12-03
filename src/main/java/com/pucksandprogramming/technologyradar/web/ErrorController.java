@@ -1,14 +1,11 @@
 package com.pucksandprogramming.technologyradar.web;
 
-import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.apache.log4j.Logger;
-import org.springframework.boot.autoconfigure.web.AbstractErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by acorrea on 1/11/2018.
  */
 @Controller
-public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController {
+public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
     private static final Logger logger = Logger.getLogger(ErrorController.class);
 
     private AuthenticatedUser authenticatedUser = null;

@@ -48,11 +48,11 @@ public class HomeController extends ControllerBase {
         }
 
         if(radarInstanceId.isPresent()) {
-            Radar targetRadar = this.radarService.findById(radarInstanceId.get());
+            Optional<Radar> targetRadar = this.radarService.findById(radarInstanceId.get());
 
-            if (targetRadar != null) {
+            if (targetRadar.isPresent()) {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
-                modelAndView.addObject("radarTemplateId", targetRadar.getRadarTemplate().getId());
+                modelAndView.addObject("radarTemplateId", targetRadar.get().getRadarTemplate().getId());
             }
         }
 
@@ -65,15 +65,15 @@ public class HomeController extends ControllerBase {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(targetDataOwner!=null) {
+        if(targetDataOwner.isPresent()) {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
             if (radarInstances != null && radarInstances.size() > 0) {
                 modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
 
-                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                if (targetDataOwner.get().getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
                     modelAndView.addObject("radarInstanceId", -1);
                 } else {
                     modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
@@ -96,8 +96,6 @@ public class HomeController extends ControllerBase {
         if(radarInstanceId.isPresent()) {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
-            RadarUser dataOwner = this.radarUserService.findOne(userId);
-
             // TBD if they can't share with others make sure this is the most recent.
             Radar radarInstance = this.radarService.findByUserAndRadarId(userId, radarInstanceId.get());
 
@@ -116,15 +114,15 @@ public class HomeController extends ControllerBase {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(targetDataOwner!=null) {
+        if(targetDataOwner.isPresent()) {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
             if (radarInstances != null && radarInstances.size() > 0) {
                 modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
 
-                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                if (targetDataOwner.get().getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
                     modelAndView.addObject("radarInstanceId", -1);
                 } else {
                     modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
@@ -176,9 +174,9 @@ public class HomeController extends ControllerBase {
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTemplateId", radarTemplateId);
 
-        RadarUser dataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> dataOwner = this.radarUserService.findOne(userId);
 
-        if(dataOwner!=null && dataOwner.getUserType().getId()!= UserType.Free) {
+        if(dataOwner!=null && dataOwner.get().getUserType().getId()!= UserType.Free) {
             modelAndView.addObject("radarInstanceId", -1);
         }
 

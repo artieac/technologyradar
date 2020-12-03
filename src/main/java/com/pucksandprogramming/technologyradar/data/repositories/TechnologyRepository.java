@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/18/2016.
@@ -43,8 +44,8 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     }
 
     @Override
-    protected TechnologyEntity findOne(Technology domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<TechnologyEntity> findOne(Technology domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public Technology findByName(String name) {

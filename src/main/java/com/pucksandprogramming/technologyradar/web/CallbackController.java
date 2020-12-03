@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("unused")
 @Controller
@@ -85,9 +86,8 @@ public class CallbackController {
                 if(targetUser.getId() > 0) {
                     List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
 
-                    for(RadarTemplate radarTemplate : defaultRadars)
-                    {
-                        this.associatedRadarTemplateService.associateRadarTemplate(targetUser, radarTemplate.getId(), true);
+                    for(RadarTemplate radarTemplate : defaultRadars) {
+                        this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(targetUser), radarTemplate.getId(), true);
                     }
                 }
             }

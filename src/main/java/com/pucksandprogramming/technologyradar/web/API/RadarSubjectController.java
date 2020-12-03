@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/27/2016.
@@ -33,11 +34,11 @@ public class RadarSubjectController extends ControllerBase {
     @GetMapping("/{id}/assessments")
     public @ResponseBody
     RadarSubjectBreakdown getRadarSubjects(@PathVariable Long id) {
-        Technology targetTechnology = this.technologyService.findById(id);
-        RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology);
+        Optional<Technology> targetTechnology = this.technologyService.findById(id);
+        RadarSubjectBreakdown retVal = new RadarSubjectBreakdown(targetTechnology.get());
 
         try {
-            if (targetTechnology != null) {
+            if (targetTechnology.isPresent()) {
                 // TBD this gets all the assessment items at the moment, ideally it would just pull back the ones targeted
                 // that would make the subsequent calls at lot easier to manage.
                 List<Radar> ownedRadarList = new ArrayList<Radar>();

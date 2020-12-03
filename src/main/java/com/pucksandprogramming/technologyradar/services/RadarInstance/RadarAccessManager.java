@@ -7,6 +7,8 @@ import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class RadarAccessManager {
     public enum ViewAccessMode {
@@ -65,7 +67,11 @@ public class RadarAccessManager {
         return retVal;
     }
 
-    public boolean canModifyRadar(RadarUser targetDataOwner) {
+    public boolean canModifyRadar(RadarUser radarUser){
+        return this.canModifyRadar(Optional.ofNullable(radarUser));
+    }
+
+    public boolean canModifyRadar(Optional<RadarUser> targetDataOwner) {
         boolean retVal = false;
 
         if(this.getAuthenticatedUser()!=null) {
@@ -74,9 +80,9 @@ public class RadarAccessManager {
             }
             else
             {
-                if (targetDataOwner != null) {
+                if (targetDataOwner.isPresent()) {
                     // logged in user owns the data
-                    if (targetDataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
+                    if (targetDataOwner.get().getId() == this.getAuthenticatedUser().getUserId()) {
                         retVal = true;
                     }
                     else {

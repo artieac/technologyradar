@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, TeamDAO, Long> {
@@ -44,22 +45,23 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
     }
 
     @Override
-    protected TeamEntity findOne(Team domainModel)
-    {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<TeamEntity> findOne(Team domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     @Override
     public Team save(Team itemToSave) {
-        TeamEntity targetEntity = null;
+        Optional<TeamEntity> teamEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
             if (itemToSave != null && itemToSave.getId() != null && itemToSave.getId() > 0) {
-                targetEntity = this.entityRepository.findOne(itemToSave.getId());
+                teamEntity = this.entityRepository.findById(itemToSave.getId());
             }
             else {
-                targetEntity = new TeamEntity();
+                teamEntity = Optional.of(new TeamEntity());
             }
+
+            TeamEntity targetEntity = teamEntity.get();
 
             // THe mapper doesn't overwrite an instance so I keep getting transient errors
             // for now manually map it, and later look for another mapper
@@ -67,7 +69,7 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
             if (targetEntity != null) {
                 targetEntity.setId(itemToSave.getId());
                 targetEntity.setName(itemToSave.getName());
-                targetEntity.setOwner(radarUserDAO.findOne(itemToSave.getOwner().getId()));
+                targetEntity.setOwner(radarUserDAO.findById(itemToSave.getOwner().getId()).get());
             }
 
             if (targetEntity != null) {
@@ -75,6 +77,6 @@ public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, Tea
             }
         }
 
-        return this.modelMapper.map(this.findOne(targetEntity.getId()), Team.class);
+        return this.modelMapper.map(this.findOne(itemToSave).get(), Team.class);
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 12/24/2017.
@@ -63,8 +64,6 @@ public class RadarController extends ControllerBase {
         try {
             List<Radar> foundItems = new ArrayList<>();
 
-            RadarUser targetUser = this.userService.findOne(radarUserId);
-
             if (radarTemplateId > 0) {
                 foundItems = this.radarService.findByUserAndType(radarUserId, radarTemplateId);
             }
@@ -93,9 +92,8 @@ public class RadarController extends ControllerBase {
         DiagramPresentation retVal = new DiagramPresentation();
 
         try {
-            RadarUser targetUser = this.userService.findOne(radarUserId);
             Radar targetRadar = this.radarService.findCurrentByType(radarUserId, radarTemplateId);
-            retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
+            retVal = this.radarSetupService.generateDiagramData(radarUserId, targetRadar);
         }
         catch(Exception e) {
             logger.error(e);
@@ -111,15 +109,13 @@ public class RadarController extends ControllerBase {
         List<RadarViewModel> retVal = new ArrayList<>();
 
         try {
-            RadarUser targetUser = this.userService.findOne(radarUserId);
-
             if (this.getCurrentUser().getId() == radarUserId) {
                 String radarName = modelMap.get("name").toString();
                 Long radarTemplateId = Long.parseLong(modelMap.get("radarTemplateId").toString());
                 this.radarService.addRadar(radarUserId, radarName, radarTemplateId);
             }
 
-            List<Radar> foundItems = this.radarService.findByRadarUserId(targetUser.getId());
+            List<Radar> foundItems = this.radarService.findByRadarUserId(radarUserId);
 
             if(foundItems != null) {
                 for(Radar foundItem : foundItems) {
@@ -140,11 +136,11 @@ public class RadarController extends ControllerBase {
         DiagramPresentation retVal = new DiagramPresentation();
 
         try {
-            RadarUser targetUser = this.userService.findOne(radarUserId);
+            Optional<RadarUser> targetUser = this.userService.findOne(radarUserId);
 
-            if(targetUser!=null) {
-                Radar targetRadar = this.radarService.findByUserAndRadarId(targetUser.getId(), radarId);
-                retVal = this.radarSetupService.generateDiagramData(targetUser.getId(), targetRadar);
+            if(targetUser.isPresent()) {
+                Radar targetRadar = this.radarService.findByUserAndRadarId(targetUser.get().getId(), radarId);
+                retVal = this.radarSetupService.generateDiagramData(targetUser.get().getId(), targetRadar);
             }
         }
         catch(Exception e)
@@ -161,12 +157,12 @@ public class RadarController extends ControllerBase {
 
         try {
             if (this.getCurrentUser() != null) {
-                Radar targetRadar = this.radarService.findById(radarId);
+                Optional<Radar> targetRadar = this.radarService.findById(radarId);
 
-                if (targetRadar != null) {
-                    if(this.radarAccessManager.canModifyRadar(targetRadar.getRadarUser())) {
-                        if (this.getCurrentUser().getId() == targetRadar.getRadarUser().getId()) {
-                            if (targetRadar.getIsLocked() == false) {
+                if (targetRadar.isPresent()) {
+                    if(this.radarAccessManager.canModifyRadar(targetRadar.get().getRadarUser())) {
+                        if (this.getCurrentUser().getId() == targetRadar.get().getRadarUser().getId()) {
+                            if (targetRadar.get().getIsLocked() == false) {
                                 retVal = true;
                             }
                         }
@@ -186,8 +182,6 @@ public class RadarController extends ControllerBase {
         List<RadarViewModel> retVal = new ArrayList<>();
 
         try {
-            RadarUser targetUser = this.userService.findOne(radarUserId);
-
             if(this.getCurrentUser().getId() == radarUserId) {
                 this.radarService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
             }
@@ -215,12 +209,10 @@ public class RadarController extends ControllerBase {
         try {
             boolean isPublished = Boolean.parseBoolean(modelMap.get("isPublished").toString());
 
-            RadarUser targetUser = this.userService.findOne(userId);
-
             retVal.setPublishSucceeded(this.radarService.publishRadar(userId, radarId, isPublished));
             retVal.setRadars(this.radarService.findByRadarUserId(userId));
 
-            UserViewModel currentUser = new UserViewModel(this.userService.findOne(userId));
+            UserViewModel currentUser = new UserViewModel(this.userService.findOne(userId).get());
             currentUser.setNumberOfSharedRadar(this.radarService.getSharedRadarCount(userId));
             retVal.setCurrentUser(currentUser);
         }
@@ -237,8 +229,6 @@ public class RadarController extends ControllerBase {
 
         try {
             boolean isLocked = Boolean.parseBoolean(modelMap.get("isLocked").toString());
-
-            RadarUser targetDataOwner = this.userService.findOne(userId);
             retVal = this.radarService.lockRadar(userId, radarId, isLocked);
         }
         catch(Exception e) {
@@ -253,9 +243,9 @@ public class RadarController extends ControllerBase {
         List<RadarViewModel> retVal = new ArrayList<>();
 
         try {
-            RadarUser targetDataOwner = this.userService.findOne(radarUserId);
+            Optional<RadarUser> targetDataOwner = this.userService.findOne(radarUserId);
 
-            if(targetDataOwner != null) {
+            if(targetDataOwner.isPresent()) {
                 List<Radar> foundItems = null;
 
                 if (this.radarService.deleteRadar(radarUserId, radarId)) {

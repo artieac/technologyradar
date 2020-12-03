@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTypeEntity, UserTypeDAO, Integer> {
@@ -40,7 +41,7 @@ public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTyp
     }
 
     @Override
-    protected UserTypeEntity findOne(UserType domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<UserTypeEntity> findOne(UserType domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 }

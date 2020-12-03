@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/19/2016.
@@ -46,12 +47,12 @@ public class DiagramConfigurationService {
     }
 
     public DiagramPresentation generateDiagramData(Long radarUserId, Radar radarInstance) {
-        RadarUser targetUser = this.radarUserRepository.findOne(radarUserId);
+        Optional<RadarUser> targetUser = this.radarUserRepository.findById(radarUserId);
 
         return this.generateDiagramData(targetUser, radarInstance);
     }
 
-    public DiagramPresentation generateDiagramData(RadarUser radarUser, Radar radarInstance) {
+    public DiagramPresentation generateDiagramData(Optional<RadarUser> radarUser, Radar radarInstance) {
         DiagramPresentation retVal = new DiagramPresentation();
 
         retVal.addRadarArcs(radarInstance.getRadarTemplate().getRadarRings());

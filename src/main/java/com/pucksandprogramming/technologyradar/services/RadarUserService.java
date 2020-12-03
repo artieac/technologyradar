@@ -11,10 +11,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by acorrea on 12/23/2017.
@@ -59,9 +56,8 @@ public class RadarUserService {
         return retVal;
     }
 
-    public RadarUser findOne(Long radarUserId)
-    {
-        return this.radarUserRepository.findOne(radarUserId);
+    public Optional<RadarUser> findOne(Long radarUserId) {
+        return this.radarUserRepository.findById(radarUserId);
     }
 
     public RadarUser findByAuthenticationId(String authenticationId) {
