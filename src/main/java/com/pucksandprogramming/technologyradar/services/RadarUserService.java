@@ -60,7 +60,7 @@ public class RadarUserService {
         return this.radarUserRepository.findById(radarUserId);
     }
 
-    public RadarUser findByAuthenticationId(String authenticationId) {
+    public Optional<RadarUser> findByAuthenticationId(String authenticationId) {
         return this.radarUserRepository.findByAuthenticationId(authenticationId);
     }
 
@@ -78,32 +78,30 @@ public class RadarUserService {
         return retVal;
     }
 
-    public RadarUser addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name) {
-        RadarUser retVal = null;
-
+    public Optional<RadarUser> addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name) {
         if(!authenticationId.isEmpty()) {
-            retVal = this.radarUserRepository.findByAuthenticationId(authenticationId);
+            Optional<RadarUser> targetUser = this.radarUserRepository.findByAuthenticationId(authenticationId);
 
-            if(retVal == null) {
-                retVal = this.createDefaultRadarUser();
-                retVal.setAuthenticationId(authenticationId);
-                retVal.setAuthority(authority);
-                retVal.setIssuer(issuer);
-                retVal.setEmail(email);
+            if(!targetUser.isPresent()) {
+                RadarUser newUser = this.createDefaultRadarUser();
+                newUser.setAuthenticationId(authenticationId);
+                newUser.setAuthority(authority);
+                newUser.setIssuer(issuer);
+                newUser.setEmail(email);
 
                 if(nickname==null) {
-                    retVal.setNickname(name);
+                    newUser.setNickname(name);
                 }
                 else {
-                    retVal.setNickname(nickname);
+                    newUser.setNickname(nickname);
                 }
 
-                retVal.setName(name);
-                retVal = this.radarUserRepository.save(retVal);
+                newUser.setName(name);
+                return Optional.ofNullable(this.radarUserRepository.save(newUser));
             }
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     public RadarUser updateUser(RadarUser radarUser) {

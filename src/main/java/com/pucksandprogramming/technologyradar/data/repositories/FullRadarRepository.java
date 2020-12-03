@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/21/2016.
@@ -29,16 +30,14 @@ public class FullRadarRepository extends RadarRepositoryBase {
     }
 
     @Override
-    public Radar findByUserRadarId(Long radarUserId, Long radarId) {
-        Radar retVal = null;
-
+    public Optional<Radar> findByUserRadarId(Long radarUserId, Long radarId) {
         RadarEntity targetItem = this.entityRepository.findByIdAndRadarUserId(radarId, radarUserId);
 
         if(targetItem!=null){
-            retVal = this.modelMapper.map(targetItem, Radar.class);
+            Optional.of(this.modelMapper.map(targetItem, Radar.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override

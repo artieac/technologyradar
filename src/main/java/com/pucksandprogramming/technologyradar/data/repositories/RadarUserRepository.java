@@ -59,16 +59,14 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
         return this.entityRepository.findById(domainModel.getId());
     }
 
-    public RadarUser findByAuthenticationId(String authenticationId) {
-        RadarUser retVal = null;
-
+    public Optional<RadarUser> findByAuthenticationId(String authenticationId) {
         RadarUserEntity foundItem = this.entityRepository.findByAuthenticationId(authenticationId);
 
         if (foundItem != null) {
-            retVal = this.modelMapper.map(foundItem, RadarUser.class);
+            Optional.ofNullable(this.modelMapper.map(foundItem, RadarUser.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override

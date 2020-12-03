@@ -48,16 +48,14 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         return this.entityRepository.findById(domainModel.getId());
     }
 
-    public Technology findByName(String name) {
-        Technology retVal = null;
-
+    public Optional<Technology> findByName(String name) {
         TechnologyEntity foundItem = this.entityRepository.findByName(name);
 
         if(foundItem!=null) {
-            retVal = this.modelMapper.map(foundItem, Technology.class);
+            Optional.ofNullable(this.modelMapper.map(foundItem, Technology.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     // Simple name search for now

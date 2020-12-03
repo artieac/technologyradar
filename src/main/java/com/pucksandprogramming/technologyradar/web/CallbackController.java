@@ -75,9 +75,9 @@ public class CallbackController {
             AuthenticatedUser authenticatedUser = new AuthenticatedUser();
             authenticatedUser.extractJWTDetails(JWT.decode(tokens.getIdToken()));
 
-            RadarUser targetUser = this.userService.findByAuthenticationId(authenticatedUser.getAuthSubjectIdentifier());
+            Optional<RadarUser> targetUser = this.userService.findByAuthenticationId(authenticatedUser.getAuthSubjectIdentifier());
 
-            if(targetUser == null) {
+            if(!targetUser.isPresent()) {
                 targetUser = this.userService.addUser(  authenticatedUser.getAuthSubjectIdentifier(),
                                                         authenticatedUser.getAuthority(),
                                                         authenticatedUser.getAuthTokenIssuer(),
@@ -85,25 +85,25 @@ public class CallbackController {
                                                         authenticatedUser.getNickname(),
                                                         authenticatedUser.getName());
 
-                if(targetUser.getId() > 0) {
+                if(targetUser.get().getId() > 0) {
                     List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
 
                     for(RadarTemplate radarTemplate : defaultRadars) {
-                        this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(targetUser), radarTemplate.getId(), true);
+                        this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(targetUser.get()), radarTemplate.getId(), true);
                     }
                 }
             }
 
-            if(targetUser != null && targetUser.getId() > 0) {
-                Role userRole = Role.createRole(targetUser.getRoleId());
+            if(targetUser.isPresent() && targetUser.get().getId() > 0) {
+                Role userRole = Role.createRole(targetUser.get().getRoleId());
                 authenticatedUser.addGrantedAuthority(userRole.getName());
 
                 for(String permission : userRole.getPermissions()) {
                     authenticatedUser.addGrantedAuthority(permission);
                 }
 
-                authenticatedUser.setUserId(targetUser.getId());
-                authenticatedUser.setUserType(targetUser.getUserType());
+                authenticatedUser.setUserId(targetUser.get().getId());
+                authenticatedUser.setUserType(targetUser.get().getUserType());
 
                 // TBD< switch this to an interface rather than a specific instance type
                 Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(authenticatedUser);

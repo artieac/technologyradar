@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PublicRadarRepository extends RadarRepositoryBase {
@@ -26,17 +27,14 @@ public class PublicRadarRepository extends RadarRepositoryBase {
     }
 
     @Override
-    public Radar findByUserRadarId(Long radarUserId, Long radarId) {
-        Radar retVal = null;
-
+    public Optional<Radar> findByUserRadarId(Long radarUserId, Long radarId) {
         RadarEntity foundItem = this.entityRepository.findByIdAndRadarUserIdAndIsPublished(radarId, radarUserId, true);
 
-        if(foundItem != null)
-        {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
+        if(foundItem != null) {
+            return Optional.of(this.modelMapper.map(foundItem, Radar.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override
@@ -150,10 +148,8 @@ public class PublicRadarRepository extends RadarRepositoryBase {
         return retVal;
     }
 
-    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
+    public Optional<RadarItem> getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId)
     {
-        RadarItem retVal = null;
-
         Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
         query.setParameter("technologyId", radarSubjectId);
         query.setParameter("radarUserId", radarUserId);
@@ -161,9 +157,9 @@ public class PublicRadarRepository extends RadarRepositoryBase {
         List<RadarItemEntity> foundItems = query.getResultList();
 
         if (foundItems != null && foundItems.isEmpty()==false) {
-            retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
+            return Optional.ofNullable(this.modelMapper.map(foundItems.get(0), RadarItem.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 }

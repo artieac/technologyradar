@@ -60,29 +60,26 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     }
 
     @Override
-    protected Optional<RadarEntity> findOne(Radar domainModel)
-    {
+    protected Optional<RadarEntity> findOne(Radar domainModel) {
         return this.entityRepository.findById(domainModel.getId());
     }
 
     public abstract List<Radar> findByUserId(Long radarUserId);
-    public abstract Radar findByUserRadarId(Long radarUserId, Long radarId);
+    public abstract Optional<Radar> findByUserRadarId(Long radarUserId, Long radarId);
     public abstract List<Radar> findByUserAndType(Long radarUserId, Long radarTemplateId);
     public abstract List<Radar> findByRadarSubjectId(Long radarSubjectIdf);
     public abstract List<Radar> findNotOwnedByRadarSubjectAndUser(Long radarUserId, Long radarSubjectId);
     public abstract List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId);
     public abstract List<RadarItem> findCurrentByType(Long radarUserId, Long radarTemplateId);
 
-    public Radar findByIdAndName(Long radarInstanceId, String assessmentName) {
-        Radar retVal = null;
-
+    public Optional<Radar> findByIdAndName(Long radarInstanceId, String assessmentName) {
         RadarEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
 
         if (foundItem != null) {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
+            return Optional.of(this.modelMapper.map(foundItem, Radar.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     public List<Radar> findAllPublishedRadarsByUser(Long radarUserId) {
@@ -94,9 +91,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         return retVal;
     }
 
-    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId) {
-        RadarItem retVal = null;
-
+    public Optional<RadarItem> getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId) {
         Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
         query.setParameter("technologyId", radarSubjectId);
         query.setParameter("radarUserId", radarUserId);
@@ -104,10 +99,10 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         List<RadarItemEntity> foundItems = query.getResultList();
 
         if (foundItems != null && foundItems.isEmpty()==false) {
-            retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
+            return Optional.ofNullable(this.modelMapper.map(foundItems.get(0), RadarItem.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override

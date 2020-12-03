@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.domainmodel;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/19/2016.
@@ -53,15 +54,15 @@ public class RadarItem implements Serializable {
     public Integer getState() { return this.state;}
     public void setState(Integer value) { this.state = value;}
 
-    public void determineState(RadarItem previousRadarItem) {
+    public void determineState(Optional<RadarItem> previousRadarItem) {
         this.setState(State_Stable);
 
-        if(previousRadarItem==null) {
+        if(!previousRadarItem.isPresent()) {
             this.setState(State_New);
         }
         else {
-            if((this.radarCategory.getId()!=previousRadarItem.getRadarCategory().getId()) ||
-                    this.radarRing.getId()!=previousRadarItem.getRadarRing().getId()) {
+            if((this.radarCategory.getId()!=previousRadarItem.get().getRadarCategory().getId()) ||
+                    this.radarRing.getId()!=previousRadarItem.get().getRadarRing().getId()) {
                 this.setState(State_Changed);
             }
         }
