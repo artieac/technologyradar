@@ -1,7 +1,7 @@
 package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ public class ControllerBase {
 
     public AuthenticatedUser getAuthenticatedUser() {
         if(this.authenticatedUser == null) {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
                 if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
@@ -37,7 +37,7 @@ public class ControllerBase {
                     if(this.securityEnabled==false) {
                         Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
                         this.authenticatedUser= new AuthenticatedUser(radarUser.get());
-                        Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
+                        TechRadarSecurityPrincipal oauthWrapper = new TechRadarSecurityPrincipal(this.authenticatedUser);
                         SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
                     }
                 }
@@ -46,7 +46,7 @@ public class ControllerBase {
                 if(this.securityEnabled==false) {
                     Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
                     this.authenticatedUser= new AuthenticatedUser(radarUser.get());
-                    Auth0TokenAuthentication oauthWrapper = new Auth0TokenAuthentication(this.authenticatedUser);
+                    TechRadarSecurityPrincipal oauthWrapper = new TechRadarSecurityPrincipal(this.authenticatedUser);
                     SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
                 }
             }

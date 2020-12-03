@@ -2,7 +2,7 @@ package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,8 +22,8 @@ public class RadarAccessManager {
 
         if(this.authenticatedUser == null) {
 
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
                 if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();

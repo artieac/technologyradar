@@ -1,6 +1,7 @@
 package com.pucksandprogramming.technologyradar.web.API;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.services.DiagramConfigurationService;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarAccessManager;
 import com.pucksandprogramming.technologyradar.services.RadarInstance.RadarService;
@@ -13,6 +14,7 @@ import com.pucksandprogramming.technologyradar.web.Models.RadarViewModel;
 import com.pucksandprogramming.technologyradar.web.Models.UserViewModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,7 +87,7 @@ public class RadarController extends ControllerBase {
         return retVal;
     }
 
-    @GetMapping(value = {"/User/{radarUserId}/RadarTemplate/{RadarTemplate}/Radar/FullView", "/public/User/{radarUserId}/RadarTemplate/{radarTemplateId}/Radar/FullView"}, produces = "application/json")
+    @GetMapping(value = {"/User/{radarUserId}/RadarTemplate/{radarTemplateId}/Radar/FullView", "/public/User/{radarUserId}/RadarTemplate/{radarTemplateId}/Radar/FullView"}, produces = "application/json")
     public @ResponseBody
     DiagramPresentation getMostRecentRadar(@PathVariable Long radarUserId,
                            @PathVariable Long radarTemplateId) {

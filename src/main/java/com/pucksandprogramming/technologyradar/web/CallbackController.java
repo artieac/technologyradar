@@ -3,9 +3,11 @@ package com.pucksandprogramming.technologyradar.web;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.domainmodel.UserType;
-import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
+import com.pucksandprogramming.technologyradar.security.IdentityProviderUser;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
+import com.pucksandprogramming.technologyradar.security.jwt.Auth0JwtManager;
+import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.AssociatedRadarTemplateService;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.DefaultRadarTemplateManager;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.RadarTemplateService;
@@ -14,7 +16,6 @@ import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
 import com.auth0.Tokens;
 import com.auth0.jwt.JWT;
-import com.pucksandprogramming.technologyradar.web.API.RoleController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -50,6 +51,12 @@ public class CallbackController {
     @Autowired
     AssociatedRadarTemplateService associatedRadarTemplateService;
 
+    @Autowired
+    Auth0JwtManager auth0JwtManager;
+
+    @Autowired
+    JwtCookieManager jwtCookieManager;
+
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
@@ -72,42 +79,37 @@ public class CallbackController {
         try {
             Tokens tokens = controller.handle(req);
 
-            AuthenticatedUser authenticatedUser = new AuthenticatedUser();
-            authenticatedUser.extractJWTDetails(JWT.decode(tokens.getIdToken()));
+            Optional<IdentityProviderUser> identityProviderUser = auth0JwtManager.getAuthenticatedUser(tokens.getIdToken());
 
-            Optional<RadarUser> targetUser = this.userService.findByAuthenticationId(authenticatedUser.getAuthSubjectIdentifier());
+            if(identityProviderUser.isPresent()) {
+                Optional<RadarUser> targetUser = this.userService.findByAuthenticationId(identityProviderUser.get().getAuthSubjectIdentifier());
 
-            if(!targetUser.isPresent()) {
-                targetUser = this.userService.addUser(  authenticatedUser.getAuthSubjectIdentifier(),
-                                                        authenticatedUser.getAuthority(),
-                                                        authenticatedUser.getAuthTokenIssuer(),
-                                                        authenticatedUser.getUserEmail(),
-                                                        authenticatedUser.getNickname(),
-                                                        authenticatedUser.getName());
+                if (!targetUser.isPresent()) {
+                    targetUser = this.userService.addUser(identityProviderUser.get().getAuthSubjectIdentifier(),
+                            identityProviderUser.get().getAuthority(),
+                            identityProviderUser.get().getAuthTokenIssuer(),
+                            identityProviderUser.get().getUserEmail(),
+                            identityProviderUser.get().getNickname(),
+                            identityProviderUser.get().getName());
 
-                if(targetUser.get().getId() > 0) {
-                    List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
+                    if (targetUser.get().getId() > 0) {
+                        List<RadarTemplate> defaultRadars = DefaultRadarTemplateManager.getDefaultRadarTemplates(radarTemplateService);
 
-                    for(RadarTemplate radarTemplate : defaultRadars) {
-                        this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(targetUser.get()), radarTemplate.getId(), true);
+                        for (RadarTemplate radarTemplate : defaultRadars) {
+                            this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(targetUser.get()), radarTemplate.getId(), true);
+                        }
                     }
                 }
-            }
 
-            if(targetUser.isPresent() && targetUser.get().getId() > 0) {
-                Role userRole = Role.createRole(targetUser.get().getRoleId());
-                authenticatedUser.addGrantedAuthority(userRole.getName());
+                if (targetUser.isPresent() && targetUser.get().getId() > 0) {
+                    AuthenticatedUser authenticatedUser = new AuthenticatedUser(targetUser);
 
-                for(String permission : userRole.getPermissions()) {
-                    authenticatedUser.addGrantedAuthority(permission);
+                    // TBD< switch this to an interface rather than a specific instance type
+                    TechRadarSecurityPrincipal tokenAuth = new TechRadarSecurityPrincipal(authenticatedUser);
+                    SecurityContextHolder.getContext().setAuthentication(tokenAuth);
+
+                    res.addCookie(this.jwtCookieManager.generateCookie(targetUser.get()));
                 }
-
-                authenticatedUser.setUserId(targetUser.get().getId());
-                authenticatedUser.setUserType(targetUser.get().getUserType());
-
-                // TBD< switch this to an interface rather than a specific instance type
-                Auth0TokenAuthentication tokenAuth = new Auth0TokenAuthentication(authenticatedUser);
-                SecurityContextHolder.getContext().setAuthentication(tokenAuth);
             }
 
             res.sendRedirect(redirectOnSuccess);

@@ -1,6 +1,6 @@
 package com.pucksandprogramming.technologyradar.web;
 
-import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,8 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 
     public AuthenticatedUser getAuthenticatedUser() {
         if(this.authenticatedUser == null) {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
                 if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
