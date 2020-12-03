@@ -22,7 +22,7 @@ import java.util.Date;
 )
 public class TechnologyEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Long id;
 

@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "AssociatedRadarTemplates")
 public class AssociatedRadarTemplateEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Long id;
 

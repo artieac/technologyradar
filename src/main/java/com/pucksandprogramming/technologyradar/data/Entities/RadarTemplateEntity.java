@@ -30,7 +30,7 @@ import java.util.UUID;
 )
 public class RadarTemplateEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Long id;
 

@@ -52,7 +52,7 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
         TechnologyEntity foundItem = this.entityRepository.findByName(name);
 
         if(foundItem!=null) {
-            Optional.ofNullable(this.modelMapper.map(foundItem, Technology.class));
+            return Optional.ofNullable(this.modelMapper.map(foundItem, Technology.class));
         }
 
         return Optional.empty();

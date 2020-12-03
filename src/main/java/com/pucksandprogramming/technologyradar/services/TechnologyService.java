@@ -24,7 +24,7 @@ public class TechnologyService {
 
     public static Technology createDefaultTechnology() {
         Technology retVal = new Technology();
-        retVal.setId(new Long(0));
+        retVal.setId(0L);
         retVal.setCreator("None");
         retVal.setName("Nothing");
         retVal.setUrl("http://www.foo.com");

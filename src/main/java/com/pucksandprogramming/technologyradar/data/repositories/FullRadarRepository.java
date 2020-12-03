@@ -34,7 +34,7 @@ public class FullRadarRepository extends RadarRepositoryBase {
         RadarEntity targetItem = this.entityRepository.findByIdAndRadarUserId(radarId, radarUserId);
 
         if(targetItem!=null){
-            Optional.of(this.modelMapper.map(targetItem, Radar.class));
+            return Optional.of(this.modelMapper.map(targetItem, Radar.class));
         }
 
         return Optional.empty();
