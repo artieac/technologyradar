@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,6 +34,7 @@ import java.util.Optional;
 
 @SuppressWarnings("unused")
 @Controller
+@ControllerAdvice
 public class CallbackController {
     private static final Logger logger = Logger.getLogger(CallbackController.class);
 

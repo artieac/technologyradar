@@ -7,6 +7,7 @@ import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Optional;
@@ -77,7 +78,6 @@ public class ControllerBase {
         return false;
     }
 
-    @ModelAttribute("currentUserId")
     public Long getCurrentUserId() {
         Long retVal = -1L;
 
@@ -86,6 +86,11 @@ public class ControllerBase {
         }
 
         return retVal;
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model){
+        model.addAttribute("currentUserId", this.getCurrentUserId());
     }
 
 }
