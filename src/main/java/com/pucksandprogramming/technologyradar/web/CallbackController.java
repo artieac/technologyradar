@@ -8,6 +8,7 @@ import com.pucksandprogramming.technologyradar.security.IdentityProviderUser;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.security.jwt.Auth0JwtManager;
 import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
+import com.pucksandprogramming.technologyradar.security.jwt.TechRadarJwt;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.AssociatedRadarTemplateService;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.DefaultRadarTemplateManager;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.RadarTemplateService;
@@ -108,7 +109,7 @@ public class CallbackController {
                     TechRadarSecurityPrincipal tokenAuth = new TechRadarSecurityPrincipal(authenticatedUser);
                     SecurityContextHolder.getContext().setAuthentication(tokenAuth);
 
-                    res.addCookie(this.jwtCookieManager.generateCookie(targetUser.get()));
+                    res.addCookie(this.jwtCookieManager.generateCookie(new TechRadarJwt(targetUser.get(), identityProviderUser.get().getAuthExpiration())));
                 }
             }
 

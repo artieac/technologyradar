@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class Auth0JwtManager {
+public class Auth0JwtManager extends JwtManagerBase{
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private class Claims{
@@ -31,14 +31,9 @@ public class Auth0JwtManager {
 
             IdentityProviderUser authenticatedUser = new IdentityProviderUser();
 
-            Claim emailClaim = auth0Jwt.getClaim(Claims.EMAIL_CLAIM);
-            authenticatedUser.setUserEmail(emailClaim.asString());
-
-            Claim nicknameClaim = auth0Jwt.getClaim(Claims.NICKNAME_CLAIM);
-            authenticatedUser.setNickname(nicknameClaim.asString());
-
-            Claim nameClaim = auth0Jwt.getClaim(Claims.NAME_CLAIM);
-            authenticatedUser.setName(nameClaim.asString());
+            authenticatedUser.setUserEmail(this.getClaimAsString(auth0Jwt, Claims.EMAIL_CLAIM));
+            authenticatedUser.setNickname(this.getClaimAsString(auth0Jwt, Claims.NICKNAME_CLAIM));
+            authenticatedUser.setName(this.getClaimAsString(auth0Jwt, Claims.NAME_CLAIM));
 
             authenticatedUser.setAuthToken(auth0Jwt.getToken());
             authenticatedUser.setAuthSubject(auth0Jwt.getSubject());

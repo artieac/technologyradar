@@ -51,10 +51,8 @@ public class TechRadarSecurityPrincipal extends AbstractAuthenticationToken {
 
     @Override
     public boolean isAuthenticated() {
-        if(this.authenticatedUser!=null &&
-                this.authenticatedUser.getRadarUser().isPresent() &&
-                this.authenticatedUser.getRadarUser().get().getId() > 0){
-            return true;
+        if(this.authenticatedUser!=null){
+            return this.authenticatedUser.isAuthenticated();
         }
 
         return false;

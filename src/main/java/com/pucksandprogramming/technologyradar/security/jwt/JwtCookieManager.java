@@ -17,10 +17,6 @@ public class JwtCookieManager {
         this.jwtManager = jwtManager;
     }
 
-    public Cookie generateCookie(RadarUser radarUser) {
-        return this.generateCookie(new TechRadarJwt(radarUser));
-    }
-
     public Cookie generateCookie(TechRadarJwt techRadarJwt){
         Cookie retVal = new Cookie(COOKIE_NAME, this.jwtManager.generateJwt(techRadarJwt));
  //       retVal.setDomain("");

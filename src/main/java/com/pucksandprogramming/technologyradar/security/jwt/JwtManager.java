@@ -13,6 +13,7 @@ import org.bouncycastle.crypto.tls.SignatureAlgorithm;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -26,8 +27,10 @@ public class JwtManager extends JwtManagerBase {
         public static final String ID = "ID";
     };
 
+    private final SecretManager secretManager;
+
     public JwtManager(SecretManager secretManager){
-        super(secretManager);
+        this.secretManager = secretManager;
     }
 
     public Optional<TechRadarJwt> getJwtDetails(String jwt){
@@ -43,17 +46,29 @@ public class JwtManager extends JwtManagerBase {
         return Optional.empty();
     }
 
+    private Date getDefaultExpiration(){
+        Calendar expiration = Calendar.getInstance();
+        expiration.add(Calendar.DATE, 7);
+        return expiration.getTime();
+    }
+
     public String generateJwt(TechRadarJwt techRadarJwt) {
         String jwt = "";
 
         try {
+            Date expirationDate = this.getDefaultExpiration();
+
+//            if(techRadarJwt.expirationDate.isPresent()){
+//                expirationDate = techRadarJwt.expirationDate.get();
+//            }
+
             jwt = JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(techRadarJwt.getSubject())
                     .withIssuedAt(new Date())
-                    //                .withExpiresAt(new Date())
+                    .withExpiresAt(expirationDate)
                     .withClaim(Claims.ID, techRadarJwt.getUserId())
-                    .sign(Algorithm.HMAC256(this.getSecret()));
+                    .sign(Algorithm.HMAC256(this.secretManager.getCookieSecret()));
         } catch(Exception e){
             logger.error(e.getMessage(), e);
         }

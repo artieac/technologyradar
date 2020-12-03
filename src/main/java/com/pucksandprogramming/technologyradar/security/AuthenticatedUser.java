@@ -102,4 +102,12 @@ public class AuthenticatedUser {
 
         return retVal;
     }
+
+    public boolean isAuthenticated() {
+        if(this.radarUser.isPresent() && this.radarUser.get().getId() > 0){
+            return true;
+        }
+
+        return false;
+    }
 }

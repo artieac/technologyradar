@@ -1,5 +1,6 @@
 package com.pucksandprogramming.technologyradar.security.jwt;
 
+import com.google.common.base.Strings;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
@@ -23,6 +24,8 @@ import java.util.Optional;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private JwtManager jwtManager;
     private RadarUserService radarUserService;
+
+    private static String AUTHORIZATION_HEADER = "Authorization";
 
     public JwtAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
@@ -52,9 +55,28 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
+        Optional<TechRadarJwt> techRadarJwt = this.getDetailsFromCookie(req);
+
+        if (!techRadarJwt.isPresent()) {
+            techRadarJwt = this.getDetailsFromAuthHeader(req);
+        }
+
+        if(techRadarJwt.isPresent()){
+            Optional<RadarUser> radarUser = this.getRadarUserService(req).findOne(techRadarJwt.get().getUserId());
+
+            if (radarUser.isPresent()) {
+                TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(radarUser.get());
+                SecurityContextHolder.getContext().setAuthentication(securityPrincipal);
+            }
+        }
+
+        chain.doFilter(req, res);
+    }
+
+    private Optional<TechRadarJwt> getDetailsFromCookie(HttpServletRequest request){
         Cookie authCookie = null;
 
-        for (Cookie requestCookie : req.getCookies()) {
+        for (Cookie requestCookie : request.getCookies()) {
             if (requestCookie.getName().equals(JwtCookieManager.COOKIE_NAME)) {
                 authCookie = requestCookie;
                 break;
@@ -62,18 +84,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         if (authCookie != null) {
-            Optional<TechRadarJwt> techRadarJwt = this.getJwtManager(req).getJwtDetails(authCookie.getValue());
+            return this.getJwtManager(request).getJwtDetails(authCookie.getValue());
+        }
 
-            if (techRadarJwt.isPresent()) {
-                Optional<RadarUser> radarUser = this.getRadarUserService(req).findOne(techRadarJwt.get().getUserId());
+        return Optional.empty();
+    }
 
-                if (radarUser.isPresent()) {
-                    TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(radarUser.get());
-                    SecurityContextHolder.getContext().setAuthentication(securityPrincipal);
-                }
+    private Optional<TechRadarJwt> getDetailsFromAuthHeader(HttpServletRequest request){
+        String authHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        if(!Strings.isNullOrEmpty(authHeader)){
+            String[] bearerComponents = authHeader.split(" ");
+
+            if(bearerComponents.length > 1) {
+                return this.getJwtManager(request).getJwtDetails(bearerComponents[1]);
             }
         }
 
-        chain.doFilter(req, res);
+        return Optional.empty();
     }
 }
