@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ser.std.DateTimeSerializerBase;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.security.SecretManager;
+import com.pucksandprogramming.technologyradar.web.ManageRadarsController;
+import org.apache.log4j.Logger;
 import org.bouncycastle.crypto.tls.SignatureAlgorithm;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,7 @@ import java.util.Optional;
 
 @Component
 public class JwtManager extends JwtManagerBase {
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = Logger.getLogger(JwtManager.class);
 
     private static final String ISSUER = "pucksandprogramming.com";
 

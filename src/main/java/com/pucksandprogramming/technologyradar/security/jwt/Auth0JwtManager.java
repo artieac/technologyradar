@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.pucksandprogramming.technologyradar.security.IdentityProviderUser;
+import com.pucksandprogramming.technologyradar.web.ManageRadarsController;
+import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,7 @@ import java.util.Optional;
 
 @Component
 public class Auth0JwtManager extends JwtManagerBase{
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = Logger.getLogger(Auth0JwtManager.class);
 
     private class Claims{
         public static final String EMAIL_CLAIM = "https://www.pucksandprogramming.com/email";

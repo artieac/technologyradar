@@ -37,6 +37,7 @@ public class LoginController {
         this.authenticationController = authenticationController;
         this.webSecurityConfig = webSecurityConfig;
     }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     protected String login(final HttpServletRequest req) {
         logger.debug("Performing login");
