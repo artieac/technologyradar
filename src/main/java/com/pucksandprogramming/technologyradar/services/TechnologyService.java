@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 11/3/2016.
  */
 @Component
 public class TechnologyService {
-    private TechnologyRepository technologyRepository;
+    private final TechnologyRepository technologyRepository;
 
     @Autowired
     public TechnologyService(TechnologyRepository technologyRepository) {
@@ -23,7 +24,7 @@ public class TechnologyService {
 
     public static Technology createDefaultTechnology() {
         Technology retVal = new Technology();
-        retVal.setId(new Long(0));
+        retVal.setId(0L);
         retVal.setCreator("None");
         retVal.setName("Nothing");
         retVal.setUrl("http://www.foo.com");
@@ -31,9 +32,8 @@ public class TechnologyService {
         return retVal;
     }
 
-    public Technology findById(Long technologyId)
-    {
-        return this.technologyRepository.findOne(technologyId);
+    public Optional<Technology> findById(Long technologyId) {
+        return this.technologyRepository.findById(technologyId);
     }
 
     public List<Technology> searchTechnology(String technologyName, String radarTemplateId, Long radarRingId, Long radarCategoryId) {

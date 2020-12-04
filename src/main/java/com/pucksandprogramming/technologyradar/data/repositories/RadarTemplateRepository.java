@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.*;
 import com.pucksandprogramming.technologyradar.data.dao.*;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,31 +13,29 @@ import java.util.*;
 
 @Repository
 public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplate, RadarTemplateEntity, RadarTemplateDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final RadarRingDAO radarRingDAO;
+    private final RadarCategoryDAO radarCategoryDAO;
+    private final RadarUserDAO radarUserDAO;
+    private final AssociatedRadarTemplateDAO associatedRadarTemplateDAO;
+    private final RadarDAO radarDAO;
+    private final EntityManager entityManager;
 
     @Autowired
-    RadarRingDAO radarRingDAO;
-
-    @Autowired
-    RadarCategoryDAO radarCategoryDAO;
-
-    @Autowired
-    RadarUserDAO radarUserDAO;
-
-    @Autowired
-    AssociatedRadarTemplateDAO associatedRadarTemplateDAO;
-
-    @Autowired
-    RadarDAO radarDAO;
-
-    @Autowired
-    public void setEntityRepository(RadarTemplateDAO entityRepository) {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarTemplateRepository() {
-        super(RadarTemplate.class);
+    public RadarTemplateRepository(RadarMapper modelMapper,
+                                    RadarTemplateDAO entityRepository,
+                                    RadarRingDAO radarRingDAO,
+                                    RadarCategoryDAO radarCategoryDAO,
+                                    RadarUserDAO radarUserDAO,
+                                    AssociatedRadarTemplateDAO associatedRadarTemplateDAO,
+                                    RadarDAO radarDAO,
+                                    EntityManager entityManager) {
+        super(modelMapper, entityRepository, RadarTemplate.class);
+        this.radarRingDAO = radarRingDAO;
+        this.radarCategoryDAO = radarCategoryDAO;
+        this.radarUserDAO = radarUserDAO;
+        this.associatedRadarTemplateDAO = associatedRadarTemplateDAO;
+        this.radarDAO = radarDAO;
+        this.entityManager = entityManager;
     }
 
     public List<RadarTemplate> mapList(List<RadarTemplateEntity> source) {
@@ -53,8 +52,8 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
     }
 
     @Override
-    protected RadarTemplateEntity findOne(RadarTemplate domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarTemplateEntity> findOne(RadarTemplate domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public List<RadarTemplate> findByUser(Long userId) {
@@ -122,15 +121,17 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
 
     @Override
     public RadarTemplate save(RadarTemplate itemToSave) {
-        RadarTemplateEntity radarTemplateEntity = null;
+        Optional<RadarTemplateEntity> targetRadarTemplateEntity = null;
 
         if(itemToSave !=null) {
             if (itemToSave.getId() != null && itemToSave.getId() > 0) {
-                radarTemplateEntity = this.entityRepository.findOne(itemToSave.getId());
+                targetRadarTemplateEntity = this.entityRepository.findById(itemToSave.getId());
             }
             else {
-                radarTemplateEntity = new RadarTemplateEntity();
+                targetRadarTemplateEntity = Optional.of(new RadarTemplateEntity());
             }
+
+            RadarTemplateEntity radarTemplateEntity = targetRadarTemplateEntity.get();
 
             // THe mapper doesn't overwrite an instance so I keep getting transient errors
             // for now manually map it, and later look for another mapper
@@ -140,7 +141,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
                 radarTemplateEntity.setIsPublished(itemToSave.getIsPublished());
                 radarTemplateEntity.setDescription(itemToSave.getDescription());
                 radarTemplateEntity.setState(itemToSave.getState());
-                radarTemplateEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+                radarTemplateEntity.setRadarUser(radarUserDAO.findById(itemToSave.getRadarUser().getId()).get());
 
                 // save it here so we can add the rings and categories.  Not sure how else to do this.  Doesn't feel right though.
                 radarTemplateEntity = this.entityRepository.saveAndFlush(radarTemplateEntity);
@@ -249,11 +250,11 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
             }
 
             if (radarTemplateEntity != null) {
-                this.entityRepository.save(radarTemplateEntity);
+                targetRadarTemplateEntity = Optional.of(this.entityRepository.save(radarTemplateEntity));
             }
         }
 
-        return this.modelMapper.map(radarTemplateEntity, RadarTemplate.class);
+        return this.modelMapper.map(targetRadarTemplateEntity.get(), RadarTemplate.class);
     }
 
     public boolean saveAssociatedRadarTemplate(RadarUser radarUser, RadarTemplate radarTemplate) {
@@ -287,7 +288,7 @@ public class RadarTemplateRepository extends SimpleDomainRepository<RadarTemplat
             AssociatedRadarTemplateEntity radarTemplateEntity = this.associatedRadarTemplateDAO.findByRadarUserIdAndRadarTemplateId(radarUser.getId(), radarTemplate.getId());
 
             if (radarTemplateEntity != null) {
-                this.associatedRadarTemplateDAO.delete(radarTemplateEntity.getId());
+                this.associatedRadarTemplateDAO.deleteById(radarTemplateEntity.getId());
                 retVal = true;
             }
         }

@@ -4,46 +4,45 @@ import com.pucksandprogramming.technologyradar.data.Entities.RadarEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarItemEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long> {
-    @Autowired
-    protected EntityManager entityManager;
+    protected final EntityManager entityManager;
+    private final TechnologyDAO technologyDAO;
+    private final RadarRingDAO radarRingDAO;
+    private final RadarCategoryDAO radarCategoryDAO;
+    private final RadarUserDAO radarUserDAO;
+    private final RadarItemDAO radarItemDAO;
+    private final RadarTemplateDAO radarTemplateDAO;
 
-    @Autowired
-    TechnologyDAO technologyDAO;
-
-    @Autowired
-    RadarRingDAO radarRingDAO;
-
-    @Autowired
-    RadarCategoryDAO radarCategoryDAO;
-
-    @Autowired
-    RadarUserDAO radarUserDAO;
-
-    @Autowired
-    RadarItemDAO radarItemDAO;
-
-    @Autowired
-    RadarTemplateDAO radarTemplateDAO;
-
-    @Autowired
-    public void setEntityRepository(RadarDAO entityRepository)
+    public RadarRepositoryBase(RadarMapper modelMapper,
+                               RadarDAO radarDAO,
+                               EntityManager entityManager,
+                               TechnologyDAO technologyDAO,
+                               RadarRingDAO radarRingDAO,
+                               RadarCategoryDAO radarCategoryDAO,
+                               RadarUserDAO radarUserDAO,
+                               RadarItemDAO radarItemDAO,
+                               RadarTemplateDAO radarTemplateDAO)
     {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarRepositoryBase()
-    {
-        super(Radar.class);
+        super(modelMapper, radarDAO, Radar.class);
+        this.entityManager = entityManager;
+        this.technologyDAO = technologyDAO;
+        this.radarRingDAO = radarRingDAO;
+        this.radarCategoryDAO = radarCategoryDAO;
+        this.radarUserDAO = radarUserDAO;
+        this.radarItemDAO = radarItemDAO;
+        this.radarTemplateDAO = radarTemplateDAO;
     }
 
     protected List<Radar> mapList(List<RadarEntity> source) {
@@ -59,29 +58,26 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
     }
 
     @Override
-    protected RadarEntity findOne(Radar domainModel)
-    {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarEntity> findOne(Radar domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
     public abstract List<Radar> findByUserId(Long radarUserId);
-    public abstract Radar findByUserRadarId(Long radarUserId, Long radarId);
+    public abstract Optional<Radar> findByUserRadarId(Long radarUserId, Long radarId);
     public abstract List<Radar> findByUserAndType(Long radarUserId, Long radarTemplateId);
     public abstract List<Radar> findByRadarSubjectId(Long radarSubjectIdf);
     public abstract List<Radar> findNotOwnedByRadarSubjectAndUser(Long radarUserId, Long radarSubjectId);
     public abstract List<Radar> findOwnedByTechnologyId(Long radarUserId, Long radarSubjectId);
     public abstract List<RadarItem> findCurrentByType(Long radarUserId, Long radarTemplateId);
 
-    public Radar findByIdAndName(Long radarInstanceId, String assessmentName) {
-        Radar retVal = null;
-
+    public Optional<Radar> findByIdAndName(Long radarInstanceId, String assessmentName) {
         RadarEntity foundItem = this.entityRepository.findByIdAndName(radarInstanceId, assessmentName);
 
         if (foundItem != null) {
-            retVal = this.modelMapper.map(foundItem, Radar.class);
+            return Optional.of(this.modelMapper.map(foundItem, Radar.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     public List<Radar> findAllPublishedRadarsByUser(Long radarUserId) {
@@ -93,9 +89,7 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         return retVal;
     }
 
-    public RadarItem getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId) {
-        RadarItem retVal = null;
-
+    public Optional<RadarItem> getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId(Long radarUserId, Long previousRadarInstanceId, Long radarSubjectId) {
         Query query = entityManager.createNamedQuery("getRadarItemFromPreviousRadarByRadarUserIdAndSubjectId");
         query.setParameter("technologyId", radarSubjectId);
         query.setParameter("radarUserId", radarUserId);
@@ -103,22 +97,24 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         List<RadarItemEntity> foundItems = query.getResultList();
 
         if (foundItems != null && foundItems.isEmpty()==false) {
-            retVal = this.modelMapper.map(foundItems.get(0), RadarItem.class);
+            return Optional.ofNullable(this.modelMapper.map(foundItems.get(0), RadarItem.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override
     public Radar save(Radar itemToSave) {
-        RadarEntity radarEntity = null;
+        Optional<RadarEntity> targetEntity = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
-            radarEntity = this.entityRepository.findOne(itemToSave.getId());
+            targetEntity = this.entityRepository.findById(itemToSave.getId());
         }
         else {
-            radarEntity = new RadarEntity();
+            targetEntity = Optional.of(new RadarEntity());
         }
+
+        RadarEntity radarEntity = targetEntity.get();
 
         // THe mapper doesn't overwrite an instance so I keep getting transient errors
         // for now manually map it, and later look for another mapper
@@ -126,10 +122,10 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
         if(radarEntity != null) {
             radarEntity.setAssessmentDate(itemToSave.getAssessmentDate());
             radarEntity.setName(itemToSave.getName());
-            radarEntity.setRadarUser(radarUserDAO.findOne(itemToSave.getRadarUser().getId()));
+            radarEntity.setRadarUser(radarUserDAO.findById(itemToSave.getRadarUser().getId()).get());
             radarEntity.setIsPublished(itemToSave.getIsPublished());
             radarEntity.setIsLocked(itemToSave.getIsLocked());
-            radarEntity.setRadarTemplate(radarTemplateDAO.findOne(itemToSave.getRadarTemplate().getId()));
+            radarEntity.setRadarTemplate(radarTemplateDAO.findById(itemToSave.getRadarTemplate().getId()).get());
 
             // First remove any deletions
             if(radarEntity != null && radarEntity.getRadarItems() != null) {
@@ -166,8 +162,8 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     if(radarInstanceItemEntity.getTechnology().getId()==assessmentItem.getTechnology().getId()) {
                         foundMatch = true;
                         radarInstanceItemEntity.setDetails(assessmentItem.getDetails());
-                        radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
-                        radarInstanceItemEntity.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                        radarInstanceItemEntity.setRadarCategory(radarCategoryDAO.findById(assessmentItem.getRadarCategory().getId()).get());
+                        radarInstanceItemEntity.setRadarRing(radarRingDAO.findById(assessmentItem.getRadarRing().getId()).get());
                         radarInstanceItemEntity.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                         radarInstanceItemEntity.setState(assessmentItem.getState());
                         break;
@@ -178,15 +174,15 @@ public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, 
                     RadarItemEntity newItem = new RadarItemEntity();
                     newItem.setRadarInstance(radarEntity);
                     newItem.setDetails(assessmentItem.getDetails());
-                    newItem.setRadarCategory(radarCategoryDAO.findOne(assessmentItem.getRadarCategory().getId()));
-                    newItem.setRadarRing(radarRingDAO.findOne(assessmentItem.getRadarRing().getId()));
+                    newItem.setRadarCategory(radarCategoryDAO.findById(assessmentItem.getRadarCategory().getId()).get());
+                    newItem.setRadarRing(radarRingDAO.findById(assessmentItem.getRadarRing().getId()).get());
                     newItem.setConfidenceFactor(assessmentItem.getConfidenceFactor());
                     newItem.setState(assessmentItem.getState());
 
                     TechnologyEntity targetTechnology = null;
 
                     if(assessmentItem.getTechnology().getId() != null) {
-                        targetTechnology = technologyDAO.findOne(assessmentItem.getTechnology().getId());
+                        targetTechnology = technologyDAO.findById(assessmentItem.getTechnology().getId()).get();
                     }
 
                     if(targetTechnology == null) {

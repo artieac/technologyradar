@@ -8,14 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 /**
  * Created by acorrea on 12/26/2017.
  */
 @Repository
 public class Auth0Repository {
 
-    public Auth0UserProfile getUserProfile(String issuer, String accessToken) {
-        Auth0UserProfile retVal = null;
+    public Optional<Auth0UserProfile> getUserProfile(String issuer, String accessToken) {
         String targetUrl = issuer + "userInfo";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -26,10 +27,10 @@ public class Auth0Repository {
 
         if(response != null) {
             if (response.getBody() != null) {
-                retVal = response.getBody();
+                return Optional.ofNullable(response.getBody());
             }
         }
 
-        return retVal;
+        return Optional.empty();
     }
 }

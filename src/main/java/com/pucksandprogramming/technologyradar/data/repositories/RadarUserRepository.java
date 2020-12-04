@@ -2,41 +2,42 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 12/23/2017.
  */
 @Repository
 public class RadarUserRepository extends SimpleDomainRepository<RadarUser, RadarUserEntity, RadarUserDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
+    private final RadarTemplateDAO radarTemplateDAO;
+    private final RadarRingDAO radarRingDAO;
+    private final RadarCategoryDAO radarCategoryDAO;
+    private final UserTypeDAO userTypeDAO;
 
     @Autowired
-    RadarTemplateDAO radarTemplateDAO;
-
-    @Autowired
-    RadarRingDAO radarRingDAO;
-
-    @Autowired
-    RadarCategoryDAO radarCategoryDAO;
-
-    @Autowired
-    UserTypeDAO userTypeDAO;
-
-    @Autowired
-    public void setEntityRepository(RadarUserDAO entityRepository) {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarUserRepository() {
-        super(RadarUser.class);
+    public RadarUserRepository(RadarMapper modelMapper,
+                               RadarUserDAO radarUserDAO,
+                               EntityManager entityManager,
+                               RadarTemplateDAO radarTemplateDAO,
+                               RadarRingDAO radarRingDAO,
+                               RadarCategoryDAO radarCategoryDAO,
+                               UserTypeDAO userTypeDAO) {
+        super(modelMapper, radarUserDAO, RadarUser.class);
+        this.entityManager = entityManager;
+        this.radarTemplateDAO = radarTemplateDAO;
+        this.radarRingDAO = radarRingDAO;
+        this.radarCategoryDAO = radarCategoryDAO;
+        this.userTypeDAO = userTypeDAO;
     }
 
     private List<RadarUser> mapList(List<RadarUserEntity> source) {
@@ -54,32 +55,32 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
     }
 
     @Override
-    protected RadarUserEntity findOne(RadarUser domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarUserEntity> findOne(RadarUser domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
-    public RadarUser findByAuthenticationId(String authenticationId) {
-        RadarUser retVal = null;
-
+    public Optional<RadarUser> findByAuthenticationId(String authenticationId) {
         RadarUserEntity foundItem = this.entityRepository.findByAuthenticationId(authenticationId);
 
         if (foundItem != null) {
-            retVal = this.modelMapper.map(foundItem, RadarUser.class);
+            return Optional.ofNullable(this.modelMapper.map(foundItem, RadarUser.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     @Override
     public RadarUser save(RadarUser itemToSave) {
-        RadarUserEntity radarUserEntity = null;
+        Optional<RadarUserEntity> targetItem = null;
 
         if(itemToSave !=null && itemToSave.getId() != null) {
             if (itemToSave != null && itemToSave.getId() != null && itemToSave.getId() > 0) {
-                radarUserEntity = this.entityRepository.findOne(itemToSave.getId());
+                targetItem = this.entityRepository.findById(itemToSave.getId());
             } else {
-                radarUserEntity = new RadarUserEntity();
+                targetItem = Optional.of(new RadarUserEntity());
             }
+
+            RadarUserEntity radarUserEntity = targetItem.get();
 
             // THe mapper doesn't overwrite an instance so I keep getting transient errors
             // for now manually map it, and later look for another mapper
@@ -92,14 +93,14 @@ public class RadarUserRepository extends SimpleDomainRepository<RadarUser, Radar
                 radarUserEntity.setName(itemToSave.getName());
                 radarUserEntity.setNickname(itemToSave.getNickname());
                 radarUserEntity.setRoleId(itemToSave.getRoleId());
-                radarUserEntity.setUserType(this.userTypeDAO.findOne(itemToSave.getUserType().getId()));
+                radarUserEntity.setUserType(this.userTypeDAO.findById(itemToSave.getUserType().getId()).get());
             }
 
             if (radarUserEntity != null) {
-                radarUserEntity = this.entityRepository.save(radarUserEntity);
+                this.entityRepository.save(radarUserEntity);
             }
         }
 
-        return this.modelMapper.map(this.findOne(radarUserEntity.getId()), RadarUser.class);
+        return this.modelMapper.map(this.findOne(itemToSave), RadarUser.class);
     }
 }

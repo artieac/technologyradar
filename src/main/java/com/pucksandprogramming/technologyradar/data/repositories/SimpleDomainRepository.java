@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public abstract class SimpleDomainRepository<
@@ -23,27 +24,19 @@ public abstract class SimpleDomainRepository<
         implements PagingAndSortingRepository<DomainModel, ID> {
     private static final Logger logger = Logger.getLogger(SimpleDomainRepository.class);
 
-    @Autowired
-    protected RadarMapper modelMapper;
+    protected final RadarMapper modelMapper;
+    protected final Class<DomainModel> domainModelClass;
+    protected final EntityRepository entityRepository;
 
-    protected Class<DomainModel> domainModelClass;
-
-    protected EntityRepository entityRepository;
-
-    protected void setEntityRepository(EntityRepository entityRepository)
-    {
+    public SimpleDomainRepository(RadarMapper modelMapper,
+                                  EntityRepository entityRepository,
+                                  Class<DomainModel> domainModelClass) {
+        this.modelMapper = modelMapper;
         this.entityRepository = entityRepository;
-    }
-
-    public SimpleDomainRepository() {
-    }
-
-    protected SimpleDomainRepository(Class<DomainModel> domainModelClass)
-    {
         this.domainModelClass = domainModelClass;
     }
 
-    protected abstract Entity findOne(DomainModel domainModel);
+    protected abstract Optional<Entity> findOne(DomainModel domainModel);
 
     @Override
     public Iterable<DomainModel> findAll() {
@@ -61,7 +54,7 @@ public abstract class SimpleDomainRepository<
     }
 
     @Override
-    public Iterable<DomainModel> findAll(Iterable<ID> iterable)
+    public Iterable<DomainModel> findAllById(Iterable<ID> iterable)
     {
         return null;
     }
@@ -150,22 +143,22 @@ public abstract class SimpleDomainRepository<
     }
 
     @Override
-    public <S extends DomainModel> Iterable<S> save(Iterable<S> iterable) {
+    public <S extends DomainModel> Iterable<S> saveAll(Iterable<S> iterable) {
         return null;
     }
 
     @Override
-    public DomainModel findOne(ID id) {
-        Entity entity = entityRepository.findOne(id);
-        if (entity != null) {
-            return modelMapper.map(entity, domainModelClass);
+    public Optional<DomainModel> findById(ID id) {
+        Optional<Entity> entity = entityRepository.findById(id);
+        if (entity.isPresent()) {
+            return Optional.of(modelMapper.map(entity.get(), domainModelClass));
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public boolean exists(ID id) {
-        return entityRepository.exists(id);
+    public boolean existsById(ID id) {
+        return entityRepository.existsById(id);
     }
 
     @Override
@@ -174,21 +167,21 @@ public abstract class SimpleDomainRepository<
     }
 
     @Override
-    public void delete(ID id) {
-        this.entityRepository.delete(id);
+    public void deleteById(ID id) {
+        this.entityRepository.deleteById(id);
     }
 
     @Override
     public void delete(DomainModel domainModel) {
-        Entity targetItem = this.findOne(domainModel);
+        Optional<Entity> targetItem = this.findOne(domainModel);
 
-        if(targetItem!=null) {
-            this.entityRepository.delete(targetItem);
+        if(targetItem.isPresent()) {
+            this.entityRepository.delete(targetItem.get());
         }
     }
 
     @Override
-    public void delete(Iterable<? extends DomainModel> iterable) {
+    public void deleteAll(Iterable<? extends DomainModel> iterable) {
 
     }
 

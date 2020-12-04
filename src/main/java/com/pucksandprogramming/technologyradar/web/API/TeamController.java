@@ -18,14 +18,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
 public class TeamController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(TeamController.class);
 
+    private final TeamService teamService;
+
     @Autowired
-    TeamService teamService;
+    public TeamController(TeamService teamService){
+        this.teamService = teamService;
+    }
 
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/User/{userId}/Teams", produces = "application/json")
@@ -51,10 +56,10 @@ public class TeamController extends ControllerBase {
         TeamViewModel retVal = null;
 
         if(this.getCurrentUserId()==userId || this.getCurrentUser().getRoleId()== Role.RoleType_Admin) {
-            Team foundItem = this.teamService.findByUserAndTeam(userId, teamId);
+            Optional<Team> foundItem = this.teamService.findByUserAndTeam(userId, teamId);
 
-            if(foundItem != null) {
-                retVal = new TeamViewModel(foundItem);
+            if(foundItem.isPresent()) {
+                retVal = new TeamViewModel(foundItem.get());
             }
         }
 

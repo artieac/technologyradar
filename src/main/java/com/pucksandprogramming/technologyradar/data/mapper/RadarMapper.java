@@ -31,14 +31,14 @@ public class RadarMapper {
                 Conditions.isNotNull());
 
         // Product Config
-        modelMapper.addMappings(radarConfigModelMap);
-        modelMapper.addMappings(radarCategoryModelMap);
-        modelMapper.addMappings(radarTemplateModelMap);
-        modelMapper.addMappings(technologyConfigModelMap);
-        modelMapper.addMappings(technologyAssessmentMap);
-        modelMapper.addMappings(technologyAssessmentItemMap);
-        modelMapper.addMappings(userTypeModelMap);
-        modelMapper.addMappings(radarUserModelMap);
+        this.addRadarRingMappings();
+        this.addRadarCategoryMappings();
+        this.addRadarTemplateMappings();
+        this.addTechnologyMappings();
+        this.addRadarMappings();
+        this.addRadarItemMappings();
+        this.addUserTypeMappings();
+        this.addRadarUserMappings();
     }
 
     private ModelMapper getMapper() {
@@ -66,81 +66,52 @@ public class RadarMapper {
         return getMapper().map(source, destinationType);
     }
 
+    private void addRadarRingMappings(){
+        this.modelMapper.typeMap(RadarRingEntity.class, RadarRing.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), RadarRing::setId);
+        });
+    }
 
-    private PropertyMap<RadarRingEntity, RadarRing> radarConfigModelMap =
-            new PropertyMap<RadarRingEntity, RadarRing>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addRadarCategoryMappings(){
+        this.modelMapper.typeMap(RadarCategoryEntity.class, RadarCategory.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), RadarCategory::setId);
+        });
+    }
 
-    private PropertyMap<RadarCategoryEntity, RadarCategory> radarCategoryModelMap =
-            new PropertyMap<RadarCategoryEntity, RadarCategory>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
-    /**
-     * Custom map from {@link TechnologyEntity} to the
-     * {@link Technology}
-     */
-    private PropertyMap<TechnologyEntity, Technology> technologyConfigModelMap =
-            new PropertyMap<TechnologyEntity, Technology>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addTechnologyMappings(){
+        this.modelMapper.typeMap(TechnologyEntity.class, Technology.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), Technology::setId);
+        });
+    }
 
-    private PropertyMap<RadarEntity, Radar> technologyAssessmentMap =
-            new PropertyMap<RadarEntity, Radar>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addRadarMappings(){
+        this.modelMapper.typeMap(RadarEntity.class, Radar.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), Radar::setId);
+        });
+    }
 
+    private void addRadarItemMappings(){
+        this.modelMapper.typeMap(RadarItemEntity.class, RadarItem.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), RadarItem::setId);
+        });
+    }
 
-    private PropertyMap<RadarItemEntity, RadarItem> technologyAssessmentItemMap =
-            new PropertyMap<RadarItemEntity, RadarItem>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addRadarTemplateMappings(){
+        this.modelMapper.typeMap(RadarTemplateEntity.class, RadarTemplate.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), RadarTemplate::setId);
+        });
+    }
 
-    private PropertyMap<RadarTemplateEntity, RadarTemplate> radarTemplateModelMap =
-            new PropertyMap<RadarTemplateEntity, RadarTemplate>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addRadarUserMappings(){
+        this.modelMapper.typeMap(RadarUserEntity.class, RadarUser.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), RadarUser::setId);
+        });
+    }
 
-    private PropertyMap<RadarUserEntity, RadarUser> radarUserModelMap =
-            new PropertyMap<RadarUserEntity, RadarUser>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
-
-    private PropertyMap<UserTypeEntity, UserType> userTypeModelMap =
-            new PropertyMap<UserTypeEntity, UserType>()
-            {
-                protected void configure()
-                {
-                    map().setId(source.getId());
-                }
-            };
+    private void addUserTypeMappings(){
+        this.modelMapper.typeMap(UserTypeEntity.class, UserType.class).addMappings(mapper -> {
+            mapper.map(src -> src.getId(), UserType::setId);
+        });
+    }
 }
 

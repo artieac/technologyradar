@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //@Configuration
 //@Component
@@ -38,16 +39,16 @@ public class DefaultRadarTemplateManager {
     public List<RadarTemplate> findDefaultRadarTemplates() {
         List<RadarTemplate> retVal = new ArrayList<RadarTemplate>();
 
-        RadarTemplate sharedType = this.radarTemplateService.findOneShared(3L);
+        Optional<RadarTemplate> sharedType = this.radarTemplateService.findOneShared(3L);
 
-        if(sharedType!=null) {
-            retVal.add(sharedType);
+        if(sharedType.isPresent()) {
+            retVal.add(sharedType.get());
         }
 
         sharedType = this.radarTemplateService.findOneShared(1L);
 
-        if(sharedType!=null) {
-            retVal.add(sharedType);
+        if(sharedType.isPresent()) {
+            retVal.add(sharedType.get());
         }
 
         return retVal;

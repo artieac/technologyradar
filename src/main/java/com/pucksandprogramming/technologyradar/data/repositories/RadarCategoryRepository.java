@@ -2,12 +2,14 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.dao.RadarCategoryDAO;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarCategoryEntity;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/19/2016.
@@ -16,14 +18,9 @@ import java.util.List;
 public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategory, RadarCategoryEntity, RadarCategoryDAO, Long>
 {
     @Autowired
-    public void setEntityRepository(RadarCategoryDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarCategoryRepository()
-    {
-        super(RadarCategory.class);
+    public RadarCategoryRepository(RadarMapper modelMapper,
+                                   RadarCategoryDAO radarCategoryDAO) {
+        super(modelMapper, radarCategoryDAO, RadarCategory.class);
     }
 
     public List<RadarCategory> findAll() {
@@ -39,7 +36,7 @@ public class RadarCategoryRepository extends SimpleDomainRepository<RadarCategor
     }
 
     @Override
-    protected RadarCategoryEntity findOne(RadarCategory domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<RadarCategoryEntity> findOne(RadarCategory domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 }

@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,12 +12,14 @@ import org.springframework.stereotype.Component;
 import java.security.Principal;
 import java.util.*;
 
-public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
-
-    private boolean invalidated;
+public class TechRadarSecurityPrincipal extends AbstractAuthenticationToken {
     private final AuthenticatedUser authenticatedUser;
 
-    public Auth0TokenAuthentication(AuthenticatedUser authenticatedUser) {
+    public TechRadarSecurityPrincipal(RadarUser radarUser){
+        this(new AuthenticatedUser(radarUser));
+    }
+
+    public TechRadarSecurityPrincipal(AuthenticatedUser authenticatedUser) {
         super(authenticatedUser.getGrantedAuthorities());
 
         this.authenticatedUser = authenticatedUser;
@@ -26,9 +29,6 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
     {
         return this.authenticatedUser.getAuthExpiration().before(new Date());
     }
-
-    @Value("${com.pucksandprogramming.securityEnabled}")
-    private boolean securityEnabled;
 
     public AuthenticatedUser getAuthenticatedUser() { return this.authenticatedUser;}
 
@@ -47,21 +47,15 @@ public class Auth0TokenAuthentication extends AbstractAuthenticationToken {
         if (authenticated) {
             throw new IllegalArgumentException("Create a new Authentication object to authenticate");
         }
-        invalidated = true;
     }
 
     @Override
     public boolean isAuthenticated() {
-        boolean retVal = false;
-
-        if (this.securityEnabled == true) {
-            retVal = !invalidated && !hasExpired();
-        }
-        else {
-            retVal = true;
+        if(this.authenticatedUser!=null){
+            return this.authenticatedUser.isAuthenticated();
         }
 
-        return retVal;
+        return false;
     }
 }
 

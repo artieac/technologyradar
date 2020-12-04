@@ -15,6 +15,19 @@ public class RadarUser {
     private String name;
     private UserType userType;
 
+    public static RadarUser createDefaultUser() {
+        RadarUser defaultUser = new RadarUser();
+        defaultUser.setId(-1L);
+        defaultUser.setRoleId(Role.RoleType_User);
+        defaultUser.setAuthenticationId("");
+        defaultUser.setIssuer("");
+        defaultUser.setEmail("");
+        defaultUser.setNickname("");
+        defaultUser.setName("");
+        defaultUser.setUserType(UserType.DefaultInstance());
+        return defaultUser;
+    }
+
     public RadarUser() {
 
     }

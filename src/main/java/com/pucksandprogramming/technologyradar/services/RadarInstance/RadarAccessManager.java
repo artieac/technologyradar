@@ -2,10 +2,12 @@ package com.pucksandprogramming.technologyradar.services.RadarInstance;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
 import com.pucksandprogramming.technologyradar.domainmodel.Role;
-import com.pucksandprogramming.technologyradar.security.Auth0TokenAuthentication;
+import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class RadarAccessManager {
@@ -14,14 +16,14 @@ public class RadarAccessManager {
         FullAccess
     }
 
-    AuthenticatedUser authenticatedUser;
+    private AuthenticatedUser authenticatedUser;
 
     public AuthenticatedUser getAuthenticatedUser() {
 
         if(this.authenticatedUser == null) {
 
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof Auth0TokenAuthentication) {
-                Auth0TokenAuthentication tokenAuth = (Auth0TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
                 if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
@@ -65,7 +67,11 @@ public class RadarAccessManager {
         return retVal;
     }
 
-    public boolean canModifyRadar(RadarUser targetDataOwner) {
+    public boolean canModifyRadar(RadarUser radarUser){
+        return this.canModifyRadar(Optional.ofNullable(radarUser));
+    }
+
+    public boolean canModifyRadar(Optional<RadarUser> targetDataOwner) {
         boolean retVal = false;
 
         if(this.getAuthenticatedUser()!=null) {
@@ -74,9 +80,9 @@ public class RadarAccessManager {
             }
             else
             {
-                if (targetDataOwner != null) {
+                if (targetDataOwner.isPresent()) {
                     // logged in user owns the data
-                    if (targetDataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
+                    if (targetDataOwner.get().getId() == this.getAuthenticatedUser().getUserId()) {
                         retVal = true;
                     }
                     else {

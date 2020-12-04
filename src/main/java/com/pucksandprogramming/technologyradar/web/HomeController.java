@@ -7,10 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -23,14 +20,19 @@ import java.util.Optional;
  */
 
 @Controller
+@ControllerAdvice
 public class HomeController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
-    @Autowired
-    RadarService radarService;
+    private final RadarService radarService;
+    private final RadarUserService radarUserService;
 
     @Autowired
-    RadarUserService radarUserService;
+    public HomeController(RadarService radarService,
+                          RadarUserService radarUserService){
+        this.radarService = radarService;
+        this.radarUserService = radarUserService;
+    }
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)
@@ -48,11 +50,11 @@ public class HomeController extends ControllerBase {
         }
 
         if(radarInstanceId.isPresent()) {
-            Radar targetRadar = this.radarService.findById(radarInstanceId.get());
+            Optional<Radar> targetRadar = this.radarService.findById(radarInstanceId.get());
 
-            if (targetRadar != null) {
+            if (targetRadar.isPresent()) {
                 modelAndView.addObject("radarInstanceId", radarInstanceId.get());
-                modelAndView.addObject("radarTemplateId", targetRadar.getRadarTemplate().getId());
+                modelAndView.addObject("radarTemplateId", targetRadar.get().getRadarTemplate().getId());
             }
         }
 
@@ -65,15 +67,15 @@ public class HomeController extends ControllerBase {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(targetDataOwner!=null) {
+        if(targetDataOwner.isPresent()) {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
             if (radarInstances != null && radarInstances.size() > 0) {
                 modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
 
-                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                if (targetDataOwner.get().getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
                     modelAndView.addObject("radarInstanceId", -1);
                 } else {
                     modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
@@ -96,8 +98,6 @@ public class HomeController extends ControllerBase {
         if(radarInstanceId.isPresent()) {
             modelAndView.addObject("radarInstanceId", radarInstanceId.get());
 
-            RadarUser dataOwner = this.radarUserService.findOne(userId);
-
             // TBD if they can't share with others make sure this is the most recent.
             Radar radarInstance = this.radarService.findByUserAndRadarId(userId, radarInstanceId.get());
 
@@ -116,15 +116,15 @@ public class HomeController extends ControllerBase {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userId", userId);
 
-        RadarUser targetDataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> targetDataOwner = this.radarUserService.findOne(userId);
 
-        if(targetDataOwner!=null) {
+        if(targetDataOwner.isPresent()) {
             List<Radar> radarInstances = this.radarService.findByRadarUserId(userId);
 
             if (radarInstances != null && radarInstances.size() > 0) {
                 modelAndView.addObject("radarTemplateId", radarInstances.get(0).getRadarTemplate().getId());
 
-                if (targetDataOwner.getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
+                if (targetDataOwner.get().getUserType().getGrantedRights().get(UserRights.CanSeeFullView) == 1) {
                     modelAndView.addObject("radarInstanceId", -1);
                 } else {
                     modelAndView.addObject("radarInstanceId", radarInstances.get(0).getId());
@@ -176,9 +176,9 @@ public class HomeController extends ControllerBase {
         modelAndView.addObject("userId", userId);
         modelAndView.addObject("radarTemplateId", radarTemplateId);
 
-        RadarUser dataOwner = this.radarUserService.findOne(userId);
+        Optional<RadarUser> dataOwner = this.radarUserService.findOne(userId);
 
-        if(dataOwner!=null && dataOwner.getUserType().getId()!= UserType.Free) {
+        if(dataOwner!=null && dataOwner.get().getUserType().getId()!= UserType.Free) {
             modelAndView.addObject("radarInstanceId", -1);
         }
 

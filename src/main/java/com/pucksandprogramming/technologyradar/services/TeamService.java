@@ -8,12 +8,14 @@ import com.pucksandprogramming.technologyradar.domainmodel.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TeamService extends ServiceBase {
-    TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
 
     @Autowired
     public TeamService(TeamRepository teamRepository, RadarUserRepository radarUserRepository) {
@@ -22,11 +24,15 @@ public class TeamService extends ServiceBase {
         this.teamRepository = teamRepository;
     }
 
-    private boolean canModifyTeams(RadarUser dataOwner) {
+    private boolean canModifyTeams(RadarUser dataOwner){
+        return this.canModifyTeams(Optional.ofNullable(dataOwner));
+    }
+
+    private boolean canModifyTeams(Optional<RadarUser> dataOwner) {
         boolean retVal = false;
 
-        if(dataOwner!=null) {
-            if (this.getAuthenticatedUser().getUserId() == dataOwner.getId()) {
+        if(dataOwner.isPresent()) {
+            if (this.getAuthenticatedUser().getUserId() == dataOwner.get().getId()) {
                 retVal = true;
             }
         }
@@ -37,9 +43,9 @@ public class TeamService extends ServiceBase {
     public List<Team> findAll(Long userId) {
         List<Team> retVal = new ArrayList<>();
 
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+        Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(userId);
 
-        if(dataOwner!=null) {
+        if(dataOwner.isPresent()) {
             retVal = this.teamRepository.findAllList();
         }
 
@@ -49,13 +55,13 @@ public class TeamService extends ServiceBase {
     public Team addTeam(Long userId, String teamName) {
         Team retVal = null;
 
-        RadarUser dataOwner = this.getRadarUserRepository().findOne(userId);
+        Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(userId);
 
         if(this.canModifyTeams(dataOwner)) {
             Team newTeam = new Team();
             newTeam.setId(-1L);
             newTeam.setName(teamName);
-            newTeam.setOwner(dataOwner);
+            newTeam.setOwner(dataOwner.get());
 
             retVal = this.teamRepository.save(newTeam);
         }
@@ -63,24 +69,22 @@ public class TeamService extends ServiceBase {
         return retVal;
     }
 
-    public Team findByUserAndTeam(Long userId, Long teamId) {
-        Team retVal = null;
-
-        if (this.getAuthenticatedUser().getUserId() == userId || this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
-            retVal = this.teamRepository.findOne(teamId);
+    public Optional<Team> findByUserAndTeam(Long userId, Long teamId) {
+       if (this.getAuthenticatedUser().getUserId() == userId || this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
+            return this.teamRepository.findById(teamId);
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
-    public Team addMember(Long teamId, Long newTeamMemberId) {
-        Team retVal = this.teamRepository.findOne(teamId);
-        RadarUser newTeamMember = this.getRadarUserRepository().findOne(newTeamMemberId);
+    public Optional<Team> addMember(Long teamId, Long newTeamMemberId) {
+        Optional<Team> retVal = this.teamRepository.findById(teamId);
+        Optional<RadarUser> newTeamMember = this.getRadarUserRepository().findById(newTeamMemberId);
 
-        if(retVal!=null && newTeamMember != null) {
-            if(this.canModifyTeams(retVal.getOwner())) {
-                retVal.addTeamMember(newTeamMember);
-                retVal = this.teamRepository.save(retVal);
+        if(retVal.isPresent() && newTeamMember.isPresent()) {
+            if(this.canModifyTeams(retVal.get().getOwner())) {
+                retVal.get().addTeamMember(newTeamMember.get());
+                retVal = Optional.ofNullable(this.teamRepository.save(retVal.get()));
             }
         }
 

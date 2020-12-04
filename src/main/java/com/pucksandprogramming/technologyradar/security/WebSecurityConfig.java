@@ -1,6 +1,8 @@
 package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.AuthenticationController;
+import com.pucksandprogramming.technologyradar.security.jwt.JwtAuthorizationFilter;
+import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -24,7 +26,6 @@ import java.io.UnsupportedEncodingException;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     Environment env;
@@ -71,6 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         if(this.securityEnabled==true) {
             http
+                    .addFilter(new JwtAuthorizationFilter(this.authenticationManager()))
                     .authorizeRequests()
                         .antMatchers("/script/**",
                                 "/css/**",
@@ -91,22 +93,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
                         .antMatchers("/**").authenticated()
                     .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
-                    .and().logout().permitAll();
-        }
-        else {
-            http
-                    .authorizeRequests()
-                    .antMatchers("/script/**",
-                            "/css/**",
-                            "/webjars/**",
-                            "/Images/**", "/images/**",
-                            "/favicon.ico").permitAll()
-                    .antMatchers(callbackLocation,
-                            "/login",
-                            "/accessDenied").permitAll()
-                    .antMatchers(HttpMethod.GET, "/", "/public/**", "/api/public/**").permitAll()
-                    .antMatchers("/**").permitAll()
-                    .and().logout().permitAll();
+                    .and().logout().logoutUrl("/logout").deleteCookies(JwtCookieManager.COOKIE_NAME).invalidateHttpSession(true);
+
         }
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);

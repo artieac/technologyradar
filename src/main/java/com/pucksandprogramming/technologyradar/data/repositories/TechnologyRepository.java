@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,23 +11,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by acorrea on 10/18/2016.
  */
 @Repository
 public class TechnologyRepository extends SimpleDomainRepository<Technology, TechnologyEntity, TechnologyDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    public void setEntityRepository(TechnologyDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public TechnologyRepository() {
-        super(Technology.class);
+    public TechnologyRepository(RadarMapper modelMapper,
+                                TechnologyDAO entityRepository,
+                                EntityManager entityManager){
+        super(modelMapper, entityRepository, Technology.class);
+        this.entityManager = entityManager;
     }
 
     private List<Technology> mapList(List<TechnologyEntity> source) {
@@ -43,20 +42,18 @@ public class TechnologyRepository extends SimpleDomainRepository<Technology, Tec
     }
 
     @Override
-    protected TechnologyEntity findOne(Technology domainModel) {
-        return this.entityRepository.findOne(domainModel.getId());
+    protected Optional<TechnologyEntity> findOne(Technology domainModel) {
+        return this.entityRepository.findById(domainModel.getId());
     }
 
-    public Technology findByName(String name) {
-        Technology retVal = null;
-
+    public Optional<Technology> findByName(String name) {
         TechnologyEntity foundItem = this.entityRepository.findByName(name);
 
         if(foundItem!=null) {
-            retVal = this.modelMapper.map(foundItem, Technology.class);
+            return Optional.ofNullable(this.modelMapper.map(foundItem, Technology.class));
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     // Simple name search for now

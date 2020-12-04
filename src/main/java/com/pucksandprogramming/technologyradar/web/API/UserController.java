@@ -15,17 +15,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
 public class UserController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(UserController.class);
 
-    @Autowired
-    private RadarUserService radarUserService;
+    private final RadarUserService radarUserService;
+    private final RadarService radarService;
 
     @Autowired
-    private RadarService radarService;
+    public UserController(RadarUserService radarUserService,
+                          RadarService radarService){
+        this.radarUserService = radarUserService;
+        this.radarService = radarService;
+    }
 
     @GetMapping(value = "/User", produces = "application/json")
     public @ResponseBody UserViewModel getUserDetails() {
@@ -73,10 +78,10 @@ public class UserController extends ControllerBase {
             Role userRole = Role.createRole(this.getCurrentUser().getRoleId());
 
             if(userRole.getId()==Role.RoleType_Admin) {
-                RadarUser radarUser = this.radarUserService.findOne(userId);
+                Optional<RadarUser> radarUser = this.radarUserService.findOne(userId);
 
-                if(radarUser != null) {
-                    retVal = new UserViewModel(radarUser);
+                if(radarUser.isPresent()) {
+                    retVal = new UserViewModel(radarUser.get());
                 }
             }
         }

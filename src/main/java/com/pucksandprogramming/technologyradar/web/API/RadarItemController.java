@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by acorrea on 1/10/2018.
@@ -27,9 +24,9 @@ import java.util.Map;
 public class RadarItemController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    private RadarService radarService;
-    private DiagramConfigurationService diagramConfigurationService;
-    private RadarUserService radarUserService;
+    private final RadarService radarService;
+    private final DiagramConfigurationService diagramConfigurationService;
+    private final RadarUserService radarUserService;
 
     @Autowired
     public RadarItemController(RadarService radarService,
@@ -87,11 +84,7 @@ public class RadarItemController extends ControllerBase {
             Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
             String assessmentDetails = modelMap.get("assessmentDetails").toString();
 
-            RadarUser radarUser = this.radarUserService.findOne(radarUserId);
-
-            if (radarUser != null && radarUser.getId() == this.getCurrentUser().getId()) {
-                Technology targetTechnology = null;
-
+            if(this.isCurrentUser(radarUserId)) {
                 if (modelMap.get("technologyId") != null) {
                     List<RadarItemToBeAdded> itemsToAdd = new ArrayList<RadarItemToBeAdded>();
 
@@ -114,7 +107,7 @@ public class RadarItemController extends ControllerBase {
             }
 
             Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
+            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
         }
         catch (Exception e) {
             logger.error(e);
@@ -128,9 +121,7 @@ public class RadarItemController extends ControllerBase {
         DiagramPresentation retVal = new DiagramPresentation();
 
         try {
-            RadarUser radarUser = radarUserService.findOne(radarUserId);
-
-            if (radarUser != null && radarUser.getId() == this.getCurrentUser().getId()) {
+            if(this.isCurrentUser(radarUserId)){
                 List<LinkedHashMap> requestParameters = (List<LinkedHashMap>) modelMap.get("radarItems");
 
                 if (requestParameters != null) {
@@ -150,7 +141,7 @@ public class RadarItemController extends ControllerBase {
             }
 
             Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
+            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
         }
         catch(Exception e) {
             logger.error(e);
@@ -174,7 +165,7 @@ public class RadarItemController extends ControllerBase {
             }
 
             Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
+            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
         }
         catch (Exception e) {
             logger.error(e);

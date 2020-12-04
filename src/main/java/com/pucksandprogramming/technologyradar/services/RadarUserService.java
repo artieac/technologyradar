@@ -11,19 +11,16 @@ import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by acorrea on 12/23/2017.
  */
 @Component
 public class RadarUserService {
-    private RadarUserRepository radarUserRepository;
-    private Auth0Repository auth0Repository;
-    private UserTypeRepository userTypeRepository;
+    private final RadarUserRepository radarUserRepository;
+    private final Auth0Repository auth0Repository;
+    private final UserTypeRepository userTypeRepository;
 
     static HashMap<Integer, UserType> userTypes = null;
 
@@ -59,12 +56,11 @@ public class RadarUserService {
         return retVal;
     }
 
-    public RadarUser findOne(Long radarUserId)
-    {
-        return this.radarUserRepository.findOne(radarUserId);
+    public Optional<RadarUser> findOne(Long radarUserId) {
+        return this.radarUserRepository.findById(radarUserId);
     }
 
-    public RadarUser findByAuthenticationId(String authenticationId) {
+    public Optional<RadarUser> findByAuthenticationId(String authenticationId) {
         return this.radarUserRepository.findByAuthenticationId(authenticationId);
     }
 
@@ -82,32 +78,30 @@ public class RadarUserService {
         return retVal;
     }
 
-    public RadarUser addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name) {
-        RadarUser retVal = null;
-
+    public Optional<RadarUser> addUser(String authenticationId, String authority, String issuer, String email, String nickname, String name) {
         if(!authenticationId.isEmpty()) {
-            retVal = this.radarUserRepository.findByAuthenticationId(authenticationId);
+            Optional<RadarUser> targetUser = this.radarUserRepository.findByAuthenticationId(authenticationId);
 
-            if(retVal == null) {
-                retVal = this.createDefaultRadarUser();
-                retVal.setAuthenticationId(authenticationId);
-                retVal.setAuthority(authority);
-                retVal.setIssuer(issuer);
-                retVal.setEmail(email);
+            if(!targetUser.isPresent()) {
+                RadarUser newUser = this.createDefaultRadarUser();
+                newUser.setAuthenticationId(authenticationId);
+                newUser.setAuthority(authority);
+                newUser.setIssuer(issuer);
+                newUser.setEmail(email);
 
                 if(nickname==null) {
-                    retVal.setNickname(name);
+                    newUser.setNickname(name);
                 }
                 else {
-                    retVal.setNickname(nickname);
+                    newUser.setNickname(nickname);
                 }
 
-                retVal.setName(name);
-                retVal = this.radarUserRepository.save(retVal);
+                newUser.setName(name);
+                return Optional.ofNullable(this.radarUserRepository.save(newUser));
             }
         }
 
-        return retVal;
+        return Optional.empty();
     }
 
     public RadarUser updateUser(RadarUser radarUser) {
@@ -120,7 +114,7 @@ public class RadarUserService {
         return retVal;
     }
 
-    public Auth0UserProfile getUserProfile(String issuer, String accessToken) {
+    public Optional<Auth0UserProfile> getUserProfile(String issuer, String accessToken) {
         String cleanedAccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));
         return this.auth0Repository.getUserProfile(issuer, accessToken);
     }
