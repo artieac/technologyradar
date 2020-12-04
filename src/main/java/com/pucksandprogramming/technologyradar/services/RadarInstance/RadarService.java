@@ -288,7 +288,7 @@ public class RadarService extends ServiceBase {
     }
 
     public Radar addRadarItems(RadarUser radarUser, Long radarId, List<RadarItemToBeAdded> radarItems) {
-        Optional<Radar> retVal = Optional.ofNullable(null);
+        Optional<Radar> retVal = this.findById(radarId);
 
         if(this.radarAccessManager.canModifyRadar(radarUser)) {
             if (radarItems != null) {
