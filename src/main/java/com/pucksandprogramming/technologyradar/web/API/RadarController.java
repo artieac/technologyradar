@@ -31,17 +31,21 @@ import java.util.Optional;
 public class RadarController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarController.class);
 
-    @Autowired
-    RadarUserService userService;
+    private final RadarUserService userService;
+    private final RadarService radarService;
+    private final DiagramConfigurationService radarSetupService;
+    private final RadarAccessManager radarAccessManager;
 
     @Autowired
-    private RadarService radarService;
-
-    @Autowired
-    private DiagramConfigurationService radarSetupService;
-
-    @Autowired
-    private RadarAccessManager radarAccessManager;
+    public RadarController(RadarUserService radarUserService,
+                           RadarService radarService,
+                           DiagramConfigurationService diagramConfigurationService,
+                           RadarAccessManager radarAccessManager){
+        this.userService = radarUserService;
+        this.radarService = radarService;
+        this.radarSetupService = diagramConfigurationService;
+        this.radarAccessManager = radarAccessManager;
+    }
 
     @GetMapping(value = "/public/User/{radarUserId}/Radar/mostRecent", produces = "application/json")
     public @ResponseBody

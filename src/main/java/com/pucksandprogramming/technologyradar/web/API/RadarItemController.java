@@ -24,9 +24,9 @@ import java.util.*;
 public class RadarItemController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);
 
-    private RadarService radarService;
-    private DiagramConfigurationService diagramConfigurationService;
-    private RadarUserService radarUserService;
+    private final RadarService radarService;
+    private final DiagramConfigurationService diagramConfigurationService;
+    private final RadarUserService radarUserService;
 
     @Autowired
     public RadarItemController(RadarService radarService,

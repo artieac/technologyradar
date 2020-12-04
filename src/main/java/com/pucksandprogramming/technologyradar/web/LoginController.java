@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @ControllerAdvice
 public class LoginController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Value("${com.auth0.callbackUrl}")
     private String callbackLocation;
 
@@ -26,12 +28,15 @@ public class LoginController {
     @Value("${com.auth0.clientId}")
     private String authClientId;
 
-    @Autowired
-    private AuthenticationController controller;
-    @Autowired
-    private WebSecurityConfig appConfig;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final AuthenticationController authenticationController;
+    private final WebSecurityConfig webSecurityConfig;
 
+    @Autowired
+    public LoginController(AuthenticationController authenticationController,
+                           WebSecurityConfig webSecurityConfig){
+        this.authenticationController = authenticationController;
+        this.webSecurityConfig = webSecurityConfig;
+    }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     protected String login(final HttpServletRequest req) {
         logger.debug("Performing login");
@@ -46,8 +51,8 @@ public class LoginController {
         }
 
         redirectUri += callbackLocation;
-        String authorizeUrl = controller.buildAuthorizeUrl(req, redirectUri)
-                .withAudience(String.format("https://%s/userinfo", appConfig.getDomain()))
+        String authorizeUrl = this.authenticationController.buildAuthorizeUrl(req, redirectUri)
+                .withAudience(String.format("https://%s/userinfo", this.webSecurityConfig.getDomain()))
                 .build();
         return "redirect:" + authorizeUrl;
     }

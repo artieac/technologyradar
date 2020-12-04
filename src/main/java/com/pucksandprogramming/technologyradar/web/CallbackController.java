@@ -40,28 +40,30 @@ import java.util.Optional;
 public class CallbackController {
     private static final Logger logger = Logger.getLogger(CallbackController.class);
 
-    @Autowired
-    private RadarUserService userService;
-
-    @Autowired
-    private RadarTemplateService radarTemplateService;
-
-    @Autowired
-    private AuthenticationController controller;
-
-    @Autowired
-    AssociatedRadarTemplateService associatedRadarTemplateService;
-
-    @Autowired
-    Auth0JwtManager auth0JwtManager;
-
-    @Autowired
-    JwtCookieManager jwtCookieManager;
+    private final RadarUserService userService;
+    private final RadarTemplateService radarTemplateService;
+    private final AuthenticationController authentiationController;
+    private final AssociatedRadarTemplateService associatedRadarTemplateService;
+    private final Auth0JwtManager auth0JwtManager;
+    private final JwtCookieManager jwtCookieManager;
 
     private final String redirectOnFail;
     private final String redirectOnSuccess;
 
-    public CallbackController() {
+    @Autowired
+    public CallbackController(RadarUserService radarUserService,
+                              RadarTemplateService radarTemplateService,
+                              AuthenticationController authentiationController,
+                              AssociatedRadarTemplateService associatedRadarTemplateService,
+                              Auth0JwtManager auth0JwtManager,
+                              JwtCookieManager jwtCookieManager) {
+        this.userService = radarUserService;
+        this.radarTemplateService = radarTemplateService;
+        this.authentiationController = authentiationController;
+        this.associatedRadarTemplateService = associatedRadarTemplateService;
+        this.auth0JwtManager = auth0JwtManager;
+        this.jwtCookieManager = jwtCookieManager;
+
         this.redirectOnFail = "/login";
         this.redirectOnSuccess = "/home/secureradar";
     }
@@ -78,7 +80,7 @@ public class CallbackController {
 
     private void handleAuth0Callback(HttpServletRequest req, HttpServletResponse res) throws IOException {
         try {
-            Tokens tokens = controller.handle(req);
+            Tokens tokens = this.authentiationController.handle(req);
 
             Optional<IdentityProviderUser> identityProviderUser = auth0JwtManager.getAuthenticatedUser(tokens.getIdToken());
 

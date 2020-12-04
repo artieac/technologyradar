@@ -24,11 +24,15 @@ import java.util.Optional;
 public class HomeController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
-    @Autowired
-    RadarService radarService;
+    private final RadarService radarService;
+    private final RadarUserService radarUserService;
 
     @Autowired
-    RadarUserService radarUserService;
+    public HomeController(RadarService radarService,
+                          RadarUserService radarUserService){
+        this.radarService = radarService;
+        this.radarUserService = radarUserService;
+    }
 
     @RequestMapping( value = {"/", "/public/home/index"})
     public String index(Model viewModel)

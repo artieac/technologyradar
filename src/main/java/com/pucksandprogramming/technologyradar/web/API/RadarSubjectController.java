@@ -25,11 +25,15 @@ import java.util.Optional;
 public class RadarSubjectController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);
 
-    @Autowired
-    private RadarService radarService;
+    private final RadarService radarService;
+    private final TechnologyService technologyService;
 
     @Autowired
-    private TechnologyService technologyService;
+    public RadarSubjectController(RadarService radarService,
+                                  TechnologyService technologyService){
+        this.radarService = radarService;
+        this.technologyService = technologyService;
+    }
 
     @GetMapping("/{id}/assessments")
     public @ResponseBody

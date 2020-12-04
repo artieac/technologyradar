@@ -19,12 +19,15 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Controller
 @ControllerAdvice
-public class RadarSubjectController extends ControllerBase
-{
+public class RadarSubjectController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarSubjectController.class);
 
+    private final TechnologyService technologyService;
+
     @Autowired
-    private TechnologyService technologyService;
+    public RadarSubjectController(TechnologyService technologyService){
+        this.technologyService = technologyService;
+    }
 
     @RequestMapping(value ={"/radarsubject/search", "/public/radarsubject/search"})
     public ModelAndView technologySearch(ModelAndView model) {

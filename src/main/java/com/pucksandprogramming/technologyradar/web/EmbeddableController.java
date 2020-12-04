@@ -17,8 +17,12 @@ import java.util.List;
 public class EmbeddableController {
     private static final Logger logger = Logger.getLogger(EmbeddableController.class);
 
+    private final RadarService radarService;
+
     @Autowired
-    RadarService radarService;
+    public EmbeddableController(RadarService radarService){
+        this.radarService = radarService;
+    }
 
     @RequestMapping(value = { "/user/{userId}/radartemplate/{radarTemplateId}/radars"})
     public ModelAndView mostRecentRadarByType(@PathVariable Long userId,

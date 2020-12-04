@@ -23,12 +23,15 @@ import java.util.Optional;
 public class RadarConfigurationController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarConfigurationController.class);
 
-    @Autowired
-    DiagramConfigurationService radarSetupService;
+    private final DiagramConfigurationService radarSetupService;
+    private final RadarService radarService;
 
     @Autowired
-    RadarService radarService;
-
+    public RadarConfigurationController(DiagramConfigurationService diagramConfigurationService,
+                                        RadarService radarService){
+        this.radarSetupService = diagramConfigurationService;
+        this.radarService = radarService;
+    }
     @GetMapping(value = "/radar/{radarId}/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId) {
         List<RadarRing> retVal = new ArrayList<RadarRing>();

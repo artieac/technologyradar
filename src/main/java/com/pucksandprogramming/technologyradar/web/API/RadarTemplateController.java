@@ -23,14 +23,18 @@ import java.util.Optional;
 public class RadarTemplateController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarController.class);
 
-    @Autowired
-    private RadarUserService radarUserService;
+    private final RadarUserService radarUserService;
+    private final RadarTemplateService radarTemplateService;
+    private final AssociatedRadarTemplateService associatedRadarTemplateService;
 
     @Autowired
-    RadarTemplateService radarTemplateService;
-
-    @Autowired
-    AssociatedRadarTemplateService associatedRadarTemplateService;
+    public RadarTemplateController(RadarUserService radarUserService,
+                                   RadarTemplateService radarTemplateService,
+                                   AssociatedRadarTemplateService associatedRadarTemplateService){
+        this.radarUserService = radarUserService;
+        this.radarTemplateService = radarTemplateService;
+        this.associatedRadarTemplateService = associatedRadarTemplateService;
+    }
 
     @GetMapping(value = "/public/RadarTemplates", produces = "application/json")
     public @ResponseBody List<RadarTemplate> getPublicRadarTemplates() {

@@ -25,8 +25,12 @@ import java.util.Optional;
 public class TeamController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(TeamController.class);
 
+    private final TeamService teamService;
+
     @Autowired
-    TeamService teamService;
+    public TeamController(TeamService teamService){
+        this.teamService = teamService;
+    }
 
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/User/{userId}/Teams", produces = "application/json")
