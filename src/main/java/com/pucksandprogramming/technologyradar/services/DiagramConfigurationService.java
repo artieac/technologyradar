@@ -23,9 +23,9 @@ import java.util.Optional;
 public class DiagramConfigurationService {
     private static final Logger logger = Logger.getLogger(DiagramConfigurationService.class);
 
-    private RadarRingRepository radarRingRepository;
-    private RadarCategoryRepository radarCategoryRepository;
-    private RadarUserRepository radarUserRepository;
+    private final RadarRingRepository radarRingRepository;
+    private final RadarCategoryRepository radarCategoryRepository;
+    private final RadarUserRepository radarUserRepository;
 
     @Autowired
     public DiagramConfigurationService(RadarRingRepository radarRingRepository,

@@ -24,23 +24,15 @@ public abstract class SimpleDomainRepository<
         implements PagingAndSortingRepository<DomainModel, ID> {
     private static final Logger logger = Logger.getLogger(SimpleDomainRepository.class);
 
-    @Autowired
-    protected RadarMapper modelMapper;
+    protected final RadarMapper modelMapper;
+    protected final Class<DomainModel> domainModelClass;
+    protected final EntityRepository entityRepository;
 
-    protected Class<DomainModel> domainModelClass;
-
-    protected EntityRepository entityRepository;
-
-    protected void setEntityRepository(EntityRepository entityRepository)
-    {
+    public SimpleDomainRepository(RadarMapper modelMapper,
+                                  EntityRepository entityRepository,
+                                  Class<DomainModel> domainModelClass) {
+        this.modelMapper = modelMapper;
         this.entityRepository = entityRepository;
-    }
-
-    public SimpleDomainRepository() {
-    }
-
-    protected SimpleDomainRepository(Class<DomainModel> domainModelClass)
-    {
         this.domainModelClass = domainModelClass;
     }
 

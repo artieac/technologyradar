@@ -4,10 +4,10 @@ package com.pucksandprogramming.technologyradar.services;
  * Created by acorrea on 2/16/2018.
  */
 public class RadarItemToBeAdded {
-    private Long radarCategoryId;
-    private Long radarRingId;
-    private Long technologyId;
-    private String details;
+    private final Long radarCategoryId;
+    private final Long radarRingId;
+    private final Long technologyId;
+    private final String details;
     private int confidenceFactor;
 
     public RadarItemToBeAdded(Long radarCategoryId, Long radarRingId, Long technologyId, String details, int confidenceFactor) {

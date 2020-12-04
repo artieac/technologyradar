@@ -3,7 +3,10 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 import com.pucksandprogramming.technologyradar.data.Entities.TeamEntity;
 import com.pucksandprogramming.technologyradar.data.dao.RadarUserDAO;
 import com.pucksandprogramming.technologyradar.data.dao.TeamDAO;
+import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.Team;
+import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,21 +17,14 @@ import java.util.Optional;
 
 @Repository
 public class TeamRepository extends SimpleDomainRepository<Team, TeamEntity, TeamDAO, Long> {
-    @Autowired
-    RadarUserDAO radarUserDAO;
+    private final RadarUserDAO radarUserDAO;
 
     @Autowired
-    EntityManager entityManager;
-
-    @Autowired
-    public void TeamRepository(TeamDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public TeamRepository()
-    {
-        super(Team.class);
+    public TeamRepository(RadarMapper modelMapper,
+                               TeamDAO entityRepository,
+                               RadarUserDAO radarUserDAO) {
+        super(modelMapper, entityRepository, Team.class);
+        this.radarUserDAO = radarUserDAO;
     }
 
     private List<Team> mapList(List<TeamEntity> source) {

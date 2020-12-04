@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Component
 public class AssociatedRadarTemplateService extends ServiceBase {
-    RadarTemplateRepository radarTemplateRepository;
+    private final RadarTemplateRepository radarTemplateRepository;
 
     @Autowired
     public AssociatedRadarTemplateService(RadarTemplateRepository radarTemplateRepository, RadarUserRepository radarUserRepository) {

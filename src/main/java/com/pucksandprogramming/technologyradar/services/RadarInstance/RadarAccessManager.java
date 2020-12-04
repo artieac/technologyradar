@@ -16,7 +16,7 @@ public class RadarAccessManager {
         FullAccess
     }
 
-    AuthenticatedUser authenticatedUser;
+    private AuthenticatedUser authenticatedUser;
 
     public AuthenticatedUser getAuthenticatedUser() {
 

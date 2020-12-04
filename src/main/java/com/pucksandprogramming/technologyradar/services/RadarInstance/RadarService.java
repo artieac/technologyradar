@@ -17,12 +17,12 @@ import java.util.Optional;
 
 @Component
 public class RadarService extends ServiceBase {
-    protected RadarRepositoryFactory radarRepositoryFactory;
-    protected TechnologyRepository technologyRepository;
-    protected RadarRingRepository radarRingRepository;
-    protected RadarCategoryRepository radarCategoryRepository;
-    protected RadarAccessManager radarAccessManager;
-    protected RadarTemplateRepository radarTemplateRepository;
+    protected final RadarRepositoryFactory radarRepositoryFactory;
+    protected final TechnologyRepository technologyRepository;
+    protected final RadarRingRepository radarRingRepository;
+    protected final RadarCategoryRepository radarCategoryRepository;
+    protected final RadarAccessManager radarAccessManager;
+    protected final RadarTemplateRepository radarTemplateRepository;
 
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
                         RadarTemplateRepository radarTemplateRepository,
@@ -51,7 +51,7 @@ public class RadarService extends ServiceBase {
     }
 
     public Optional<Radar> findById(Long radarId) {
-        return this.radarRepositoryFactory.getRadarRepository(null).findById(radarId);
+        return this.radarRepositoryFactory.getRadarRepository().findById(radarId);
     }
 
     public List<Radar> findByRadarUserId(Long radarUserId) {
@@ -99,7 +99,7 @@ public class RadarService extends ServiceBase {
     }
 
     public List<Radar> getAllByRadarSubjectId(Long radarSubjectId) {
-        return this.radarRepositoryFactory.getRadarRepository(null).findByRadarSubjectId(radarSubjectId);
+        return this.radarRepositoryFactory.getRadarRepository().findByRadarSubjectId(radarSubjectId);
     }
 
     public List<Radar> getAllNotOwnedByTechnologyId(Long radarUserId, Long technologyId) {
@@ -110,10 +110,10 @@ public class RadarService extends ServiceBase {
 
         if(foundItem.isPresent()) {
             if (dataOwner.isPresent()) {
-                retVal = this.radarRepositoryFactory.getRadarRepository(null).findNotOwnedByRadarSubjectAndUser(dataOwner.get().getId(), foundItem.get().getId());
+                retVal = this.radarRepositoryFactory.getRadarRepository().findNotOwnedByRadarSubjectAndUser(dataOwner.get().getId(), foundItem.get().getId());
             }
             else {
-                retVal = this.radarRepositoryFactory.getRadarRepository(null).findByRadarSubjectId(foundItem.get().getId());
+                retVal = this.radarRepositoryFactory.getRadarRepository().findByRadarSubjectId(foundItem.get().getId());
             }
         }
 

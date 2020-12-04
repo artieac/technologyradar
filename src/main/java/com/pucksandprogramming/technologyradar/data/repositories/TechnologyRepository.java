@@ -2,6 +2,7 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,17 +18,14 @@ import java.util.Optional;
  */
 @Repository
 public class TechnologyRepository extends SimpleDomainRepository<Technology, TechnologyEntity, TechnologyDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    public void setEntityRepository(TechnologyDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public TechnologyRepository() {
-        super(Technology.class);
+    public TechnologyRepository(RadarMapper modelMapper,
+                                TechnologyDAO entityRepository,
+                                EntityManager entityManager){
+        super(modelMapper, entityRepository, Technology.class);
+        this.entityManager = entityManager;
     }
 
     private List<Technology> mapList(List<TechnologyEntity> source) {

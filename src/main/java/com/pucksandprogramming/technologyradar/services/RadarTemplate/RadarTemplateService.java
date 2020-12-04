@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Component
 public class RadarTemplateService extends ServiceBase {
-    protected RadarTemplateRepository radarTemplateRepository;
-    protected FullRadarRepository fullRadarRepository;
+    private final RadarTemplateRepository radarTemplateRepository;
+    private final FullRadarRepository fullRadarRepository;
 
     @Autowired
     public RadarTemplateService(RadarUserRepository radarUserRepository, RadarTemplateRepository radarTemplateRepository, FullRadarRepository fullRadarRepository) {

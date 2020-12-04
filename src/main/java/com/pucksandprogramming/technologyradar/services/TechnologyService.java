@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 @Component
 public class TechnologyService {
-    private TechnologyRepository technologyRepository;
+    private final TechnologyRepository technologyRepository;
 
     @Autowired
     public TechnologyService(TechnologyRepository technologyRepository) {

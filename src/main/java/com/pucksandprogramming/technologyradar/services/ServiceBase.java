@@ -6,7 +6,7 @@ import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class ServiceBase {
-    private RadarUserRepository radarUserRepository;
+    private final RadarUserRepository radarUserRepository;
     private AuthenticatedUser authenticatedUser = null;
 
     public ServiceBase(RadarUserRepository radarUserRepository)

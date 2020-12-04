@@ -2,11 +2,14 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.dao.RadarRingDAO;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarRingEntity;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarRing;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +20,14 @@ import java.util.Optional;
  */
 @Repository
 public class RadarRingRepository extends SimpleDomainRepository<RadarRing, RadarRingEntity, RadarRingDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    public void setEntityRepository(RadarRingDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarRingRepository()
-    {
-        super(RadarRing.class);
+    public RadarRingRepository(RadarMapper modelMapper,
+                               RadarRingDAO radarRingDAO,
+                               EntityManager entityManager){
+        super(modelMapper, radarRingDAO, RadarRing.class);
+        this.entityManager = entityManager;
     }
 
     @Override

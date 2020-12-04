@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 public class TeamService extends ServiceBase {
-    TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
 
     @Autowired
     public TeamService(TeamRepository teamRepository, RadarUserRepository radarUserRepository) {

@@ -4,10 +4,12 @@ import com.pucksandprogramming.technologyradar.data.Entities.RadarEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.RadarItemEntity;
 import com.pucksandprogramming.technologyradar.data.Entities.TechnologyEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.Radar;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -15,36 +17,32 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class RadarRepositoryBase extends SimpleDomainRepository<Radar, RadarEntity, RadarDAO, Long> {
-    @Autowired
-    protected EntityManager entityManager;
+    protected final EntityManager entityManager;
+    private final TechnologyDAO technologyDAO;
+    private final RadarRingDAO radarRingDAO;
+    private final RadarCategoryDAO radarCategoryDAO;
+    private final RadarUserDAO radarUserDAO;
+    private final RadarItemDAO radarItemDAO;
+    private final RadarTemplateDAO radarTemplateDAO;
 
-    @Autowired
-    TechnologyDAO technologyDAO;
-
-    @Autowired
-    RadarRingDAO radarRingDAO;
-
-    @Autowired
-    RadarCategoryDAO radarCategoryDAO;
-
-    @Autowired
-    RadarUserDAO radarUserDAO;
-
-    @Autowired
-    RadarItemDAO radarItemDAO;
-
-    @Autowired
-    RadarTemplateDAO radarTemplateDAO;
-
-    @Autowired
-    public void setEntityRepository(RadarDAO entityRepository)
+    public RadarRepositoryBase(RadarMapper modelMapper,
+                               RadarDAO radarDAO,
+                               EntityManager entityManager,
+                               TechnologyDAO technologyDAO,
+                               RadarRingDAO radarRingDAO,
+                               RadarCategoryDAO radarCategoryDAO,
+                               RadarUserDAO radarUserDAO,
+                               RadarItemDAO radarItemDAO,
+                               RadarTemplateDAO radarTemplateDAO)
     {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarRepositoryBase()
-    {
-        super(Radar.class);
+        super(modelMapper, radarDAO, Radar.class);
+        this.entityManager = entityManager;
+        this.technologyDAO = technologyDAO;
+        this.radarRingDAO = radarRingDAO;
+        this.radarCategoryDAO = radarCategoryDAO;
+        this.radarUserDAO = radarUserDAO;
+        this.radarItemDAO = radarItemDAO;
+        this.radarTemplateDAO = radarTemplateDAO;
     }
 
     protected List<Radar> mapList(List<RadarEntity> source) {

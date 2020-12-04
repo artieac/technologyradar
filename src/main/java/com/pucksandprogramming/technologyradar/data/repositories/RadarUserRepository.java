@@ -2,10 +2,12 @@ package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.RadarUserEntity;
 import com.pucksandprogramming.technologyradar.data.dao.*;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +18,26 @@ import java.util.Optional;
  */
 @Repository
 public class RadarUserRepository extends SimpleDomainRepository<RadarUser, RadarUserEntity, RadarUserDAO, Long> {
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
+    private final RadarTemplateDAO radarTemplateDAO;
+    private final RadarRingDAO radarRingDAO;
+    private final RadarCategoryDAO radarCategoryDAO;
+    private final UserTypeDAO userTypeDAO;
 
     @Autowired
-    RadarTemplateDAO radarTemplateDAO;
-
-    @Autowired
-    RadarRingDAO radarRingDAO;
-
-    @Autowired
-    RadarCategoryDAO radarCategoryDAO;
-
-    @Autowired
-    UserTypeDAO userTypeDAO;
-
-    @Autowired
-    public void setEntityRepository(RadarUserDAO entityRepository) {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public RadarUserRepository() {
-        super(RadarUser.class);
+    public RadarUserRepository(RadarMapper modelMapper,
+                               RadarUserDAO radarUserDAO,
+                               EntityManager entityManager,
+                               RadarTemplateDAO radarTemplateDAO,
+                               RadarRingDAO radarRingDAO,
+                               RadarCategoryDAO radarCategoryDAO,
+                               UserTypeDAO userTypeDAO) {
+        super(modelMapper, radarUserDAO, RadarUser.class);
+        this.entityManager = entityManager;
+        this.radarTemplateDAO = radarTemplateDAO;
+        this.radarRingDAO = radarRingDAO;
+        this.radarCategoryDAO = radarCategoryDAO;
+        this.userTypeDAO = userTypeDAO;
     }
 
     private List<RadarUser> mapList(List<RadarUserEntity> source) {

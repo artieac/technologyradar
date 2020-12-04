@@ -1,7 +1,10 @@
 package com.pucksandprogramming.technologyradar.data.repositories;
 
 import com.pucksandprogramming.technologyradar.data.Entities.UserTypeEntity;
+import com.pucksandprogramming.technologyradar.data.dao.TechnologyDAO;
 import com.pucksandprogramming.technologyradar.data.dao.UserTypeDAO;
+import com.pucksandprogramming.technologyradar.data.mapper.RadarMapper;
+import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,17 +17,9 @@ import java.util.Optional;
 @Repository
 public class UserTypeRepository extends SimpleDomainRepository<UserType, UserTypeEntity, UserTypeDAO, Integer> {
     @Autowired
-    EntityManager entityManager;
-
-    @Autowired
-    public void UserTypeRepository(UserTypeDAO entityRepository)
-    {
-        super.setEntityRepository(entityRepository);
-    }
-
-    public UserTypeRepository()
-    {
-        super(UserType.class);
+    public UserTypeRepository(RadarMapper modelMapper,
+                              UserTypeDAO entityManager) {
+        super(modelMapper, entityManager, UserType.class);
     }
 
     private List<UserType> mapList(List<UserTypeEntity> source) {

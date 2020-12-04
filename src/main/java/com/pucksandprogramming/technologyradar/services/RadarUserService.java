@@ -18,9 +18,9 @@ import java.util.*;
  */
 @Component
 public class RadarUserService {
-    private RadarUserRepository radarUserRepository;
-    private Auth0Repository auth0Repository;
-    private UserTypeRepository userTypeRepository;
+    private final RadarUserRepository radarUserRepository;
+    private final Auth0Repository auth0Repository;
+    private final UserTypeRepository userTypeRepository;
 
     static HashMap<Integer, UserType> userTypes = null;
 
@@ -114,7 +114,7 @@ public class RadarUserService {
         return retVal;
     }
 
-    public Auth0UserProfile getUserProfile(String issuer, String accessToken) {
+    public Optional<Auth0UserProfile> getUserProfile(String issuer, String accessToken) {
         String cleanedAccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));
         return this.auth0Repository.getUserProfile(issuer, accessToken);
     }

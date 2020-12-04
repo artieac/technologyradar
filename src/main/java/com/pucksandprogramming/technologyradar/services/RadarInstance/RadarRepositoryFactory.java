@@ -11,15 +11,19 @@ import java.util.Optional;
 
 @Component
 public class RadarRepositoryFactory {
-    private RadarAccessManager radarAccessManager;
-    private PublicRadarRepository publicRadarRepository;
-    private FullRadarRepository fullRadarRepository;
+    private final RadarAccessManager radarAccessManager;
+    private final PublicRadarRepository publicRadarRepository;
+    private final FullRadarRepository fullRadarRepository;
 
     @Autowired
     public RadarRepositoryFactory(RadarAccessManager radarAccessManager, PublicRadarRepository publicRadarRepository, FullRadarRepository fullRadarRepository) {
         this.radarAccessManager = radarAccessManager;
         this.publicRadarRepository = publicRadarRepository;
         this.fullRadarRepository = fullRadarRepository;
+    }
+
+    public RadarRepositoryBase getRadarRepository() {
+        return this.getRadarRepository(Optional.empty());
     }
 
     public RadarRepositoryBase getRadarRepository(Optional<RadarUser> targetDataOwner) {
