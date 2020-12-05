@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState} from '../../redux/RadarReducer';
+import radarReducer from '../../../redux/RadarReducer';
+import { addRadarsToState} from '../../../redux/RadarReducer';
 import { DropdownButton, Dropdown} from 'react-bootstrap';
-import { RadarRepository } from '../../../../Repositories/RadarRepository';
-import { RadarTemplateDropdown } from './RadarTemplateDropdown';
+import { RadarRepository } from '../../../../../Repositories/RadarRepository';
+import { RadarTemplateDropdown } from '../RadarTemplateDropdown';
 
-class NewRadarRow extends React.Component{
+class AddRadarRow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -85,4 +85,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewRadarRow);
+export default connect(mapStateToProps, mapDispatchToProps)(AddRadarRow);

@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import TeamRow from './TeamRow';
-import NewTeamRow from './NewTeamRow';
+import TeamRow from '../TeamRow';
+import NewTeamRow from '../AddTeamRow';
 
 class TeamsTable extends React.Component{
     constructor(props){
@@ -34,7 +34,7 @@ class TeamsTable extends React.Component{
                         return <TeamRow key={index} rowNum={index} rowData={currentRow} />
                     })
                 }
-                <NewTeamRow />
+                <AddTeamRow />
             </div>
         );
     }

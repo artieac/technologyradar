@@ -16,7 +16,7 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, './static/script/dist')
+		path: path.resolve(__dirname, '../../../target/classes/static/script/dist')
 	},
 	module: {
 		loaders: [
@@ -31,7 +31,19 @@ module.exports = {
 			{
 				test: /\.less/,
 				loaders: ['style-loader', 'css-loader', 'less-loader']
-			}]
+			},
+			{
+              test: /\.css$/,
+              loader: 'style-loader'
+            },
+            {
+              test: /\.css$/,
+              loader: 'css-loader',
+              query: {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              }
+            }]
 	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx', '.less']

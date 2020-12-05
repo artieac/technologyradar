@@ -2,27 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { addRadarTemplatesToState, addSelectedRadarTemplateToState } from '../../redux/RadarTemplateReducer';
-import RadarRingList from './RadarRingList';
-import { RadarCategoryDetails } from './RadarCategoryDetails';
-import { RadarTemplateRepository } from '../../../../Repositories/RadarTemplateRepository';
+import { addRadarTemplatesToState, addSelectedRadarTemplateToState } from '../../../redux/RadarTemplateReducer';
+import { RadarTemplateRepository } from '../../../../../Repositories/RadarTemplateRepository';
+import RadarRingsComponent from './RadarRingsComponent'
+import RadarCategoriesComponent from './RadarCategoriesComponent'
 
 class RadarTemplateDetails extends React.Component{
     constructor(props){
         super(props);
          this.state = {
-            radarCategoriesColorMap: {  "Green": "#8FA227",
-                                        "Blue": "#587486",
-                                        "Maroon": "#B70062",
-                                        "Orange": "#DC6F1D"},
-            radarCategoriesColorNameMap: {}
         };
-
-        var colorNames = Object.keys(this.state.radarCategoriesColorMap);
-
-        for(var i = 0; i < colorNames.length; i++){
-            this.state.radarCategoriesColorNameMap[this.state.radarCategoriesColorMap[colorNames[i]]] = colorNames[i];
-        }
 
         this.radarTemplateRepository = new RadarTemplateRepository();
         this.nameInput = React.createRef();
@@ -71,6 +60,8 @@ class RadarTemplateDetails extends React.Component{
 
     render() {
         if(this.props.selectedRadarTemplate !== undefined && this.props.selectedRadarTemplate.name !== undefined){
+            const { editMode, selectedRadarTemplate } = this.props;
+
             return (
                 <div className="row">
                     <div className="col-md-12">
@@ -98,29 +89,8 @@ class RadarTemplateDetails extends React.Component{
                             </div>
                             <div className="col-md-5"></div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">Rings</div>
-                                    <RadarRingList radarRings={this.props.selectedRadarTemplate.radarRings} editMode={this.props.editMode} canAddOrDelete={ this.props.selectedRadarTemplate.id < 0}/>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="panel panel-default">
-                                    <div className="panel-heading">Categories</div>
-                                    <div className="panel-body">
-                                        <div className="row">
-                                            <div className="col-md-6"><b>Name</b></div>
-                                            <div className="col-md-2"><b>Icon Color</b></div>
-                                        </div>
-                                        <div className="row"></div>
-                                        {this.props.selectedRadarTemplate.radarCategories.map((currentRow) =>{
-                                            return <RadarCategoryDetails key={currentRow.id} rowData={currentRow} userId={this.props.userId} parentContainer = { this.props.parentContainer } colorMap={this.state.radarCategoriesColorMap} colorNameMap={this.state.radarCategoriesColorNameMap} editMode={this.props.editMode}/>
-                                            })}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <RadarRingsComponent editMode={ editMode } canAddOrDelete={ selectedRadarTemplate.id < 0} />
+                        <RadarCategoriesComponent editMode={ editMode } canAddOrDelete={ selectedRadarTemplate.id < 0} />
                     </div>
                 </div>
             );

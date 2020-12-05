@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
-import { TeamRepository } from '../../../../Repositories/TeamRepository';
-import { addTeamsToState } from '../../redux/TeamReducer';
+import { TeamRepository } from '../../../../../Repositories/TeamRepository';
+import { addTeamsToState } from '../../../redux/TeamReducer';
 
-class NewTeamRow extends React.Component{
+class AddTeamRow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -66,4 +66,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewTeamRow);
+export default connect(mapStateToProps, mapDispatchToProps)(AddTeamRow);
