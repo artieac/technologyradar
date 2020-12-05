@@ -4,14 +4,13 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addRadarTemplatesToState, addSelectedRadarTemplateToState, addTargetUserToState, setShowEdit } from '../../redux/RadarTemplateReducer';
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
-import NewRadarTemplateRow from './NewRadarTemplateRow';
 import { RadarTemplateRepository } from '../../../../Repositories/RadarTemplateRepository';
 import { UserRepository } from '../../../../Repositories/UserRepository';
 import { radarTemplateMap } from './radarTemplateMap';
-import TableComponent from '../../../../components/TableComponent';
 import RadarTemplateDetails from './RadarTemplateDetails';
+import TableComponent from '../../../../components/TableComponent';
 
-class OwnedRadarTemplatesPage extends React.Component{
+class ManageRadarTemplatesPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
@@ -24,6 +23,8 @@ class OwnedRadarTemplatesPage extends React.Component{
         this.handleViewClick = this.handleViewClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleDeleteResponse = this.handleDeleteResponse.bind(this);
+
+        this.handleAddRadarTemplate = this.handleAddRadarTemplate.bind(this);
     }
 
     componentDidMount(){
@@ -72,6 +73,10 @@ class OwnedRadarTemplatesPage extends React.Component{
         this.forceUpdate();
     }
 
+    handleAddRadarTemplate() {
+        this.props.storeSelectedRadarTemplate(this.radarTemplateRepository.createDefaultRadarTemplate(""));
+    }
+
     render() {
         const { radarTemplates } = this.props;
 
@@ -85,7 +90,11 @@ class OwnedRadarTemplatesPage extends React.Component{
                     <div className="col-md-4">
                         <div className="row">
                             <div className={ this.canAddRadarTemplates()==true ? "col-md-6" : "col-md-6 hidden"}>
-                               <NewRadarTemplateRow />
+                                <div className="row">
+                                    <div className="col-lg-1`">
+                                        <input type="button" className="btn btn-techradar" value="Add Radar Template" onClick= { this.handleAddRadarTemplate } />
+                                    </div>
+                                </div>
                             </div>
                            <div className={ this.canAddRadarTemplates()==false ? "col-md-6" : "col-md-6 hidden"}>
                                <div className="errorText">You are only allowed { this.props.currentUser.canHaveNRadarTemplates } Radar Templates.  If you want a new one you need to delete one of your existing Radar Tempalates.</div>
@@ -124,4 +133,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OwnedRadarTemplatesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageRadarTemplatesPage);

@@ -3,7 +3,18 @@ import DropdownComponent from '../../../../../../../components/DropdownComponent
 import { colorMapData } from './colorMapData';
 import { colorMap } from './colorMap';
 
-export const radarCategoryMap = (editMode, handleNameChange, handleColorChange) => {
+export const radarCategoryMap = (editMode, handleNameChange, handleColorSelectionChange) => {
+    const colorMapLookup = (colorValue) => {
+        if(colorValue !== undefined){
+            for(var i = 0; i < colorMapData().length; i++){
+                if(colorMapData()[i].value===colorValue.displayOption){
+                    return colorMapData()[i];
+                }
+            }
+        }
+        return colorMapData()[0];
+    };
+
   return [
     {
       title: 'Name',
@@ -16,7 +27,7 @@ export const radarCategoryMap = (editMode, handleNameChange, handleColorChange) 
         title: "Icon Color",
         key: "iconColor",
         render: rowData => {
-            return <DropdownComponent title= "Green"  itemMap= { colorMap(this) } data={colorMapData()}/>
+            return <DropdownComponent title= { colorMapLookup(rowData).name } itemMap= { colorMap(handleColorSelectionChange, rowData) } data={colorMapData()}/>
         },
     }
   ];

@@ -4,12 +4,14 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import TableComponent from '../../../../../../components/TableComponent'
 import { radarCategoryMap } from './radarCategoryMap';
+import { colorMapData } from './radarCategoryMap/colorMapData'
 
 class RadarCategoriesComponent extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isDeleted: false
+            isDeleted: false,
+            selectedColor: {}
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -21,8 +23,21 @@ class RadarCategoriesComponent extends React.Component{
         rowData.name = event.target.value;
     }
 
-    handleColorChange(event, rowData){
-        rowData.displayOption = event.target.value;
+    handleColorChange(event, rowData, radarCategoryItem){
+        const { selectedRadarTemplate } = this.props;
+
+        if(selectedRadarTemplate!==undefined){
+            if(selectedRadarTemplate.radarCategories!==undefined){
+                for(var i = 0; i < selectedRadarTemplate.radarCategories.length; i++){
+                    if(selectedRadarTemplate.radarCategories[i].id==radarCategoryItem.id){
+                        selectedRadarTemplate.radarCategories[i].displayOption = rowData.value;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.forceUpdate();
     }
 
     handleOnDeleteClick(event, rowData){
@@ -46,6 +61,7 @@ class RadarCategoriesComponent extends React.Component{
 
     render() {
         const { editMode, selectedRadarTemplate } = this.props;
+        const { selectedColor } = this.state;
 
         return (
             <div className="row">
