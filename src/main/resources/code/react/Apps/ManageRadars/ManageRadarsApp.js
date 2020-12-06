@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import ManageRadarTemplatesPage from './components/ManageRadarTemplatesPage';
-import ManageAssociatedRadarTemplatesPage from './components/ManageAssociatedRadarTemplates/ManageAssociatedRadarTemplatesPage';
+import ManageAssociatedRadarTemplatesPage from './components/ManageAssociatedRadarTemplatesPage';
 import ManageRadarsPage from './components/ManageRadarsPage';
 import AddFromPreviousRadarPage from './components/AddFromPreviousRadarPage';
 import radarReducer from './redux/RadarReducer';

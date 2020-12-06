@@ -5,10 +5,11 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addAssociatedRadarTemplatesToState, addSharedRadarTemplatesToState, addSelectedRadarTemplateToState } from '../../redux/RadarTemplateReducer';
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
-import RadarTemplateList from './RadarTemplateList';
-import RadarTemplateDetails from './RadarTemplateDetails';
+import ViewRadarTemplateControl from './ViewRadarTemplateControl';
 import { RadarTemplateRepository } from '../../../../Repositories/RadarTemplateRepository';
 import { UserRepository } from '../../../../Repositories/UserRepository';
+import DivTableComponent from '../../../../components/DivTableComponent';
+import { radarTemplateColumns } from './radarTemplateColumns';
 
 class ManageAssociatedRadarTemplatesPage extends React.Component{
     constructor(props){
@@ -22,6 +23,10 @@ class ManageAssociatedRadarTemplatesPage extends React.Component{
         this.handleGetOtherUsersSharedRadarTemplatesSuccess = this.handleGetOtherUsersSharedRadarTemplatesSuccess.bind(this);
         this.handleGetAssociatedRadarTemplatesSuccess = this.handleGetAssociatedRadarTemplatesSuccess.bind(this);
         this.handleGetCurrentUserSuccess = this.handleGetCurrentUserSuccess.bind(this);
+        this.viewRadarTemplate = this.viewRadarTemplate.bind(this);
+        this.handleAssociateRadarTemplateChange = this.handleAssociateRadarTemplateChange.bind(this);
+        this.handleAssociatedRadarTemplateSuccess = this.handleAssociatedRadarTemplateSuccess.bind(this);
+        this.canAssociateRadarTemplates = this.canAssociateRadarTemplates.bind(this);
     }
 
     componentDidMount(){
@@ -42,21 +47,17 @@ class ManageAssociatedRadarTemplatesPage extends React.Component{
     }
 
     handleGetOtherUsersSharedRadarTemplatesSuccess(sharedRadarTemplates){
-        for(var i = 0; i < this.props.associatedRadarTemplates.length; i++)
-        {
+        for(var i = 0; i < this.props.associatedRadarTemplates.length; i++){
             var associatedRadarTemplate = this.props.associatedRadarTemplates[i];
             var foundMatch = false;
 
-            for(var j = 0; j < sharedRadarTemplates.length; j++)
-            {
-                if(associatedRadarTemplate.id == sharedRadarTemplates[j].id)
-               {
+            for(var j = 0; j < sharedRadarTemplates.length; j++){
+                if(associatedRadarTemplate.id == sharedRadarTemplates[j].id){
                     foundMatch = true;
                }
             }
 
-            if(foundMatch == false)
-            {
+            if(foundMatch == false){
                 sharedRadarTemplates.push(associatedRadarTemplate);
             }
         }
@@ -70,7 +71,47 @@ class ManageAssociatedRadarTemplatesPage extends React.Component{
         this.forceUpdate();
     }
 
+    viewRadarTemplate(event, rowData){
+        this.props.storeSelectedRadarTemplate(rowData);
+        this.forceUpdate();
+    }
+
+    handleAssociateRadarTemplateChange(event, rowData){
+        const { currentUser, associatedRadarTemplates} = this.props;
+
+        if(event.target.checked==true){
+            if(this.canAssociateRadarTemplates(currentUser, associatedRadarTemplates)==true){
+                this.radarTemplateRepository.associateRadarTemplate(currentUser.id, rowData.id, true, this.handleAssociatedRadarTemplateSuccess);
+                this.forceUpdate();
+            }
+            else{
+                alert("You are only allowed to use " + this.props.currentUser.canHaveNAssociatedRadarTemplates + " types from other users.  Please uncheck another before trying to add this one.");
+            }
+        } else {
+            this.radarTemplateRepository.associateRadarTemplate(currentUser.id, rowData.id, false, this.handleAssociatedRadarTemplateSuccess);
+            this.forceUpdate();
+        }
+    }
+
+    handleAssociatedRadarTemplateSuccess(){
+       this.radarTemplateRepository.getAssociatedRadarTemplates(this.props.currentUser.id, this.props.storeAssociatedRadarTemplates);
+    }
+
+    canAssociateRadarTemplates(currentUser, associatedRadarTemplates) {
+        var retVal = false;
+
+        if(currentUser !== undefined && associatedRadarTemplates !== undefined){
+            if(associatedRadarTemplates.length < currentUser.canHaveNAssociatedRadarTemplates){
+                retVal = true;
+            }
+        }
+
+        return retVal;
+    }
+
     render() {
+        const { currentUser, sharedRadarTemplates, associatedRadarTemplates } = this.props;
+
         return (
             <div className="bodyContent">
                 <div className="contentPageTitle">
@@ -79,14 +120,10 @@ class ManageAssociatedRadarTemplatesPage extends React.Component{
                 <p>Discover Radar Templates that others have created</p>
                 <div className="row">
                     <div className="col-md-6">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <RadarTemplateList radarTemplates={this.props.sharedRadarTemplates} />
-                            </div>
-                        </div>
+                        <DivTableComponent data={sharedRadarTemplates} cols={ radarTemplateColumns(currentUser, associatedRadarTemplates, this.viewRadarTemplate, this.handleAssociateRadarTemplateChange) } />
                     </div>
                     <div className="col-md-6">
-                        <RadarTemplateDetails parentContainer={this} editMode={false}/>
+                        <ViewRadarTemplateControl parentContainer={this} editMode={false}/>
                     </div>
                 </div>
             </div>

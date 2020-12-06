@@ -7,6 +7,7 @@ import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincip
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.context.WebApplicationContext;
@@ -18,8 +19,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
+
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private JwtManager jwtManager;
@@ -66,7 +70,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             if (radarUser.isPresent()) {
                 TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(radarUser.get());
-                SecurityContextHolder.getContext().setAuthentication(securityPrincipal);
+                SecurityContext sc = SecurityContextHolder.getContext();
+                sc.setAuthentication(securityPrincipal);
+                HttpSession session = req.getSession(true);
+                session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
             }
         }
 
