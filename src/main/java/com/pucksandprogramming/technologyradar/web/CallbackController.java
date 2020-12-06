@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -108,9 +109,8 @@ public class CallbackController {
                     AuthenticatedUser authenticatedUser = new AuthenticatedUser(targetUser);
 
                     // TBD< switch this to an interface rather than a specific instance type
-                    TechRadarSecurityPrincipal tokenAuth = new TechRadarSecurityPrincipal(authenticatedUser);
-                    SecurityContextHolder.getContext().setAuthentication(tokenAuth);
-
+                    TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(authenticatedUser);
+                    SecurityContextHolder.getContext().setAuthentication(securityPrincipal);
                     res.addCookie(this.jwtCookieManager.generateCookie(new TechRadarJwt(targetUser.get(), identityProviderUser.get().getAuthExpiration())));
                 }
             }

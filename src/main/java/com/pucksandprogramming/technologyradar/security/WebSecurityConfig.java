@@ -42,9 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${com.auth0.callbackUrl}")
     private String callbackLocation;
 
-    @Value("${com.pucksandprogramming.securityEnabled}")
-    private boolean securityEnabled;
-
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver
@@ -68,36 +65,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-
-        if(this.securityEnabled==true) {
-            http
-                    .addFilter(new JwtAuthorizationFilter(this.authenticationManager()))
-                    .authorizeRequests()
-                        .antMatchers("/script/**",
-                                "/css/**",
-                                "/webjars/**",
-                                "/Images/**", "/images/**",
-                                "/favicon.ico").permitAll()
-                        .antMatchers(callbackLocation,
-                                "/login",
-                                "/logout",
-                                "/accessDenied",
-                                "/v2/api-docs",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui.html",
-                                "/webjars/**").permitAll()
-                        .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
-                        .antMatchers("/**").authenticated()
-                    .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
-                    .and().logout().logoutUrl("/logout").deleteCookies(JwtCookieManager.COOKIE_NAME).invalidateHttpSession(true);
-
-        }
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtAuthorizationFilter(this.authenticationManager()))
+                .authorizeRequests()
+                    .antMatchers("/script/**",
+                            "/css/**",
+                            "/webjars/**",
+                            "/Images/**", "/images/**",
+                            "/favicon.ico").permitAll()
+                    .antMatchers(callbackLocation,
+                            "/login",
+                            "/logout",
+                            "/accessDenied",
+                            "/v2/api-docs",
+                            "/swagger-resources",
+                            "/swagger-resources/**",
+                            "/configuration/ui",
+                            "/configuration/security",
+                            "/swagger-ui.html",
+                            "/webjars/**").permitAll()
+                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
+                    .antMatchers("/**").authenticated()
+                .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .deleteCookies(JwtCookieManager.COOKIE_NAME, "JSESSIONID");
     }
 
     private boolean shouldUseEnvironmentForConfiguration() {

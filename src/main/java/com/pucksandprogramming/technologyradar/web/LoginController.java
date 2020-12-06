@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("unused")
 @Controller
@@ -59,8 +63,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    protected String logout(final HttpServletRequest req) {
+    protected String logout(final HttpServletRequest req, final HttpServletResponse response) {
         logger.debug("Performing logout");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(req, response, auth);
+        }
         invalidateSession(req);
         String returnTo = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
         String logoutUrl = String.format("https://%s/v2/logout?client_id=%s&returnTo=%s", authDomain, authClientId, returnTo);

@@ -117,7 +117,7 @@ public class RadarTemplateController extends ControllerBase {
         return retVal;
     }
 
-    @GetMapping(value = {"/RadarTemplates/Shared", "/public//RadarTemplates/Shared"}, produces = "application/json")
+    @GetMapping(value = {"/RadarTemplates/Shared", "/public/RadarTemplates/Shared"}, produces = "application/json")
     public @ResponseBody List<RadarTemplateViewModel> getRadarTemplatesByUserId(@RequestParam(name="excludeUser", required = false, defaultValue = "-1") Long excludeUserId) {
         List<RadarTemplateViewModel> retVal = new ArrayList<RadarTemplateViewModel>();
 

@@ -16,9 +16,6 @@ import java.util.Optional;
  * Created by acorrea on 12/26/2017.
  */
 public class ControllerBase {
-    @Value("${com.pucksandprogramming.securityEnabled}")
-    private boolean securityEnabled;
-
     @Autowired
     private RadarUserService radarUserService;
 
@@ -32,22 +29,6 @@ public class ControllerBase {
 
                 if (tokenAuth != null) {
                     authenticatedUser = tokenAuth.getAuthenticatedUser();
-                }
-                else {
-                    if(this.securityEnabled==false) {
-                        Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
-                        this.authenticatedUser= new AuthenticatedUser(radarUser.get());
-                        TechRadarSecurityPrincipal oauthWrapper = new TechRadarSecurityPrincipal(this.authenticatedUser);
-                        SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
-                    }
-                }
-            }
-            else {
-                if(this.securityEnabled==false) {
-                    Optional<RadarUser> radarUser = this.radarUserService.findOne(1L);
-                    this.authenticatedUser= new AuthenticatedUser(radarUser.get());
-                    TechRadarSecurityPrincipal oauthWrapper = new TechRadarSecurityPrincipal(this.authenticatedUser);
-                    SecurityContextHolder.getContext().setAuthentication(oauthWrapper);
                 }
             }
         }
