@@ -5,27 +5,40 @@ import ReactDOM from 'react-dom';
 import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import radarReducer from '../../redux/RadarReducer';
-import { addRadarsToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState, handleAddRadarItem, handleRemoveRadarItem, clearAddRadarItems, clearRemoveRadarItems } from '../../redux/RadarReducer';
+import { addRadarsToState, setSourceRadarInstanceToState, setCurrentRadarInstanceToState } from '../../redux/RadarReducer';
 import { addCurrentUserToState} from '../../../redux/CommonUserReducer';
-import RadarsDropdown from './RadarsDropdown';
-import RadarDetails from './RadarDetails';
 import { UserRepository } from '../../../../Repositories/UserRepository';
+import { RadarRepository } from '../../../../Repositories/RadarRepository';
+import TableComponent from '../../../../components/TableComponent'
+import DropdownComponent from '../../../../components/DropdownComponent'
+import { radarDropdownMap } from './radarDropdownMap';
+import RadarCopyControl from './RadarCopyControl';
 
 class AddFromPreviousRadarPage extends React.Component{
     constructor(props){
         super(props);
          this.state = {
             radarId: this.props.match.params.radarId,
-            filteredRadarCollection: []
+            filteredRadarCollection: [],
+            radarItemsToAdd: [],
+            radarItemsToRemove: []
         };
 
         this.userRepository = new UserRepository();
+        this.radarRepository = new RadarRepository();
 
         this.handleAddItemsToRadarClick = this.handleAddItemsToRadarClick.bind(this);
         this.handleRemoveItemsFromRadarClick = this.handleRemoveItemsFromRadarClick.bind(this);
         this.handleCurrentRadarInstanceSuccess = this.handleCurrentRadarInstanceSuccess.bind(this);
         this.getRadarCollectionByUserIdAndRadarTemplateId = this.getRadarCollectionByUserIdAndRadarTemplateId.bind(this);
         this.handleGetUserSuccess = this.handleGetUserSuccess.bind(this);
+
+        this.handleSourceRadarSelection = this.handleSourceRadarSelection.bind(this);
+        this.handleSourceRadarSuccess = this.handleSourceRadarSuccess.bind(this);
+
+        this.createRadarItemForExistingTechnology = this.createRadarItemForExistingTechnology.bind(this);
+        this.onHandleAddRadarItem = this.onHandleAddRadarItem.bind(this);
+        this.onHandleRemoveRadarItem = this.onHandleRemoveRadarItem.bind(this);
     }
 
     componentDidMount(){
@@ -38,14 +51,23 @@ class AddFromPreviousRadarPage extends React.Component{
     }
 
     getCurrentRadarInstance(userId, radarId){
-        fetch( '/api/User/' + userId + '/Radar/' + radarId)
-            .then(response => response.json())
-            .then(json => this.handleCurrentRadarInstanceSuccess(json));
+        this.radarRepository.getByUserIdAndRadarId(userId, radarId, this.handleCurrentRadarInstanceSuccess);
     }
 
     handleCurrentRadarInstanceSuccess(targetRadar){
         this.props.setCurrentRadarInstance({ currentRadar: targetRadar});
         this.getRadarCollectionByUserIdAndRadarTemplateId(this.props.currentUser.id, targetRadar.radarTemplate.id);
+    }
+
+    handleSourceRadarSelection(targetRadar){
+        const { currentUser } = this.props;
+
+        this.radarRepository.getByUserIdAndRadarId(currentUser.id, targetRadar.id, this.handleSourceRadarSuccess);
+    }
+
+    handleSourceRadarSuccess(targetRadar){
+        this.props.setSourceRadarInstance(targetRadar);
+        this.forceUpdate();
     }
 
     getRadarCollectionByUserIdAndRadarTemplateId(userId, radarTemplateId){
@@ -56,7 +78,7 @@ class AddFromPreviousRadarPage extends React.Component{
 
     handleAddItemsToRadarClick(){
         var itemsToAdd = {};
-        itemsToAdd.radarItems = this.props.radarItemsToAdd;
+        itemsToAdd.radarItems = this.state.radarItemsToAdd;
 
         $.post({
           headers: {
@@ -68,14 +90,14 @@ class AddFromPreviousRadarPage extends React.Component{
           data: JSON.stringify(itemsToAdd),
           success: function() {
             this.getCurrentRadarInstance(this.props.currentUser.id, this.props.match.params.radarId);
-            this.props.onClearAddRadarItems();
+            this.setState({radarItemsToAdd: []});
            }.bind(this)
         });
     }
 
     handleRemoveItemsFromRadarClick(userId, radarId){
         var itemsToRemove = {};
-        itemsToRemove.radarItems = this.props.radarItemsToRemove;
+        itemsToRemove.radarItems = this.state.radarItemsToRemove;
 
         $.post({
           headers: {
@@ -83,11 +105,11 @@ class AddFromPreviousRadarPage extends React.Component{
                   'Content-Type': 'application/json'
           },
           type: "POST",
-          url: '/api/User/' + userId + '/Radar/' + this.props.match.params.radarId + '/Items/Delete',
+          url: '/api/User/' + this.props.currentUser.id + '/Radar/' + this.props.match.params.radarId + '/Items/Delete',
           data: JSON.stringify(itemsToRemove),
           success: function() {
-            this.getCurrentRadarInstance(userId, this.props.match.params.radarId);
-            this.props.onClearRemoveRadarItems();
+            this.getCurrentRadarInstance(this.props.currentUser.id, this.props.match.params.radarId);
+            this.setState({radarItemsToRemove: []});
             }.bind(this)
         });
     }
@@ -96,24 +118,81 @@ class AddFromPreviousRadarPage extends React.Component{
         var retVal = "";
 
         if(this.props.currentRadar !== undefined && this.props.currentRadar.currentRadar !== undefined){
-            retVal = this.props.currentRadar.currentRadar.radarName;
+            return this.getRadarNameAndDate(this.props.currentRadar.currentRadar);
         }
 
         return retVal;
     }
 
+    getRadarNameAndDate(radar){
+        if(radar!=undefined && radar.radarName !== undefined){
+            var parsedDate = new Date(radar.assessmentDate);
+            return radar.radarName + " - " + (parsedDate.getMonth() + 1) + "-" + parsedDate.getUTCFullYear();
+        }
+
+        return "Select a source";
+    }
+
+    createRadarItemForExistingTechnology(assessmentItem){
+        var radarItem = {};
+
+        radarItem.radarCategory = assessmentItem.radarCategory.id;
+        radarItem.radarRing = assessmentItem.radarRing.id;
+        radarItem.confidenceLevel = assessmentItem.confidenceFactor;
+        radarItem.assessmentDetails = assessmentItem.details;
+        radarItem.technologyId = assessmentItem.technology.id;
+
+        return radarItem;
+    }
+
+    onHandleAddRadarItem(event, assessmentItem){
+        var radarItemsToAdd = this.state.radarItemsToAdd.filter(() => true);
+
+        if(event.target.checked==true){
+            radarItemsToAdd = radarItemsToAdd.concat(this.createRadarItemForExistingTechnology(assessmentItem));
+            this.setState({ radarItemsToAdd: radarItemsToAdd});
+        } else {
+            radarItemsToAdd =
+                radarItemsToAdd.filter(function( radarItem ) {
+                    return radarItem.technologyId !== assessmentItem.technology.id;
+                });
+        }
+
+        this.setState({ radarItemsToAdd: radarItemsToAdd});
+    }
+
+    onHandleRemoveRadarItem(event, assessmentItem){
+        var radarItemsToRemove = this.state.radarItemsToRemove.filter(() => true);
+
+        if(event.target.checked==true){
+            radarItemsToRemove = radarItemsToRemove.concat(assessmentItem.id);
+        } else {
+            radarItemsToRemove =
+                radarItemsToRemove.filter(function( radarItem ) {
+                    return radarItem !== assessmentItem.id;
+                });
+        }
+
+        this.setState({ radarItemsToRemove: radarItemsToRemove});
+    }
+
+    clearCopyItems(){
+
+    }
+
     render() {
-        const { setSourceRadarInstance } = this.props;
+        const { sourceRadar, currentRadar } = this.props;
+        const { filteredRadarCollection } = this.state;
 
         return (
             <div>
                 <div className="row">
-                    <div className="col-lg-4">
+                    <div className="col-lg-6">
                         <label>Source Radar Instance</label>
-                        <RadarsDropdown data={this.state.filteredRadarCollection} itemSelection={this.props.sourceRadar.sourceRadar} userId={this.props.currentUser.id} setSourceRadarInstance={setSourceRadarInstance}/>
+                        <DropdownComponent title = { this.getRadarNameAndDate(sourceRadar) } data={ filteredRadarCollection } itemMap = { radarDropdownMap(this.handleSourceRadarSelection) } />
                         <button type="button" className="btn btn-techradar" onClick={ (event) => { this.handleAddItemsToRadarClick(event) }}>Add</button>
                     </div>
-                    <div className="col-lg-4">
+                    <div className="col-lg-6">
                         <div className="contentPageTitle">
                             <label>Add Past Radar Items to { this.getDestinationRadarName() } </label>
                             <button type="button" className="btn btn-techradar" onClick={ this.handleRemoveItemsFromRadarClick }>Remove</button>
@@ -121,9 +200,12 @@ class AddFromPreviousRadarPage extends React.Component{
                     </div>
                 </div>
                 <div className="row">
-                    <RadarDetails radarInstance={ this.props.sourceRadar.sourceRadar } handleOnClick = { this.props.onHandleAddRadarItem }/>
-                    <RadarDetails radarInstance={ this.props.currentRadar.currentRadar } handleOnClick = { this.props.onHandleRemoveRadarItem }/>
-                </div>
+                    <RadarCopyControl
+                        sourceRadar = { sourceRadar }
+                        destinationRadar = { currentRadar.currentRadar }
+                        handleAddRadarItem={this.onHandleAddRadarItem}
+                        handleRemoveRadarItem={this.onHandleRemoveRadarItem}/>
+                 </div>
             </div>
 
         );
@@ -135,8 +217,6 @@ function mapStateToProps(state) {
     	sourceRadar: state.radarReducer.sourceRadar,
     	radarCollection: state.radarReducer.radars,
     	currentRadar: state.radarReducer.currentRadar,
-    	radarItemsToAdd: state.radarReducer.radarItemsToAdd,
-    	radarItemsToRemove: state.radarReducer.radarItemsToRemove,
     	currentUser: state.userReducer.currentUser
     };
 }
@@ -146,10 +226,6 @@ const mapDispatchToProps = dispatch => {
         setSourceRadarInstance : sourceRadar => { dispatch(setSourceRadarInstanceToState(sourceRadar))},
         addRadarCollection : radarCollection => { dispatch(addRadarsToState(radarCollection))},
         setCurrentRadarInstance : currentRadar => { dispatch(setCurrentRadarInstanceToState(currentRadar))},
-        onHandleAddRadarItem : targetItem  => { dispatch(handleAddRadarItem(targetItem))},
-        onHandleRemoveRadarItem : targetItem  => { dispatch(handleRemoveRadarItem(targetItem))},
-        onClearAddRadarItems : () => { dispatch(clearAddRadarItems())},
-        onClearRemoveRadarItems: () => { dispatch(clearRemoveRadarItems())},
         storeCurrentUser: (currentUser) => { dispatch(addCurrentUserToState(currentUser))}
 
     };

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-const TableComponent = ({ cols, data, bordered, hoverable, striped, isDark }) => {
+const TableComponent = ({ cols, data, bordered, hoverable, striped, isDark, hideHeader }) => {
     return (
         <div className="table-responsive">
             <table className={`table ${bordered ? 'table-bordered' : 'table-borderless'} ${hoverable && 'table-hover'} ${striped && 'table-striped'} ${isDark && 'table-dark'}`}>
                 <thead>
-                    <tr>
+                    <tr className={ `${hideHeader && 'hidden'}`}>
                         {cols.map((headerItem, index) => (
                             <th key={index}>{headerItem.title}</th>
                         ))}
@@ -33,6 +33,7 @@ TableComponent.propTypes = {
     hoverable: PropTypes.bool,
     striped: PropTypes.bool,
     isDark: PropTypes.bool,
+    hideHeader: PropTypes.bool,
 }
 
 TableComponent.defaultProps = {
@@ -40,6 +41,7 @@ TableComponent.defaultProps = {
     hoverable: false,
     striped: false,
     isDark: false,
+    hideHeader: false,
 }
 
 export default TableComponent;

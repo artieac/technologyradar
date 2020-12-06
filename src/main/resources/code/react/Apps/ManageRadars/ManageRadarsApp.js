@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import ManageRadarTemplatesPage from './components/ManageRadarTemplatesPage';
 import ManageAssociatedRadarTemplatesPage from './components/ManageAssociatedRadarTemplates/ManageAssociatedRadarTemplatesPage';
 import ManageRadarsPage from './components/ManageRadarsPage';
-import AddFromPreviousRadarPage from './components/AddFromPrevious/AddFromPreviousRadarPage';
+import AddFromPreviousRadarPage from './components/AddFromPreviousRadarPage';
 import radarReducer from './redux/RadarReducer';
 import radarTemplateReducer from './redux/RadarTemplateReducer';
 import userReducer from '../redux/CommonUserReducer';
