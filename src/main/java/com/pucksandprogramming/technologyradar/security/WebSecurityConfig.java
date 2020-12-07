@@ -1,23 +1,22 @@
 package com.pucksandprogramming.technologyradar.security;
 
 import com.auth0.AuthenticationController;
+import com.pucksandprogramming.technologyradar.security.Auth0.Auth0Configuration;
 import com.pucksandprogramming.technologyradar.security.jwt.JwtAuthorizationFilter;
 import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
+import com.pucksandprogramming.technologyradar.security.jwt.JwtManager;
+import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -26,24 +25,15 @@ import java.io.UnsupportedEncodingException;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     @Autowired
-    Environment env;
+    Auth0Configuration auth0Configuration;
 
-    @Value("${com.auth0.domain}")
-    private String domain;
+    @Autowired
+    JwtManager jwtManager;
 
-    @Value("${com.auth0.clientId}")
-    private String clientId;
-
-    @Value("${com.auth0.clientSecret}")
-    private String clientSecret;
-
-    @Value("${com.auth0.callbackUrl}")
-    private String callbackLocation;
-
-    @Value("${com.pucksandprogramming.securityEnabled}")
-    private boolean securityEnabled;
+    @Autowired
+    RadarUserService radarUserService;
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -57,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationController authenticationController() throws UnsupportedEncodingException {
-        return AuthenticationController.newBuilder(domain, clientId, clientSecret)
+        return AuthenticationController.newBuilder(this.auth0Configuration.getDomain(), this.auth0Configuration.getClientId(), this.auth0Configuration.getClientSecret())
                 .build();
     }
 
@@ -66,78 +56,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new RadarAccessDeniedHandler();
     }
 
+    @Bean JwtAuthorizationFilter getJwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter(this.jwtManager, this.radarUserService);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-
-        if(this.securityEnabled==true) {
-            http
-                    .addFilter(new JwtAuthorizationFilter(this.authenticationManager()))
-                    .authorizeRequests()
-                        .antMatchers("/script/**",
-                                "/css/**",
-                                "/webjars/**",
-                                "/Images/**", "/images/**",
-                                "/favicon.ico").permitAll()
-                        .antMatchers(callbackLocation,
-                                "/login",
-                                "/logout",
-                                "/accessDenied",
-                                "/v2/api-docs",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui.html",
-                                "/webjars/**").permitAll()
-                        .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
-                        .antMatchers("/**").authenticated()
-                    .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
-                    .and().logout().logoutUrl("/logout").deleteCookies(JwtCookieManager.COOKIE_NAME).invalidateHttpSession(true);
-
-        }
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
-    }
-
-    private boolean shouldUseEnvironmentForConfiguration() {
-        boolean retVal = false;
-
-        String propertyValue = env.getProperty("com.pucksandprogramming.useEnvironmentForConfiguration");
-
-        retVal = Boolean.parseBoolean(propertyValue);
-
-        return retVal;
-    }
-
-    public String getDomain() {
-        String retVal = domain;
-
-        if(this.shouldUseEnvironmentForConfiguration()) {
-            retVal = env.getProperty("AUTH0_DOMAIN");
-        }
-
-        return retVal;
-    }
-
-    public String getClientId() {
-        String retVal = clientId;
-
-        if(this.shouldUseEnvironmentForConfiguration()) {
-            retVal = env.getProperty("AUTH0_CLIENT_ID");
-        }
-
-        return retVal;
-    }
-
-    public String getClientSecret() {
-        String retVal = clientSecret;
-
-        if(this.shouldUseEnvironmentForConfiguration()) {
-            retVal = env.getProperty("AUTH0_CLIENT_SECRET");
-        }
-
-        return retVal;
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterAfter(this.getJwtAuthorizationFilter(), SecurityContextPersistenceFilter.class)
+                .authorizeRequests()
+                    .antMatchers("/script/**",
+                            "/css/**",
+                            "/webjars/**",
+                            "/Images/**", "/images/**",
+                            "/favicon.ico").permitAll()
+                    .antMatchers(this.auth0Configuration.getCallbackLocation(),
+                            "/login",
+                            "/logout",
+                            "/accessDenied",
+                            "/v2/api-docs",
+                            "/swagger-resources",
+                            "/swagger-resources/**",
+                            "/configuration/ui",
+                            "/configuration/security",
+                            "/swagger-ui.html",
+                            "/webjars/**").permitAll()
+                    .antMatchers( HttpMethod.GET, "/", "/public/**", "/api/public/**", "/error", "/error/**").permitAll()
+                    .antMatchers("/**").authenticated()
+                .and().exceptionHandling().accessDeniedPage("/error/accessdenied")
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .deleteCookies(JwtCookieManager.COOKIE_NAME, "JSESSIONID")
+                    .clearAuthentication(true);
     }
 }
 

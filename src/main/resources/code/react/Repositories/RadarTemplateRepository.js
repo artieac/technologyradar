@@ -80,7 +80,7 @@ export class RadarTemplateRepository {
      }
 
     getOtherUsersSharedRadarTemplates(userId, successHandler){
-        var url = '/api//RadarTemplates/Shared?excludeUser=' + userId;
+        var url = '/api/RadarTemplates/Shared?excludeUser=' + userId;
        jQuery.ajax({
                 url: url,
                 async: true,

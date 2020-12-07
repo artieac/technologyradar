@@ -7,10 +7,12 @@ import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincip
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
@@ -21,34 +23,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-    private JwtManager jwtManager;
-    private RadarUserService radarUserService;
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
+    private final JwtManager jwtManager;
+    private final RadarUserService radarUserService;
 
     private static String AUTHORIZATION_HEADER = "Authorization";
 
-    public JwtAuthorizationFilter(AuthenticationManager authManager) {
-        super(authManager);
-    }
-
-    private JwtManager getJwtManager(HttpServletRequest request) {
-        if (this.jwtManager == null) {
-            ServletContext servletContext = request.getServletContext();
-            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            this.jwtManager = webApplicationContext.getBean(JwtManager.class);
-        }
-
-        return this.jwtManager;
-    }
-
-    private RadarUserService getRadarUserService(HttpServletRequest request) {
-        if (this.radarUserService == null) {
-            ServletContext servletContext = request.getServletContext();
-            WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            this.radarUserService = webApplicationContext.getBean(RadarUserService.class);
-        }
-
-        return this.radarUserService;
+    public JwtAuthorizationFilter(JwtManager jwtManager, RadarUserService radarUserService) {
+        this.jwtManager = jwtManager;
+        this.radarUserService = radarUserService;
     }
 
     @Override
@@ -62,7 +45,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         if(techRadarJwt.isPresent()){
-            Optional<RadarUser> radarUser = this.getRadarUserService(req).findOne(techRadarJwt.get().getUserId());
+            Optional<RadarUser> radarUser = this.radarUserService.findOne(techRadarJwt.get().getUserId());
 
             if (radarUser.isPresent()) {
                 TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(radarUser.get());
@@ -84,7 +67,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         if (authCookie != null) {
-            return this.getJwtManager(request).getJwtDetails(authCookie.getValue());
+            return this.jwtManager.getJwtDetails(authCookie.getValue());
         }
 
         return Optional.empty();
@@ -97,7 +80,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String[] bearerComponents = authHeader.split(" ");
 
             if(bearerComponents.length > 1) {
-                return this.getJwtManager(request).getJwtDetails(bearerComponents[1]);
+                return this.jwtManager.getJwtDetails(bearerComponents[1]);
             }
         }
 

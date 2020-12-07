@@ -106,7 +106,7 @@ public class DiagramPresentation {
     public void setRadarInstanceDetails(Radar radarInstance) {
         this.radarId = radarInstance.getId();
         this.radarName = radarInstance.getName();
-        this.assessmentDate = new Date(radarInstance.getAssessmentDate().getDate());
+        this.assessmentDate = radarInstance.getAssessmentDate();
         this.radarTemplate = new RadarTemplateViewModel(radarInstance.getRadarTemplate());
     }
 

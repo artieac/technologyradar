@@ -2,11 +2,10 @@ package com.pucksandprogramming.technologyradar.web;
 
 import com.pucksandprogramming.technologyradar.domainmodel.RadarTemplate;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.security.IdentityProviderUser;
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
-import com.pucksandprogramming.technologyradar.security.jwt.Auth0JwtManager;
+import com.pucksandprogramming.technologyradar.security.Auth0.Auth0JwtManager;
 import com.pucksandprogramming.technologyradar.security.jwt.JwtCookieManager;
 import com.pucksandprogramming.technologyradar.security.jwt.TechRadarJwt;
 import com.pucksandprogramming.technologyradar.services.RadarTemplate.AssociatedRadarTemplateService;
@@ -16,7 +15,6 @@ import com.pucksandprogramming.technologyradar.services.RadarUserService;
 import com.auth0.AuthenticationController;
 import com.auth0.IdentityVerificationException;
 import com.auth0.Tokens;
-import com.auth0.jwt.JWT;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -108,9 +106,8 @@ public class CallbackController {
                     AuthenticatedUser authenticatedUser = new AuthenticatedUser(targetUser);
 
                     // TBD< switch this to an interface rather than a specific instance type
-                    TechRadarSecurityPrincipal tokenAuth = new TechRadarSecurityPrincipal(authenticatedUser);
-                    SecurityContextHolder.getContext().setAuthentication(tokenAuth);
-
+                    TechRadarSecurityPrincipal securityPrincipal = new TechRadarSecurityPrincipal(authenticatedUser);
+                    SecurityContextHolder.getContext().setAuthentication(securityPrincipal);
                     res.addCookie(this.jwtCookieManager.generateCookie(new TechRadarJwt(targetUser.get(), identityProviderUser.get().getAuthExpiration())));
                 }
             }
