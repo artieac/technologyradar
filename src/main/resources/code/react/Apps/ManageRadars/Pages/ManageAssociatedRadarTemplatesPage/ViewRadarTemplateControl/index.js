@@ -4,7 +4,7 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import { addRadarTemplatesToState } from '../../../redux/RadarTemplateReducer';
 import { RadarTemplateRepository } from '../../../../../Repositories/RadarTemplateRepository';
-import { colorMapData } from '../../colorMapData';
+import { colorMapData } from '../../../components/colorMapData';
 import TableComponent from '../../../../../components/TableComponent';
 import { radarCategoryColumns } from './radarCategoryColumns';
 import { radarRingColumns } from './radarRingColumns';

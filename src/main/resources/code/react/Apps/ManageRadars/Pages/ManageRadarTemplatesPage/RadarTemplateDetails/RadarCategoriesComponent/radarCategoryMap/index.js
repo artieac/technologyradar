@@ -1,6 +1,6 @@
 import React from 'react';
 import DropdownComponent from '../../../../../../../components/DropdownComponent'
-import { colorMapData } from '../../../../colorMapData'
+import { colorMapData } from '../../../../../components/colorMapData'
 import { colorMap } from './colorMap';
 
 export const radarCategoryMap = (editMode, handleNameChange, handleColorSelectionChange) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { colorMapData } from '../../../colorMapData'
+import { colorMapData } from '../../../../components/colorMapData'
 
 export const radarCategoryColumns = () => {
     const colorMapLookup = (colorValue) => {

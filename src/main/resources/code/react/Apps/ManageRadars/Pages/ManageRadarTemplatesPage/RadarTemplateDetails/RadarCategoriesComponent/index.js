@@ -4,7 +4,7 @@ import createReactClass from 'create-react-class';
 import { connect } from "react-redux";
 import TableComponent from '../../../../../../components/TableComponent'
 import { radarCategoryMap } from './radarCategoryMap';
-import { colorMapData } from '../../../colorMapData'
+import { colorMapData } from '../../../../components/colorMapData'
 
 class RadarCategoriesComponent extends React.Component{
     constructor(props){
