@@ -5,13 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableAutoConfiguration
 @Import(WebSecurityConfig.class)
-@SpringBootApplication
+@SpringBootApplication(exclude = {SessionAutoConfiguration.class})
 public class TechnologyradarApplication {
 
 	public static void main(String[] args) {

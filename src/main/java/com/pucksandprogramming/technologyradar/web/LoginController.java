@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("unused")
 @Controller
 @ControllerAdvice
-public class LoginController implements LogoutSuccessHandler {
+public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AuthenticationController authenticationController;
@@ -57,24 +57,4 @@ public class LoginController implements LogoutSuccessHandler {
                 .build();
         return "redirect:" + authorizeUrl;
     }
-
-    @Override
-    public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws java.io.IOException{
-        if (req.getSession() != null) {
-            req.getSession().invalidate();
-        }
-
-        invalidateSession(req);
-
-        String returnTo = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
-        String logoutUrl = String.format("https://%s/v2/logout?client_id=%s&returnTo=%s", this.auth0Configuration.getDomain(), this.auth0Configuration.getClientId(), returnTo);
-        res.sendRedirect(logoutUrl);
-    }
-
-    private void invalidateSession(HttpServletRequest request) {
-        if (request.getSession() != null) {
-            request.getSession().invalidate();
-        }
-    }
-
 }

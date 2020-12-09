@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Optional;
  * Created by acorrea on 10/27/2016.
  */
 @Controller("APIRadarSubjectController")
+@RequestScope
 @RequestMapping(value={"/api/RadarSubject", "/api/public/RadarSubject"})
 public class RadarSubjectController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(HomeController.class);

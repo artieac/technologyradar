@@ -1,35 +1,30 @@
 package com.pucksandprogramming.technologyradar.security.jwt;
 
-import com.google.common.base.Strings;
 import com.pucksandprogramming.technologyradar.domainmodel.RadarUser;
-import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincipal;
 import com.pucksandprogramming.technologyradar.services.RadarUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-public class JwtAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final JwtManager jwtManager;
     private final RadarUserService radarUserService;
 
     private static String AUTHORIZATION_HEADER = "Authorization";
 
-    public JwtAuthorizationFilter(JwtManager jwtManager, RadarUserService radarUserService) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtManager jwtManager, RadarUserService radarUserService) {
+        super(authenticationManager);
         this.jwtManager = jwtManager;
         this.radarUserService = radarUserService;
     }
@@ -59,10 +54,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private Optional<TechRadarJwt> getDetailsFromCookie(HttpServletRequest request){
         Cookie authCookie = null;
 
-        for (Cookie requestCookie : request.getCookies()) {
-            if (requestCookie.getName().equals(JwtCookieManager.COOKIE_NAME)) {
-                authCookie = requestCookie;
-                break;
+        if(request != null && request.getCookies()!=null) {
+            for (Cookie requestCookie : request.getCookies()) {
+                if (requestCookie.getName().equals(JwtCookieManager.COOKIE_NAME)) {
+                    authCookie = requestCookie;
+                    break;
+                }
             }
         }
 
@@ -74,13 +71,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private Optional<TechRadarJwt> getDetailsFromAuthHeader(HttpServletRequest request){
-        String authHeader = request.getHeader(AUTHORIZATION_HEADER);
+        if(request!=null) {
+            String authHeader = request.getHeader(AUTHORIZATION_HEADER);
 
-        if(!Strings.isNullOrEmpty(authHeader)){
-            String[] bearerComponents = authHeader.split(" ");
+            if (StringUtils.hasText(authHeader)){
+                String[] bearerComponents = authHeader.split(" ");
 
-            if(bearerComponents.length > 1) {
-                return this.jwtManager.getJwtDetails(bearerComponents[1]);
+                if (bearerComponents.length > 1) {
+                    return this.jwtManager.getJwtDetails(bearerComponents[1]);
+                }
             }
         }
 

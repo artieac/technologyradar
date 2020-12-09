@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@RequestScope
 @RequestMapping("/api")
 public class RadarTemplateController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarController.class);

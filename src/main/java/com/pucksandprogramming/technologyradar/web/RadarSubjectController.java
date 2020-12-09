@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("unused")
 @Controller
+@RequestScope
 @ControllerAdvice
 public class RadarSubjectController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarSubjectController.class);

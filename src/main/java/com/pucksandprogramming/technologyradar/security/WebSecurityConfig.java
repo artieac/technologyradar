@@ -56,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         return new RadarAccessDeniedHandler();
     }
 
-    @Bean JwtAuthorizationFilter getJwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(this.jwtManager, this.radarUserService);
+    @Bean JwtAuthorizationFilter getJwtAuthorizationFilter() throws Exception{
+        return new JwtAuthorizationFilter(this.authenticationManager(), this.jwtManager, this.radarUserService);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .and()
                     .logout()
                     .logoutUrl("/logout")
-                    .deleteCookies(JwtCookieManager.COOKIE_NAME, "JSESSIONID")
-                    .clearAuthentication(true);
+                    .clearAuthentication(true)
+                    .deleteCookies(JwtCookieManager.COOKIE_NAME, "JSESSIONID");
     }
 }
 

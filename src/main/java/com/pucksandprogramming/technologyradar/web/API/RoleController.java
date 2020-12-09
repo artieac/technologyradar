@@ -6,11 +6,13 @@ import org.apache.log4j.Logger;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestScope
 @Secured("ROLE_ADMIN")
 @RequestMapping("/api")
 public class RoleController extends ControllerBase {

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.*;
 
@@ -20,6 +21,7 @@ import java.util.*;
  * Created by acorrea on 1/10/2018.
  */
 @Controller
+@RequestScope
 @RequestMapping("/api")
 public class RadarItemController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarItemController.class);

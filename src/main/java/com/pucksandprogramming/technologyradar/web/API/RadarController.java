@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.Optional;
  * Created by acorrea on 12/24/2017.
  */
 @Controller
+@RequestScope
 @RequestMapping("/api")
 public class RadarController extends ControllerBase {
     private static final Logger logger = Logger.getLogger(RadarController.class);

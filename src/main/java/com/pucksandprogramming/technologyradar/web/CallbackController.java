@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.RequestScope;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import java.util.Optional;
 
 @SuppressWarnings("unused")
 @Controller
+@RequestScope
 @ControllerAdvice
 public class CallbackController {
     private static final Logger logger = Logger.getLogger(CallbackController.class);
