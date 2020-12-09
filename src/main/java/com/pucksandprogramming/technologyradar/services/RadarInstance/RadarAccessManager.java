@@ -6,10 +6,12 @@ import com.pucksandprogramming.technologyradar.security.TechRadarSecurityPrincip
 import com.pucksandprogramming.technologyradar.security.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Optional;
 
 @Component
+@RequestScope
 public class RadarAccessManager {
     public enum ViewAccessMode {
         PublishedOnly,

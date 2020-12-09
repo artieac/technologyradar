@@ -6,6 +6,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.UserTypeReposit
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
@@ -17,6 +18,7 @@ import java.util.*;
  * Created by acorrea on 12/23/2017.
  */
 @Component
+@RequestScope
 public class RadarUserService {
     private final RadarUserRepository radarUserRepository;
     private final Auth0Repository auth0Repository;

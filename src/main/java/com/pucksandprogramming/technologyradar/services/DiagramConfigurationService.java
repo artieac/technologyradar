@@ -11,6 +11,7 @@ import com.pucksandprogramming.technologyradar.web.Models.RadarRingPresentation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Hashtable;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
  * Created by acorrea on 10/19/2016.
  */
 @Component
+@RequestScope
 public class DiagramConfigurationService {
     private static final Logger logger = Logger.getLogger(DiagramConfigurationService.class);
 

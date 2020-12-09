@@ -5,6 +5,7 @@ import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Optional;
  */
 
 @Component
+@RequestScope
 public class RadarService extends ServiceBase {
     protected final RadarRepositoryFactory radarRepositoryFactory;
     protected final TechnologyRepository technologyRepository;

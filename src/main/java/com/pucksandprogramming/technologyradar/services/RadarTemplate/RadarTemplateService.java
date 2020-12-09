@@ -7,12 +7,14 @@ import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
+@RequestScope
 public class RadarTemplateService extends ServiceBase {
     private final RadarTemplateRepository radarTemplateRepository;
     private final FullRadarRepository fullRadarRepository;

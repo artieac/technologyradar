@@ -4,6 +4,7 @@ import com.pucksandprogramming.technologyradar.data.repositories.TechnologyRepos
 import com.pucksandprogramming.technologyradar.domainmodel.Technology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Optional;
  * Created by acorrea on 11/3/2016.
  */
 @Component
+@RequestScope
 public class TechnologyService {
     private final TechnologyRepository technologyRepository;
 
