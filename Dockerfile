@@ -9,7 +9,7 @@ RUN mvn -f /home/app/pom.xml clean package
 #
 # Package stage
 #
-FROM openjdk:8-jre-alpine
+FROM openjdk:11
 COPY --from=build /home/app/target/technologyradar-1.0.jar /usr/local/lib/technologyradar.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-Dspring.profiles.active=production", "-jar","/usr/local/lib/technologyradar.jar"]
