@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "8c4c800c-1b31-42b9-99c2-27fe60dc8004",
+		"name": "Admin Radar Template API Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get User Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"pm.test(\"Is the correct User\", () => {",
+							"    //parse the response json and test three properties",
+							"    pm.expect(responseJson.email).equals(\"artieac@gmail.com\")",
+							"    pm.collectionVariables.set(\"userId\", responseJson.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/User",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Templates",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Test\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"var responseJson = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Templates Found\", function(){",
+							"    pm.expect(responseJson.length).greaterThan(1);",
+							"    pm.collectionVariables.set(\"radarTemplateId\", responseJson[0].id);",
+							"    pm.collectionVariables.set(\"altRadarTemplateId\", responseJson[1].id);",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/User/{{userId}}/RadarTemplates",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"{{userId}}",
+						"RadarTemplates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Radar Instances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Test\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"var responseJson = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Correct Instance Type\", function(){",
+							"    pm.expect(responseJson.radarTemplate.id).equals(pm.environment.get(\"radarTemplateId\"));",
+							"    pm.expect(responseJson.radarTemplate.id).not.equals(pm.environment.get(\"altRadarTemplateId\"));",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/User/{{userId}}/RadarTemplate/{{radarTemplateId}}/Radar/FullView",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"{{userId}}",
+						"RadarTemplate",
+						"{{radarTemplateId}}",
+						"Radar",
+						"FullView"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Radar Instances Full View",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Test\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"var responseJson = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Correct Instance Type\", function(){",
+							"    pm.expect(responseJson.radarTemplate.id).equals(pm.environment.get(\"radarTemplateId\"));",
+							"    pm.expect(responseJson.radarTemplate.id).not.equals(pm.environment.get(\"altRadarTemplateId\"));",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/User/{{userId}}/RadarTemplate/{{radarTemplateId}}/Radar/FullView",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"{{userId}}",
+						"RadarTemplate",
+						"{{radarTemplateId}}",
+						"Radar",
+						"FullView"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Alt Radar Instances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Test\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"var responseJson = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Correct Instance Type\", function(){",
+							"    pm.expect(responseJson.radarTemplate.id).equals(pm.environment.get(\"altRadarTemplateId\"));",
+							"    pm.expect(responseJson.radarTemplate.id).not.equals(pm.environment.get(\"radarTemplateId\"));",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/User/{{userId}}/RadarTemplate/{{altRadarTemplateId}}/Radar/FullView",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"{{userId}}",
+						"RadarTemplate",
+						"{{altRadarTemplateId}}",
+						"Radar",
+						"FullView"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{adminUserCookie}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": "12"
+		},
+		{
+			"key": "radarTemplateId",
+			"value": "-1"
+		},
+		{
+			"key": "altRadarTemplateId",
+			"value": "-2"
+		}
+	]
+}
