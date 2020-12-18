@@ -39,9 +39,9 @@ public class UserController extends ControllerBase {
         UserViewModel retVal = UserViewModel.DefaultInstance();
 
         try {
-            if (this.getCurrentUser() != null) {
+            if (this.getCurrentUser().isPresent()) {
                 retVal = new UserViewModel(this.getCurrentUser());
-                retVal.setNumberOfSharedRadar(this.radarService.getSharedRadarCount(this.getCurrentUser().getId()));
+                retVal.setNumberOfSharedRadar(this.radarService.getSharedRadarCount(this.getCurrentUserId()));
             }
         }
         catch(Exception e) {
@@ -56,8 +56,8 @@ public class UserController extends ControllerBase {
     public @ResponseBody List<UserViewModel> getAllUsers() {
         List<UserViewModel> retVal = new ArrayList<>();
 
-        if(this.getCurrentUser() != null) {
-            Role userRole = Role.createRole(this.getCurrentUser().getRoleId());
+        if(this.getCurrentUser().isPresent()) {
+            Role userRole = Role.createRole(this.getCurrentUser().get().getRoleId());
 
             if(userRole.getId()==Role.RoleType_Admin) {
                 List<RadarUser> radarUsers = this.radarUserService.getAllUsers(this.getCurrentUser());
@@ -76,8 +76,8 @@ public class UserController extends ControllerBase {
     public @ResponseBody UserViewModel getUserById(@PathVariable Long userId) {
         UserViewModel retVal = null;
 
-        if(this.getCurrentUser() != null) {
-            Role userRole = Role.createRole(this.getCurrentUser().getRoleId());
+        if(this.getCurrentUser().isPresent()) {
+            Role userRole = Role.createRole(this.getCurrentUser().get().getRoleId());
 
             if(userRole.getId()==Role.RoleType_Admin) {
                 Optional<RadarUser> radarUser = this.radarUserService.findOne(userId);

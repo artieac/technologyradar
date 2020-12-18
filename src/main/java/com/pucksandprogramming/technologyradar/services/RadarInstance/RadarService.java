@@ -136,10 +136,10 @@ public class RadarService extends ServiceBase {
     public Integer getSharedRadarCount(Long radarUserId) {
         Integer retVal = 0;
 
-        if(this.getAuthenticatedUser()!=null) {
+        if(this.getAuthenticatedUser().isPresent()) {
             Optional<RadarUser> dataOwner = this.getRadarUserRepository().findById(radarUserId);
 
-            List<Radar> publishedRadars = this.radarRepositoryFactory.getRadarRepository(dataOwner).findAllPublishedRadarsByUser(this.getAuthenticatedUser().getUserId());
+            List<Radar> publishedRadars = this.radarRepositoryFactory.getRadarRepository(dataOwner).findAllPublishedRadarsByUser(this.getAuthenticatedUser().get().getUserId());
 
             if(publishedRadars!=null) {
                 retVal = publishedRadars.size();
@@ -233,7 +233,7 @@ public class RadarService extends ServiceBase {
         return retVal;
     }
 
-    public Radar addRadarItem(RadarUser radarUser, Long radarId, String technologyName, String technologyUrl, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails) {
+    public Radar addRadarItem(Optional<RadarUser> radarUser, Long radarId, String technologyName, String technologyUrl, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails) {
         Radar retVal = null;
 
         if(this.radarAccessManager.canModifyRadar(radarUser)) {
@@ -245,7 +245,7 @@ public class RadarService extends ServiceBase {
                     newTechnology.setName(technologyName);
                     newTechnology.setCreateDate(new Date());
                     newTechnology.setUrl(technologyUrl);
-                    newTechnology.setCreator(radarUser.getId().toString());
+                    newTechnology.setCreator(radarUser.get().getId().toString());
                     targetTechnology = Optional.of(newTechnology);
                 }
 
@@ -256,19 +256,19 @@ public class RadarService extends ServiceBase {
         return retVal;
     }
 
-    public Radar addRadarItem(RadarUser radarUser, Long radarId, Technology targetTechnology, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails) {
+    public Radar addRadarItem(Optional<RadarUser> radarUser, Long radarId, Technology targetTechnology, Long radarCategoryId, Long radarRingId, Integer confidenceLevel, String assessmentDetails) {
         Optional<Radar> retVal = Optional.ofNullable(null);
 
         if(this.radarAccessManager.canModifyRadar(radarUser)) {
             if (targetTechnology != null) {
                 retVal = this.findById(radarId);
 
-                if (retVal.isPresent() && retVal.get().getIsLocked() == false && radarUser != null && retVal.get().getRadarUser().getId() == radarUser.getId()) {
+                if (retVal.isPresent() && retVal.get().getIsLocked() == false && radarUser.isPresent() && retVal.get().getRadarUser().getId() == radarUser.get().getId()) {
                     Optional<RadarRing> radarRing = this.radarRingRepository.findById(radarRingId);
                     Optional<RadarCategory> radarCategory = this.radarCategoryRepository.findById(radarCategoryId);
 
                     if (retVal.get().getRadarTemplate().hasRadarRing(radarRing.get()) && retVal.get().getRadarTemplate().hasRadarCategory(radarCategory.get())) {
-                        RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(Optional.ofNullable(radarUser));
+                        RadarRepositoryBase radarRepository = this.radarRepositoryFactory.getRadarRepository(radarUser);
 
                         Integer itemState = RadarItem.State_New;
 
@@ -287,12 +287,12 @@ public class RadarService extends ServiceBase {
         return retVal.get();
     }
 
-    public Radar addRadarItems(RadarUser radarUser, Long radarId, List<RadarItemToBeAdded> radarItems) {
+    public Radar addRadarItems(Optional<RadarUser> radarUser, Long radarId, List<RadarItemToBeAdded> radarItems) {
         Optional<Radar> retVal = this.findById(radarId);
 
         if(this.radarAccessManager.canModifyRadar(radarUser)) {
             if (radarItems != null) {
-                if (retVal.isPresent() && retVal.get().getIsLocked() == false && radarUser != null && retVal.get().getRadarUser().getId() == radarUser.getId()) {
+                if (retVal.isPresent() && retVal.get().getIsLocked() == false && radarUser.isPresent() && retVal.get().getRadarUser().getId() == radarUser.get().getId()) {
                     for (int i = 0; i < radarItems.size(); i++) {
                         RadarItemToBeAdded currentItemToAdd = radarItems.get(i);
                         Optional<RadarRing> radarRing = this.radarRingRepository.findById(currentItemToAdd.getRadarRingId());
@@ -304,7 +304,7 @@ public class RadarService extends ServiceBase {
                         retVal.get().addRadarItem(newRadarItem);
                     }
 
-                    this.radarRepositoryFactory.getRadarRepository(Optional.ofNullable(radarUser)).save(retVal.get());
+                    this.radarRepositoryFactory.getRadarRepository(radarUser).save(retVal.get());
                 }
             }
         }

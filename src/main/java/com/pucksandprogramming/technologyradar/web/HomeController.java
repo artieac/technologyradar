@@ -45,10 +45,10 @@ public class HomeController extends ControllerBase {
     @RequestMapping(value = { "/home/secureradar", "/home/secureradar/{radarInstanceId}" })
     public ModelAndView secureRadar(@PathVariable Optional<Long> radarInstanceId) {
         ModelAndView modelAndView = new ModelAndView();
-        RadarUser currentUser = this.getCurrentUser();
+        Optional<RadarUser> currentUser = this.getCurrentUser();
 
-        if(currentUser != null) {
-            modelAndView.addObject("userId", currentUser.getId());
+        if(currentUser.isPresent()) {
+            modelAndView.addObject("userId", currentUser.get().getId());
         }
 
         if(radarInstanceId.isPresent()) {

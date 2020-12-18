@@ -19,31 +19,24 @@ public class ControllerBase {
     @Autowired
     private RadarUserService radarUserService;
 
-    private RadarUser currentUser = null;
-    private AuthenticatedUser authenticatedUser = null;
+    public Optional<AuthenticatedUser> getAuthenticatedUser() {
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+            TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
-    public AuthenticatedUser getAuthenticatedUser() {
-        if(this.authenticatedUser == null) {
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
-                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
-
-                if (tokenAuth != null) {
-                    authenticatedUser = tokenAuth.getAuthenticatedUser();
-                }
+            if (tokenAuth != null) {
+                return Optional.ofNullable(tokenAuth.getAuthenticatedUser());
             }
         }
 
-        return this.authenticatedUser;
+        return Optional.empty();
     }
 
-    public RadarUser getCurrentUser() {
-        if(this.currentUser == null) {
-             if(this.getAuthenticatedUser()!=null) {
-                 this.currentUser = this.radarUserService.findOne(this.getAuthenticatedUser().getUserId()).get();
-             }
-        }
+    public Optional<RadarUser> getCurrentUser() {
+         if(this.getAuthenticatedUser().isPresent()) {
+             return this.radarUserService.findOne(this.getAuthenticatedUser().get().getUserId());
+         }
 
-        return this.currentUser;
+         return Optional.empty();
     }
 
     public boolean isCurrentUser(Long userId) {
@@ -52,7 +45,10 @@ public class ControllerBase {
     }
 
     public boolean isCurrentUser(Optional<RadarUser> radarUser){
-        if (radarUser.isPresent() && radarUser.get().getId() == this.getCurrentUser().getId()) {
+        Optional<RadarUser> currentUser = this.getCurrentUser();
+
+        if (radarUser.isPresent() && currentUser.isPresent() &&
+                radarUser.get().getId() == currentUser.get().getId()) {
             return true;
         }
 
@@ -62,8 +58,8 @@ public class ControllerBase {
     public Long getCurrentUserId() {
         Long retVal = -1L;
 
-        if(this.getCurrentUser()!=null) {
-            retVal = this.getCurrentUser().getId();
+        if(this.getCurrentUser().isPresent()) {
+            retVal = this.getCurrentUser().get().getId();
         }
 
         return retVal;

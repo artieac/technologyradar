@@ -117,7 +117,7 @@ public class RadarController extends ControllerBase {
         List<RadarViewModel> retVal = new ArrayList<>();
 
         try {
-            if (this.getCurrentUser().getId() == radarUserId) {
+            if (this.getCurrentUserId() == radarUserId) {
                 String radarName = modelMap.get("name").toString();
                 Long radarTemplateId = Long.parseLong(modelMap.get("radarTemplateId").toString());
                 this.radarService.addRadar(radarUserId, radarName, radarTemplateId);
@@ -169,7 +169,7 @@ public class RadarController extends ControllerBase {
 
                 if (targetRadar.isPresent()) {
                     if(this.radarAccessManager.canModifyRadar(targetRadar.get().getRadarUser())) {
-                        if (this.getCurrentUser().getId() == targetRadar.get().getRadarUser().getId()) {
+                        if (this.getCurrentUserId() == targetRadar.get().getRadarUser().getId()) {
                             if (targetRadar.get().getIsLocked() == false) {
                                 retVal = true;
                             }
@@ -190,11 +190,11 @@ public class RadarController extends ControllerBase {
         List<RadarViewModel> retVal = new ArrayList<>();
 
         try {
-            if(this.getCurrentUser().getId() == radarUserId) {
+            if(this.getCurrentUserId() == radarUserId) {
                 this.radarService.updateRadar(radarUserId, radarId, modelMap.get("name").toString());
             }
 
-            List<Radar> foundItems = this.radarService.findByRadarUserId(this.getCurrentUser().getId());
+            List<Radar> foundItems = this.radarService.findByRadarUserId(this.getCurrentUserId());
 
             if(foundItems != null) {
                 for(Radar foundItem : foundItems) {
