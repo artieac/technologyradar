@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ContextConfiguration (locations = "classpath*:/spring/applicationContext*.xml")
@@ -47,7 +48,24 @@ public class RadarAccessManagerTests {
     }
 
     @Test
-    public void test_sameUser(){
+    public void test_sameUserAdmin(){
         assertTrue(this.radarAccessManager.canModifyRadar(this.generateRadarUser(1L, 1)));
+    }
+
+    @Test
+    public void test_sameUserNonAdmin() {
+        Mockito.when(this.radarAccessManager.getAuthenticatedUser()).thenReturn(Optional.of(new AuthenticatedUser(this.generateRadarUser(2L, 0))));
+        assertTrue(this.radarAccessManager.canModifyRadar(this.generateRadarUser(2L, 0)));
+    }
+
+    @Test
+    public void test_differentUserWithAdmin(){
+        assertTrue(this.radarAccessManager.canModifyRadar(this.generateRadarUser(2L, 0)));
+    }
+
+    @Test
+    public void test_differentUser(){
+        Mockito.when(this.radarAccessManager.getAuthenticatedUser()).thenReturn(Optional.of(new AuthenticatedUser(this.generateRadarUser(1L, 0))));
+        assertFalse(this.radarAccessManager.canModifyRadar(this.generateRadarUser(2L, 0)));
     }
 }
