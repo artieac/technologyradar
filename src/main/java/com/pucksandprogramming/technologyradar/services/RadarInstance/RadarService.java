@@ -4,6 +4,8 @@ import com.pucksandprogramming.technologyradar.data.repositories.*;
 import com.pucksandprogramming.technologyradar.domainmodel.*;
 import com.pucksandprogramming.technologyradar.services.RadarItemToBeAdded;
 import com.pucksandprogramming.technologyradar.services.ServiceBase;
+import net.bytebuddy.asm.Advice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class RadarService extends ServiceBase {
     protected final RadarAccessManager radarAccessManager;
     protected final RadarTemplateRepository radarTemplateRepository;
 
+    @Autowired
     public RadarService(RadarRepositoryFactory radarRepositoryFactory,
                         RadarTemplateRepository radarTemplateRepository,
                         TechnologyRepository technologyRepository,
