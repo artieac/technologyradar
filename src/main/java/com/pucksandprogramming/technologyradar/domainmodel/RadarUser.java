@@ -72,4 +72,22 @@ public class RadarUser {
     public boolean canHaveVariableRadarRingCounts() {
         return this.userType.isGrantEnabled(UserRights.AllowVariableRadarRingCount);
     }
+
+    public boolean isInRole(Role role){
+        Role userRole = Role.createRole(this.getRoleId());
+
+        if(userRole.getId()==role.getId()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isInRole(Long roleId){
+        if(this.getRoleId()==roleId){
+            return true;
+        }
+
+        return false;
+    }
 }

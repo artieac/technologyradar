@@ -16,6 +16,7 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].js',
+//		path: path.resolve(__dirname, './static/script/dist')
 		path: path.resolve(__dirname, '../../../target/classes/static/script/dist')
 	},
 	module: {

@@ -57,7 +57,9 @@ public class TeamController extends ControllerBase {
                                      @PathVariable Long teamId) {
         TeamViewModel retVal = null;
 
-        if(this.getCurrentUserId()==userId || this.getCurrentUser().getRoleId()== Role.RoleType_Admin) {
+        if(this.getCurrentUser().isPresent() &&
+                this.getCurrentUserId()==userId ||
+                this.getCurrentUser().get().isInRole(Role.createAdminRole())) {
             Optional<Team> foundItem = this.teamService.findByUserAndTeam(userId, teamId);
 
             if(foundItem.isPresent()) {

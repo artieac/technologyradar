@@ -5,6 +5,8 @@ import com.pucksandprogramming.technologyradar.domainmodel.Role;
 import com.pucksandprogramming.technologyradar.domainmodel.UserRights;
 import com.pucksandprogramming.technologyradar.domainmodel.UserType;
 
+import java.util.Optional;
+
 public class UserViewModel {
     private Long id;
     private String email;
@@ -30,16 +32,19 @@ public class UserViewModel {
 
     }
 
-    public UserViewModel(RadarUser source) {
+    public UserViewModel(RadarUser source){
+        this(Optional.ofNullable(source));
+    }
+    public UserViewModel(Optional<RadarUser> source) {
         if(source!=null) {
-            this.setId(source.getId());
-            this.setEmail(source.getEmail());
-            this.setName(source.getName());
-            this.setRole(Role.createRole(source.getRoleId()));
-            this.setUserType(source.getUserType());
-            this.setCanShareRadarTemplates(source.canShareRadarTemplates());
-            this.setHowManyRadarsCanShare(source.howManyRadarsCanShare());
-            this.setCanHaveVariableRadarRingCount(source.canHaveVariableRadarRingCounts());
+            this.setId(source.get().getId());
+            this.setEmail(source.get().getEmail());
+            this.setName(source.get().getName());
+            this.setRole(Role.createRole(source.get().getRoleId()));
+            this.setUserType(source.get().getUserType());
+            this.setCanShareRadarTemplates(source.get().canShareRadarTemplates());
+            this.setHowManyRadarsCanShare(source.get().howManyRadarsCanShare());
+            this.setCanHaveVariableRadarRingCount(source.get().canHaveVariableRadarRingCounts());
         }
     }
 
