@@ -33,13 +33,13 @@ public class RadarUserService {
         this.userTypeRepository = userTypeRepository;
     }
 
-    public  HashMap<Integer, UserType> getUserTypes() {
-        if(RadarUserService.userTypes==null) {
+    public HashMap<Integer, UserType> getUserTypes() {
+        if (RadarUserService.userTypes == null) {
             RadarUserService.userTypes = new HashMap<>();
 
             Iterable<UserType> foundItems = this.userTypeRepository.findAll();
 
-            for(UserType userType : foundItems) {
+            for (UserType userType : foundItems) {
                 RadarUserService.userTypes.put(userType.getId(), userType);
             }
         }
@@ -66,16 +66,15 @@ public class RadarUserService {
         return this.radarUserRepository.findByAuthenticationId(authenticationId);
     }
 
-    public List<RadarUser> getAllUsers(RadarUser currentUser) {
+    public List<RadarUser> getAllUsers(Optional<RadarUser> currentUser) {
         List<RadarUser> retVal = new ArrayList<>();
 
-        if(currentUser != null) {
-            Role userRole = Role.createRole(currentUser.getRoleId());
-
-            if(userRole.getId()==Role.RoleType_Admin) {
+        if (currentUser.isPresent()) {
+            if (currentUser.get().isInRole(Role.createAdminRole())) {
                 retVal = this.radarUserRepository.findAllList();
             }
         }
+
 
         return retVal;
     }

@@ -34,6 +34,7 @@ public class RadarConfigurationController extends ControllerBase {
         this.radarSetupService = diagramConfigurationService;
         this.radarService = radarService;
     }
+
     @GetMapping(value = "/radar/{radarId}/rings", produces = "application/json")
     public @ResponseBody List<RadarRing> getRadarRings(@PathVariable Long radarId) {
         List<RadarRing> retVal = new ArrayList<RadarRing>();

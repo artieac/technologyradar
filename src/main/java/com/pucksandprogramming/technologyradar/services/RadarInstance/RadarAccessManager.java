@@ -18,35 +18,29 @@ public class RadarAccessManager {
         FullAccess
     }
 
-    private AuthenticatedUser authenticatedUser;
+    public Optional<AuthenticatedUser> getAuthenticatedUser() {
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
+            TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
 
-    public AuthenticatedUser getAuthenticatedUser() {
-
-        if(this.authenticatedUser == null) {
-
-            if(SecurityContextHolder.getContext().getAuthentication() instanceof TechRadarSecurityPrincipal) {
-                TechRadarSecurityPrincipal tokenAuth = (TechRadarSecurityPrincipal) SecurityContextHolder.getContext().getAuthentication();
-
-                if (tokenAuth != null) {
-                    authenticatedUser = tokenAuth.getAuthenticatedUser();
-                }
+            if (tokenAuth != null) {
+                return Optional.ofNullable(tokenAuth.getAuthenticatedUser());
             }
         }
 
-        return this.authenticatedUser;
+        return Optional.empty();
     }
 
     public ViewAccessMode canViewHistory(RadarUser targetDataOwner) {
         ViewAccessMode retVal = ViewAccessMode.PublishedOnly;
 
-        if(this.getAuthenticatedUser()!=null) {
-            if (this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
+        if(this.getAuthenticatedUser().isPresent()) {
+            if (this.getAuthenticatedUser().get().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
                 // is this person an admin?
                 retVal = RadarAccessManager.ViewAccessMode.FullAccess;
             }
             else {
                 if (targetDataOwner != null) {
-                    if(targetDataOwner.getId() == this.getAuthenticatedUser().getUserId()) {
+                    if(targetDataOwner.getId() == this.getAuthenticatedUser().get().getUserId()) {
                         retVal = ViewAccessMode.FullAccess;
                     }
                 }
@@ -76,15 +70,15 @@ public class RadarAccessManager {
     public boolean canModifyRadar(Optional<RadarUser> targetDataOwner) {
         boolean retVal = false;
 
-        if(this.getAuthenticatedUser()!=null) {
-            if(this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
+        if(this.getAuthenticatedUser().isPresent()) {
+            if(this.getAuthenticatedUser().get().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
                 retVal = true;
             }
             else
             {
                 if (targetDataOwner.isPresent()) {
                     // logged in user owns the data
-                    if (targetDataOwner.get().getId() == this.getAuthenticatedUser().getUserId()) {
+                    if (targetDataOwner.get().getId() == this.getAuthenticatedUser().get().getUserId()) {
                         retVal = true;
                     }
                     else {

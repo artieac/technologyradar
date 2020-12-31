@@ -28,7 +28,6 @@ public class RadarTemplateService extends ServiceBase {
     }
 
     public Optional<RadarTemplate> findOneShared(Long radarTemplateId) {
-        Optional<RadarUser> currentUser = this.getRadarUserRepository().findById(this.getAuthenticatedUser().getUserId());
         Optional<RadarTemplate> radarTemplate = this.radarTemplateRepository.findById(radarTemplateId);
 
         if(radarTemplate.isPresent() && radarTemplate.get().getIsPublished()==false){
@@ -39,7 +38,7 @@ public class RadarTemplateService extends ServiceBase {
     }
 
     public Optional<RadarTemplate> findOne(Long radarTemplateId) {
-        if(this.getAuthenticatedUser()!=null) {
+        if(this.getAuthenticatedUser().isPresent()) {
             return this.radarTemplateRepository.findById(radarTemplateId);
         }
 
@@ -123,7 +122,7 @@ public class RadarTemplateService extends ServiceBase {
             else {
                 // trying to update an existing, make sure they can version
                 if (dataOwner.isPresent() &&
-                        dataOwner.get().getId() == this.getAuthenticatedUser().getUserId()) {
+                        dataOwner.get().getId() == this.getAuthenticatedUser().get().getUserId()) {
                     canSave = true;
                 }
             }
@@ -146,8 +145,8 @@ public class RadarTemplateService extends ServiceBase {
             Optional<RadarTemplate> foundItem = this.radarTemplateRepository.findById(radarTemplateId);
 
             if(foundItem.isPresent() && foundItem.get().getRadarUser().getId() == userId &&
-                (this.getAuthenticatedUser().getUserId()==foundItem.get().getRadarUser().getId() ||
-                this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))) {
+                (this.getAuthenticatedUser().get().getUserId()==foundItem.get().getRadarUser().getId() ||
+                this.getAuthenticatedUser().get().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName()))) {
                 List<Radar> userRadars = this.fullRadarRepository.findByUserAndType(userId, radarTemplateId);
 
                 if(userRadars.size()==0) {

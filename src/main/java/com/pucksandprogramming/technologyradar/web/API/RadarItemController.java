@@ -108,8 +108,8 @@ public class RadarItemController extends ControllerBase {
                 }
             }
 
-            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUserId(), radarId);
+            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch (Exception e) {
             logger.error(e);
@@ -142,8 +142,8 @@ public class RadarItemController extends ControllerBase {
                 }
             }
 
-            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUserId(), radarId);
+            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch(Exception e) {
             logger.error(e);
@@ -162,12 +162,12 @@ public class RadarItemController extends ControllerBase {
             Integer confidenceLevel = Integer.parseInt(modelMap.get("confidenceLevel").toString());
             String assessmentDetails = modelMap.get("assessmentDetails").toString();
 
-            if (radarId > 0 && radarItemId > 0 && this.getCurrentUser().getId() == radarUserId) ;{
+            if (radarId > 0 && radarItemId > 0 && this.getCurrentUserId() == radarUserId) ;{
                 this.radarService.updateRadarItem(radarId, radarItemId, radarCategory, radarRing, confidenceLevel, assessmentDetails);
             }
 
-            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUser().getId(), radarId);
-            retVal = this.diagramConfigurationService.generateDiagramData(Optional.ofNullable(this.getCurrentUser()), targetRadar);
+            Radar targetRadar = this.radarService.findByUserAndRadarId(this.getCurrentUserId(), radarId);
+            retVal = this.diagramConfigurationService.generateDiagramData(this.getCurrentUser(), targetRadar);
         }
         catch (Exception e) {
             logger.error(e);

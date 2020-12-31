@@ -241,7 +241,7 @@ public class RadarTemplateController extends ControllerBase {
             boolean shouldAssociate = Boolean.parseBoolean(modelMap.get("shouldAssociate").toString());
 
             if (this.isCurrentUser(userId)) {
-                retVal = this.associatedRadarTemplateService.associateRadarTemplate(Optional.ofNullable(this.getCurrentUser()), radarTemplateId, shouldAssociate);
+                retVal = this.associatedRadarTemplateService.associateRadarTemplate(this.getCurrentUser(), radarTemplateId, shouldAssociate);
             }
         }
         catch(Exception e) {
@@ -257,7 +257,7 @@ public class RadarTemplateController extends ControllerBase {
         boolean retVal = false;
 
         try {
-            if (this.getCurrentUser().getId() == userId) {
+            if (this.getCurrentUserId() == userId) {
                 retVal = this.radarTemplateService.deleteRadarTemplate(userId, radarTemplateId);
             }
         }

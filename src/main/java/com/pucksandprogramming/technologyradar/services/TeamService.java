@@ -34,7 +34,7 @@ public class TeamService extends ServiceBase {
         boolean retVal = false;
 
         if(dataOwner.isPresent()) {
-            if (this.getAuthenticatedUser().getUserId() == dataOwner.get().getId()) {
+            if (this.getAuthenticatedUser().get().getUserId() == dataOwner.get().getId()) {
                 retVal = true;
             }
         }
@@ -72,7 +72,7 @@ public class TeamService extends ServiceBase {
     }
 
     public Optional<Team> findByUserAndTeam(Long userId, Long teamId) {
-       if (this.getAuthenticatedUser().getUserId() == userId || this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
+       if (this.getAuthenticatedUser().get().getUserId() == userId || this.getAuthenticatedUser().get().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
             return this.teamRepository.findById(teamId);
         }
 

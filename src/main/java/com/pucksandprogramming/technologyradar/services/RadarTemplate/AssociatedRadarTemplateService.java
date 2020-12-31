@@ -30,10 +30,10 @@ public class AssociatedRadarTemplateService extends ServiceBase {
     public List<RadarTemplate> findAssociatedRadarTemplates(RadarUser targetUser) {
         List<RadarTemplate> retVal = new ArrayList<>();
 
-        if(this.getAuthenticatedUser()!=null) {
+        if(this.getAuthenticatedUser().isPresent()) {
             if (targetUser != null) {
-                if (targetUser.getId() == this.getAuthenticatedUser().getUserId() ||
-                        this.getAuthenticatedUser().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
+                if (targetUser.getId() == this.getAuthenticatedUser().get().getUserId() ||
+                        this.getAuthenticatedUser().get().hasPrivilege(Role.createRole(Role.RoleType_Admin).getName())) {
                     retVal = this.radarTemplateRepository.findAssociatedRadarTemplates(targetUser.getId());
                 }
             }
@@ -67,7 +67,6 @@ public class AssociatedRadarTemplateService extends ServiceBase {
     }
 
     public boolean associateRadarTemplate(Long radarTemplateId, boolean shouldAssociate) {
-        Optional<RadarUser> targetUser = this.getRadarUserRepository().findById(this.getAuthenticatedUser().getUserId());
-        return this.associateRadarTemplate(targetUser, radarTemplateId, shouldAssociate);
+        return this.associateRadarTemplate(this.getCurrentUser(), radarTemplateId, shouldAssociate);
     }
 }

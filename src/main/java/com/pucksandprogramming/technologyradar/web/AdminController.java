@@ -43,14 +43,7 @@ public class AdminController extends ControllerBase {
     public ModelAndView index(Model viewModel) {
         ModelAndView retVal = new ModelAndView();
         retVal.setViewName("admin/index");
-
-        RadarUser currentUser = this.getCurrentUser();
-        if (currentUser != null) {
-            retVal.addObject("userId", currentUser.getId());
-        } else {
-            retVal.addObject("userId", -1);
-        }
-
+        retVal.addObject("userId", this.getCurrentUserId());
         return retVal;
     }
 }
