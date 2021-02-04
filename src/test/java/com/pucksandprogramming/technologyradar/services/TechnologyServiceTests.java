@@ -57,7 +57,7 @@ public class TechnologyServiceTests {
         this.technologyService = new TechnologyService(this.technologyRepository);
 
         Mockito.when(this.technologyRepository.findById(TEST_ID)).thenReturn(Optional.ofNullable(this.generateTechnology(TEST_ID, TEST_NAME)));
-        Mockito.when(this.technologyRepository.findByFilters(TEST_NAME_ROOT, "", -1L, -1L)).thenReturn(Optional.ofNullable(this.generateTechnologyList(3L, TEST_NAME_ROOT)));
+        Mockito.when(this.technologyRepository.findByFilters(TEST_NAME_ROOT, "", -1L, -1L)).thenReturn(this.generateTechnologyList(3L, TEST_NAME_ROOT));
     }
 
     @Test
